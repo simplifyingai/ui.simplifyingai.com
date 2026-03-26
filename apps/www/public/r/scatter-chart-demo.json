@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart-demo",
+  "registryDependencies": [
+    "scatter-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/scatter-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { ScatterChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    name: \"Dataset A\",\n    data: [\n      { x: 10, y: 30 },\n      { x: 40, y: 50 },\n      { x: 20, y: 70 },\n      { x: 60, y: 40 },\n      { x: 80, y: 90 },\n      { x: 30, y: 20 },\n      { x: 50, y: 60 },\n    ],\n  },\n  {\n    name: \"Dataset B\",\n    data: [\n      { x: 15, y: 45 },\n      { x: 35, y: 25 },\n      { x: 55, y: 85 },\n      { x: 75, y: 55 },\n      { x: 25, y: 35 },\n      { x: 45, y: 75 },\n      { x: 65, y: 15 },\n    ],\n  },\n]\n\nconst config = {\n  \"Dataset A\": { label: \"Dataset A\", color: \"var(--chart-1)\" },\n  \"Dataset B\": { label: \"Dataset B\", color: \"var(--chart-2)\" },\n}\n\nexport default function ScatterChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <ScatterChart\n        data={data}\n        config={config}\n        showLegend\n        xAxisLabel=\"X Value\"\n        yAxisLabel=\"Y Value\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

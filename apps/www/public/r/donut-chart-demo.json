@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "donut-chart-demo",
+  "registryDependencies": [
+    "donut-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/donut-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { DonutChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"Chrome\", value: 62.5, color: \"#4285F4\" },\n  { label: \"Safari\", value: 19.3, color: \"#FF9500\" },\n  { label: \"Firefox\", value: 4.2, color: \"#FF7139\" },\n  { label: \"Edge\", value: 4.1, color: \"#0078D7\" },\n  { label: \"Other\", value: 9.9, color: \"#6B7280\" },\n]\n\nexport default function DonutChartDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <DonutChart data={data} innerRadius={0.65} showLabels showTotal animate />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

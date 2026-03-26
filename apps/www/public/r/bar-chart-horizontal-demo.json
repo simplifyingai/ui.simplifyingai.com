@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-horizontal-demo",
+  "registryDependencies": [
+    "bar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-horizontal-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  Bar,\n  BarChart,\n  CartesianGrid,\n  ResponsiveContainer,\n  Tooltip,\n  XAxis,\n  YAxis,\n} from \"recharts\"\n\nconst chartData = [\n  { month: \"January\", desktop: 186 },\n  { month: \"February\", desktop: 305 },\n  { month: \"March\", desktop: 237 },\n  { month: \"April\", desktop: 73 },\n  { month: \"May\", desktop: 209 },\n  { month: \"June\", desktop: 214 },\n]\n\nexport default function BarChartHorizontalDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <ResponsiveContainer width=\"100%\" aspect={1.5}>\n        <BarChart\n          data={chartData}\n          layout=\"vertical\"\n          margin={{\n            top: 10,\n            right: 10,\n            left: 10,\n            bottom: 10,\n          }}\n        >\n          <CartesianGrid\n            strokeDasharray=\"3 3\"\n            horizontal={false}\n            stroke=\"hsl(var(--border))\"\n            strokeOpacity={0.5}\n          />\n          <YAxis\n            dataKey=\"month\"\n            type=\"category\"\n            axisLine={false}\n            tickLine={false}\n            tick={{ fontSize: 12 }}\n            tickFormatter={(value) => value.slice(0, 3)}\n            width={40}\n          />\n          <XAxis\n            type=\"number\"\n            axisLine={false}\n            tickLine={false}\n            tick={{ fontSize: 12 }}\n          />\n          <Tooltip\n            cursor={{ fill: \"hsl(var(--muted-foreground))\", opacity: 0.08 }}\n            content={({ active, payload, label }) => {\n              if (!active || !payload?.length) return null\n              return (\n                <div className=\"bg-background rounded-lg border px-3 py-2 shadow-lg\">\n                  <p className=\"text-foreground text-sm font-medium\">{label}</p>\n                  <p className=\"text-sm\" style={{ color: \"#2563eb\" }}>\n                    Desktop: {payload[0]?.value}\n                  </p>\n                </div>\n              )\n            }}\n          />\n          <Bar dataKey=\"desktop\" fill=\"#2563eb\" radius={4} />\n        </BarChart>\n      </ResponsiveContainer>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart-multi-demo",
+  "registryDependencies": [
+    "area-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/area-chart-multi-demo.tsx",
+      "content": "\"use client\"\n\nimport { MultiAreaChart } from \"@/components/ui/charts\"\n\n// Organic stock-like data with natural fluctuations for multiple series\nconst data = Array.from({ length: 30 }, (_, i) => {\n  const desktopBase = [\n    180, 175, 170, 185, 210, 245, 290, 340, 375, 380, 360, 320, 280, 250, 225,\n    235, 220, 230, 240, 228, 218, 225, 235, 240, 232, 225, 220, 228, 225, 230,\n  ]\n  const mobileBase = [\n    95, 88, 85, 100, 125, 155, 190, 225, 242, 245, 230, 200, 172, 150, 135, 145,\n    132, 140, 148, 138, 130, 138, 145, 150, 142, 138, 132, 140, 138, 142,\n  ]\n  const tabletBase = [\n    52, 48, 45, 55, 70, 92, 115, 138, 148, 150, 140, 120, 100, 85, 75, 82, 75,\n    80, 88, 80, 75, 80, 85, 88, 82, 78, 75, 80, 78, 82,\n  ]\n  return {\n    label: `${i + 1}`,\n    desktop: desktopBase[i],\n    mobile: mobileBase[i],\n    tablet: tabletBase[i],\n  }\n})\n\nconst series = [\n  {\n    name: \"Desktop\",\n    dataKey: \"desktop\",\n    color: \"#2563eb\",\n    gradientFrom: \"#2563eb\",\n    gradientTo: \"#93c5fd\",\n  },\n  {\n    name: \"Mobile\",\n    dataKey: \"mobile\",\n    color: \"#8b5cf6\",\n    gradientFrom: \"#8b5cf6\",\n    gradientTo: \"#c4b5fd\",\n  },\n  {\n    name: \"Tablet\",\n    dataKey: \"tablet\",\n    color: \"#10b981\",\n    gradientFrom: \"#10b981\",\n    gradientTo: \"#6ee7b7\",\n  },\n]\n\nexport default function AreaChartMultiDemo() {\n  return (\n    <MultiAreaChart\n      data={data}\n      series={series}\n      showGrid\n      showTooltip\n      showCursor\n      showLegend\n      curveType=\"linear\"\n      gradientOpacity={[0.5, 0.05]}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "treemap-chart-demo",
+  "registryDependencies": [
+    "treemap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/treemap-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { TreemapChart } from \"@/components/ui/charts\"\n\nconst data = {\n  name: \"Portfolio\",\n  children: [\n    {\n      name: \"Technology\",\n      children: [\n        { name: \"Apple\", value: 25 },\n        { name: \"Microsoft\", value: 22 },\n        { name: \"Google\", value: 18 },\n      ],\n    },\n    {\n      name: \"Healthcare\",\n      children: [\n        { name: \"Johnson & Johnson\", value: 12 },\n        { name: \"Pfizer\", value: 8 },\n      ],\n    },\n    {\n      name: \"Finance\",\n      children: [\n        { name: \"JPMorgan\", value: 10 },\n        { name: \"Goldman Sachs\", value: 5 },\n      ],\n    },\n  ],\n}\n\nexport default function TreemapChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <TreemapChart data={data} showLabels />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

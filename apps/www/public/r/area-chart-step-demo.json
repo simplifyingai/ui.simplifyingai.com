@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart-step-demo",
+  "registryDependencies": [
+    "area-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/area-chart-step-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  AreaChart,\n  generateAreaChartData,\n} from \"@/components/ui/charts\"\n\n// Organic stock-like data with step transitions\nconst months = Array.from({ length: 30 }, (_, i) => `${i + 1}`)\n\nconst values = [\n  38, 42, 38, 35, 42, 52, 62, 72, 85, 92, 95, 88, 78, 68, 58, 52, 48, 52, 58,\n  52, 48, 45, 50, 55, 58, 52, 48, 50, 52, 50,\n]\n\nconst chartData = generateAreaChartData(months, values)\n\nexport default function AreaChartStepDemo() {\n  return (\n    <AreaChart\n      data={chartData}\n      color=\"#10b981\"\n      gradientFrom=\"#10b981\"\n      gradientTo=\"#6ee7b7\"\n      showDots={false}\n      showGrid\n      showTooltip\n      yAxisDomain={[0, 100]}\n      yAxisTicks={[25, 50, 75, 100]}\n      aspectRatio={2}\n      xAxisAngle={0}\n      curveType=\"step\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

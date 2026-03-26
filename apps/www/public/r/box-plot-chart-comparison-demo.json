@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "box-plot-chart-comparison-demo",
+  "registryDependencies": [
+    "box-plot-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/box-plot-chart-comparison-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { BoxPlotChart } from \"@/components/ui/charts\"\n\nconst controlData = [\n  {\n    label: \"Week 1\",\n    values: [42, 45, 48, 52, 55, 58, 60, 62, 65, 68],\n  },\n  {\n    label: \"Week 2\",\n    values: [44, 48, 52, 55, 58, 62, 65, 68, 70, 72],\n  },\n  {\n    label: \"Week 3\",\n    values: [46, 50, 54, 58, 62, 65, 68, 70, 72, 75],\n  },\n  {\n    label: \"Week 4\",\n    values: [48, 52, 56, 60, 64, 68, 70, 72, 75, 78],\n  },\n]\n\nconst experimentData = [\n  {\n    label: \"Week 1\",\n    values: [52, 58, 62, 68, 72, 75, 78, 82, 85, 88],\n  },\n  {\n    label: \"Week 2\",\n    values: [58, 65, 70, 75, 80, 85, 88, 92, 95, 98],\n  },\n  {\n    label: \"Week 3\",\n    values: [65, 72, 78, 82, 88, 92, 95, 100, 105, 108],\n  },\n  {\n    label: \"Week 4\",\n    values: [72, 80, 85, 90, 95, 100, 105, 110, 115, 120],\n  },\n]\n\nexport default function BoxPlotChartComparisonDemo() {\n  const [activeGroup, setActiveGroup] = React.useState<\n    \"control\" | \"experiment\"\n  >(\"control\")\n\n  const data = activeGroup === \"control\" ? controlData : experimentData\n\n  return (\n    <div className=\"w-full\">\n      {/* Toggle buttons */}\n      <div className=\"mb-4 flex gap-2\">\n        <button\n          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${\n            activeGroup === \"control\"\n              ? \"bg-[#2563eb] text-white\"\n              : \"bg-muted text-muted-foreground hover:bg-muted/80\"\n          }`}\n          onClick={() => setActiveGroup(\"control\")}\n        >\n          Control Group\n        </button>\n        <button\n          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${\n            activeGroup === \"experiment\"\n              ? \"bg-[#60a5fa] text-white\"\n              : \"bg-muted text-muted-foreground hover:bg-muted/80\"\n          }`}\n          onClick={() => setActiveGroup(\"experiment\")}\n        >\n          Experiment Group\n        </button>\n      </div>\n\n      <BoxPlotChart\n        data={data}\n        color={activeGroup === \"control\" ? \"#2563eb\" : \"#60a5fa\"}\n        showGrid\n        showTooltip\n        showOutliers\n        aspectRatio={2}\n      />\n\n      {/* Summary */}\n      <div className=\"mt-4 flex justify-center gap-8 text-sm\">\n        <div className=\"flex items-center gap-2\">\n          <div className=\"size-3 rounded-sm bg-[#2563eb]\" />\n          <span className=\"text-muted-foreground\">Control: Baseline</span>\n        </div>\n        <div className=\"flex items-center gap-2\">\n          <div className=\"size-3 rounded-sm bg-[#60a5fa]\" />\n          <span className=\"text-muted-foreground\">Experiment: +40% avg</span>\n        </div>\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

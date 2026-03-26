@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "funnel-chart-flat-demo",
+  "registryDependencies": [
+    "funnel-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/funnel-chart-flat-demo.tsx",
+      "content": "\"use client\"\n\nimport { FunnelChart } from \"@/components/ui/charts\"\n\n// Email campaign funnel\nconst stages = [\"Sent\", \"Delivered\", \"Opened\", \"Clicked\"]\n\nconst series = [\n  { name: \"Campaign A\", values: [25000, 24200, 8500, 2100] },\n  { name: \"Campaign B\", values: [18000, 17400, 6200, 1600] },\n  { name: \"Campaign C\", values: [12000, 11600, 4100, 1100] },\n  { name: \"Campaign D\", values: [8000, 7700, 2800, 750] },\n]\n\nexport default function FunnelChartFlatDemo() {\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <FunnelChart\n        stages={stages}\n        series={series}\n        colorScheme=\"purple\"\n        showStageMarkers\n        showValuePills\n        pillPosition=\"center\"\n        animate\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

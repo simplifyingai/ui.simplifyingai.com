@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "candlestick-chart-volume-demo",
+  "registryDependencies": [
+    "candlestick-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/candlestick-chart-volume-demo.tsx",
+      "content": "\"use client\"\n\nimport { CandlestickChart } from \"@/components/ui/charts\"\n\n// Stock data with volume\nconst chartData = [\n  { date: \"2024-03-01\", open: 150, high: 158, low: 148, close: 155, volume: 2500000 },\n  { date: \"2024-03-04\", open: 155, high: 160, low: 152, close: 148, volume: 3200000 },\n  { date: \"2024-03-05\", open: 148, high: 152, low: 145, close: 150, volume: 2800000 },\n  { date: \"2024-03-06\", open: 150, high: 162, low: 148, close: 160, volume: 4100000 },\n  { date: \"2024-03-07\", open: 160, high: 165, low: 158, close: 162, volume: 3500000 },\n  { date: \"2024-03-08\", open: 162, high: 168, low: 160, close: 165, volume: 2900000 },\n  { date: \"2024-03-11\", open: 165, high: 170, low: 162, close: 158, volume: 3800000 },\n  { date: \"2024-03-12\", open: 158, high: 162, low: 155, close: 160, volume: 2600000 },\n  { date: \"2024-03-13\", open: 160, high: 175, low: 158, close: 172, volume: 5200000 },\n  { date: \"2024-03-14\", open: 172, high: 178, low: 170, close: 175, volume: 4800000 },\n  { date: \"2024-03-15\", open: 175, high: 180, low: 172, close: 168, volume: 3900000 },\n  { date: \"2024-03-18\", open: 168, high: 172, low: 165, close: 170, volume: 2700000 },\n  { date: \"2024-03-19\", open: 170, high: 185, low: 168, close: 182, volume: 6100000 },\n  { date: \"2024-03-20\", open: 182, high: 188, low: 180, close: 185, volume: 5500000 },\n  { date: \"2024-03-21\", open: 185, high: 190, low: 182, close: 178, volume: 4200000 },\n  { date: \"2024-03-22\", open: 178, high: 182, low: 175, close: 180, volume: 3100000 },\n]\n\nexport default function CandlestickChartVolumeDemo() {\n  return (\n    <CandlestickChart\n      data={chartData}\n      showGrid\n      showTooltip\n      showVolume\n      aspectRatio={2}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

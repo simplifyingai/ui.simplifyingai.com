@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "box-plot-chart-horizontal-demo",
+  "registryDependencies": [
+    "box-plot-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/box-plot-chart-horizontal-demo.tsx",
+      "content": "\"use client\"\n\nimport { BoxPlotChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    label: \"Product A\",\n    values: [42, 48, 52, 55, 58, 62, 65, 68, 72, 75, 78, 82],\n  },\n  {\n    label: \"Product B\",\n    values: [35, 40, 45, 50, 55, 58, 62, 68, 72, 78, 85],\n  },\n  {\n    label: \"Product C\",\n    values: [28, 32, 38, 42, 48, 52, 55, 60, 65, 70],\n  },\n  {\n    label: \"Product D\",\n    values: [50, 55, 60, 65, 70, 75, 78, 82, 85, 88, 92],\n  },\n]\n\nexport default function BoxPlotChartHorizontalDemo() {\n  return (\n    <BoxPlotChart\n      data={data}\n      color=\"#2563eb\"\n      orientation=\"horizontal\"\n      showGrid\n      showTooltip\n      aspectRatio={1.5}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

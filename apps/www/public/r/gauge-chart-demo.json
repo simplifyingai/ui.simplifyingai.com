@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gauge-chart-demo",
+  "registryDependencies": [
+    "gauge-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/gauge-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartDemo() {\n  return (\n    <GaugeChart\n      value={72}\n      min={0}\n      max={100}\n      label=\"Performance Score\"\n      color=\"#3b82f6\"\n      thickness={0.12}\n      animate\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

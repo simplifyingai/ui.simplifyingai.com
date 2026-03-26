@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "box-plot-chart-multi-demo",
+  "registryDependencies": [
+    "box-plot-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/box-plot-chart-multi-demo.tsx",
+      "content": "\"use client\"\n\nimport { BoxPlotChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    label: \"Q1\",\n    values: [45, 52, 58, 62, 68, 72, 75, 78, 82, 85, 88, 92],\n    color: \"#93c5fd\",\n  },\n  {\n    label: \"Q2\",\n    values: [55, 60, 65, 70, 75, 80, 85, 88, 92, 95, 98],\n    color: \"#3b82f6\",\n  },\n  {\n    label: \"Q3\",\n    values: [62, 68, 72, 78, 82, 85, 88, 92, 95, 100, 105],\n    color: \"#2563eb\",\n  },\n  {\n    label: \"Q4\",\n    values: [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120],\n    color: \"#1d4ed8\",\n  },\n]\n\nexport default function BoxPlotChartMultiDemo() {\n  return (\n    <BoxPlotChart\n      data={data}\n      showGrid\n      showTooltip\n      showOutliers\n      aspectRatio={2}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

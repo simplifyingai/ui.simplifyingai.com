@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-demo",
+  "registryDependencies": [
+    "bar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { BarChart } from \"@/components/ui/charts\"\n\n// Page view data - 30 days of traffic\nconst chartData = [\n  186, 205, 237, 173, 209, 214, 278, 312, 245, 289, 234, 276, 198, 267, 289,\n  312, 256, 234, 289, 267, 298, 312, 278, 256, 234, 267, 289, 312, 334, 356,\n].map((value, i) => ({\n  label: `${i + 1}`,\n  value,\n}))\n\nexport default function BarChartDemo() {\n  return (\n    <BarChart\n      data={chartData}\n      color=\"#2563eb\"\n      showGrid\n      showTooltip\n      barRadius={0}\n      aspectRatio={2.5}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

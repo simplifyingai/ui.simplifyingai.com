@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-active-demo",
+  "registryDependencies": [
+    "bar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-active-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  Bar,\n  BarChart,\n  Rectangle,\n  ResponsiveContainer,\n  Tooltip,\n  XAxis,\n  YAxis,\n} from \"recharts\"\n\nconst chartData = [\n  { month: \"January\", sales: 187, fill: \"#93c5fd\" },\n  { month: \"February\", sales: 200, fill: \"#3b82f6\" },\n  { month: \"March\", sales: 275, fill: \"#2563eb\" },\n  { month: \"April\", sales: 173, fill: \"#1d4ed8\" },\n  { month: \"May\", sales: 209, fill: \"#1e40af\" },\n]\n\n// Index of the active (highlighted) bar\nconst ACTIVE_INDEX = 2\n\ninterface BarShapeProps {\n  x?: number\n  y?: number\n  width?: number\n  height?: number\n  fill?: string\n  index?: number\n  payload?: { fill: string }\n  radius?: number | [number, number, number, number]\n}\n\nexport default function BarChartActiveDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <ResponsiveContainer width=\"100%\" aspect={1.5}>\n        <BarChart\n          data={chartData}\n          margin={{\n            top: 10,\n            right: 10,\n            left: 10,\n            bottom: 40,\n          }}\n        >\n          <XAxis\n            dataKey=\"month\"\n            axisLine={false}\n            tickLine={false}\n            tick={{ fontSize: 12 }}\n            tickFormatter={(value) => value.slice(0, 3)}\n            tickMargin={10}\n          />\n          <YAxis hide />\n          <Tooltip\n            cursor={false}\n            content={({ active, payload }) => {\n              if (!active || !payload?.length) return null\n              const data = payload[0]\n              return (\n                <div className=\"bg-background flex items-center gap-2 rounded-lg border px-3 py-2 shadow-lg\">\n                  <div\n                    className=\"size-3 rounded-sm\"\n                    style={{ backgroundColor: data.payload?.fill }}\n                  />\n                  <span className=\"text-muted-foreground text-sm\">Sales</span>\n                  <span className=\"text-foreground text-sm font-medium\">\n                    {data.value}\n                  </span>\n                </div>\n              )\n            }}\n          />\n          <Bar\n            dataKey=\"sales\"\n            radius={12}\n            shape={({ index, fill, ...props }: BarShapeProps) =>\n              index === ACTIVE_INDEX ? (\n                <Rectangle\n                  {...props}\n                  fill={fill}\n                  fillOpacity={0.6}\n                  stroke={fill}\n                  strokeWidth={2}\n                  strokeDasharray=\"4 4\"\n                />\n              ) : (\n                <Rectangle {...props} fill={fill} />\n              )\n            }\n          />\n        </BarChart>\n      </ResponsiveContainer>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

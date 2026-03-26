@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "funnel-chart-demo",
+  "registryDependencies": [
+    "funnel-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/funnel-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { FunnelChart } from \"@/components/ui/charts\"\n\n// Sample data showing user flow through stages (expanding funnel)\nconst stages = [\"Stage 1\", \"Stage 2\", \"Stage 3\", \"Stage 4\"]\n\nconst series = [\n  { name: \"Channel A\", values: [12000, 24000, 45000, 68000] },\n  { name: \"Channel B\", values: [9500, 19000, 36000, 54000] },\n  { name: \"Channel C\", values: [7500, 15000, 28000, 42000] },\n  { name: \"Channel D\", values: [6000, 12000, 22000, 33000] },\n  { name: \"Channel E\", values: [4500, 9000, 17000, 26000] },\n  { name: \"Channel F\", values: [3500, 7000, 13000, 20000] },\n]\n\nexport default function FunnelChartDemo() {\n  return (\n    <FunnelChart\n      stages={stages}\n      series={series}\n      colorScheme=\"orange\"\n      showStageMarkers\n      showValuePills\n      pillPosition=\"both\"\n      animate\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

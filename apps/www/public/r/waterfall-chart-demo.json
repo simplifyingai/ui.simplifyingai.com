@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "waterfall-chart-demo",
+  "registryDependencies": [
+    "waterfall-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/waterfall-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"Starting\", value: 1000, type: \"total\" as const },\n  { label: \"Product Sales\", value: 500, type: \"positive\" as const },\n  { label: \"Service Revenue\", value: 300, type: \"positive\" as const },\n  { label: \"Operating Costs\", value: -400, type: \"negative\" as const },\n  { label: \"Marketing\", value: -200, type: \"negative\" as const },\n  { label: \"Tax\", value: -150, type: \"negative\" as const },\n  { label: \"Net Income\", value: 1050, type: \"total\" as const },\n]\n\nexport default function WaterfallChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <WaterfallChart\n        data={data}\n        xAxisLabel=\"Category\"\n        yAxisLabel=\"Amount ($)\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

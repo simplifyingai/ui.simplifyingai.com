@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gauge-chart-radial-demo",
+  "registryDependencies": [
+    "gauge-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/gauge-chart-radial-demo.tsx",
+      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartRadialDemo() {\n  return (\n    <GaugeChart\n      value={78}\n      min={0}\n      max={100}\n      variant=\"radial\"\n      label=\"%\"\n      color=\"#8b5cf6\"\n      thickness={0.1}\n      width={200}\n      height={200}\n      animate\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

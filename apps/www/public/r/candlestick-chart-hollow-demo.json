@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "candlestick-chart-hollow-demo",
+  "registryDependencies": [
+    "candlestick-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/candlestick-chart-hollow-demo.tsx",
+      "content": "\"use client\"\n\nimport { CandlestickChart } from \"@/components/ui/charts\"\n\n// Stock data for hollow candles demo\nconst chartData = [\n  { date: \"2024-03-01\", open: 100, high: 108, low: 98, close: 105 },\n  { date: \"2024-03-04\", open: 105, high: 112, low: 102, close: 98 },\n  { date: \"2024-03-05\", open: 98, high: 102, low: 95, close: 100 },\n  { date: \"2024-03-06\", open: 100, high: 115, low: 98, close: 112 },\n  { date: \"2024-03-07\", open: 112, high: 118, low: 110, close: 108 },\n  { date: \"2024-03-08\", open: 108, high: 115, low: 105, close: 113 },\n  { date: \"2024-03-11\", open: 113, high: 120, low: 110, close: 118 },\n  { date: \"2024-03-12\", open: 118, high: 125, low: 115, close: 110 },\n  { date: \"2024-03-13\", open: 110, high: 115, low: 105, close: 112 },\n  { date: \"2024-03-14\", open: 112, high: 128, low: 110, close: 125 },\n  { date: \"2024-03-15\", open: 125, high: 132, low: 122, close: 118 },\n  { date: \"2024-03-18\", open: 118, high: 125, low: 115, close: 122 },\n  { date: \"2024-03-19\", open: 122, high: 135, low: 120, close: 132 },\n  { date: \"2024-03-20\", open: 132, high: 140, low: 130, close: 128 },\n  { date: \"2024-03-21\", open: 128, high: 135, low: 125, close: 133 },\n  { date: \"2024-03-22\", open: 133, high: 142, low: 130, close: 138 },\n]\n\nexport default function CandlestickChartHollowDemo() {\n  return (\n    <CandlestickChart\n      data={chartData}\n      showGrid\n      hollowCandles\n      aspectRatio={2.5}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

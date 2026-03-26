@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart-demo",
+  "registryDependencies": [
+    "area-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/area-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  AreaChart,\n  generateAreaChartData,\n} from \"@/components/ui/charts\"\n\n// Organic stock-like data with natural fluctuations, peak, and valley\nconst months = Array.from({ length: 30 }, (_, i) => `${i + 1}`)\n\nconst values = [\n  42, 40, 38, 41, 36, 38, 45, 52, 58, 65, 72, 80, 88, 92, 86, 78, 70, 60, 52,\n  48, 52, 45, 42, 45, 48, 44, 46, 42, 44, 45,\n]\n\nconst chartData = generateAreaChartData(months, values)\n\nexport default function AreaChartDemo() {\n  return (\n    <AreaChart\n      data={chartData}\n      color=\"#2563eb\"\n      gradientFrom=\"#2563eb\"\n      gradientTo=\"#60a5fa\"\n      showDots={false}\n      showGrid\n      showTooltip\n      yAxisDomain={[0, 100]}\n      yAxisTicks={[25, 50, 75, 100]}\n      aspectRatio={2}\n      xAxisAngle={0}\n      curveType=\"linear\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-negative-demo",
+  "registryDependencies": [
+    "bar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-negative-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  Bar,\n  BarChart,\n  CartesianGrid,\n  Cell,\n  ReferenceLine,\n  ResponsiveContainer,\n  Tooltip,\n  XAxis,\n  YAxis,\n} from \"recharts\"\n\nconst chartData = [\n  { month: \"January\", value: 186 },\n  { month: \"February\", value: -125 },\n  { month: \"March\", value: 237 },\n  { month: \"April\", value: -73 },\n  { month: \"May\", value: 209 },\n  { month: \"June\", value: -156 },\n]\n\nexport default function BarChartNegativeDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <ResponsiveContainer width=\"100%\" aspect={1.5}>\n        <BarChart\n          data={chartData}\n          margin={{\n            top: 10,\n            right: 10,\n            left: 10,\n            bottom: 40,\n          }}\n        >\n          <CartesianGrid\n            strokeDasharray=\"3 3\"\n            vertical={false}\n            stroke=\"hsl(var(--border))\"\n            strokeOpacity={0.5}\n          />\n          <XAxis\n            dataKey=\"month\"\n            axisLine={false}\n            tickLine={false}\n            tick={{ fontSize: 12 }}\n            tickFormatter={(value) => value.slice(0, 3)}\n            tickMargin={8}\n          />\n          <YAxis\n            axisLine={false}\n            tickLine={false}\n            tick={{ fontSize: 12 }}\n            width={40}\n          />\n          <ReferenceLine y={0} stroke=\"hsl(var(--border))\" strokeWidth={1} />\n          <Tooltip\n            cursor={{ fill: \"hsl(var(--muted-foreground))\", opacity: 0.08 }}\n            content={({ active, payload, label }) => {\n              if (!active || !payload?.length) return null\n              const value = payload[0]?.value as number\n              return (\n                <div className=\"bg-background rounded-lg border px-3 py-2 shadow-lg\">\n                  <p className=\"text-foreground text-sm font-medium\">{label}</p>\n                  <p\n                    className=\"text-sm\"\n                    style={{ color: value >= 0 ? \"#2563eb\" : \"#60a5fa\" }}\n                  >\n                    Value: {value}\n                  </p>\n                </div>\n              )\n            }}\n          />\n          <Bar dataKey=\"value\" radius={4}>\n            {chartData.map((entry, index) => (\n              <Cell\n                key={`cell-${index}`}\n                fill={entry.value >= 0 ? \"#2563eb\" : \"#60a5fa\"}\n              />\n            ))}\n          </Bar>\n        </BarChart>\n      </ResponsiveContainer>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst-chart-demo",
+  "registryDependencies": [
+    "sunburst-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sunburst-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { SunburstChart } from \"@/components/ui/charts\"\n\nconst data = {\n  name: \"Sales\",\n  children: [\n    {\n      name: \"North America\",\n      children: [\n        { name: \"USA\", value: 45 },\n        { name: \"Canada\", value: 15 },\n        { name: \"Mexico\", value: 10 },\n      ],\n    },\n    {\n      name: \"Europe\",\n      children: [\n        { name: \"UK\", value: 20 },\n        { name: \"Germany\", value: 18 },\n        { name: \"France\", value: 12 },\n      ],\n    },\n    {\n      name: \"Asia\",\n      children: [\n        { name: \"China\", value: 30 },\n        { name: \"Japan\", value: 25 },\n        { name: \"India\", value: 15 },\n      ],\n    },\n  ],\n}\n\nexport default function SunburstChartDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <SunburstChart data={data} showLabels />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

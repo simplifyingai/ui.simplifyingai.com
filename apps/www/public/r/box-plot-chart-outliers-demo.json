@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "box-plot-chart-outliers-demo",
+  "registryDependencies": [
+    "box-plot-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/box-plot-chart-outliers-demo.tsx",
+      "content": "\"use client\"\n\nimport { BoxPlotChart } from \"@/components/ui/charts\"\n\n// Data with intentional outliers\nconst data = [\n  {\n    label: \"Dataset A\",\n    values: [\n      5,\n      10, // outliers below\n      35,\n      38,\n      42,\n      45,\n      48,\n      52,\n      55,\n      58,\n      62,\n      65,\n      68,\n      95,\n      100, // outliers above\n    ],\n  },\n  {\n    label: \"Dataset B\",\n    values: [40, 45, 48, 52, 55, 58, 62, 65, 68, 72, 75, 78, 82],\n  },\n  {\n    label: \"Dataset C\",\n    values: [\n      15, // outlier below\n      50,\n      55,\n      58,\n      62,\n      65,\n      68,\n      72,\n      75,\n      78,\n      82,\n      85,\n      120,\n      125, // outliers above\n    ],\n  },\n]\n\nexport default function BoxPlotChartOutliersDemo() {\n  return (\n    <div className=\"w-full\">\n      <BoxPlotChart\n        data={data}\n        color=\"#2563eb\"\n        showGrid\n        showTooltip\n        showOutliers\n        whiskerType=\"iqr\"\n        aspectRatio={2}\n      />\n      <p className=\"text-muted-foreground mt-3 text-center text-xs\">\n        Outliers are detected using IQR method (1.5 × IQR from quartiles)\n      </p>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

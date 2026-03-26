@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-chart-demo",
+  "registryDependencies": [
+    "line-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/line-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    name: \"Users\",\n    data: [\n      { x: \"Jan\", y: 1200 },\n      { x: \"Feb\", y: 1900 },\n      { x: \"Mar\", y: 1700 },\n      { x: \"Apr\", y: 2400 },\n      { x: \"May\", y: 2800 },\n      { x: \"Jun\", y: 3200 },\n    ],\n  },\n  {\n    name: \"Sessions\",\n    data: [\n      { x: \"Jan\", y: 2400 },\n      { x: \"Feb\", y: 3200 },\n      { x: \"Mar\", y: 2900 },\n      { x: \"Apr\", y: 4100 },\n      { x: \"May\", y: 4800 },\n      { x: \"Jun\", y: 5500 },\n    ],\n  },\n]\n\nconst config = {\n  Users: { label: \"Users\", color: \"var(--chart-1)\" },\n  Sessions: { label: \"Sessions\", color: \"var(--chart-2)\" },\n}\n\nexport default function LineChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <LineChart\n        data={data}\n        config={config}\n        showLegend\n        showDots\n        xAxisLabel=\"Month\"\n        yAxisLabel=\"Count\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

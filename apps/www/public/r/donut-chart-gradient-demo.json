@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "donut-chart-gradient-demo",
+  "registryDependencies": [
+    "donut-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/donut-chart-gradient-demo.tsx",
+      "content": "\"use client\"\n\nimport { DonutChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"Sales\", value: 45000, color: \"#8B5CF6\" },\n  { label: \"Marketing\", value: 32000, color: \"#EC4899\" },\n  { label: \"Development\", value: 28000, color: \"#3B82F6\" },\n  { label: \"Operations\", value: 15000, color: \"#10B981\" },\n]\n\nexport default function DonutChartGradientDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <DonutChart\n        data={data}\n        variant=\"gradient\"\n        innerRadius={0.55}\n        showLabels\n        animate\n        valueFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}\n        centerLabel=\"Budget\"\n        showTotal={false}\n        centerValue=\"$120k\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

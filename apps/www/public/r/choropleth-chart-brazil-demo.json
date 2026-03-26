@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "choropleth-chart-brazil-demo",
+  "registryDependencies": [
+    "choropleth-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/choropleth-chart-brazil-demo.tsx",
+      "content": "\"use client\"\n\nimport { ChoroplethChart } from \"@/components/ui/charts\"\n\n// Brazil Estados population data (in millions)\n// State names match the GeoJSON \"name\" property\nconst populationData = [\n  { id: \"São Paulo\", value: 46.6 },\n  { id: \"Minas Gerais\", value: 21.4 },\n  { id: \"Rio de Janeiro\", value: 17.5 },\n  { id: \"Bahia\", value: 14.9 },\n  { id: \"Paraná\", value: 11.6 },\n  { id: \"Rio Grande do Sul\", value: 11.4 },\n  { id: \"Pernambuco\", value: 9.6 },\n  { id: \"Ceará\", value: 9.2 },\n  { id: \"Pará\", value: 8.7 },\n  { id: \"Santa Catarina\", value: 7.3 },\n  { id: \"Maranhão\", value: 7.1 },\n  { id: \"Goiás\", value: 7.1 },\n  { id: \"Amazonas\", value: 4.2 },\n  { id: \"Paraíba\", value: 4.1 },\n  { id: \"Espírito Santo\", value: 4.1 },\n  { id: \"Rio Grande do Norte\", value: 3.5 },\n  { id: \"Alagoas\", value: 3.4 },\n  { id: \"Mato Grosso\", value: 3.5 },\n  { id: \"Piauí\", value: 3.3 },\n  { id: \"Distrito Federal\", value: 3.1 },\n  { id: \"Mato Grosso do Sul\", value: 2.8 },\n  { id: \"Sergipe\", value: 2.3 },\n  { id: \"Rondônia\", value: 1.8 },\n  { id: \"Tocantins\", value: 1.6 },\n  { id: \"Acre\", value: 0.9 },\n  { id: \"Amapá\", value: 0.9 },\n  { id: \"Roraima\", value: 0.6 },\n]\n\nexport default function ChoroplethChartBrazilDemo() {\n  return (\n    <ChoroplethChart\n      data={populationData}\n      geoUrl=\"https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson\"\n      idProperty=\"name\"\n      legendTitle=\"Population (M)\"\n      colorScale={[\"#dcfce7\", \"#22c55e\", \"#166534\"]}\n      valueFormatter={(v) => `${v.toFixed(1)}M`}\n      aspectRatio={1.1}\n      projection=\"mercator\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

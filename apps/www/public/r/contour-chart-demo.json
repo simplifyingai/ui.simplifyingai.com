@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contour-chart-demo",
+  "registryDependencies": [
+    "contour-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/contour-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  CONTOUR_COLOR_SCALES,\n  ContourChart,\n} from \"@/components/ui/charts\"\n\n// Generate sample 2D terrain-like data with multiple peaks\nconst generateContourData = (): number[][] => {\n  const size = 15\n  const data: number[][] = []\n\n  for (let j = 0; j < size; j++) {\n    const row: number[] = []\n    for (let i = 0; i < size; i++) {\n      const x = i / (size - 1)\n      const y = j / (size - 1)\n\n      // Create multiple peaks and valleys\n      let z = 0\n\n      // Main peak (top right area)\n      z += 8 * Math.exp(-((x - 0.7) ** 2 + (y - 0.7) ** 2) / 0.05)\n\n      // Secondary peak (center-left)\n      z += 4 * Math.exp(-((x - 0.3) ** 2 + (y - 0.5) ** 2) / 0.08)\n\n      // Valley (bottom area)\n      z -= 3 * Math.exp(-((x - 0.5) ** 2 + (y - 0.2) ** 2) / 0.1)\n\n      // Small bump (top left)\n      z += 2 * Math.exp(-((x - 0.2) ** 2 + (y - 0.8) ** 2) / 0.04)\n\n      // Base noise\n      z += Math.sin(x * 10) * Math.cos(y * 8) * 0.5\n\n      row.push(z)\n    }\n    data.push(row)\n  }\n  return data\n}\n\nconst data = generateContourData()\n\nexport default function ContourChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <ContourChart\n        data={data}\n        xAxisLabel=\"X\"\n        yAxisLabel=\"Y\"\n        levels={12}\n        colorScale={CONTOUR_COLOR_SCALES.rainbow}\n        showMarkers={true}\n        markerSymbol=\"x\"\n        markerSize={6}\n        markerColor=\"#333\"\n        showGrid={true}\n        lineWidth={0.5}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

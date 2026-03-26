@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "funnel-chart-gradient-demo",
+  "registryDependencies": [
+    "funnel-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/funnel-chart-gradient-demo.tsx",
+      "content": "\"use client\"\n\nimport { FunnelChart } from \"@/components/ui/charts\"\n\n// Conversion funnel data\nconst stages = [\"Awareness\", \"Interest\", \"Desire\", \"Action\"]\n\nconst series = [\n  { name: \"Organic\", values: [12000, 8500, 4200, 1800] },\n  { name: \"Paid\", values: [9500, 6800, 3500, 1500] },\n  { name: \"Social\", values: [7200, 5200, 2800, 1200] },\n  { name: \"Direct\", values: [5400, 4000, 2100, 900] },\n  { name: \"Referral\", values: [3800, 2800, 1500, 650] },\n]\n\nexport default function FunnelChartGradientDemo() {\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <FunnelChart\n        stages={stages}\n        series={series}\n        colorScheme=\"blue\"\n        showStageMarkers\n        showValuePills\n        pillPosition=\"center\"\n        animate\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

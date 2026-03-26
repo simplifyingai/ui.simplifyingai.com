@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "histogram-chart-demo",
+  "registryDependencies": [
+    "histogram-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/histogram-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { HistogramChart } from \"@/components/ui/charts\"\n\n// Generate sample data\nconst values = Array.from({ length: 100 }, () => Math.random() * 100)\n\nconst config = {\n  frequency: { label: \"Frequency\", color: \"var(--chart-1)\" },\n}\n\nexport default function HistogramChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <HistogramChart\n        data={values}\n        config={config}\n        bins={10}\n        xAxisLabel=\"Value\"\n        yAxisLabel=\"Frequency\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

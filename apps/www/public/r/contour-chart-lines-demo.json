@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contour-chart-lines-demo",
+  "registryDependencies": [
+    "contour-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/contour-chart-lines-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  CONTOUR_COLOR_SCALES,\n  ContourChart,\n} from \"@/components/ui/charts\"\n\n// Generate sample data with interesting contours\nconst generateContourData = (): number[][] => {\n  const size = 20\n  const data: number[][] = []\n\n  for (let j = 0; j < size; j++) {\n    const row: number[] = []\n    for (let i = 0; i < size; i++) {\n      const x = (i / (size - 1)) * 4 - 2\n      const y = (j / (size - 1)) * 4 - 2\n      // Sinusoidal wave pattern\n      const z = Math.sin(x) * Math.cos(y) * 5 + Math.sin(x * y) * 2\n      row.push(z)\n    }\n    data.push(row)\n  }\n  return data\n}\n\nconst data = generateContourData()\n\nexport default function ContourChartLinesDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <ContourChart\n        data={data}\n        xAxisLabel=\"X\"\n        yAxisLabel=\"Y\"\n        levels={15}\n        colorScale={CONTOUR_COLOR_SCALES.viridis}\n        showFill={false}\n        showLines={true}\n        lineWidth={1.5}\n        showMarkers={false}\n        showGrid={true}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "choropleth-chart-demo",
+  "registryDependencies": [
+    "choropleth-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/choropleth-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { ChoroplethChart } from \"@/components/ui/charts\"\n\n// Sample GDP data for major countries (in trillion USD)\n// IDs are ISO 3166-1 numeric codes used by world-atlas\nconst gdpData = [\n  { id: \"840\", value: 25.5 }, // United States\n  { id: \"156\", value: 17.9 }, // China\n  { id: \"392\", value: 4.2 }, // Japan\n  { id: \"276\", value: 4.1 }, // Germany\n  { id: \"356\", value: 3.4 }, // India\n  { id: \"826\", value: 3.1 }, // United Kingdom\n  { id: \"250\", value: 2.8 }, // France\n  { id: \"380\", value: 2.1 }, // Italy\n  { id: \"076\", value: 1.9 }, // Brazil\n  { id: \"124\", value: 2.1 }, // Canada\n  { id: \"643\", value: 1.8 }, // Russia\n  { id: \"410\", value: 1.7 }, // South Korea\n  { id: \"036\", value: 1.7 }, // Australia\n  { id: \"724\", value: 1.4 }, // Spain\n  { id: \"484\", value: 1.3 }, // Mexico\n  { id: \"360\", value: 1.2 }, // Indonesia\n  { id: \"528\", value: 1.0 }, // Netherlands\n  { id: \"682\", value: 1.1 }, // Saudi Arabia\n  { id: \"756\", value: 0.8 }, // Switzerland\n  { id: \"792\", value: 0.9 }, // Turkey\n  { id: \"616\", value: 0.7 }, // Poland\n  { id: \"764\", value: 0.5 }, // Thailand\n  { id: \"032\", value: 0.6 }, // Argentina\n  { id: \"710\", value: 0.4 }, // South Africa\n  { id: \"566\", value: 0.5 }, // Nigeria\n  { id: \"818\", value: 0.5 }, // Egypt\n  { id: \"586\", value: 0.3 }, // Pakistan\n  { id: \"704\", value: 0.4 }, // Vietnam\n  { id: \"152\", value: 0.3 }, // Chile\n  { id: \"458\", value: 0.4 }, // Malaysia\n  { id: \"702\", value: 0.4 }, // Singapore\n  { id: \"608\", value: 0.4 }, // Philippines\n  { id: \"578\", value: 0.6 }, // Norway\n  { id: \"040\", value: 0.5 }, // Austria\n  { id: \"372\", value: 0.5 }, // Ireland\n  { id: \"784\", value: 0.5 }, // UAE\n  { id: \"376\", value: 0.5 }, // Israel\n]\n\nexport default function ChoroplethChartDemo() {\n  return (\n    <ChoroplethChart\n      data={gdpData}\n      legendTitle=\"GDP (Trillion $)\"\n      colorScale={[\"#dbeafe\", \"#3b82f6\", \"#1e3a8a\"]}\n      valueFormatter={(v) => `$${v.toFixed(1)}T`}\n      aspectRatio={2}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

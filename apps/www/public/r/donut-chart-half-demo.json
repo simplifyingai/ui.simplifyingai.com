@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "donut-chart-half-demo",
+  "registryDependencies": [
+    "donut-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/donut-chart-half-demo.tsx",
+      "content": "\"use client\"\n\nimport { DonutChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"Used\", value: 73, color: \"#3B82F6\" },\n  { label: \"Free\", value: 27, color: \"#E5E7EB\" },\n]\n\nexport default function DonutChartHalfDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <DonutChart\n        data={data}\n        innerRadius={0.75}\n        startAngle={-Math.PI}\n        endAngle={0}\n        animate\n        showLegend={false}\n        centerLabel=\"Storage\"\n        centerValue=\"73%\"\n        showTotal={false}\n        height={250}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sankey-chart-demo",
+  "registryDependencies": [
+    "sankey-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sankey-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { SankeyChart } from \"@/components/ui/charts\"\n\nconst nodes = [\n  { id: \"organic\", name: \"Organic Search\" },\n  { id: \"paid\", name: \"Paid Ads\" },\n  { id: \"social\", name: \"Social Media\" },\n  { id: \"landing\", name: \"Landing Page\" },\n  { id: \"product\", name: \"Product Page\" },\n  { id: \"cart\", name: \"Cart\" },\n  { id: \"checkout\", name: \"Checkout\" },\n  { id: \"purchase\", name: \"Purchase\" },\n]\n\nconst links = [\n  { source: \"organic\", target: \"landing\", value: 500 },\n  { source: \"paid\", target: \"landing\", value: 300 },\n  { source: \"social\", target: \"landing\", value: 200 },\n  { source: \"landing\", target: \"product\", value: 600 },\n  { source: \"product\", target: \"cart\", value: 400 },\n  { source: \"cart\", target: \"checkout\", value: 300 },\n  { source: \"checkout\", target: \"purchase\", value: 250 },\n]\n\nexport default function SankeyChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <SankeyChart nodes={nodes} links={links} nodeWidth={20} nodePadding={15} />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

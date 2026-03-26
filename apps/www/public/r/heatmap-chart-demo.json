@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heatmap-chart-demo",
+  "registryDependencies": [
+    "heatmap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/heatmap-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { HeatmapChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { x: \"Mon\", y: \"Morning\", value: 5 },\n  { x: \"Mon\", y: \"Afternoon\", value: 8 },\n  { x: \"Mon\", y: \"Evening\", value: 3 },\n  { x: \"Tue\", y: \"Morning\", value: 7 },\n  { x: \"Tue\", y: \"Afternoon\", value: 9 },\n  { x: \"Tue\", y: \"Evening\", value: 4 },\n  { x: \"Wed\", y: \"Morning\", value: 6 },\n  { x: \"Wed\", y: \"Afternoon\", value: 10 },\n  { x: \"Wed\", y: \"Evening\", value: 5 },\n  { x: \"Thu\", y: \"Morning\", value: 4 },\n  { x: \"Thu\", y: \"Afternoon\", value: 7 },\n  { x: \"Thu\", y: \"Evening\", value: 6 },\n  { x: \"Fri\", y: \"Morning\", value: 8 },\n  { x: \"Fri\", y: \"Afternoon\", value: 6 },\n  { x: \"Fri\", y: \"Evening\", value: 9 },\n]\n\nexport default function HeatmapChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <HeatmapChart\n        data={data}\n        xAxisLabel=\"Day\"\n        yAxisLabel=\"Time\"\n        colorScale={[\"#f0f9ff\", \"#0369a1\"]}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

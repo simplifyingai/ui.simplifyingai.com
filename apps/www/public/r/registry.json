@@ -1,0 +1,1123 @@
+{
+  "name": "shadcn/ui",
+  "homepage": "https://ui.shadcn.com",
+  "items": [
+    {
+      "name": "index",
+      "type": "registry:style",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "devDependencies": [
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [],
+      "cssVars": {}
+    },
+    {
+      "name": "style",
+      "type": "registry:style",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react"
+      ],
+      "devDependencies": [
+        "tw-animate-css"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [],
+      "cssVars": {}
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "dependencies": [
+        "d3-scale",
+        "d3-shape",
+        "d3-array",
+        "d3-hierarchy",
+        "d3-geo",
+        "d3-sankey",
+        "d3-force",
+        "d3-interpolate"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-config.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-container.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-axis.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-grid.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-tooltip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-legend.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/chart-utils.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/simplifying-ai/ui/charts/index.ts",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/line-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/bar-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/area-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/scatter-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/pie-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "donut-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/basic/donut-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "histogram-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/statistical/histogram-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/statistical/box-plot-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "violin-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/statistical/violin-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/financial/candlestick-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "waterfall-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/financial/waterfall-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/financial/funnel-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "heatmap-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/scientific/heatmap-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "contour-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/scientific/contour-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/specialized/radar-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "treemap-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/specialized/treemap-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sunburst-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/specialized/sunburst-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/specialized/sankey-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/specialized/gauge-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart",
+      "type": "registry:ui",
+      "registryDependencies": [
+        "chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/ui/charts/maps/choropleth-chart.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "files": [
+        {
+          "path": "registry/simplifying-ai/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "area-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "area-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/area-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "area-chart-smooth-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "area-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/area-chart-smooth-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "area-chart-step-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "area-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/area-chart-step-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "area-chart-multi-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "area-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/area-chart-multi-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-label-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-label-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-horizontal-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-horizontal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-multiple-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-multiple-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-stacked-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-stacked-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-negative-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-negative-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-interactive-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-interactive-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-mixed-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-mixed-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "bar-chart-active-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "bar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/bar-chart-active-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "line-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "line-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/line-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "scatter-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "scatter-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/scatter-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "pie-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "pie-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/pie-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "donut-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "donut-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/donut-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "donut-chart-gradient-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "donut-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/donut-chart-gradient-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "donut-chart-separated-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "donut-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/donut-chart-separated-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "donut-chart-half-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "donut-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/donut-chart-half-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "histogram-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "histogram-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/histogram-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "box-plot-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/box-plot-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart-horizontal-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "box-plot-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/box-plot-chart-horizontal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart-multi-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "box-plot-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/box-plot-chart-multi-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart-comparison-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "box-plot-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/box-plot-chart-comparison-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "box-plot-chart-outliers-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "box-plot-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/box-plot-chart-outliers-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "violin-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "violin-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/violin-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "candlestick-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/candlestick-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart-hollow-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "candlestick-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/candlestick-chart-hollow-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "candlestick-chart-scrollable-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "candlestick-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/candlestick-chart-scrollable-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "waterfall-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "waterfall-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/waterfall-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "funnel-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/funnel-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart-gradient-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "funnel-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/funnel-chart-gradient-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart-flat-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "funnel-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/funnel-chart-flat-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart-pyramid-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "funnel-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/funnel-chart-pyramid-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart-horizontal-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "funnel-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/funnel-chart-horizontal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "heatmap-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "heatmap-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/heatmap-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "contour-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "contour-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/contour-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "contour-chart-lines-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "contour-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/contour-chart-lines-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "contour-chart-thermal-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "contour-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/contour-chart-thermal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "contour-chart-scatter-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "contour-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/contour-chart-scatter-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "radar-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "radar-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/radar-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "treemap-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "treemap-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/treemap-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "sunburst-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "sunburst-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/sunburst-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-speedometer-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-speedometer-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-segmented-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-segmented-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-radial-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-radial-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-minimal-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-minimal-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-gradient-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-gradient-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-meter-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-meter-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart-dashboard-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "gauge-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/gauge-chart-dashboard-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-usa-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-usa-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-china-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-china-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-uk-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-uk-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-germany-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-germany-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-france-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-france-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "choropleth-chart-brazil-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "choropleth-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/choropleth-chart-brazil-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "contour-chart-scatter-demo",
+  "registryDependencies": [
+    "contour-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/contour-chart-scatter-demo.tsx",
+      "content": "\"use client\"\n\nimport {\n  CONTOUR_COLOR_SCALES,\n  ContourChart,\n} from \"@/components/ui/charts\"\n\n// Generate data representing elevation/topography\nconst generateTopographyData = (): number[][] => {\n  const size = 12\n  const data: number[][] = []\n\n  for (let j = 0; j < size; j++) {\n    const row: number[] = []\n    for (let i = 0; i < size; i++) {\n      const x = i / (size - 1)\n      const y = j / (size - 1)\n\n      // Mountain ridge\n      const ridge =\n        1500 * Math.exp(-((y - 0.6) ** 2) / 0.1) * (1 + Math.sin(x * 8) * 0.3)\n\n      // Valley\n      const valley = -500 * Math.exp(-((x - 0.3) ** 2 + (y - 0.3) ** 2) / 0.05)\n\n      // Rolling hills\n      const hills = 300 * Math.sin(x * 6) * Math.cos(y * 4)\n\n      // Base elevation\n      const base = 500\n\n      row.push(base + ridge + valley + hills)\n    }\n    data.push(row)\n  }\n  return data\n}\n\nconst data = generateTopographyData()\n\nexport default function ContourChartScatterDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <ContourChart\n        data={data}\n        xAxisLabel=\"Longitude\"\n        yAxisLabel=\"Latitude\"\n        levels={8}\n        colorScale={CONTOUR_COLOR_SCALES.ocean}\n        showMarkers={true}\n        markerSymbol=\"circle\"\n        markerSize={5}\n        markerColor=\"#1e3a5f\"\n        showGrid={true}\n        lineWidth={1}\n        lineColor=\"#1e3a5f\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

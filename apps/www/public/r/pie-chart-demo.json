@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pie-chart-demo",
+  "registryDependencies": [
+    "pie-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/pie-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { PieChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"Chrome\", value: 62.5 },\n  { label: \"Safari\", value: 18.8 },\n  { label: \"Firefox\", value: 6.3 },\n  { label: \"Edge\", value: 5.2 },\n  { label: \"Other\", value: 7.2 },\n]\n\nconst config = {\n  Chrome: { label: \"Chrome\", color: \"var(--chart-1)\" },\n  Safari: { label: \"Safari\", color: \"var(--chart-2)\" },\n  Firefox: { label: \"Firefox\", color: \"var(--chart-3)\" },\n  Edge: { label: \"Edge\", color: \"var(--chart-4)\" },\n  Other: { label: \"Other\", color: \"var(--chart-5)\" },\n}\n\nexport default function PieChartDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <PieChart data={data} config={config} showLegend showLabels />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

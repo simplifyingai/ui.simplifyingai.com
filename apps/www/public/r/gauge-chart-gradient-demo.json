@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gauge-chart-gradient-demo",
+  "registryDependencies": [
+    "gauge-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/gauge-chart-gradient-demo.tsx",
+      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartGradientDemo() {\n  return (\n    <GaugeChart\n      value={65}\n      min={0}\n      max={100}\n      variant=\"gradient\"\n      label=\"Progress\"\n      color=\"#3b82f6\"\n      colorSecondary=\"#ec4899\"\n      thickness={0.12}\n      animate\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

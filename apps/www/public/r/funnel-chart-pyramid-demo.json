@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "funnel-chart-pyramid-demo",
+  "registryDependencies": [
+    "funnel-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/funnel-chart-pyramid-demo.tsx",
+      "content": "\"use client\"\n\nimport { FunnelChart } from \"@/components/ui/charts\"\n\n// User engagement funnel\nconst stages = [\"Visit\", \"Register\", \"Active\", \"Premium\"]\n\nconst series = [\n  { name: \"Segment 1\", values: [45000, 18000, 8500, 2200] },\n  { name: \"Segment 2\", values: [32000, 14500, 7200, 1900] },\n  { name: \"Segment 3\", values: [24000, 11000, 5800, 1500] },\n  { name: \"Segment 4\", values: [18000, 8500, 4500, 1200] },\n  { name: \"Segment 5\", values: [12000, 6000, 3200, 850] },\n]\n\nexport default function FunnelChartPyramidDemo() {\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <FunnelChart\n        stages={stages}\n        series={series}\n        colorScheme=\"green\"\n        showStageMarkers\n        showValuePills\n        pillPosition=\"both\"\n        animate\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}
