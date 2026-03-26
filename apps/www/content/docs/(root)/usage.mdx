@@ -1,0 +1,37 @@
+---
+title: Usage
+description: How to use Simplifying AI UI components in your application.
+---
+
+Once a Simplifying AI UI component is installed, you can import it and use it in your application like any other React component. The components are added as part of your codebase (not hidden in a library), so you can edit the components to suit your specific needs.
+
+---
+
+## Example
+
+After installing Simplifying AI UI components, you can use them in your application like any other React component. For example:
+
+```tsx
+"use client"
+
+import { FunnelChart } from "@/components/ui/charts"
+
+const stages = ["Awareness", "Interest", "Desire", "Action"]
+
+const series = [
+  { name: "Organic", values: [12000, 8500, 4200, 1800] },
+  { name: "Paid", values: [9500, 6800, 3500, 1500] },
+  { name: "Social", values: [7200, 5200, 2800, 1200] },
+]
+
+export default function Page() {
+  return (
+    <FunnelChart
+      stages={stages}
+      series={series}
+      colorScheme="blue"
+      animate
+    />
+  )
+}
+```

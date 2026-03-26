@@ -1,0 +1,157 @@
+---
+title: Funnel Chart
+description: Flowing stream-style funnel chart with smooth bezier curves, stage markers, and value pills.
+---
+
+<ComponentPreview name="funnel-chart-demo" />
+
+## About
+
+The Funnel Chart displays multiple data series flowing through stages, with organic stream-like shapes that expand and contract based on values. Perfect for visualizing multi-channel conversion funnels, user flows, and pipeline analysis.
+
+Features:
+- **Flowing streams** - Organic bezier curves create smooth river-like flows
+- **Multiple series** - Stack multiple data series with color gradients
+- **Stage markers** - White vertical lines mark each stage
+- **Value pills** - Show values in styled pill badges
+- **Color schemes** - Built-in orange, blue, purple, green, and pink themes
+- **Animated entrance** - Smooth animation on mount
+- **Interactive tooltips** - Hover to see series details
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/funnel-chart.json
+```
+
+## Usage
+
+```tsx
+import { FunnelChart } from "@/components/ui/charts"
+
+const stages = ["Stage 1", "Stage 2", "Stage 3", "Stage 4"]
+
+const series = [
+  { name: "Channel A", values: [8500, 15200, 28400, 42000] },
+  { name: "Channel B", values: [6200, 12800, 22100, 35500] },
+  { name: "Channel C", values: [4800, 9600, 18500, 28200] },
+  { name: "Channel D", values: [3200, 7200, 14200, 22800] },
+]
+
+export function Example() {
+  return (
+    <FunnelChart
+      stages={stages}
+      series={series}
+      colorScheme="orange"
+      showStageMarkers
+      showValuePills
+      animate
+    />
+  )
+}
+```
+
+## Color Schemes
+
+### Blue Theme
+
+<ComponentPreview name="funnel-chart-gradient-demo" />
+
+### Purple Theme
+
+<ComponentPreview name="funnel-chart-flat-demo" />
+
+### Green Theme
+
+<ComponentPreview name="funnel-chart-pyramid-demo" />
+
+### Pink Theme
+
+<ComponentPreview name="funnel-chart-horizontal-demo" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `stages` | `string[]` | required | Array of stage labels |
+| `series` | `FunnelSeries[]` | required | Array of data series |
+| `colorScheme` | `"orange" \| "blue" \| "purple" \| "green" \| "pink" \| "custom"` | `"orange"` | Color scheme |
+| `showStageMarkers` | `boolean` | `true` | Show vertical stage marker lines |
+| `showValuePills` | `boolean` | `true` | Show value badges at stages |
+| `pillPosition` | `"top" \| "bottom" \| "both" \| "center"` | `"both"` | Position of value pills |
+| `animate` | `boolean` | `true` | Animate on mount |
+| `animationDuration` | `number` | `1000` | Animation duration in ms |
+| `minFlowHeight` | `number` | `8` | Minimum height for flow streams |
+| `valueFormatter` | `function` | - | Custom value formatter |
+| `onSeriesClick` | `function` | - | Click handler for series |
+
+## Data Format
+
+```tsx
+interface FunnelSeries {
+  name: string      // Series name (shown in tooltip)
+  values: number[]  // Value at each stage (must match stages length)
+  color?: string    // Optional custom color (for "custom" colorScheme)
+}
+```
+
+## Customization
+
+### Custom Colors
+
+```tsx
+const series = [
+  { name: "Series A", values: [100, 200, 300], color: "#FF6B6B" },
+  { name: "Series B", values: [80, 160, 240], color: "#4ECDC4" },
+  { name: "Series C", values: [60, 120, 180], color: "#45B7D1" },
+]
+
+<FunnelChart
+  stages={["Start", "Middle", "End"]}
+  series={series}
+  colorScheme="custom"
+/>
+```
+
+### Center Pills Only
+
+```tsx
+<FunnelChart
+  stages={stages}
+  series={series}
+  pillPosition="center"
+/>
+```
+
+### Custom Value Formatter
+
+```tsx
+<FunnelChart
+  stages={stages}
+  series={series}
+  valueFormatter={(value) => `$${(value / 1000).toFixed(1)}K`}
+/>
+```
+
+### Click Handling
+
+```tsx
+<FunnelChart
+  stages={stages}
+  series={series}
+  onSeriesClick={(series, stageIndex) => {
+    console.log(`Clicked ${series.name} at stage ${stageIndex}`)
+  }}
+/>
+```
+
+### Without Stage Markers
+
+```tsx
+<FunnelChart
+  stages={stages}
+  series={series}
+  showStageMarkers={false}
+/>
+```

@@ -1,0 +1,47 @@
+---
+title: Scatter Chart
+description: Point scatter charts with multiple symbols and optional trend lines.
+---
+
+<ComponentPreview name="scatter-chart-demo" />
+
+## About
+
+The Scatter Chart component displays the relationship between two numerical variables.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/scatter-chart.json
+```
+
+## Usage
+
+```tsx
+import { ScatterChart } from "@/components/ui/charts"
+
+const data = [
+  {
+    name: "Dataset A",
+    data: [
+      { x: 10, y: 20 },
+      { x: 15, y: 35 },
+      { x: 25, y: 45 },
+    ],
+  },
+]
+
+export function Example() {
+  return <ScatterChart data={data} showTrendLine />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | ScatterChartSeries[] | required | Array of data series |
+| symbol | "circle" \| "square" \| "triangle" \| "diamond" | "circle" | Point symbol |
+| size | number | 8 | Point size |
+| showTrendLine | boolean | false | Show linear regression line |
+| sizeRange | [number, number] | [6, 20] | Size range for bubble charts |

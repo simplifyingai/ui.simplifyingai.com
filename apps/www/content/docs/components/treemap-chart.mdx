@@ -1,0 +1,50 @@
+---
+title: Treemap Chart
+description: Hierarchical treemap for nested data visualization.
+---
+
+<ComponentPreview name="treemap-chart-demo" />
+
+## About
+
+The Treemap Chart displays hierarchical data as nested rectangles sized by value.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/treemap-chart.json
+```
+
+## Usage
+
+```tsx
+import { TreemapChart } from "@/components/ui/charts"
+
+const data = {
+  name: "root",
+  children: [
+    { name: "Category A", value: 100 },
+    { name: "Category B", value: 80 },
+    {
+      name: "Category C",
+      children: [
+        { name: "C1", value: 30 },
+        { name: "C2", value: 20 },
+      ],
+    },
+  ],
+}
+
+export function Example() {
+  return <TreemapChart data={data} showLabels />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | TreemapNode | required | Hierarchical data |
+| tile | "squarify" \| "binary" \| "slice" \| "dice" | "squarify" | Tiling algorithm |
+| padding | number | 1 | Cell padding |
+| showLabels | boolean | true | Show cell labels |

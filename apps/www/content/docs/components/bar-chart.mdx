@@ -1,0 +1,256 @@
+---
+title: Bar Chart
+description: A flexible bar chart component for visualizing categorical data with support for multiple variants including horizontal, stacked, grouped, and interactive layouts.
+---
+
+<ComponentPreview name="bar-chart-demo" />
+
+## About
+
+The Bar Chart component is built on top of [Recharts](https://recharts.org/) and provides a simple, declarative way to create bar charts. It supports various configurations including:
+
+- **Vertical and horizontal** orientations
+- **Single and multiple** data series
+- **Stacked and grouped** bar layouts
+- **Custom tooltips** with theme-aware styling
+- **Responsive design** that adapts to container width
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/bar-chart.json
+```
+
+## Usage
+
+```tsx
+import { BarChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Jan", value: 4000 },
+  { label: "Feb", value: 3000 },
+  { label: "Mar", value: 5000 },
+]
+
+export function MyChart() {
+  return <BarChart data={data} />
+}
+```
+
+## Examples
+
+### Default
+
+The default bar chart displays categorical data with sharp-edged bars, horizontal grid lines, and an interactive tooltip on hover.
+
+<ComponentPreview name="bar-chart-demo" />
+
+### With Labels
+
+Use the `showLabel` prop to display values directly on top of each bar. This is useful when you want to show exact values without requiring users to hover.
+
+<ComponentPreview name="bar-chart-label-demo" />
+
+```tsx
+<BarChart data={data} showLabel labelPosition="top" />
+```
+
+### Horizontal
+
+Horizontal bar charts are ideal for displaying data with long category names or when you have many categories. Use `layout="vertical"` to switch orientation (Recharts naming convention).
+
+<ComponentPreview name="bar-chart-horizontal-demo" />
+
+```tsx
+<BarChart data={data} layout="vertical" />
+```
+
+### Multiple / Grouped
+
+Display multiple data series side-by-side to compare different metrics across categories. Use the `MultiBarChart` component with a `series` configuration.
+
+<ComponentPreview name="bar-chart-multiple-demo" />
+
+```tsx
+import { MultiBarChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Jan", desktop: 186, mobile: 80 },
+  { label: "Feb", desktop: 305, mobile: 200 },
+]
+
+const series = [
+  { name: "Desktop", dataKey: "desktop", color: "#2563eb" },
+  { name: "Mobile", dataKey: "mobile", color: "#60a5fa" },
+]
+
+<MultiBarChart data={data} series={series} />
+```
+
+### Stacked
+
+Stacked bar charts show the cumulative total of multiple series. Add a `stackId` to each series to group them into stacks.
+
+<ComponentPreview name="bar-chart-stacked-demo" />
+
+```tsx
+const series = [
+  { name: "Desktop", dataKey: "desktop", color: "#2563eb", stackId: "stack" },
+  { name: "Mobile", dataKey: "mobile", color: "#60a5fa", stackId: "stack" },
+]
+
+<MultiBarChart data={data} series={series} />
+```
+
+### Negative Values
+
+Bar charts can display both positive and negative values. Bars automatically extend above or below the zero reference line.
+
+<ComponentPreview name="bar-chart-negative-demo" />
+
+### Interactive
+
+Create interactive charts with state-controlled data series. Users can toggle between different views of the data.
+
+<ComponentPreview name="bar-chart-interactive-demo" />
+
+### Mixed (Bar + Line)
+
+Combine bars with a line chart to show both absolute values and trends. Uses Recharts' `ComposedChart` component.
+
+<ComponentPreview name="bar-chart-mixed-demo" />
+
+### Active Bar
+
+Highlight a specific bar using a custom shape with a dashed border effect. Useful for emphasizing a selected or current data point.
+
+<ComponentPreview name="bar-chart-active-demo" />
+
+```tsx
+import { Bar, BarChart, Rectangle } from "recharts"
+
+const ACTIVE_INDEX = 2
+
+<Bar
+  dataKey="sales"
+  radius={12}
+  shape={({ index, fill, ...props }) =>
+    index === ACTIVE_INDEX ? (
+      <Rectangle
+        {...props}
+        fill={fill}
+        fillOpacity={0.6}
+        stroke={fill}
+        strokeWidth={2}
+        strokeDasharray="4 4"
+      />
+    ) : (
+      <Rectangle {...props} fill={fill} />
+    )
+  }
+/>
+```
+
+## Props
+
+### BarChart
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `BarChartDataPoint[]` | required | Array of data points to display |
+| `color` | `string` | `"#2563eb"` | Fill color for bars |
+| `className` | `string` | - | Additional CSS classes |
+| `showGrid` | `boolean` | `true` | Show horizontal grid lines |
+| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
+| `showLabel` | `boolean` | `false` | Show value labels on bars |
+| `labelPosition` | `"top" \| "center" \| "bottom" \| "inside"` | `"top"` | Position of value labels |
+| `valueFormatter` | `(value: number) => string` | - | Format displayed values |
+| `labelFormatter` | `(label: string) => string` | - | Format category labels |
+| `layout` | `"vertical" \| "horizontal"` | `"horizontal"` | Bar orientation (`vertical` = horizontal bars) |
+| `barRadius` | `number` | `4` | Corner radius of bars |
+| `aspectRatio` | `number` | `2` | Width to height ratio |
+| `yAxisWidth` | `number` | `48` | Width reserved for Y-axis labels |
+
+### MultiBarChart
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `MultiBarChartDataPoint[]` | required | Array of data points |
+| `series` | `MultiBarChartSeries[]` | required | Configuration for each data series |
+| `className` | `string` | - | Additional CSS classes |
+| `showGrid` | `boolean` | `true` | Show horizontal grid lines |
+| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `valueFormatter` | `(value: number) => string` | - | Format displayed values |
+| `labelFormatter` | `(label: string) => string` | - | Format category labels |
+| `layout` | `"vertical" \| "horizontal"` | `"horizontal"` | Bar orientation |
+| `barRadius` | `number` | `4` | Corner radius of bars |
+| `aspectRatio` | `number` | `2` | Width to height ratio |
+| `yAxisWidth` | `number` | `48` | Width reserved for Y-axis labels |
+
+## Data Types
+
+```tsx
+// Single series data point
+interface BarChartDataPoint {
+  label: string      // Category name (e.g., "January")
+  value: number      // Numeric value
+  fill?: string      // Optional: override color for this bar
+}
+
+// Multiple series data point
+interface MultiBarChartDataPoint {
+  label: string                    // Category name
+  [key: string]: string | number   // Dynamic keys for each series
+}
+
+// Series configuration
+interface MultiBarChartSeries {
+  name: string       // Display name in tooltip/legend
+  dataKey: string    // Key in data object
+  color: string      // Bar fill color
+  stackId?: string   // Optional: group into stack
+}
+```
+
+## Customization
+
+### Custom Colors
+
+Pass a `color` prop or use per-bar colors via the `fill` property in data:
+
+```tsx
+const data = [
+  { label: "Success", value: 80, fill: "#22c55e" },
+  { label: "Warning", value: 15, fill: "#eab308" },
+  { label: "Error", value: 5, fill: "#ef4444" },
+]
+
+<BarChart data={data} />
+```
+
+### Custom Tooltip
+
+For advanced tooltip customization, use the Recharts components directly:
+
+```tsx
+import { BarChart, Bar, Tooltip } from "recharts"
+
+<BarChart data={data}>
+  <Tooltip
+    content={({ active, payload }) => (
+      <div className="custom-tooltip">
+        {/* Your custom content */}
+      </div>
+    )}
+  />
+  <Bar dataKey="value" />
+</BarChart>
+```
+
+## Accessibility
+
+- Charts include proper ARIA labels
+- Tooltips are keyboard accessible
+- Color schemes maintain sufficient contrast
+- Grid lines help users track values across the chart

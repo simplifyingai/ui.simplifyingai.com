@@ -1,0 +1,49 @@
+---
+title: Radar Chart
+description: Spider/radar charts for comparing multiple variables.
+---
+
+<ComponentPreview name="radar-chart-demo" />
+
+## About
+
+The Radar Chart displays multivariate data on axes starting from the same point.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/radar-chart.json
+```
+
+## Usage
+
+```tsx
+import { RadarChart } from "@/components/ui/charts"
+
+const data = [
+  {
+    name: "Product A",
+    data: [
+      { axis: "Speed", value: 80 },
+      { axis: "Reliability", value: 90 },
+      { axis: "Comfort", value: 70 },
+      { axis: "Safety", value: 85 },
+      { axis: "Efficiency", value: 75 },
+    ],
+  },
+]
+
+export function Example() {
+  return <RadarChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | RadarChartSeries[] | required | Data series |
+| maxValue | number | auto | Maximum axis value |
+| levels | number | 5 | Number of concentric circles |
+| showDots | boolean | true | Show data points |
+| fillOpacity | number | 0.25 | Area fill opacity |

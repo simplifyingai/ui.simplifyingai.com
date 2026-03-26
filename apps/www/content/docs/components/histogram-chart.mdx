@@ -1,0 +1,37 @@
+---
+title: Histogram Chart
+description: Distribution histogram for visualizing data frequency.
+---
+
+<ComponentPreview name="histogram-chart-demo" />
+
+## About
+
+The Histogram Chart displays the distribution of numerical data by grouping values into bins.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/histogram-chart.json
+```
+
+## Usage
+
+```tsx
+import { HistogramChart } from "@/components/ui/charts"
+
+const data = [12, 15, 18, 22, 25, 28, 30, 32, 35, 38, 40, 42, 45]
+
+export function Example() {
+  return <HistogramChart data={data} bins={10} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | number[] | required | Raw numerical data |
+| bins | number | 20 | Number of histogram bins |
+| normalized | boolean | false | Show percentages |
+| showDensity | boolean | false | Show density curve |

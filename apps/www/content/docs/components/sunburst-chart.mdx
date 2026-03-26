@@ -1,0 +1,49 @@
+---
+title: Sunburst Chart
+description: Radial hierarchical visualization for nested data.
+---
+
+<ComponentPreview name="sunburst-chart-demo" />
+
+## About
+
+The Sunburst Chart displays hierarchical data as concentric rings radiating from the center.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/sunburst-chart.json
+```
+
+## Usage
+
+```tsx
+import { SunburstChart } from "@/components/ui/charts"
+
+const data = {
+  name: "Total",
+  children: [
+    {
+      name: "Category A",
+      children: [
+        { name: "A1", value: 50 },
+        { name: "A2", value: 30 },
+      ],
+    },
+    { name: "Category B", value: 60 },
+  ],
+}
+
+export function Example() {
+  return <SunburstChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | SunburstNode | required | Hierarchical data |
+| innerRadius | number | 50 | Center hole radius |
+| showLabels | boolean | true | Show segment labels |
+| padAngle | number | 0.01 | Gap between segments |

@@ -1,0 +1,43 @@
+---
+title: Pie Chart
+description: Circular charts for showing proportional data.
+---
+
+<ComponentPreview name="pie-chart-demo" />
+
+## About
+
+The Pie Chart component displays data as slices of a circle, showing proportions of a whole.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/pie-chart.json
+```
+
+## Usage
+
+```tsx
+import { PieChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Chrome", value: 65 },
+  { label: "Safari", value: 20 },
+  { label: "Firefox", value: 15 },
+]
+
+export function Example() {
+  return <PieChart data={data} showLabels />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | PieChartDataPoint[] | required | Data points |
+| innerRadius | number | 0 | Inner radius for donut effect |
+| padAngle | number | 0.02 | Gap between slices |
+| cornerRadius | number | 4 | Corner rounding |
+| showLabels | boolean | false | Show labels on slices |
+| labelType | "percent" \| "value" \| "label" | "percent" | Label format |

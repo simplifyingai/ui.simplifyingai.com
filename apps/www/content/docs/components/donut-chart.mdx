@@ -1,0 +1,146 @@
+---
+title: Donut Chart
+description: Animated ring chart with interactive segments, tooltips, and center content.
+---
+
+<ComponentPreview name="donut-chart-demo" />
+
+## About
+
+The Donut Chart displays data as proportional segments in a ring, with a hollow center for key metrics. Features smooth animations, interactive hover states, and multiple style variants.
+
+Features:
+- **Animated entrance** - Smooth animation on mount
+- **Interactive segments** - Hover to highlight and see details
+- **Proper tooltips** - Detailed tooltips following cursor
+- **Center content** - Display totals or selected segment info
+- **Multiple variants** - Default, gradient, and separated styles
+- **Label lines** - Auto-positioned labels for small segments
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/donut-chart.json
+```
+
+## Usage
+
+```tsx
+import { DonutChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Chrome", value: 62.5, color: "#4285F4" },
+  { label: "Safari", value: 19.3, color: "#FF9500" },
+  { label: "Firefox", value: 4.2, color: "#FF7139" },
+  { label: "Edge", value: 4.1, color: "#0078D7" },
+  { label: "Other", value: 9.9, color: "#6B7280" },
+]
+
+export function Example() {
+  return (
+    <DonutChart
+      data={data}
+      innerRadius={0.65}
+      showLabels
+      animate
+    />
+  )
+}
+```
+
+## Variants
+
+### Gradient Style
+
+Segments with gradient fills for a modern look.
+
+<ComponentPreview name="donut-chart-gradient-demo" />
+
+### Separated Segments
+
+Segments with gaps between them.
+
+<ComponentPreview name="donut-chart-separated-demo" />
+
+### Half Donut (Gauge)
+
+Semi-circle donut for gauge-style displays.
+
+<ComponentPreview name="donut-chart-half-demo" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `DonutChartDataPoint[]` | required | Array of data points |
+| `innerRadius` | `number` | `0.6` | Inner radius ratio (0-1). 0.6 = 60% hollow |
+| `variant` | `"default" \| "gradient" \| "separated"` | `"default"` | Visual style |
+| `showLabels` | `boolean` | `false` | Show percentage labels on segments |
+| `showLabelLines` | `boolean` | `true` | Show label lines for small segments |
+| `centerLabel` | `ReactNode` | - | Label text in center |
+| `centerValue` | `ReactNode` | - | Value text in center |
+| `showTotal` | `boolean` | `true` | Show total in center when nothing hovered |
+| `animate` | `boolean` | `true` | Animate on mount |
+| `animationDuration` | `number` | `750` | Animation duration in ms |
+| `padAngle` | `number` | `0.02` | Gap between segments (radians) |
+| `cornerRadius` | `number` | `4` | Rounded corners on segments |
+| `startAngle` | `number` | `-π/2` | Starting angle (top) |
+| `endAngle` | `number` | `1.5π` | Ending angle |
+| `sortValues` | `boolean` | `false` | Sort segments by value |
+| `valueFormatter` | `function` | - | Custom value formatter |
+| `onSegmentClick` | `function` | - | Click handler for segments |
+| `activeIndex` | `number` | - | Controlled active segment |
+
+## Data Format
+
+```tsx
+interface DonutChartDataPoint {
+  label: string    // Segment label
+  value: number    // Segment value
+  color?: string   // Optional custom color
+}
+```
+
+## Customization
+
+### Custom Colors
+
+```tsx
+const data = [
+  { label: "Sales", value: 45, color: "#8B5CF6" },
+  { label: "Support", value: 30, color: "#EC4899" },
+  { label: "Other", value: 25, color: "#10B981" },
+]
+```
+
+### Custom Value Formatter
+
+```tsx
+<DonutChart
+  data={data}
+  valueFormatter={(value, total) => `$${value.toLocaleString()}`}
+/>
+```
+
+### Half Donut (Gauge Style)
+
+```tsx
+<DonutChart
+  data={data}
+  startAngle={-Math.PI}
+  endAngle={0}
+  innerRadius={0.75}
+  height={250}
+/>
+```
+
+### Click Handling
+
+```tsx
+<DonutChart
+  data={data}
+  onSegmentClick={(item, index) => {
+    console.log(`Clicked: ${item.label}`)
+  }}
+/>
+```

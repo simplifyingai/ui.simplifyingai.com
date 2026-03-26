@@ -1,0 +1,44 @@
+---
+title: Waterfall Chart
+description: Waterfall charts showing cumulative effect of sequential values.
+---
+
+<ComponentPreview name="waterfall-chart-demo" />
+
+## About
+
+The Waterfall Chart displays how an initial value is affected by a series of positive or negative values.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/waterfall-chart.json
+```
+
+## Usage
+
+```tsx
+import { WaterfallChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Start", value: 1000, isTotal: true },
+  { label: "Revenue", value: 500 },
+  { label: "Costs", value: -200 },
+  { label: "Tax", value: -100 },
+  { label: "End", value: 1200, isTotal: true },
+]
+
+export function Example() {
+  return <WaterfallChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | WaterfallDataPoint[] | required | Data with values and totals |
+| positiveColor | string | "var(--chart-2)" | Color for positive values |
+| negativeColor | string | "var(--chart-1)" | Color for negative values |
+| totalColor | string | "var(--chart-3)" | Color for total bars |
+| showConnector | boolean | true | Show connector lines |

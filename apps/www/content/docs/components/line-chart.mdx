@@ -1,0 +1,49 @@
+---
+title: Line Chart
+description: Multi-series line charts with customizable curves, dots, and tooltips.
+---
+
+<ComponentPreview name="line-chart-demo" />
+
+## About
+
+The Line Chart component displays data points connected by lines, perfect for showing trends over time.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/line-chart.json
+```
+
+## Usage
+
+```tsx
+import { LineChart } from "@/components/ui/charts"
+
+const data = [
+  {
+    name: "Revenue",
+    data: [
+      { x: "Jan", y: 4000 },
+      { x: "Feb", y: 3000 },
+      { x: "Mar", y: 5000 },
+      { x: "Apr", y: 4500 },
+    ],
+  },
+]
+
+export function Example() {
+  return <LineChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | LineChartSeries[] | required | Array of data series |
+| curve | "linear" \| "monotone" \| "cardinal" \| "step" | "monotone" | Line curve type |
+| showDots | boolean | true | Show data points |
+| showGrid | boolean | true | Show grid lines |
+| showLegend | boolean | true | Show legend |
+| showTooltip | boolean | true | Show tooltips on hover |

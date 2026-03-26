@@ -1,0 +1,40 @@
+---
+title: Violin Chart
+description: Violin plots showing probability density of data.
+---
+
+<ComponentPreview name="violin-chart-demo" />
+
+## About
+
+The Violin Chart combines box plots with kernel density estimation to show data distribution.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/violin-chart.json
+```
+
+## Usage
+
+```tsx
+import { ViolinChart } from "@/components/ui/charts"
+
+const data = [
+  { label: "Dataset A", values: [12, 15, 18, 22, 25, 28, 30, 32, 35] },
+  { label: "Dataset B", values: [8, 12, 15, 20, 25, 30, 35, 40, 45] },
+]
+
+export function Example() {
+  return <ViolinChart data={data} showBoxPlot showMedian />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | ViolinChartData[] | required | Data with labels and values |
+| showBoxPlot | boolean | true | Overlay box plot |
+| showMedian | boolean | true | Show median point |
+| bandwidth | number | auto | KDE bandwidth |

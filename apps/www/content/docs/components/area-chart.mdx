@@ -1,0 +1,88 @@
+---
+title: Area Chart
+description: Filled area charts with gradient support and multiple curve types.
+---
+
+<ComponentPreview name="area-chart-demo" />
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/area-chart.json
+```
+
+## Usage
+
+```tsx
+import { AreaChart, generateAreaChartData } from "@/components/ui/charts"
+
+const data = generateAreaChartData(
+  ["Q1", "Q2", "Q3", "Q4"],
+  [32, 45, 38, 52]
+)
+
+export function Example() {
+  return (
+    <AreaChart
+      data={data}
+      color="#2563eb"
+      gradientFrom="#2563eb"
+      gradientTo="#60a5fa"
+      showTooltip
+    />
+  )
+}
+```
+
+## Examples
+
+### Smooth Curve
+
+Curved lines with dots using `curveType="monotone"`.
+
+<ComponentPreview name="area-chart-smooth-demo" />
+
+### Step Curve
+
+Step-wise transitions using `curveType="step"`.
+
+<ComponentPreview name="area-chart-step-demo" />
+
+### Multiple Series
+
+Overlapping areas with multiple data series using `MultiAreaChart`.
+
+<ComponentPreview name="area-chart-multi-demo" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | AreaChartDataPoint[] | required | Array of data points with label and value |
+| color | string | "#f97316" | Line stroke color |
+| gradientFrom | string | "#f97316" | Gradient start color |
+| gradientTo | string | "#fdba74" | Gradient end color |
+| showDots | boolean | true | Show dots on data points |
+| showGrid | boolean | true | Show background grid |
+| showTooltip | boolean | true | Enable hover tooltip |
+| curveType | "linear" \| "monotone" \| "step" | "linear" | Curve interpolation type |
+| yAxisDomain | [number, number] | auto | Y-axis min/max values |
+| yAxisTicks | number[] | auto | Custom Y-axis tick values |
+| xAxisAngle | number | -45 | X-axis label rotation angle |
+| aspectRatio | number | 2.5 | Chart aspect ratio |
+| animate | boolean | true | Enable animations |
+| strokeWidth | number | 2 | Line stroke width |
+| dotRadius | number | 4 | Dot radius when showDots is true |
+| showCursor | boolean | true | Show vertical cursor line on hover |
+| gradientOpacity | [number, number] | [0.8, 0.1] | Gradient opacity from top to bottom |
+
+## MultiAreaChart Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | MultiAreaChartDataPoint[] | required | Array of data points |
+| series | MultiAreaChartSeries[] | required | Array of series configs |
+| stacked | boolean | false | Stack areas on top of each other |
+| showLegend | boolean | true | Show legend below chart |
+| showCursor | boolean | true | Show vertical cursor line on hover |
+| gradientOpacity | [number, number] | [0.6, 0.1] | Gradient opacity from top to bottom |

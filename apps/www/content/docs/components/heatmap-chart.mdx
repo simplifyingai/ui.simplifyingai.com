@@ -1,0 +1,42 @@
+---
+title: Heatmap Chart
+description: 2D heatmaps with color-coded values.
+---
+
+<ComponentPreview name="heatmap-chart-demo" />
+
+## About
+
+The Heatmap Chart displays data in a matrix format with color intensity representing values.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/heatmap-chart.json
+```
+
+## Usage
+
+```tsx
+import { HeatmapChart } from "@/components/ui/charts"
+
+const data = [
+  { x: "Mon", y: "9am", value: 10 },
+  { x: "Mon", y: "10am", value: 25 },
+  { x: "Tue", y: "9am", value: 15 },
+  { x: "Tue", y: "10am", value: 30 },
+]
+
+export function Example() {
+  return <HeatmapChart data={data} colorScale={["#eff6ff", "#3b82f6"]} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | HeatmapDataPoint[] | required | Matrix data points |
+| colorScale | string[] | ["#f0f9ff", "#0ea5e9"] | Color gradient |
+| showValues | boolean | false | Show values in cells |
+| cellRadius | number | 2 | Cell corner radius |

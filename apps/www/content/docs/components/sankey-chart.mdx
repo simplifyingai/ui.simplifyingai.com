@@ -1,0 +1,48 @@
+---
+title: Sankey Chart
+description: Flow diagrams showing connections between nodes.
+---
+
+## About
+
+The Sankey Chart displays flows between nodes with proportional link widths.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/sankey-chart.json
+```
+
+## Usage
+
+```tsx
+import { SankeyChart } from "@/components/ui/charts"
+
+const nodes = [
+  { id: "source1", name: "Source 1" },
+  { id: "source2", name: "Source 2" },
+  { id: "target1", name: "Target 1" },
+  { id: "target2", name: "Target 2" },
+]
+
+const links = [
+  { source: "source1", target: "target1", value: 50 },
+  { source: "source1", target: "target2", value: 30 },
+  { source: "source2", target: "target1", value: 40 },
+  { source: "source2", target: "target2", value: 20 },
+]
+
+export function Example() {
+  return <SankeyChart nodes={nodes} links={links} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| nodes | SankeyNode[] | required | Node definitions |
+| links | SankeyLink[] | required | Link connections |
+| nodeWidth | number | 15 | Width of nodes |
+| nodePadding | number | 20 | Vertical spacing |
+| nodeAlign | "left" \| "right" \| "center" \| "justify" | "justify" | Node alignment |

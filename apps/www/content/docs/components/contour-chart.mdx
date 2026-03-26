@@ -1,0 +1,134 @@
+---
+title: Contour Chart
+description: Filled contour plots for visualizing 3D data on a 2D plane with data point markers.
+---
+
+<ComponentPreview name="contour-chart-demo" />
+
+## About
+
+The Contour Chart displays filled regions and iso-lines connecting points of equal value, perfect for visualizing terrain, temperature distributions, or any continuous 3D surface data.
+
+Features:
+- **Filled contours** - Smooth color-coded regions
+- **Multiple color scales** - Rainbow, viridis, thermal, ocean, and more
+- **Data point markers** - X, cross, circle, or diamond markers
+- **Interactive tooltips** - Hover to see values
+- **Customizable levels** - Control contour density
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/contour-chart.json
+```
+
+## Usage
+
+```tsx
+import { ContourChart, CONTOUR_COLOR_SCALES } from "@/components/ui/charts"
+
+// 2D array of z-values
+const data = [
+  [0, 1, 2, 3, 2],
+  [1, 4, 6, 4, 1],
+  [2, 6, 9, 6, 2],
+  [1, 4, 6, 4, 1],
+  [0, 1, 2, 3, 2],
+]
+
+export function Example() {
+  return (
+    <ContourChart
+      data={data}
+      levels={10}
+      colorScale={CONTOUR_COLOR_SCALES.rainbow}
+      showMarkers={true}
+      markerSymbol="x"
+    />
+  )
+}
+```
+
+## Variants
+
+### Lines Only
+
+Contour lines without filled regions.
+
+<ComponentPreview name="contour-chart-lines-demo" />
+
+### Thermal Heat Map
+
+Heat distribution visualization with thermal color scale.
+
+<ComponentPreview name="contour-chart-thermal-demo" />
+
+### Topographic Style
+
+Ocean-themed with circle markers for elevation data.
+
+<ComponentPreview name="contour-chart-scatter-demo" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `number[][]` | required | 2D array of z-values |
+| `points` | `ContourPoint[]` | - | Optional scatter points to overlay |
+| `levels` | `number` | `10` | Number of contour levels |
+| `showFill` | `boolean` | `true` | Show filled contour regions |
+| `showLines` | `boolean` | `true` | Show contour lines |
+| `lineWidth` | `number` | `0.5` | Contour line width |
+| `lineColor` | `string` | `"rgba(0,0,0,0.3)"` | Line color |
+| `colorScale` | `string[]` | `CONTOUR_COLOR_SCALES.rainbow` | Color gradient array |
+| `showMarkers` | `boolean` | `true` | Show data point markers |
+| `markerSymbol` | `"x" \| "cross" \| "circle" \| "diamond"` | `"x"` | Marker shape |
+| `markerSize` | `number` | `8` | Marker size in pixels |
+| `markerColor` | `string` | `"#333333"` | Marker color |
+| `showGrid` | `boolean` | `true` | Show background grid |
+| `xAxisLabel` | `string` | - | X-axis label |
+| `yAxisLabel` | `string` | - | Y-axis label |
+
+## Color Scales
+
+Built-in color scales available via `CONTOUR_COLOR_SCALES`:
+
+```tsx
+import { CONTOUR_COLOR_SCALES } from "@/components/ui/charts"
+
+// Available scales:
+CONTOUR_COLOR_SCALES.rainbow   // Blue → Cyan → Green → Yellow → Red
+CONTOUR_COLOR_SCALES.viridis   // Purple → Blue → Green → Yellow
+CONTOUR_COLOR_SCALES.coolwarm  // Blue → White → Red
+CONTOUR_COLOR_SCALES.ocean     // Deep blue gradient
+CONTOUR_COLOR_SCALES.thermal   // Purple → Red → Yellow
+CONTOUR_COLOR_SCALES.blue      // Light to dark blue
+```
+
+### Custom Color Scale
+
+```tsx
+<ContourChart
+  data={data}
+  colorScale={["#fee2e2", "#ef4444", "#7f1d1d"]}  // Red gradient
+/>
+```
+
+## Marker Symbols
+
+```tsx
+// X marks (default)
+<ContourChart data={data} markerSymbol="x" />
+
+// Cross marks
+<ContourChart data={data} markerSymbol="cross" />
+
+// Circle marks
+<ContourChart data={data} markerSymbol="circle" />
+
+// Diamond marks
+<ContourChart data={data} markerSymbol="diamond" />
+
+// No markers
+<ContourChart data={data} showMarkers={false} />
+```

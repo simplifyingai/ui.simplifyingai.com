@@ -1,0 +1,154 @@
+---
+title: Gauge Chart
+description: Gauges and indicators for displaying single values with 8 distinct variants.
+---
+
+<ComponentPreview name="gauge-chart-demo" />
+
+## About
+
+The Gauge Chart displays a single value within a defined range using animated arc indicators. It supports 8 different variants for various use cases from dashboards to speedometers.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/gauge-chart.json
+```
+
+## Usage
+
+```tsx
+import { GaugeChart } from "@/components/ui/charts"
+
+export function Example() {
+  return (
+    <GaugeChart
+      value={75}
+      min={0}
+      max={100}
+      label="Performance"
+      variant="modern"
+      color="#3b82f6"
+      animate
+    />
+  )
+}
+```
+
+## Variants
+
+### Modern (Default)
+
+Clean, minimal arc design with centered value display. Perfect for modern dashboards.
+
+<ComponentPreview name="gauge-chart-demo" />
+
+### Speedometer
+
+Classic speedometer style with needle indicator and tick marks. Great for showing speed or performance metrics.
+
+<ComponentPreview name="gauge-chart-speedometer-demo" />
+
+### Segmented
+
+Color-coded segments that highlight different value ranges (good/warning/danger). Ideal for status indicators.
+
+<ComponentPreview name="gauge-chart-segmented-demo" />
+
+### Radial
+
+Full 360-degree circular gauge. Best for progress indicators and completion rates.
+
+<ComponentPreview name="gauge-chart-radial-demo" />
+
+### Minimal
+
+Ultra-clean design with thin arcs and min/max labels. Perfect for compact spaces.
+
+<ComponentPreview name="gauge-chart-minimal-demo" />
+
+### Gradient
+
+Beautiful gradient arc transitioning between two colors. Adds visual appeal to dashboards.
+
+<ComponentPreview name="gauge-chart-gradient-demo" />
+
+### Meter
+
+Technical meter style with external tick marks and labels. Suited for scientific/engineering displays.
+
+<ComponentPreview name="gauge-chart-meter-demo" />
+
+### Dashboard
+
+Bold percentage display optimized for KPI dashboards. Shows completion with large typography.
+
+<ComponentPreview name="gauge-chart-dashboard-demo" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `number` | required | Current value to display |
+| min | `number` | `0` | Minimum value |
+| max | `number` | `100` | Maximum value |
+| variant | `"modern" \| "speedometer" \| "segmented" \| "radial" \| "minimal" \| "gradient" \| "meter" \| "dashboard"` | `"modern"` | Gauge style variant |
+| label | `string` | - | Label text below value |
+| units | `string` | - | Units suffix (e.g., "%", "mph") |
+| showValue | `boolean` | `true` | Show the numeric value |
+| thickness | `number` | `0.15` | Arc thickness (0-1, as percentage of radius) |
+| color | `string` | `"#3b82f6"` | Primary arc color |
+| colorSecondary | `string` | `"#8b5cf6"` | Secondary color (for gradient variant) |
+| bgColor | `string` | `"#e5e7eb"` | Background arc color |
+| segments | `Array<{ value: number; color: string; label?: string }>` | - | Custom segments for segmented variant |
+| showTicks | `boolean` | `false` | Show tick marks |
+| tickCount | `number` | `5` | Number of tick marks |
+| animate | `boolean` | `true` | Animate on mount |
+| animationDuration | `number` | `1000` | Animation duration in ms |
+| valueFormatter | `(value: number) => string` | - | Custom value formatter |
+| showPercentage | `boolean` | `false` | Show percentage instead of raw value |
+
+## Examples
+
+### With Custom Segments
+
+```tsx
+<GaugeChart
+  value={72}
+  variant="segmented"
+  segments={[
+    { value: 0, color: "#22c55e", label: "Good" },
+    { value: 50, color: "#f59e0b", label: "Warning" },
+    { value: 80, color: "#ef4444", label: "Critical" },
+  ]}
+  label="System Load"
+/>
+```
+
+### Gradient with Custom Colors
+
+```tsx
+<GaugeChart
+  value={65}
+  variant="gradient"
+  color="#3b82f6"
+  colorSecondary="#ec4899"
+  label="Progress"
+  animate
+/>
+```
+
+### Speedometer with Ticks
+
+```tsx
+<GaugeChart
+  value={120}
+  min={0}
+  max={200}
+  variant="speedometer"
+  showTicks
+  tickCount={5}
+  units="mph"
+  color="#ef4444"
+/>
+```
