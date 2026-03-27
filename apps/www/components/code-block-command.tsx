@@ -67,7 +67,7 @@ export function CodeBlockCommand({
   }, [packageManager, tabs])
 
   return (
-    <div className="overflow-x-auto">
+    <div data-slot="tabs" className="overflow-x-auto">
       <Tabs
         value={packageManager}
         className="gap-0"
