@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "range-chart-error-bars",
+  "registryDependencies": [
+    "range-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/range-chart-error-bars.tsx",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts/basic/range-chart\"\n\nconst experimentData = [\n  { x: \"Control\", low: 42, high: 58, mid: 50, label: \"Control Group\" },\n  { x: \"Treatment A\", low: 55, high: 75, mid: 65, label: \"Treatment A\" },\n  { x: \"Treatment B\", low: 48, high: 68, mid: 58, label: \"Treatment B\" },\n  { x: \"Treatment C\", low: 70, high: 90, mid: 80, label: \"Treatment C\" },\n  { x: \"Treatment D\", low: 35, high: 55, mid: 45, label: \"Treatment D\" },\n]\n\nexport default function RangeChartErrorBars() {\n  return (\n    <div className=\"w-full max-w-lg mx-auto\">\n      <RangeChart\n        data={experimentData}\n        variant=\"errorBars\"\n        xAxisLabel=\"Experiment Group\"\n        yAxisLabel=\"Response Value\"\n        strokeColor=\"#dc2626\"\n        midLineColor=\"#dc2626\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

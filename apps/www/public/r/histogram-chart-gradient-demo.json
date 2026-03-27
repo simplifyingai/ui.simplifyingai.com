@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "histogram-chart-gradient-demo",
+  "registryDependencies": [
+    "histogram-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/histogram-chart-gradient-demo.tsx",
+      "content": "\"use client\"\n\nimport { HistogramChart } from \"@/components/ui/charts\"\n\n// Generate normal distribution data\nfunction generateNormalData(n: number, mean: number, stdDev: number): number[] {\n  const data: number[] = []\n  for (let i = 0; i < n; i += 2) {\n    const u1 = Math.random()\n    const u2 = Math.random()\n    const z0 = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)\n    const z1 = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2)\n    data.push(mean + z0 * stdDev)\n    if (i + 1 < n) data.push(mean + z1 * stdDev)\n  }\n  return data\n}\n\nconst normalData = generateNormalData(1000, 50, 15)\n\nexport default function HistogramChartGradientDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <HistogramChart\n        data={normalData}\n        variant=\"gradient\"\n        colorScale=\"viridis\"\n        bins={40}\n        showBorder={false}\n        xAxisLabel=\"Value\"\n        yAxisLabel=\"Frequency\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

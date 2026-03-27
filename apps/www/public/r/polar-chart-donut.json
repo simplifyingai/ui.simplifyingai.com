@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "polar-chart-donut",
+  "registryDependencies": [
+    "polar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/polar-chart-donut.tsx",
+      "content": "\"use client\"\n\nimport { PolarChart } from \"@/components/ui/charts/statistical/polar-chart\"\n\nconst skillsData = [\n  { category: \"Frontend\", value: 85 },\n  { category: \"Backend\", value: 72 },\n  { category: \"Database\", value: 68 },\n  { category: \"DevOps\", value: 55 },\n  { category: \"Testing\", value: 78 },\n  { category: \"Design\", value: 62 },\n]\n\nexport default function PolarChartDonut() {\n  return (\n    <div className=\"w-full max-w-md mx-auto\">\n      <PolarChart\n        data={skillsData}\n        variant=\"rose\"\n        innerRadius={40}\n        showLabels\n        showValues={false}\n        colorScheme={[\"#7c3aed\", \"#8b5cf6\", \"#a78bfa\", \"#c4b5fd\", \"#ddd6fe\", \"#ede9fe\"]}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

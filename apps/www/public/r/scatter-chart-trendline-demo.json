@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart-trendline-demo",
+  "registryDependencies": [
+    "scatter-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/scatter-chart-trendline-demo.tsx",
+      "content": "\"use client\"\n\nimport { ScatterChart } from \"@/components/ui/charts\"\n\n// Study hours vs test scores with trend line\nconst data = [\n  {\n    name: \"Student Performance\",\n    color: \"#2563eb\",\n    data: [\n      { x: 2, y: 55 },\n      { x: 3, y: 62 },\n      { x: 4, y: 68 },\n      { x: 5, y: 72 },\n      { x: 6, y: 75 },\n      { x: 7, y: 82 },\n      { x: 8, y: 85 },\n      { x: 9, y: 88 },\n      { x: 10, y: 92 },\n      { x: 4.5, y: 65 },\n      { x: 5.5, y: 78 },\n      { x: 6.5, y: 80 },\n      { x: 7.5, y: 84 },\n      { x: 8.5, y: 90 },\n    ],\n  },\n]\n\nexport default function ScatterChartTrendlineDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <ScatterChart\n        data={data}\n        width={500}\n        height={320}\n        showTrendLine\n        showLegend={false}\n        xAxisLabel=\"Study Hours\"\n        yAxisLabel=\"Test Score\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

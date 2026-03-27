@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart-correlation-demo",
+  "registryDependencies": [
+    "scatter-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/scatter-chart-correlation-demo.tsx",
+      "content": "\"use client\"\n\nimport { ScatterChart } from \"@/components/ui/charts\"\n\n// Temperature vs ice cream sales (positive correlation)\nconst data = [\n  {\n    name: \"Ice Cream Sales\",\n    color: \"#2563eb\",\n    data: [\n      { x: 55, y: 120 },\n      { x: 60, y: 180 },\n      { x: 65, y: 220 },\n      { x: 70, y: 280 },\n      { x: 75, y: 350 },\n      { x: 80, y: 420 },\n      { x: 85, y: 480 },\n      { x: 90, y: 520 },\n      { x: 58, y: 150 },\n      { x: 68, y: 260 },\n      { x: 78, y: 390 },\n      { x: 88, y: 495 },\n    ],\n  },\n]\n\nexport default function ScatterChartCorrelationDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <ScatterChart\n        data={data}\n        width={500}\n        height={320}\n        showTrendLine\n        showLegend={false}\n        symbol=\"circle\"\n        size={9}\n        xAxisLabel=\"Temperature (°F)\"\n        yAxisLabel=\"Daily Sales ($)\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sankey-chart-minimal-demo",
+  "registryDependencies": [
+    "sankey-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sankey-chart-minimal-demo.tsx",
+      "content": "\"use client\"\n\nimport { SankeyChart } from \"@/components/ui/charts\"\n\n// Simple two-level flow\nconst nodes = [\n  { id: \"source1\", name: \"Desktop\", color: \"#2563eb\" },\n  { id: \"source2\", name: \"Mobile\", color: \"#3b82f6\" },\n  { id: \"source3\", name: \"Tablet\", color: \"#60a5fa\" },\n  { id: \"target1\", name: \"Conversions\", color: \"#1e40af\" },\n  { id: \"target2\", name: \"Bounced\", color: \"#93c5fd\" },\n]\n\nconst links = [\n  { source: \"source1\", target: \"target1\", value: 420 },\n  { source: \"source1\", target: \"target2\", value: 180 },\n  { source: \"source2\", target: \"target1\", value: 280 },\n  { source: \"source2\", target: \"target2\", value: 320 },\n  { source: \"source3\", target: \"target1\", value: 90 },\n  { source: \"source3\", target: \"target2\", value: 110 },\n]\n\nexport default function SankeyChartMinimalDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <SankeyChart\n        nodes={nodes}\n        links={links}\n        nodeWidth={16}\n        nodePadding={20}\n        width={400}\n        height={240}\n        showValues={false}\n        margin={{ top: 16, right: 80, bottom: 16, left: 70 }}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

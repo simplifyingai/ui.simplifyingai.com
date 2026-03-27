@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst-chart-organizational-demo",
+  "registryDependencies": [
+    "sunburst-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sunburst-chart-organizational-demo.tsx",
+      "content": "\"use client\"\n\nimport { SunburstChart } from \"@/components/ui/charts\"\n\n// Company organizational structure\nconst data = {\n  name: \"Company\",\n  children: [\n    {\n      name: \"Engineering\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"Frontend\", value: 25, color: \"#2563eb\" },\n        { name: \"Backend\", value: 30, color: \"#3b82f6\" },\n        { name: \"DevOps\", value: 12, color: \"#60a5fa\" },\n        { name: \"QA\", value: 15, color: \"#93c5fd\" },\n      ],\n    },\n    {\n      name: \"Product\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"Design\", value: 18, color: \"#2563eb\" },\n        { name: \"Research\", value: 10, color: \"#3b82f6\" },\n        { name: \"Analytics\", value: 8, color: \"#60a5fa\" },\n      ],\n    },\n    {\n      name: \"Sales\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"Enterprise\", value: 20, color: \"#2563eb\" },\n        { name: \"SMB\", value: 15, color: \"#3b82f6\" },\n        { name: \"Partners\", value: 10, color: \"#60a5fa\" },\n      ],\n    },\n    {\n      name: \"Operations\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"HR\", value: 12, color: \"#2563eb\" },\n        { name: \"Finance\", value: 10, color: \"#3b82f6\" },\n        { name: \"Legal\", value: 5, color: \"#60a5fa\" },\n      ],\n    },\n  ],\n}\n\nexport default function SunburstChartOrganizationalDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <SunburstChart\n        data={data}\n        width={380}\n        height={380}\n        innerRadius={45}\n        showLabels\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

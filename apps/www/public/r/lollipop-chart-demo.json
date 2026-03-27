@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "lollipop-chart-demo",
+  "registryDependencies": [
+    "lollipop-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/lollipop-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { LollipopChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Jan\", value: 45, color: \"#1e40af\" },\n  { category: \"Feb\", value: 52, color: \"#2563eb\" },\n  { category: \"Mar\", value: 78, color: \"#3b82f6\" },\n  { category: \"Apr\", value: 65, color: \"#60a5fa\" },\n  { category: \"May\", value: 89, color: \"#93c5fd\" },\n  { category: \"Jun\", value: 72, color: \"#1e40af\" },\n  { category: \"Jul\", value: 95, color: \"#2563eb\" },\n  { category: \"Aug\", value: 82, color: \"#3b82f6\" },\n]\n\nexport default function LollipopChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <LollipopChart\n        data={data}\n        orientation=\"horizontal\"\n        dotSize={10}\n        showValues\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pie-chart-interactive-demo",
+  "registryDependencies": [
+    "pie-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/pie-chart-interactive-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { PieChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { label: \"January\", value: 186, color: \"#2563eb\" },\n  { label: \"February\", value: 305, color: \"#3b82f6\" },\n  { label: \"March\", value: 237, color: \"#60a5fa\" },\n  { label: \"April\", value: 173, color: \"#93c5fd\" },\n  { label: \"May\", value: 209, color: \"#bfdbfe\" },\n]\n\nconst selectionOptions = [\n  { key: \"january\", label: \"January\" },\n  { key: \"february\", label: \"February\" },\n  { key: \"march\", label: \"March\" },\n  { key: \"april\", label: \"April\" },\n  { key: \"may\", label: \"May\" },\n]\n\nexport default function PieChartInteractiveDemo() {\n  const [selectedKey, setSelectedKey] = React.useState(\"january\")\n\n  return (\n    <div className=\"w-full max-w-md\">\n      <PieChart\n        data={data}\n        variant=\"interactive\"\n        selectionOptions={selectionOptions}\n        selectedKey={selectedKey}\n        onSelectionChange={setSelectedKey}\n        centerLabel=\"Visitors\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

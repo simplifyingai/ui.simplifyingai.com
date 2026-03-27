@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst-chart-filesize-demo",
+  "registryDependencies": [
+    "sunburst-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sunburst-chart-filesize-demo.tsx",
+      "content": "\"use client\"\n\nimport { SunburstChart } from \"@/components/ui/charts\"\n\n// Project file structure by size\nconst data = {\n  name: \"Project\",\n  children: [\n    {\n      name: \"src\",\n      color: \"#1e40af\",\n      children: [\n        {\n          name: \"components\",\n          color: \"#2563eb\",\n          children: [\n            { name: \"ui\", value: 85, color: \"#3b82f6\" },\n            { name: \"forms\", value: 45, color: \"#60a5fa\" },\n            { name: \"layout\", value: 35, color: \"#93c5fd\" },\n          ],\n        },\n        {\n          name: \"lib\",\n          color: \"#3b82f6\",\n          children: [\n            { name: \"utils\", value: 25, color: \"#60a5fa\" },\n            { name: \"hooks\", value: 20, color: \"#93c5fd\" },\n          ],\n        },\n        {\n          name: \"app\",\n          color: \"#60a5fa\",\n          children: [\n            { name: \"pages\", value: 55, color: \"#93c5fd\" },\n            { name: \"api\", value: 40, color: \"#bfdbfe\" },\n          ],\n        },\n      ],\n    },\n    {\n      name: \"public\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"images\", value: 120, color: \"#2563eb\" },\n        { name: \"fonts\", value: 35, color: \"#3b82f6\" },\n        { name: \"icons\", value: 15, color: \"#60a5fa\" },\n      ],\n    },\n    {\n      name: \"node_modules\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"react\", value: 80, color: \"#2563eb\" },\n        { name: \"next\", value: 150, color: \"#3b82f6\" },\n        { name: \"other\", value: 200, color: \"#60a5fa\" },\n      ],\n    },\n  ],\n}\n\nexport default function SunburstChartFilesizeDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <SunburstChart\n        data={data}\n        width={380}\n        height={380}\n        innerRadius={35}\n        cornerRadius={2}\n        showLabels\n        labelMinAngle={0.12}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

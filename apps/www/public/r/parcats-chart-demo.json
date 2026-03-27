@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "parcats-chart-demo",
+  "registryDependencies": [
+    "parcats-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/parcats-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { ParcatsChart } from \"@/components/ui/charts/statistical/parcats-chart\"\n\nconst surveyData = [\n  { id: \"1\", categories: { Gender: \"Male\", Age: \"18-24\", Device: \"Mobile\" } },\n  { id: \"2\", categories: { Gender: \"Female\", Age: \"25-34\", Device: \"Desktop\" } },\n  { id: \"3\", categories: { Gender: \"Male\", Age: \"25-34\", Device: \"Mobile\" } },\n  { id: \"4\", categories: { Gender: \"Female\", Age: \"18-24\", Device: \"Tablet\" } },\n  { id: \"5\", categories: { Gender: \"Male\", Age: \"35-44\", Device: \"Desktop\" } },\n  { id: \"6\", categories: { Gender: \"Female\", Age: \"35-44\", Device: \"Mobile\" } },\n  { id: \"7\", categories: { Gender: \"Male\", Age: \"18-24\", Device: \"Desktop\" } },\n  { id: \"8\", categories: { Gender: \"Female\", Age: \"25-34\", Device: \"Mobile\" } },\n  { id: \"9\", categories: { Gender: \"Male\", Age: \"25-34\", Device: \"Tablet\" } },\n  { id: \"10\", categories: { Gender: \"Female\", Age: \"45+\", Device: \"Desktop\" } },\n  { id: \"11\", categories: { Gender: \"Male\", Age: \"45+\", Device: \"Mobile\" } },\n  { id: \"12\", categories: { Gender: \"Female\", Age: \"18-24\", Device: \"Mobile\" } },\n]\n\nconst dimensions = [\"Gender\", \"Age\", \"Device\"]\n\nexport default function ParcatsChartDemo() {\n  return (\n    <div className=\"w-full max-w-2xl mx-auto\">\n      <ParcatsChart\n        data={surveyData}\n        dimensions={dimensions}\n        bundleColors\n        showCounts\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

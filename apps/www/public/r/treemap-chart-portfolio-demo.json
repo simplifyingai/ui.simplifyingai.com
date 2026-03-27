@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "treemap-chart-portfolio-demo",
+  "registryDependencies": [
+    "treemap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/treemap-chart-portfolio-demo.tsx",
+      "content": "\"use client\"\n\nimport { TreemapChart } from \"@/components/ui/charts\"\n\n// Investment portfolio allocation\nconst data = {\n  name: \"Portfolio\",\n  children: [\n    {\n      name: \"Stocks\",\n      children: [\n        { name: \"US Large Cap\", value: 35, color: \"#1e40af\" },\n        { name: \"US Small Cap\", value: 15, color: \"#2563eb\" },\n        { name: \"International\", value: 20, color: \"#3b82f6\" },\n        { name: \"Emerging\", value: 10, color: \"#60a5fa\" },\n      ],\n    },\n    {\n      name: \"Bonds\",\n      children: [\n        { name: \"Government\", value: 8, color: \"#1e40af\" },\n        { name: \"Corporate\", value: 5, color: \"#2563eb\" },\n        { name: \"Municipal\", value: 3, color: \"#3b82f6\" },\n      ],\n    },\n    {\n      name: \"Alternatives\",\n      children: [\n        { name: \"Real Estate\", value: 6, color: \"#1e40af\" },\n        { name: \"Commodities\", value: 4, color: \"#2563eb\" },\n        { name: \"Crypto\", value: 2, color: \"#3b82f6\" },\n      ],\n    },\n    {\n      name: \"Cash\",\n      children: [\n        { name: \"Money Market\", value: 3, color: \"#93c5fd\" },\n        { name: \"Savings\", value: 2, color: \"#bfdbfe\" },\n      ],\n    },\n  ],\n}\n\nexport default function TreemapChartPortfolioDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <TreemapChart\n        data={data}\n        width={420}\n        height={350}\n        showLabels\n        labelMinSize={30}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

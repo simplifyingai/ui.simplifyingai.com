@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-chart-multi-demo",
+  "registryDependencies": [
+    "line-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/line-chart-multi-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\n// Generate deterministic multi-series data\nfunction generateMultiSeriesData() {\n  const colors = [\n    \"#2563eb\", // blue\n    \"#06b6d4\", // cyan\n    \"#f97316\", // orange\n    \"#8b5cf6\", // violet\n    \"#eab308\", // yellow\n    \"#ec4899\", // pink\n    \"#22c55e\", // green\n    \"#64748b\", // slate\n  ]\n\n  const names = [\n    \"Product A\",\n    \"Product B\",\n    \"Product C\",\n    \"Product D\",\n    \"Product E\",\n    \"Product F\",\n    \"Product G\",\n    \"Product H\",\n  ]\n\n  // Use seeded pseudo-random for deterministic results\n  const seededRandom = (seed: number) => {\n    const x = Math.sin(seed) * 10000\n    return x - Math.floor(x)\n  }\n\n  const result = []\n  const startDate = new Date(\"2024-08-01\")\n\n  for (let s = 0; s < 8; s++) {\n    const data: { x: Date; y: number }[] = []\n    let value = 100 + seededRandom(s * 1000) * 400\n\n    for (let i = 0; i < 100; i++) {\n      const date = new Date(startDate)\n      date.setDate(startDate.getDate() + i)\n\n      const growth =\n        1 + (seededRandom(s * 1000 + i) - 0.3) * 0.05 * (s % 3 === 0 ? 2 : 1)\n      value *= growth\n      value = Math.max(50, value)\n\n      data.push({\n        x: date,\n        y: Math.round(value),\n      })\n    }\n\n    result.push({\n      name: names[s],\n      data,\n      color: colors[s],\n    })\n  }\n\n  return result\n}\n\nexport default function LineChartMultiDemo() {\n  const [data, setData] = React.useState<\n    ReturnType<typeof generateMultiSeriesData>\n  >([])\n\n  React.useEffect(() => {\n    setData(generateMultiSeriesData())\n  }, [])\n\n  if (data.length === 0) {\n    return <div className=\"h-[400px] w-full max-w-4xl\" />\n  }\n\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <LineChart\n        data={data}\n        variant=\"multi\"\n        xType=\"time\"\n        height={400}\n        yAxisLabel=\"Value\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

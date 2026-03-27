@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart-bubble-demo",
+  "registryDependencies": [
+    "scatter-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/scatter-chart-bubble-demo.tsx",
+      "content": "\"use client\"\n\nimport { ScatterChart } from \"@/components/ui/charts\"\n\n// Company market data with size representing market cap\nconst data = [\n  {\n    name: \"Tech Companies\",\n    color: \"#1e40af\",\n    data: [\n      { x: 15, y: 85, size: 120, label: \"TechCorp\" },\n      { x: 45, y: 72, size: 85, label: \"DataSoft\" },\n      { x: 65, y: 90, size: 150, label: \"CloudNet\" },\n      { x: 80, y: 65, size: 60, label: \"AppWorks\" },\n      { x: 35, y: 55, size: 45, label: \"CodeLab\" },\n    ],\n  },\n  {\n    name: \"Finance Companies\",\n    color: \"#3b82f6\",\n    data: [\n      { x: 25, y: 45, size: 100, label: \"FinBank\" },\n      { x: 55, y: 78, size: 130, label: \"InvestCo\" },\n      { x: 70, y: 52, size: 75, label: \"TradeFirm\" },\n      { x: 40, y: 88, size: 95, label: \"WealthMgmt\" },\n    ],\n  },\n]\n\nexport default function ScatterChartBubbleDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <ScatterChart\n        data={data}\n        width={500}\n        height={320}\n        showLegend\n        sizeRange={[8, 28]}\n        xAxisLabel=\"Growth Rate (%)\"\n        yAxisLabel=\"Profit Margin (%)\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

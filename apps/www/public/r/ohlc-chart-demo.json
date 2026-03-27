@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ohlc-chart-demo",
+  "registryDependencies": [
+    "ohlc-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/ohlc-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { OHLCChart } from \"@/components/ui/charts\"\n\n// Generate sample OHLC data\nconst generateOHLCData = () => {\n  const data = []\n  let price = 150\n  const startDate = new Date(\"2024-01-01\")\n\n  for (let i = 0; i < 60; i++) {\n    const date = new Date(startDate)\n    date.setDate(startDate.getDate() + i)\n\n    const volatility = 0.02\n    const change = (Math.random() - 0.5) * price * volatility * 2\n    const open = price\n    const close = price + change\n    const high = Math.max(open, close) + Math.random() * price * volatility\n    const low = Math.min(open, close) - Math.random() * price * volatility\n\n    data.push({\n      date: date.toISOString().split(\"T\")[0],\n      open: Math.round(open * 100) / 100,\n      high: Math.round(high * 100) / 100,\n      low: Math.round(low * 100) / 100,\n      close: Math.round(close * 100) / 100,\n    })\n\n    price = close\n  }\n\n  return data\n}\n\nconst data = generateOHLCData()\n\nexport default function OHLCChartDemo() {\n  return (\n    <div className=\"w-full max-w-2xl\">\n      <OHLCChart data={data} />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heatmap-chart-radial-demo",
+  "registryDependencies": [
+    "heatmap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/heatmap-chart-radial-demo.tsx",
+      "content": "\"use client\"\n\nimport { HeatmapChart } from \"@/components/ui/charts\"\n\n// Generate sample hourly activity data for each day of the week\nfunction generateRadialData() {\n  const data: { day: number; hour: number; value: number }[] = []\n  const days = [0, 1, 2, 3, 4, 5, 6] // Sunday to Saturday\n  const hours = Array.from({ length: 24 }, (_, i) => i) // 0-23\n\n  // Create a deterministic seed\n  const seed = (day: number, hour: number) => {\n    const hash = (day * 24 + hour) * 2654435761\n    return (hash >>> 0) / 4294967296\n  }\n\n  days.forEach((day) => {\n    hours.forEach((hour) => {\n      const random = seed(day, hour)\n\n      // Create realistic patterns:\n      // - More activity during work hours (9-17) on weekdays\n      // - Less activity on weekends\n      // - Very low activity at night (0-6)\n      const isWeekend = day === 0 || day === 6\n      const isWorkHour = hour >= 9 && hour <= 17\n      const isNight = hour >= 0 && hour <= 6\n      const isEvening = hour >= 18 && hour <= 22\n\n      let baseActivity = 0.3\n\n      if (isNight) {\n        baseActivity = 0.05\n      } else if (isWorkHour && !isWeekend) {\n        baseActivity = 0.7\n      } else if (isEvening) {\n        baseActivity = 0.5\n      } else if (isWeekend) {\n        baseActivity = 0.4\n      }\n\n      const value = Math.floor(random * baseActivity * 100)\n\n      if (value > 5) {\n        data.push({\n          day,\n          hour,\n          value,\n        })\n      }\n    })\n  })\n\n  return data\n}\n\nconst radialData = generateRadialData()\n\nexport default function HeatmapChartRadialDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-xl\">\n      <HeatmapChart\n        data={radialData}\n        variant=\"radial\"\n        colorTheme=\"heat\"\n        width={500}\n        height={500}\n        cellGap={1}\n        legend={{\n          show: true,\n          lessLabel: \"Low\",\n          moreLabel: \"High\",\n        }}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

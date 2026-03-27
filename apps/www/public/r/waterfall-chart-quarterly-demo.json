@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "waterfall-chart-quarterly-demo",
+  "registryDependencies": [
+    "waterfall-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/waterfall-chart-quarterly-demo.tsx",
+      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\n// Quarterly revenue changes\nconst data = [\n  { label: \"Q1 Start\", value: 2400, isTotal: true },\n  { label: \"New Sales\", value: 850 },\n  { label: \"Renewals\", value: 420 },\n  { label: \"Churn\", value: -280 },\n  { label: \"Q1 End\", value: 3390, isSubtotal: true },\n  { label: \"New Sales\", value: 720 },\n  { label: \"Renewals\", value: 380 },\n  { label: \"Churn\", value: -190 },\n  { label: \"Q2 End\", value: 4300, isTotal: true },\n]\n\nexport default function WaterfallChartQuarterlyDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <WaterfallChart\n        data={data}\n        width={500}\n        height={350}\n        xAxisLabel=\"Period\"\n        yAxisLabel=\"ARR ($K)\"\n        positiveColor=\"#2563eb\"\n        negativeColor=\"#93c5fd\"\n        totalColor=\"#1e40af\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

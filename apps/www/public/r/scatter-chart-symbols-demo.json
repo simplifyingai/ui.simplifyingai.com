@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart-symbols-demo",
+  "registryDependencies": [
+    "scatter-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/scatter-chart-symbols-demo.tsx",
+      "content": "\"use client\"\n\nimport { ScatterChart } from \"@/components/ui/charts\"\n\n// Different product categories with unique symbols\nconst data = [\n  {\n    name: \"Electronics\",\n    color: \"#1e40af\",\n    symbol: \"circle\" as const,\n    data: [\n      { x: 20, y: 75 },\n      { x: 45, y: 82 },\n      { x: 70, y: 68 },\n      { x: 85, y: 90 },\n    ],\n  },\n  {\n    name: \"Clothing\",\n    color: \"#2563eb\",\n    symbol: \"square\" as const,\n    data: [\n      { x: 15, y: 45 },\n      { x: 40, y: 55 },\n      { x: 60, y: 62 },\n      { x: 80, y: 48 },\n    ],\n  },\n  {\n    name: \"Food & Beverage\",\n    color: \"#3b82f6\",\n    symbol: \"triangle\" as const,\n    data: [\n      { x: 25, y: 35 },\n      { x: 50, y: 42 },\n      { x: 65, y: 38 },\n      { x: 90, y: 52 },\n    ],\n  },\n  {\n    name: \"Home & Garden\",\n    color: \"#60a5fa\",\n    symbol: \"diamond\" as const,\n    data: [\n      { x: 30, y: 58 },\n      { x: 55, y: 72 },\n      { x: 75, y: 65 },\n      { x: 95, y: 78 },\n    ],\n  },\n]\n\nexport default function ScatterChartSymbolsDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <ScatterChart\n        data={data}\n        width={500}\n        height={340}\n        size={10}\n        showLegend\n        xAxisLabel=\"Price Point ($)\"\n        yAxisLabel=\"Customer Rating\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

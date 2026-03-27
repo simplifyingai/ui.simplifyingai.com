@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bullet-chart-demo",
+  "registryDependencies": [
+    "bullet-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/bullet-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { BulletChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    label: \"Revenue\",\n    value: 275,\n    target: 250,\n    ranges: [150, 225, 300] as [number, number, number],\n  },\n  {\n    label: \"Profit\",\n    value: 85,\n    target: 100,\n    ranges: [50, 75, 120] as [number, number, number],\n  },\n  {\n    label: \"Orders\",\n    value: 320,\n    target: 300,\n    ranges: [200, 275, 350] as [number, number, number],\n  },\n  {\n    label: \"Satisfaction\",\n    value: 4.5,\n    target: 4.2,\n    ranges: [3.0, 4.0, 5.0] as [number, number, number],\n  },\n]\n\nexport default function BulletChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <BulletChart data={data} />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

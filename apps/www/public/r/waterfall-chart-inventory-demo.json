@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "waterfall-chart-inventory-demo",
+  "registryDependencies": [
+    "waterfall-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/waterfall-chart-inventory-demo.tsx",
+      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\n// Inventory movement tracking\nconst data = [\n  { label: \"Opening\", value: 5000, isTotal: true },\n  { label: \"Received\", value: 2200 },\n  { label: \"Production\", value: 1800 },\n  { label: \"Sales\", value: -3500 },\n  { label: \"Returns\", value: 150 },\n  { label: \"Damaged\", value: -120 },\n  { label: \"Adjustments\", value: -80 },\n  { label: \"Closing\", value: 5450, isTotal: true },\n]\n\nexport default function WaterfallChartInventoryDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <WaterfallChart\n        data={data}\n        width={500}\n        height={350}\n        xAxisLabel=\"Movement Type\"\n        yAxisLabel=\"Units\"\n        positiveColor=\"#2563eb\"\n        negativeColor=\"#93c5fd\"\n        totalColor=\"#1e40af\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

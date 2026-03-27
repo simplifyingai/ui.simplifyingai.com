@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "treemap-chart-nested-demo",
+  "registryDependencies": [
+    "treemap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/treemap-chart-nested-demo.tsx",
+      "content": "\"use client\"\n\nimport { TreemapChart } from \"@/components/ui/charts\"\n\n// Deep organizational hierarchy\nconst data = {\n  name: \"Company\",\n  children: [\n    {\n      name: \"Engineering\",\n      children: [\n        {\n          name: \"Frontend\",\n          children: [\n            { name: \"React\", value: 12, color: \"#1e40af\" },\n            { name: \"Vue\", value: 8, color: \"#2563eb\" },\n            { name: \"Angular\", value: 5, color: \"#3b82f6\" },\n          ],\n        },\n        {\n          name: \"Backend\",\n          children: [\n            { name: \"Node.js\", value: 15, color: \"#1e40af\" },\n            { name: \"Python\", value: 12, color: \"#2563eb\" },\n            { name: \"Go\", value: 8, color: \"#3b82f6\" },\n          ],\n        },\n        {\n          name: \"DevOps\",\n          children: [\n            { name: \"AWS\", value: 6, color: \"#60a5fa\" },\n            { name: \"K8s\", value: 5, color: \"#93c5fd\" },\n          ],\n        },\n      ],\n    },\n    {\n      name: \"Product\",\n      children: [\n        { name: \"Design\", value: 10, color: \"#1e40af\" },\n        { name: \"Research\", value: 6, color: \"#2563eb\" },\n        { name: \"Analytics\", value: 5, color: \"#3b82f6\" },\n      ],\n    },\n    {\n      name: \"Operations\",\n      children: [\n        { name: \"HR\", value: 8, color: \"#1e40af\" },\n        { name: \"Finance\", value: 6, color: \"#2563eb\" },\n        { name: \"Legal\", value: 4, color: \"#3b82f6\" },\n      ],\n    },\n  ],\n}\n\nexport default function TreemapChartNestedDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <TreemapChart\n        data={data}\n        width={420}\n        height={350}\n        showLabels\n        labelMinSize={25}\n        paddingInner={3}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/gauge-chart-minimal-demo.tsx",
-      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartMinimalDemo() {\n  return (\n    <GaugeChart\n      value={85}\n      min={0}\n      max={100}\n      variant=\"minimal\"\n      label=\"Completion\"\n      color=\"#10b981\"\n      thickness={0.08}\n      animate\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartMinimalDemo() {\n  return (\n    <GaugeChart\n      value={85}\n      min={0}\n      max={100}\n      variant=\"minimal\"\n      label=\"Completion\"\n      color=\"#60a5fa\"\n      thickness={0.08}\n      animate\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],

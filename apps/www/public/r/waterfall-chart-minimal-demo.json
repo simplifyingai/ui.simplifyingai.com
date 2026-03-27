@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "waterfall-chart-minimal-demo",
+  "registryDependencies": [
+    "waterfall-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/waterfall-chart-minimal-demo.tsx",
+      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\n// Simple profit calculation\nconst data = [\n  { label: \"Revenue\", value: 500, isTotal: true },\n  { label: \"COGS\", value: -180 },\n  { label: \"Expenses\", value: -120 },\n  { label: \"Tax\", value: -50 },\n  { label: \"Profit\", value: 150, isTotal: true },\n]\n\nexport default function WaterfallChartMinimalDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <WaterfallChart\n        data={data}\n        width={420}\n        height={320}\n        xAxisLabel=\"Category\"\n        yAxisLabel=\"Amount ($K)\"\n        positiveColor=\"#3b82f6\"\n        negativeColor=\"#60a5fa\"\n        totalColor=\"#1e40af\"\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

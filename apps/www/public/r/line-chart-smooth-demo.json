@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-chart-smooth-demo",
+  "registryDependencies": [
+    "line-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/line-chart-smooth-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\n// Generate smooth time series data (like Google Analytics)\nfunction generateTimeSeriesData(days: number): { x: Date; y: number }[] {\n  const data: { x: Date; y: number }[] = []\n  const startDate = new Date(\"2024-04-01\")\n\n  // Seeded pseudo-random for deterministic results\n  const seededRandom = (seed: number) => {\n    const x = Math.sin(seed) * 10000\n    return x - Math.floor(x)\n  }\n\n  let value = 50\n\n  for (let i = 0; i < days; i++) {\n    const date = new Date(startDate)\n    date.setDate(startDate.getDate() + i)\n\n    // Random walk with some periodicity\n    value += (seededRandom(i * 100) - 0.5) * 20\n    value = Math.max(10, Math.min(100, value))\n\n    // Add some weekly pattern\n    const dayOfWeek = date.getDay()\n    const weekendDip = dayOfWeek === 0 || dayOfWeek === 6 ? -15 : 0\n\n    data.push({\n      x: date,\n      y: Math.round(value + weekendDip + Math.sin(i / 7) * 10),\n    })\n  }\n\n  return data\n}\n\nexport default function LineChartSmoothDemo() {\n  const [data, setData] = React.useState<{ x: Date; y: number }[]>([])\n\n  React.useEffect(() => {\n    setData(generateTimeSeriesData(90))\n  }, [])\n\n  if (data.length === 0) {\n    return <div className=\"h-[300px] w-full max-w-4xl\" />\n  }\n\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <LineChart\n        data={[\n          {\n            name: \"Traffic\",\n            data: data,\n            color: \"#93c5fd\",\n          },\n        ]}\n        variant=\"smooth\"\n        xType=\"time\"\n        height={300}\n        strokeWidth={2}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

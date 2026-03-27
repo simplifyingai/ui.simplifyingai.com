@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "heatmap-chart-themes-demo",
+  "registryDependencies": [
+    "heatmap-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/heatmap-chart-themes-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { HeatmapChart } from \"@/components/ui/charts\"\n\n// Generate sample contribution data\nfunction generateContributionData() {\n  const data = []\n  const now = new Date()\n  const sixMonthsAgo = new Date(now)\n  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)\n\n  const seed = (dateStr: string) => {\n    let hash = 0\n    for (let i = 0; i < dateStr.length; i++) {\n      const char = dateStr.charCodeAt(i)\n      hash = (hash << 5) - hash + char\n      hash = hash & hash\n    }\n    return Math.abs(hash)\n  }\n\n  const current = new Date(sixMonthsAgo)\n  while (current <= now) {\n    const dateStr = current.toISOString().split(\"T\")[0]\n    const seededRandom = seed(dateStr) / 2147483647\n\n    if (seededRandom > 0.3) {\n      const value = Math.floor(seededRandom * 12) + 1\n      data.push({\n        date: new Date(current),\n        value,\n      })\n    }\n\n    current.setDate(current.getDate() + 1)\n  }\n\n  return data\n}\n\nconst themes = [\n  \"green\",\n  \"blue\",\n  \"purple\",\n  \"orange\",\n  \"red\",\n  \"gray\",\n  \"pink\",\n] as const\n\nexport default function HeatmapChartThemesDemo() {\n  const [activeTheme, setActiveTheme] =\n    React.useState<(typeof themes)[number]>(\"green\")\n  const contributionData = React.useMemo(() => generateContributionData(), [])\n\n  return (\n    <div className=\"w-full space-y-4\">\n      <div className=\"flex flex-wrap gap-2\">\n        {themes.map((theme) => (\n          <button\n            key={theme}\n            onClick={() => setActiveTheme(theme)}\n            className={`rounded-md px-3 py-1 text-sm font-medium capitalize transition-colors ${\n              activeTheme === theme\n                ? \"bg-primary text-primary-foreground\"\n                : \"bg-muted text-muted-foreground hover:bg-muted/80\"\n            }`}\n          >\n            {theme}\n          </button>\n        ))}\n      </div>\n      <HeatmapChart\n        data={contributionData}\n        variant=\"calendar\"\n        colorTheme={activeTheme}\n        cellSize={10}\n        cellGap={3}\n        cellRadius={2}\n        height={140}\n        legend={{\n          show: true,\n          lessLabel: \"Less\",\n          moreLabel: \"More\",\n        }}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

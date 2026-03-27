@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sankey-chart-energy-demo",
+  "registryDependencies": [
+    "sankey-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sankey-chart-energy-demo.tsx",
+      "content": "\"use client\"\n\nimport { SankeyChart } from \"@/components/ui/charts\"\n\n// Energy flow from sources to sectors\nconst nodes = [\n  { id: \"coal\", name: \"Coal\", color: \"#1e40af\" },\n  { id: \"gas\", name: \"Natural Gas\", color: \"#2563eb\" },\n  { id: \"nuclear\", name: \"Nuclear\", color: \"#3b82f6\" },\n  { id: \"hydro\", name: \"Hydro\", color: \"#60a5fa\" },\n  { id: \"solar\", name: \"Solar\", color: \"#93c5fd\" },\n  { id: \"wind\", name: \"Wind\", color: \"#bfdbfe\" },\n  { id: \"electricity\", name: \"Electricity\", color: \"#2563eb\" },\n  { id: \"residential\", name: \"Residential\", color: \"#1e40af\" },\n  { id: \"commercial\", name: \"Commercial\", color: \"#3b82f6\" },\n  { id: \"industrial\", name: \"Industrial\", color: \"#60a5fa\" },\n  { id: \"transport\", name: \"Transport\", color: \"#93c5fd\" },\n]\n\nconst links = [\n  { source: \"coal\", target: \"electricity\", value: 350 },\n  { source: \"gas\", target: \"electricity\", value: 280 },\n  { source: \"nuclear\", target: \"electricity\", value: 200 },\n  { source: \"hydro\", target: \"electricity\", value: 120 },\n  { source: \"solar\", target: \"electricity\", value: 80 },\n  { source: \"wind\", target: \"electricity\", value: 70 },\n  { source: \"electricity\", target: \"residential\", value: 320 },\n  { source: \"electricity\", target: \"commercial\", value: 280 },\n  { source: \"electricity\", target: \"industrial\", value: 350 },\n  { source: \"electricity\", target: \"transport\", value: 150 },\n]\n\nexport default function SankeyChartEnergyDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <SankeyChart\n        nodes={nodes}\n        links={links}\n        nodeWidth={16}\n        nodePadding={14}\n        width={600}\n        height={340}\n        margin={{ top: 20, right: 90, bottom: 20, left: 90 }}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

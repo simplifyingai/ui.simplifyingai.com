@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sankey-chart-multilevel-demo",
+  "registryDependencies": [
+    "sankey-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sankey-chart-multilevel-demo.tsx",
+      "content": "\"use client\"\n\nimport { SankeyChart } from \"@/components/ui/charts\"\n\n// Complex multi-level user journey\nconst nodes = [\n  // Level 1 - Traffic Sources\n  { id: \"google\", name: \"Google\", color: \"#1e40af\" },\n  { id: \"facebook\", name: \"Facebook\", color: \"#2563eb\" },\n  { id: \"twitter\", name: \"Twitter\", color: \"#3b82f6\" },\n  { id: \"direct\", name: \"Direct\", color: \"#60a5fa\" },\n  // Level 2 - Entry Pages\n  { id: \"home\", name: \"Homepage\", color: \"#93c5fd\" },\n  { id: \"blog\", name: \"Blog\", color: \"#bfdbfe\" },\n  { id: \"product\", name: \"Products\", color: \"#1e40af\" },\n  // Level 3 - Actions\n  { id: \"browse\", name: \"Browse\", color: \"#2563eb\" },\n  { id: \"search\", name: \"Search\", color: \"#3b82f6\" },\n  { id: \"add_cart\", name: \"Add to Cart\", color: \"#60a5fa\" },\n  // Level 4 - Outcomes\n  { id: \"purchase\", name: \"Purchase\", color: \"#1e40af\" },\n  { id: \"abandon\", name: \"Abandon\", color: \"#93c5fd\" },\n  { id: \"subscribe\", name: \"Subscribe\", color: \"#2563eb\" },\n]\n\nconst links = [\n  // Traffic to Entry\n  { source: \"google\", target: \"home\", value: 300 },\n  { source: \"google\", target: \"product\", value: 200 },\n  { source: \"facebook\", target: \"home\", value: 180 },\n  { source: \"facebook\", target: \"blog\", value: 120 },\n  { source: \"twitter\", target: \"blog\", value: 100 },\n  { source: \"twitter\", target: \"home\", value: 50 },\n  { source: \"direct\", target: \"home\", value: 250 },\n  { source: \"direct\", target: \"product\", value: 150 },\n  // Entry to Actions\n  { source: \"home\", target: \"browse\", value: 400 },\n  { source: \"home\", target: \"search\", value: 280 },\n  { source: \"blog\", target: \"subscribe\", value: 120 },\n  { source: \"blog\", target: \"browse\", value: 100 },\n  { source: \"product\", target: \"add_cart\", value: 250 },\n  { source: \"product\", target: \"browse\", value: 100 },\n  // Actions to Outcomes\n  { source: \"browse\", target: \"add_cart\", value: 300 },\n  { source: \"browse\", target: \"abandon\", value: 300 },\n  { source: \"search\", target: \"add_cart\", value: 180 },\n  { source: \"search\", target: \"abandon\", value: 100 },\n  { source: \"add_cart\", target: \"purchase\", value: 450 },\n  { source: \"add_cart\", target: \"abandon\", value: 280 },\n]\n\nexport default function SankeyChartMultilevelDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <SankeyChart\n        nodes={nodes}\n        links={links}\n        nodeWidth={12}\n        nodePadding={10}\n        width={600}\n        height={380}\n        linkOpacity={0.45}\n        margin={{ top: 20, right: 80, bottom: 20, left: 80 }}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

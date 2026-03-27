@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dot-plot-chart-demo",
+  "registryDependencies": [
+    "dot-plot-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/dot-plot-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { DotPlotChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Product A\", value: 85, color: \"#1e40af\" },\n  { category: \"Product B\", value: 72, color: \"#2563eb\" },\n  { category: \"Product C\", value: 93, color: \"#3b82f6\" },\n  { category: \"Product D\", value: 68, color: \"#60a5fa\" },\n  { category: \"Product E\", value: 78, color: \"#93c5fd\" },\n  { category: \"Product F\", value: 88, color: \"#1e40af\" },\n]\n\nexport default function DotPlotChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <DotPlotChart\n        data={data}\n        orientation=\"horizontal\"\n        dotSize={10}\n        showValues\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

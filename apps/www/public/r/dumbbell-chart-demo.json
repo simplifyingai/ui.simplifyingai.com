@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dumbbell-chart-demo",
+  "registryDependencies": [
+    "dumbbell-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/dumbbell-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { DumbbellChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Marketing\", start: 45, end: 72, startLabel: \"2023\", endLabel: \"2024\" },\n  { category: \"Sales\", start: 68, end: 85, startLabel: \"2023\", endLabel: \"2024\" },\n  { category: \"Engineering\", start: 82, end: 78, startLabel: \"2023\", endLabel: \"2024\" },\n  { category: \"Support\", start: 55, end: 88, startLabel: \"2023\", endLabel: \"2024\" },\n  { category: \"HR\", start: 40, end: 65, startLabel: \"2023\", endLabel: \"2024\" },\n  { category: \"Finance\", start: 72, end: 80, startLabel: \"2023\", endLabel: \"2024\" },\n]\n\nexport default function DumbbellChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <DumbbellChart\n        data={data}\n        orientation=\"horizontal\"\n        dotSize={10}\n        showValues\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

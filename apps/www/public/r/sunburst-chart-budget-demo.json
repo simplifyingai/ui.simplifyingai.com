@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sunburst-chart-budget-demo",
+  "registryDependencies": [
+    "sunburst-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/sunburst-chart-budget-demo.tsx",
+      "content": "\"use client\"\n\nimport { SunburstChart } from \"@/components/ui/charts\"\n\n// Annual budget allocation\nconst data = {\n  name: \"Budget\",\n  children: [\n    {\n      name: \"Marketing\",\n      color: \"#1e40af\",\n      children: [\n        {\n          name: \"Digital\",\n          color: \"#2563eb\",\n          children: [\n            { name: \"Social\", value: 45, color: \"#3b82f6\" },\n            { name: \"Search\", value: 35, color: \"#60a5fa\" },\n            { name: \"Display\", value: 20, color: \"#93c5fd\" },\n          ],\n        },\n        {\n          name: \"Traditional\",\n          color: \"#3b82f6\",\n          children: [\n            { name: \"TV\", value: 40, color: \"#60a5fa\" },\n            { name: \"Print\", value: 15, color: \"#93c5fd\" },\n          ],\n        },\n      ],\n    },\n    {\n      name: \"R&D\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"Research\", value: 80, color: \"#2563eb\" },\n        { name: \"Development\", value: 120, color: \"#3b82f6\" },\n        { name: \"Testing\", value: 40, color: \"#60a5fa\" },\n      ],\n    },\n    {\n      name: \"Operations\",\n      color: \"#1e40af\",\n      children: [\n        { name: \"Infrastructure\", value: 65, color: \"#2563eb\" },\n        { name: \"Support\", value: 45, color: \"#3b82f6\" },\n        { name: \"Admin\", value: 30, color: \"#60a5fa\" },\n      ],\n    },\n  ],\n}\n\nexport default function SunburstChartBudgetDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <SunburstChart\n        data={data}\n        width={380}\n        height={380}\n        innerRadius={50}\n        padAngle={0.02}\n        showLabels\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

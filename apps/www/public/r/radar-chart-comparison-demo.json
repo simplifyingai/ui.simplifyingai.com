@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radar-chart-comparison-demo",
+  "registryDependencies": [
+    "radar-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/radar-chart-comparison-demo.tsx",
+      "content": "\"use client\"\n\nimport { RadarChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    name: \"Desktop\",\n    color: \"#2563eb\",\n    data: [\n      { axis: \"January\", value: 186 },\n      { axis: \"February\", value: 305 },\n      { axis: \"March\", value: 237 },\n      { axis: \"April\", value: 73 },\n      { axis: \"May\", value: 209 },\n      { axis: \"June\", value: 214 },\n    ],\n  },\n  {\n    name: \"Mobile\",\n    color: \"#93c5fd\",\n    data: [\n      { axis: \"January\", value: 80 },\n      { axis: \"February\", value: 200 },\n      { axis: \"March\", value: 120 },\n      { axis: \"April\", value: 190 },\n      { axis: \"May\", value: 130 },\n      { axis: \"June\", value: 140 },\n    ],\n  },\n]\n\nexport default function RadarChartComparisonDemo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <RadarChart data={data} variant=\"comparison\" />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "range-chart-bars",
+  "registryDependencies": [
+    "range-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/range-chart-bars.tsx",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts/basic/range-chart\"\n\nconst stockData = [\n  { x: \"AAPL\", low: 145, high: 182, mid: 165, label: \"Apple\" },\n  { x: \"GOOGL\", low: 120, high: 145, mid: 133, label: \"Google\" },\n  { x: \"MSFT\", low: 310, high: 385, mid: 350, label: \"Microsoft\" },\n  { x: \"AMZN\", low: 125, high: 175, mid: 152, label: \"Amazon\" },\n  { x: \"META\", low: 280, high: 350, mid: 315, label: \"Meta\" },\n]\n\nexport default function RangeChartBars() {\n  return (\n    <div className=\"w-full max-w-lg mx-auto\">\n      <RangeChart\n        data={stockData}\n        variant=\"bars\"\n        showMidLine\n        xAxisLabel=\"Stock\"\n        yAxisLabel=\"52-Week Range ($)\"\n        fillColor=\"#059669\"\n        strokeColor=\"#047857\"\n        midLineColor=\"#065f46\"\n        valueFormatter={(v) => `$${v}`}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

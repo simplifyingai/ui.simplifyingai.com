@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "line-chart-stock-demo",
+  "registryDependencies": [
+    "line-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/line-chart-stock-demo.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\n// Generate stock price data (like Amazon chart)\nfunction generateStockData(days: number): { x: Date; y: number }[] {\n  const data: { x: Date; y: number }[] = []\n  const startDate = new Date(\"2024-01-02\")\n\n  // Seeded pseudo-random for deterministic results\n  const seededRandom = (seed: number) => {\n    const x = Math.sin(seed) * 10000\n    return x - Math.floor(x)\n  }\n\n  let price = 1180\n\n  for (let i = 0; i < days; i++) {\n    const date = new Date(startDate)\n    date.setDate(startDate.getDate() + i)\n\n    // Skip weekends\n    if (date.getDay() === 0 || date.getDay() === 6) continue\n\n    // Random walk with upward drift (typical stock behavior)\n    const drift = 0.0008\n    const volatility = 0.02\n    const change = drift + volatility * (seededRandom(i * 50) - 0.5) * 2\n    price *= 1 + change\n\n    // Add some intraday variation\n    price += (seededRandom(i * 100) - 0.5) * 10\n\n    data.push({\n      x: date,\n      y: Math.round(price * 100) / 100,\n    })\n  }\n\n  return data\n}\n\nexport default function LineChartStockDemo() {\n  const [data, setData] = React.useState<{ x: Date; y: number }[]>([])\n\n  React.useEffect(() => {\n    setData(generateStockData(280))\n  }, [])\n\n  if (data.length === 0) {\n    return <div className=\"h-[400px] w-full max-w-4xl\" />\n  }\n\n  return (\n    <div className=\"w-full max-w-4xl\">\n      <LineChart\n        data={[\n          {\n            name: \"AMZN\",\n            data: data,\n            color: \"#0d9488\",\n          },\n        ]}\n        variant=\"stock\"\n        xType=\"time\"\n        height={400}\n        title=\"Amazon\"\n        subtitle=\"2024 year to date\"\n        yAxisLabel=\"Closing Price\"\n        xAxisLabel=\"Date\"\n        yAxisFormatter={(value) => `$${value.toLocaleString()}`}\n      />\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}
