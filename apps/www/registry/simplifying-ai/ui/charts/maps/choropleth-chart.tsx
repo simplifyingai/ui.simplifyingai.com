@@ -83,7 +83,7 @@ export const GEO_URLS = {
 export function ChoroplethChart({
   data,
   className,
-  colorScale = ["#dbeafe", "#3b82f6", "#1e40af"],
+  colorScale = ["#bfdbfe", "#60a5fa", "#1e40af"],
   showTooltip = true,
   showLegend = true,
   projection = "naturalEarth",
@@ -340,112 +340,114 @@ export function ChoroplethChart({
 
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
-      <svg
-        width={width}
-        height={height}
-        viewBox={`0 0 ${width} ${height}`}
-        className="overflow-visible"
-      >
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Map features */}
-          {geoData.features.map((feature, index) => {
-            const value = getFeatureValue(feature)
-            const color = getColor(value)
-            const isHovered = hoveredFeature === feature
-            const pathD = pathGenerator(feature as any)
+      <div className="flex w-full items-center justify-center">
+        <svg
+          width={width}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
+          className="overflow-visible"
+        >
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {/* Map features */}
+            {geoData.features.map((feature, index) => {
+              const value = getFeatureValue(feature)
+              const color = getColor(value)
+              const isHovered = hoveredFeature === feature
+              const pathD = pathGenerator(feature as any)
 
-            if (!pathD) return null
+              if (!pathD) return null
 
-            return (
-              <path
-                key={feature.id || index}
-                d={pathD}
-                fill={color}
-                stroke="hsl(var(--background))"
-                strokeWidth={isHovered ? 1.5 : 0.5}
-                className={cn(
-                  "cursor-pointer transition-all duration-150",
-                  hoveredFeature !== null && !isHovered && "opacity-70"
-                )}
-                onMouseEnter={(e) => {
-                  setHoveredFeature(feature)
-                  const rect = containerRef.current?.getBoundingClientRect()
-                  if (rect) {
-                    setTooltipPos({
-                      x: e.clientX - rect.left,
-                      y: e.clientY - rect.top,
-                    })
-                  }
-                }}
-                onMouseMove={(e) => {
-                  const rect = containerRef.current?.getBoundingClientRect()
-                  if (rect) {
-                    setTooltipPos({
-                      x: e.clientX - rect.left,
-                      y: e.clientY - rect.top,
-                    })
-                  }
-                }}
-                onMouseLeave={() => setHoveredFeature(null)}
-              />
-            )
-          })}
-        </g>
-
-        {/* Color legend */}
-        {showLegend && (
-          <g
-            transform={`translate(${width - margin.right + 15}, ${margin.top + 20})`}
-          >
-            <text
-              className="fill-muted-foreground text-[10px] font-medium"
-              y={-8}
-            >
-              {legendTitle}
-            </text>
-            <defs>
-              <linearGradient
-                id={`gradient-${gradientId}`}
-                x1="0"
-                y1="1"
-                x2="0"
-                y2="0"
-              >
-                <stop offset="0%" stopColor={colorScale[0]} />
-                {colorScale.length === 3 && (
-                  <stop offset="50%" stopColor={colorScale[1]} />
-                )}
-                <stop
-                  offset="100%"
-                  stopColor={colorScale[colorScale.length - 1]}
+              return (
+                <path
+                  key={feature.id || index}
+                  d={pathD}
+                  fill={color}
+                  stroke="hsl(var(--background))"
+                  strokeWidth={isHovered ? 1.5 : 0.5}
+                  className={cn(
+                    "cursor-pointer transition-all duration-150",
+                    hoveredFeature !== null && !isHovered && "opacity-70"
+                  )}
+                  onMouseEnter={(e) => {
+                    setHoveredFeature(feature)
+                    const rect = containerRef.current?.getBoundingClientRect()
+                    if (rect) {
+                      setTooltipPos({
+                        x: e.clientX - rect.left,
+                        y: e.clientY - rect.top,
+                      })
+                    }
+                  }}
+                  onMouseMove={(e) => {
+                    const rect = containerRef.current?.getBoundingClientRect()
+                    if (rect) {
+                      setTooltipPos({
+                        x: e.clientX - rect.left,
+                        y: e.clientY - rect.top,
+                      })
+                    }
+                  }}
+                  onMouseLeave={() => setHoveredFeature(null)}
                 />
-              </linearGradient>
-            </defs>
-            <rect
-              width={15}
-              height={Math.max(0, innerHeight - 40)}
-              fill={`url(#gradient-${gradientId})`}
-              rx={2}
-            />
-            <text
-              x={20}
-              y={0}
-              dominantBaseline="hanging"
-              className="fill-muted-foreground text-[10px]"
-            >
-              {valueFormatter(maxValue)}
-            </text>
-            <text
-              x={20}
-              y={Math.max(0, innerHeight - 40)}
-              dominantBaseline="auto"
-              className="fill-muted-foreground text-[10px]"
-            >
-              {valueFormatter(minValue)}
-            </text>
+              )
+            })}
           </g>
-        )}
-      </svg>
+
+          {/* Color legend */}
+          {showLegend && (
+            <g
+              transform={`translate(${width - margin.right + 15}, ${margin.top + 20})`}
+            >
+              <text
+                className="fill-muted-foreground text-[10px] font-medium"
+                y={-8}
+              >
+                {legendTitle}
+              </text>
+              <defs>
+                <linearGradient
+                  id={`gradient-${gradientId}`}
+                  x1="0"
+                  y1="1"
+                  x2="0"
+                  y2="0"
+                >
+                  <stop offset="0%" stopColor={colorScale[0]} />
+                  {colorScale.length === 3 && (
+                    <stop offset="50%" stopColor={colorScale[1]} />
+                  )}
+                  <stop
+                    offset="100%"
+                    stopColor={colorScale[colorScale.length - 1]}
+                  />
+                </linearGradient>
+              </defs>
+              <rect
+                width={15}
+                height={Math.max(0, innerHeight - 40)}
+                fill={`url(#gradient-${gradientId})`}
+                rx={2}
+              />
+              <text
+                x={20}
+                y={0}
+                dominantBaseline="hanging"
+                className="fill-muted-foreground text-[10px]"
+              >
+                {valueFormatter(maxValue)}
+              </text>
+              <text
+                x={20}
+                y={Math.max(0, innerHeight - 40)}
+                dominantBaseline="auto"
+                className="fill-muted-foreground text-[10px]"
+              >
+                {valueFormatter(minValue)}
+              </text>
+            </g>
+          )}
+        </svg>
+      </div>
 
       {/* Tooltip */}
       {showTooltip &&

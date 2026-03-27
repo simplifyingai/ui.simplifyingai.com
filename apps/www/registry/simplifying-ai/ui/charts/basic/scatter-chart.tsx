@@ -28,7 +28,7 @@ export interface ScatterChartSeries {
   size?: number
 }
 
-export interface ScatterChartProps extends BaseChartProps {
+export interface ScatterChartProps extends Omit<BaseChartProps, "config"> {
   data: ScatterChartSeries[]
   xAxisLabel?: string
   yAxisLabel?: string
@@ -36,6 +36,7 @@ export interface ScatterChartProps extends BaseChartProps {
   symbol?: "circle" | "square" | "triangle" | "diamond" | "cross"
   size?: number
   showTrendLine?: boolean
+  config?: ChartConfig
 }
 
 // SVG path generators for different symbols
@@ -69,7 +70,7 @@ export function ScatterChart({
   className,
   width = 600,
   height = 400,
-  margin = { top: 20, right: 20, bottom: 40, left: 50 },
+  margin = { top: 20, right: 20, bottom: 50, left: 60 },
   showGrid = true,
   showTooltip = true,
   showLegend = true,
@@ -150,15 +151,14 @@ export function ScatterChart({
   }, [allPoints, showTrendLine, xScale])
 
   // Legend items
-  const legendItems: LegendItem[] = data.map((series, i) => ({
+  const legendItems: LegendItem[] = data.map((series) => ({
     name: series.name,
-    color:
-      series.color ?? config?.[series.name]?.color ?? `var(--chart-${i + 1})`,
+    color: series.color ?? "hsl(var(--foreground))",
   }))
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+    <ChartContainer config={config} className={cn("!aspect-auto flex-col", className)}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full overflow-visible">
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid */}
           {showGrid && (
@@ -186,10 +186,7 @@ export function ScatterChart({
 
           {/* Points */}
           {data.map((series, seriesIndex) => {
-            const seriesColor =
-              series.color ??
-              config?.[series.name]?.color ??
-              `var(--chart-${seriesIndex + 1})`
+            const seriesColor = series.color ?? "hsl(var(--foreground))"
             const seriesSymbol = series.symbol ?? symbol
             const isSeriesHovered =
               hoveredSeries === null || hoveredSeries === series.name

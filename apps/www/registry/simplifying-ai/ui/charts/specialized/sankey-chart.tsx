@@ -76,7 +76,7 @@ export function SankeyChart({
   className,
   width = 800,
   height = 500,
-  margin = { top: 20, right: 120, bottom: 20, left: 20 },
+  margin = { top: 20, right: 150, bottom: 20, left: 150 },
   showTooltip = true,
   nodeWidth = 15,
   nodePadding = 20,
@@ -85,25 +85,57 @@ export function SankeyChart({
   showLabels = true,
   showValues = true,
 }: SankeyChartProps) {
-  const [hoveredNode, setHoveredNode] =
-    React.useState<SankeyComputedNode | null>(null)
-  const [hoveredLink, setHoveredLink] =
-    React.useState<SankeyComputedLink | null>(null)
+  const [hoveredElement, setHoveredElement] = React.useState<{
+    type: "node" | "link"
+    data: SankeyComputedNode | SankeyComputedLink
+  } | null>(null)
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
+
+  // Clear hover with a small delay to prevent flickering
+  const clearHover = React.useCallback(() => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredElement(null)
+    }, 50)
+  }, [])
+
+  const setHover = React.useCallback(
+    (type: "node" | "link", data: SankeyComputedNode | SankeyComputedLink) => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+        hoverTimeoutRef.current = null
+      }
+      setHoveredElement({ type, data })
+    },
+    []
+  )
+
+  React.useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
   // Create sankey layout
   const { computedNodes, computedLinks } = React.useMemo(() => {
-    // Create node map
-    const nodeMap = new Map(nodes.map((n) => [n.id, n]))
+    // Validate inputs
+    if (!nodes.length || !links.length) {
+      return { computedNodes: [], computedLinks: [] }
+    }
 
-    // Create graph
+    // Create graph - use string IDs for links when using nodeId()
     const sankeyData = {
       nodes: nodes.map((n) => ({ ...n })),
       links: links.map((l) => ({
-        source: nodes.findIndex((n) => n.id === l.source),
-        target: nodes.findIndex((n) => n.id === l.target),
+        source: l.source,
+        target: l.target,
         value: l.value,
         color: l.color,
       })),
@@ -123,11 +155,15 @@ export function SankeyChart({
         [innerWidth, innerHeight],
       ])
 
-    const result = sankeyGenerator(sankeyData as any)
-
-    return {
-      computedNodes: result.nodes as unknown as SankeyComputedNode[],
-      computedLinks: result.links as unknown as SankeyComputedLink[],
+    try {
+      const result = sankeyGenerator(sankeyData as any)
+      return {
+        computedNodes: result.nodes as unknown as SankeyComputedNode[],
+        computedLinks: result.links as unknown as SankeyComputedLink[],
+      }
+    } catch (error) {
+      console.error("Sankey layout error:", error)
+      return { computedNodes: [], computedLinks: [] }
     }
   }, [nodes, links, innerWidth, innerHeight, nodeWidth, nodePadding, nodeAlign])
 
@@ -145,134 +181,191 @@ export function SankeyChart({
 
   // Check if node or its links are highlighted
   const isNodeHighlighted = (node: SankeyComputedNode): boolean => {
-    if (!hoveredNode && !hoveredLink) return true
-    if (hoveredNode === node) return true
-    if (hoveredLink) {
-      return hoveredLink.source === node || hoveredLink.target === node
-    }
-    if (hoveredNode) {
+    if (!hoveredElement) return true
+    if (hoveredElement.type === "node") {
+      const hoveredNode = hoveredElement.data as SankeyComputedNode
+      if (hoveredNode === node) return true
       return (
         hoveredNode.sourceLinks.some((l) => l.target === node) ||
         hoveredNode.targetLinks.some((l) => l.source === node)
       )
     }
+    if (hoveredElement.type === "link") {
+      const hoveredLink = hoveredElement.data as SankeyComputedLink
+      return hoveredLink.source === node || hoveredLink.target === node
+    }
     return false
   }
 
   const isLinkHighlighted = (link: SankeyComputedLink): boolean => {
-    if (!hoveredNode && !hoveredLink) return true
-    if (hoveredLink === link) return true
-    if (hoveredNode) {
+    if (!hoveredElement) return true
+    if (hoveredElement.type === "link") {
+      return hoveredElement.data === link
+    }
+    if (hoveredElement.type === "node") {
+      const hoveredNode = hoveredElement.data as SankeyComputedNode
       return link.source === hoveredNode || link.target === hoveredNode
     }
     return false
   }
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Links */}
-          {computedLinks.map((link, index) => {
-            const color =
-              link.color ??
-              getNodeColor(link.source, computedNodes.indexOf(link.source))
-            const highlighted = isLinkHighlighted(link)
+    <ChartContainer
+      config={config}
+      className={cn("!aspect-auto flex-col", className)}
+    >
+      <div
+        className="relative mx-auto w-full"
+        style={{ aspectRatio: `${width} / ${height}` }}
+      >
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full overflow-visible"
+        >
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {/* Links */}
+            {computedLinks.map((link, index) => {
+              const color =
+                link.color ??
+                getNodeColor(link.source, computedNodes.indexOf(link.source))
+              const highlighted = isLinkHighlighted(link)
+              const isHovered =
+                hoveredElement?.type === "link" && hoveredElement.data === link
 
-            return (
-              <path
-                key={index}
-                d={linkPath(link as any) ?? ""}
-                fill="none"
-                stroke={color}
-                strokeWidth={Math.max(1, link.width)}
-                strokeOpacity={highlighted ? linkOpacity : 0.1}
-                className={cn(
-                  "cursor-pointer transition-all duration-200",
-                  hoveredLink === link && "stroke-[2]"
-                )}
-                onMouseEnter={() => setHoveredLink(link)}
-                onMouseLeave={() => setHoveredLink(null)}
-              />
-            )
-          })}
-
-          {/* Nodes */}
-          {computedNodes.map((node, index) => {
-            const color = getNodeColor(node, index)
-            const highlighted = isNodeHighlighted(node)
-
-            return (
-              <g key={node.id}>
-                <rect
-                  x={node.x0}
-                  y={node.y0}
-                  width={node.x1 - node.x0}
-                  height={Math.max(1, node.y1 - node.y0)}
-                  fill={color}
-                  rx={2}
-                  className={cn(
-                    "cursor-pointer transition-all duration-200",
-                    !highlighted && "opacity-30"
-                  )}
-                  onMouseEnter={() => setHoveredNode(node)}
-                  onMouseLeave={() => setHoveredNode(null)}
+              return (
+                <path
+                  key={index}
+                  d={linkPath(link as any) ?? ""}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth={Math.max(1, link.width)}
+                  opacity={highlighted ? 1 : 0.15}
+                  strokeOpacity={isHovered ? linkOpacity + 0.2 : linkOpacity}
+                  className="cursor-pointer"
+                  style={{ transition: "opacity 150ms ease-out" }}
+                  onMouseEnter={() => setHover("link", link)}
+                  onMouseLeave={clearHover}
                 />
+              )
+            })}
 
-                {/* Node label */}
-                {showLabels && (
-                  <text
-                    x={node.x0 < innerWidth / 2 ? node.x1 + 6 : node.x0 - 6}
-                    y={(node.y0 + node.y1) / 2}
-                    textAnchor={node.x0 < innerWidth / 2 ? "start" : "end"}
-                    dominantBaseline="middle"
-                    className={cn(
-                      "pointer-events-none text-[11px] transition-opacity duration-200",
-                      highlighted
-                        ? "fill-foreground"
-                        : "fill-muted-foreground/50"
-                    )}
-                  >
-                    {node.name ?? node.id}
-                    {showValues && ` (${node.value.toLocaleString()})`}
-                  </text>
-                )}
-              </g>
-            )
-          })}
-        </g>
-      </svg>
+            {/* Nodes */}
+            {computedNodes.map((node, index) => {
+              const color = getNodeColor(node, index)
+              const highlighted = isNodeHighlighted(node)
 
-      {/* Tooltip */}
-      {showTooltip && (hoveredNode || hoveredLink) && (
-        <div className="border-border/50 bg-background absolute bottom-4 left-4 rounded-lg border px-3 py-2 text-sm shadow-xl">
-          {hoveredNode && (
-            <>
-              <div className="font-medium">
-                {hoveredNode.name ?? hoveredNode.id}
-              </div>
-              <div className="text-muted-foreground">
-                Value: {hoveredNode.value.toLocaleString()}
-              </div>
-              <div className="text-muted-foreground mt-1 text-xs">
-                Incoming: {hoveredNode.targetLinks.length} | Outgoing:{" "}
-                {hoveredNode.sourceLinks.length}
-              </div>
-            </>
-          )}
-          {hoveredLink && (
-            <>
-              <div className="font-medium">
-                {hoveredLink.source.name ?? hoveredLink.source.id} →{" "}
-                {hoveredLink.target.name ?? hoveredLink.target.id}
-              </div>
-              <div className="text-muted-foreground">
-                Value: {hoveredLink.value.toLocaleString()}
-              </div>
-            </>
-          )}
-        </div>
-      )}
+              // Determine node type and label position:
+              // - Source nodes (no incoming): label on LEFT
+              // - Sink nodes (no outgoing): label on RIGHT
+              // - Middle nodes: label on LEFT (same as source to prevent horizontal overlap)
+              const isSink = node.sourceLinks.length === 0
+
+              // Calculate label position - all non-sink nodes get labels on LEFT
+              let labelX: number
+              let labelY: number
+              let textAnchor: "start" | "middle" | "end"
+
+              if (isSink) {
+                // Right side label for sink nodes
+                labelX = node.x1 + 8
+                labelY = (node.y0 + node.y1) / 2
+                textAnchor = "start"
+              } else {
+                // Left side label for source and middle nodes
+                labelX = node.x0 - 8
+                labelY = (node.y0 + node.y1) / 2
+                textAnchor = "end"
+              }
+
+              const labelText = showValues
+                ? `${node.name ?? node.id} (${node.value.toLocaleString()})`
+                : (node.name ?? node.id)
+
+              return (
+                <g key={node.id}>
+                  <rect
+                    x={node.x0}
+                    y={node.y0}
+                    width={node.x1 - node.x0}
+                    height={Math.max(1, node.y1 - node.y0)}
+                    fill={color}
+                    rx={2}
+                    opacity={highlighted ? 1 : 0.3}
+                    className="cursor-pointer"
+                    style={{ transition: "opacity 150ms ease-out" }}
+                    onMouseEnter={() => setHover("node", node)}
+                    onMouseLeave={clearHover}
+                  />
+
+                  {/* Node label */}
+                  {showLabels && (
+                    <text
+                      x={labelX}
+                      y={labelY}
+                      textAnchor={textAnchor}
+                      dominantBaseline="middle"
+                      opacity={highlighted ? 1 : 0.4}
+                      className="fill-foreground pointer-events-none text-[10px] font-medium"
+                      style={{ transition: "opacity 150ms ease-out" }}
+                    >
+                      {labelText}
+                    </text>
+                  )}
+                </g>
+              )
+            })}
+          </g>
+        </svg>
+
+        {/* Tooltip */}
+        {showTooltip && hoveredElement && (
+          <div className="border-border/50 bg-background absolute bottom-4 left-4 rounded-lg border px-3 py-2 text-sm shadow-xl">
+            {hoveredElement.type === "node" && (
+              <>
+                <div className="font-medium">
+                  {(hoveredElement.data as SankeyComputedNode).name ??
+                    (hoveredElement.data as SankeyComputedNode).id}
+                </div>
+                <div className="text-muted-foreground">
+                  Value:{" "}
+                  {(
+                    hoveredElement.data as SankeyComputedNode
+                  ).value.toLocaleString()}
+                </div>
+                <div className="text-muted-foreground mt-1 text-xs">
+                  Incoming:{" "}
+                  {
+                    (hoveredElement.data as SankeyComputedNode).targetLinks
+                      .length
+                  }{" "}
+                  | Outgoing:{" "}
+                  {
+                    (hoveredElement.data as SankeyComputedNode).sourceLinks
+                      .length
+                  }
+                </div>
+              </>
+            )}
+            {hoveredElement.type === "link" && (
+              <>
+                <div className="font-medium">
+                  {(hoveredElement.data as SankeyComputedLink).source.name ??
+                    (hoveredElement.data as SankeyComputedLink).source.id}{" "}
+                  →{" "}
+                  {(hoveredElement.data as SankeyComputedLink).target.name ??
+                    (hoveredElement.data as SankeyComputedLink).target.id}
+                </div>
+                <div className="text-muted-foreground">
+                  Value:{" "}
+                  {(
+                    hoveredElement.data as SankeyComputedLink
+                  ).value.toLocaleString()}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
     </ChartContainer>
   )
 }

@@ -133,109 +133,118 @@ export function SunburstChart({
   const totalValue = root.value ?? 1
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
-        <g
-          transform={`translate(${margin.left + centerX}, ${margin.top + centerY})`}
+    <ChartContainer
+      config={config}
+      className={cn("!aspect-auto flex-col", className)}
+    >
+      <div className="relative mx-auto aspect-square w-full max-w-[320px]">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full overflow-visible"
         >
-          {descendants.map((node, index) => {
-            const nodeData = node.data
-            const color = getColor(node, index)
-            const isHovered = hoveredNode === nodeData
-            const isAncestor = breadcrumbs.includes(nodeData)
-            const angle = node.x1 - node.x0
-
-            return (
-              <g key={`${nodeData.name}-${node.depth}-${index}`}>
-                <path
-                  d={arcGenerator(node) ?? ""}
-                  fill={color}
-                  className={cn(
-                    "cursor-pointer transition-all duration-200",
-                    hoveredNode !== null &&
-                      !isHovered &&
-                      !isAncestor &&
-                      "opacity-40",
-                    isHovered && "brightness-110"
-                  )}
-                  onMouseEnter={() => handleHover(node)}
-                  onMouseLeave={() => handleHover(null)}
-                />
-
-                {/* Label */}
-                {showLabels && angle >= labelMinAngle && node.depth > 0 && (
-                  <text
-                    transform={`translate(${labelArc.centroid(node)}) rotate(${
-                      ((node.x0 + node.x1) / 2 - Math.PI / 2) * (180 / Math.PI)
-                    })`}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="pointer-events-none fill-white text-[9px] font-medium"
-                    style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
-                  >
-                    {nodeData.name.length > 10
-                      ? `${nodeData.name.slice(0, 8)}...`
-                      : nodeData.name}
-                  </text>
-                )}
-              </g>
-            )
-          })}
-
-          {/* Center label */}
-          <text
-            textAnchor="middle"
-            dominantBaseline="middle"
-            className="fill-foreground text-sm font-medium"
+          <g
+            transform={`translate(${margin.left + centerX}, ${margin.top + centerY})`}
           >
-            {hoveredNode?.name ?? data.name}
-          </text>
-          {hoveredNode && (
+            {descendants.map((node, index) => {
+              const nodeData = node.data
+              const color = getColor(node, index)
+              const isHovered = hoveredNode === nodeData
+              const isAncestor = breadcrumbs.includes(nodeData)
+              const angle = node.x1 - node.x0
+
+              return (
+                <g key={`${nodeData.name}-${node.depth}-${index}`}>
+                  <path
+                    d={arcGenerator(node) ?? ""}
+                    fill={color}
+                    className={cn(
+                      "cursor-pointer transition-all duration-200",
+                      hoveredNode !== null &&
+                        !isHovered &&
+                        !isAncestor &&
+                        "opacity-40",
+                      isHovered && "brightness-110"
+                    )}
+                    onMouseEnter={() => handleHover(node)}
+                    onMouseLeave={() => handleHover(null)}
+                  />
+
+                  {/* Label */}
+                  {showLabels && angle >= labelMinAngle && node.depth > 0 && (
+                    <text
+                      transform={`translate(${labelArc.centroid(node)}) rotate(${
+                        ((node.x0 + node.x1) / 2 - Math.PI / 2) *
+                        (180 / Math.PI)
+                      })`}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      className="pointer-events-none fill-white text-[9px] font-medium"
+                      style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+                    >
+                      {nodeData.name.length > 10
+                        ? `${nodeData.name.slice(0, 8)}...`
+                        : nodeData.name}
+                    </text>
+                  )}
+                </g>
+              )
+            })}
+
+            {/* Center label */}
             <text
-              y={16}
               textAnchor="middle"
               dominantBaseline="middle"
-              className="fill-muted-foreground text-xs"
+              className="fill-foreground text-sm font-medium"
             >
-              {(hoveredNode.value ?? 0).toLocaleString()}
+              {hoveredNode?.name ?? data.name}
             </text>
-          )}
-        </g>
-      </svg>
-
-      {/* Breadcrumb trail */}
-      {breadcrumbs.length > 1 && (
-        <div className="absolute top-2 left-2 flex items-center gap-1 text-xs">
-          {breadcrumbs.map((node, i) => (
-            <React.Fragment key={i}>
-              {i > 0 && <span className="text-muted-foreground">/</span>}
-              <span
-                className={
-                  i === breadcrumbs.length - 1
-                    ? "font-medium"
-                    : "text-muted-foreground"
-                }
+            {hoveredNode && (
+              <text
+                y={16}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="fill-muted-foreground text-xs"
               >
-                {node.name}
-              </span>
-            </React.Fragment>
-          ))}
-        </div>
-      )}
+                {(hoveredNode.value ?? 0).toLocaleString()}
+              </text>
+            )}
+          </g>
+        </svg>
 
-      {/* Tooltip */}
-      {showTooltip && hoveredNode && breadcrumbs.length > 1 && (
-        <div className="border-border/50 bg-background absolute bottom-2 left-2 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
-          <div className="font-medium">{hoveredNode.name}</div>
-          <div className="text-muted-foreground">
-            Value: {(hoveredNode.value ?? 0).toLocaleString()}
+        {/* Breadcrumb trail */}
+        {breadcrumbs.length > 1 && (
+          <div className="absolute top-2 left-2 flex items-center gap-1 text-xs">
+            {breadcrumbs.map((node, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <span className="text-muted-foreground">/</span>}
+                <span
+                  className={
+                    i === breadcrumbs.length - 1
+                      ? "font-medium"
+                      : "text-muted-foreground"
+                  }
+                >
+                  {node.name}
+                </span>
+              </React.Fragment>
+            ))}
           </div>
-          <div className="text-muted-foreground">
-            {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
-            total
+        )}
+
+        {/* Tooltip */}
+        {showTooltip && hoveredNode && breadcrumbs.length > 1 && (
+          <div className="border-border/50 bg-background absolute bottom-2 left-2 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+            <div className="font-medium">{hoveredNode.name}</div>
+            <div className="text-muted-foreground">
+              Value: {(hoveredNode.value ?? 0).toLocaleString()}
+            </div>
+            <div className="text-muted-foreground">
+              {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
+              total
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </ChartContainer>
   )
 }

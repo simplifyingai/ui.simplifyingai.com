@@ -56,7 +56,7 @@ function kde(
 
 export function ViolinChart({
   data,
-  config,
+  config = {},
   className,
   width = 600,
   height = 400,
@@ -166,8 +166,8 @@ export function ViolinChart({
           {processedData.map((d, index) => {
             const color =
               d.color ??
-              config?.[d.label]?.color ??
-              `var(--chart-${(index % 5) + 1})`
+              config[d.label]?.color ??
+              `hsl(var(--chart-${(index % 5) + 1}))`
             const center =
               (categoryScale(d.label) ?? 0) + categoryScale.bandwidth() / 2
             const isHovered = hoveredIndex === index

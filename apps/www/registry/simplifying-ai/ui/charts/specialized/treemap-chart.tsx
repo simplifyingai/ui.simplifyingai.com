@@ -107,80 +107,88 @@ export function TreemapChart({
   }
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {leaves.map((node, index) => {
-            const nodeData = node.data
-            const x = node.x0
-            const y = node.y0
-            const w = node.x1 - node.x0
-            const h = node.y1 - node.y0
-            const color = getColor(node, index)
-            const isHovered = hoveredNode === nodeData
-
-            return (
-              <g key={`${nodeData.name}-${index}`}>
-                <rect
-                  x={x}
-                  y={y}
-                  width={w}
-                  height={h}
-                  fill={color}
-                  rx={2}
-                  ry={2}
-                  className={cn(
-                    "cursor-pointer transition-all duration-200",
-                    hoveredNode !== null && !isHovered && "opacity-60",
-                    isHovered && "brightness-110"
-                  )}
-                  onMouseEnter={() => setHoveredNode(nodeData)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                />
-
-                {/* Label */}
-                {showLabels && w >= labelMinSize && h >= labelMinSize && (
-                  <text
-                    x={x + w / 2}
-                    y={y + h / 2}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="pointer-events-none fill-white text-[11px] font-medium"
-                    style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}
-                  >
-                    {nodeData.name.length > w / 8
-                      ? `${nodeData.name.slice(0, Math.floor(w / 8))}...`
-                      : nodeData.name}
-                  </text>
-                )}
-              </g>
-            )
-          })}
-        </g>
-      </svg>
-
-      {/* Tooltip */}
-      {showTooltip && hoveredNode && (
-        <div
-          className="pointer-events-none fixed z-50"
-          style={{
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
+    <ChartContainer
+      config={config}
+      className={cn("!aspect-auto flex-col", className)}
+    >
+      <div className="relative mx-auto w-full max-w-[500px]">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full overflow-visible"
         >
-          <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-sm shadow-xl">
-            <div className="font-medium">{hoveredNode.name}</div>
-            <div className="text-muted-foreground">
-              Value: {(hoveredNode.value ?? 0).toLocaleString()}
-            </div>
-            <div className="text-muted-foreground">
-              {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
-              total
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {leaves.map((node, index) => {
+              const nodeData = node.data
+              const x = node.x0
+              const y = node.y0
+              const w = node.x1 - node.x0
+              const h = node.y1 - node.y0
+              const color = getColor(node, index)
+              const isHovered = hoveredNode === nodeData
+
+              return (
+                <g key={`${nodeData.name}-${index}`}>
+                  <rect
+                    x={x}
+                    y={y}
+                    width={w}
+                    height={h}
+                    fill={color}
+                    rx={2}
+                    ry={2}
+                    className={cn(
+                      "cursor-pointer transition-all duration-200",
+                      hoveredNode !== null && !isHovered && "opacity-60",
+                      isHovered && "brightness-110"
+                    )}
+                    onMouseEnter={() => setHoveredNode(nodeData)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                  />
+
+                  {/* Label */}
+                  {showLabels && w >= labelMinSize && h >= labelMinSize && (
+                    <text
+                      x={x + w / 2}
+                      y={y + h / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      className="pointer-events-none fill-white text-[11px] font-medium"
+                      style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}
+                    >
+                      {nodeData.name.length > w / 8
+                        ? `${nodeData.name.slice(0, Math.floor(w / 8))}...`
+                        : nodeData.name}
+                    </text>
+                  )}
+                </g>
+              )
+            })}
+          </g>
+        </svg>
+
+        {/* Tooltip */}
+        {showTooltip && hoveredNode && (
+          <div
+            className="pointer-events-none fixed z-50"
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-sm shadow-xl">
+              <div className="font-medium">{hoveredNode.name}</div>
+              <div className="text-muted-foreground">
+                Value: {(hoveredNode.value ?? 0).toLocaleString()}
+              </div>
+              <div className="text-muted-foreground">
+                {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
+                total
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </ChartContainer>
   )
 }

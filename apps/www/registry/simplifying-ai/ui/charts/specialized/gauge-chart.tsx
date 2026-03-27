@@ -477,47 +477,88 @@ export function GaugeChart({
       { value: 66, color: COLORS.danger },
     ]
 
+    // Gap angle in degrees between segments
+    const gapAngle = 3
+
+    // Generate individual arc paths for each segment
+    const generateSegmentArc = (startPercent: number, endPercent: number) => {
+      const startAngle = -225 + 270 * startPercent
+      const endAngle = -225 + 270 * endPercent
+      const startRad = (startAngle * Math.PI) / 180
+      const endRad = (endAngle * Math.PI) / 180
+
+      const x1 = centerX + radius * Math.cos(startRad)
+      const y1 = centerY + radius * Math.sin(startRad)
+      const x2 = centerX + radius * Math.cos(endRad)
+      const y2 = centerY + radius * Math.sin(endRad)
+
+      const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0
+
+      return `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`
+    }
+
     return (
       <>
-        {/* Segmented arcs */}
+        {/* Segmented arcs - using individual arc paths for clean edges */}
         {segs.map((seg, i) => {
           const nextValue = segs[i + 1]?.value ?? max
           const segStart = (seg.value - min) / (max - min)
           const segEnd = (nextValue - min) / (max - min)
-          const segLength = arcLength * (segEnd - segStart)
-          const segOffset = arcLength * (1 - segEnd)
+
+          // Add small gaps between segments
+          const gapOffset = gapAngle / 270 // Convert gap angle to percentage
+          const adjustedStart = i === 0 ? segStart : segStart + gapOffset / 2
+          const adjustedEnd =
+            i === segs.length - 1 ? segEnd : segEnd - gapOffset / 2
+
           const isActive = animatedPercentage >= segStart
 
           return (
             <path
               key={i}
-              d={semiCirclePath}
+              d={generateSegmentArc(adjustedStart, adjustedEnd)}
               fill="none"
               stroke={seg.color}
               strokeWidth={strokeWidth}
               strokeLinecap="round"
-              strokeDasharray={`${segLength - 4} ${arcLength}`}
-              strokeDashoffset={-arcLength * segStart}
-              opacity={isActive ? 1 : 0.3}
+              opacity={isActive ? 1 : 0.25}
               style={{ transition: "opacity 0.3s ease" }}
             />
           )
         })}
-        {/* Indicator dot */}
+        {/* Indicator needle */}
         {(() => {
-          const dotAngle = -225 + 270 * animatedPercentage
-          const dotRad = (dotAngle * Math.PI) / 180
-          const dotX = centerX + radius * Math.cos(dotRad)
-          const dotY = centerY + radius * Math.sin(dotRad)
+          const needleAngle = -225 + 270 * animatedPercentage
+          const needleRad = (needleAngle * Math.PI) / 180
+          const needleOuterX =
+            centerX + (radius + strokeWidth / 2 + 6) * Math.cos(needleRad)
+          const needleOuterY =
+            centerY + (radius + strokeWidth / 2 + 6) * Math.sin(needleRad)
+          const needleInnerX =
+            centerX + (radius - strokeWidth / 2 - 6) * Math.cos(needleRad)
+          const needleInnerY =
+            centerY + (radius - strokeWidth / 2 - 6) * Math.sin(needleRad)
+
           return (
-            <circle
-              cx={dotX}
-              cy={dotY}
-              r={strokeWidth / 2 + 5}
-              fill="white"
-              stroke={getSegmentColor()}
-              strokeWidth={3}
-            />
+            <g>
+              {/* Needle line */}
+              <line
+                x1={needleInnerX}
+                y1={needleInnerY}
+                x2={needleOuterX}
+                y2={needleOuterY}
+                stroke={getSegmentColor()}
+                strokeWidth={3}
+                strokeLinecap="round"
+              />
+              {/* Needle dot on arc */}
+              <circle
+                cx={centerX + radius * Math.cos(needleRad)}
+                cy={centerY + radius * Math.sin(needleRad)}
+                r={strokeWidth / 2 + 2}
+                fill={getSegmentColor()}
+              />
+            </g>
           )
         })()}
         {/* Center value */}
@@ -760,13 +801,13 @@ export function GaugeChart({
   return (
     <ChartContainer
       config={config}
-      className={cn("relative !aspect-auto", className)}
+      className={cn("!aspect-auto flex-col", className)}
     >
-      <div
-        className="relative w-full"
-        style={{ aspectRatio: `${width}/${height}` }}
-      >
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+      <div className="relative mx-auto aspect-square w-full max-w-[280px]">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full overflow-visible"
+        >
           <g transform={`translate(${margin.left}, ${margin.top})`}>
             {renderContent()}
           </g>

@@ -281,143 +281,150 @@ export function ContourChart({
   ])
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        className="h-full w-full"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setMousePos(null)}
-      >
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Clip path for contours */}
-          <defs>
-            <clipPath id={`clip-${gradientId}`}>
-              <rect width={innerWidth} height={innerHeight} />
-            </clipPath>
-          </defs>
+    <ChartContainer
+      config={config}
+      className={cn("!aspect-auto flex-col", className)}
+    >
+      <div className="w-full">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setMousePos(null)}
+        >
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {/* Clip path for contours */}
+            <defs>
+              <clipPath id={`clip-${gradientId}`}>
+                <rect width={innerWidth} height={innerHeight} />
+              </clipPath>
+            </defs>
 
-          {/* Filled contours */}
-          {showFill && (
-            <g clipPath={`url(#clip-${gradientId})`}>
-              {contourPaths.map((contour, i) => (
-                <path
-                  key={`fill-${i}`}
-                  d={pathGenerator(contour) || ""}
-                  fill={getColor(contour.value)}
-                  fillOpacity={0.9}
-                  className="pointer-events-none"
-                />
-              ))}
-            </g>
-          )}
-
-          {/* Contour lines */}
-          {showLines && (
-            <g clipPath={`url(#clip-${gradientId})`}>
-              {contourPaths.map((contour, i) => (
-                <path
-                  key={`line-${i}`}
-                  d={pathGenerator(contour) || ""}
-                  fill="none"
-                  stroke={lineColor || "rgba(0,0,0,0.3)"}
-                  strokeWidth={lineWidth}
-                  className="pointer-events-none"
-                />
-              ))}
-            </g>
-          )}
-
-          {/* Grid */}
-          {showGrid && (
-            <ChartGrid
-              xScale={xScale}
-              yScale={yScale}
-              width={innerWidth}
-              height={innerHeight}
-            />
-          )}
-
-          {/* Data point markers */}
-          {showMarkers &&
-            gridPoints.map((point, i) =>
-              markerSymbol === "circle" ? (
-                <circle
-                  key={`marker-${i}`}
-                  cx={point.x}
-                  cy={point.y}
-                  r={markerSize / 2}
-                  fill="none"
-                  stroke={markerColor}
-                  strokeWidth={1.5}
-                  className="pointer-events-none"
-                />
-              ) : (
-                <path
-                  key={`marker-${i}`}
-                  d={getMarkerPath(point.x, point.y)}
-                  fill="none"
-                  stroke={markerColor}
-                  strokeWidth={1.5}
-                  className="pointer-events-none"
-                />
-              )
+            {/* Filled contours */}
+            {showFill && (
+              <g clipPath={`url(#clip-${gradientId})`}>
+                {contourPaths.map((contour, i) => (
+                  <path
+                    key={`fill-${i}`}
+                    d={pathGenerator(contour) || ""}
+                    fill={getColor(contour.value)}
+                    fillOpacity={0.9}
+                    className="pointer-events-none"
+                  />
+                ))}
+              </g>
             )}
 
-          {/* X Axis */}
-          <ChartAxis
-            scale={xScale}
-            orientation="bottom"
-            transform={`translate(0, ${innerHeight})`}
-            label={xAxisLabel}
-          />
+            {/* Contour lines */}
+            {showLines && (
+              <g clipPath={`url(#clip-${gradientId})`}>
+                {contourPaths.map((contour, i) => (
+                  <path
+                    key={`line-${i}`}
+                    d={pathGenerator(contour) || ""}
+                    fill="none"
+                    stroke={lineColor || "rgba(0,0,0,0.3)"}
+                    strokeWidth={lineWidth}
+                    className="pointer-events-none"
+                  />
+                ))}
+              </g>
+            )}
 
-          {/* Y Axis */}
-          <ChartAxis scale={yScale} orientation="left" label={yAxisLabel} />
-        </g>
+            {/* Grid */}
+            {showGrid && (
+              <ChartGrid
+                xScale={xScale}
+                yScale={yScale}
+                width={innerWidth}
+                height={innerHeight}
+              />
+            )}
 
-        {/* Color legend */}
-        <g transform={`translate(${width - margin.right + 15}, ${margin.top})`}>
-          <defs>
-            <linearGradient
-              id={`contour-gradient-${gradientId}`}
-              x1="0"
-              y1="1"
-              x2="0"
-              y2="0"
+            {/* Data point markers */}
+            {showMarkers &&
+              gridPoints.map((point, i) =>
+                markerSymbol === "circle" ? (
+                  <circle
+                    key={`marker-${i}`}
+                    cx={point.x}
+                    cy={point.y}
+                    r={markerSize / 2}
+                    fill="none"
+                    stroke={markerColor}
+                    strokeWidth={1.5}
+                    className="pointer-events-none"
+                  />
+                ) : (
+                  <path
+                    key={`marker-${i}`}
+                    d={getMarkerPath(point.x, point.y)}
+                    fill="none"
+                    stroke={markerColor}
+                    strokeWidth={1.5}
+                    className="pointer-events-none"
+                  />
+                )
+              )}
+
+            {/* X Axis */}
+            <ChartAxis
+              scale={xScale}
+              orientation="bottom"
+              transform={`translate(0, ${innerHeight})`}
+              label={xAxisLabel}
+            />
+
+            {/* Y Axis */}
+            <ChartAxis scale={yScale} orientation="left" label={yAxisLabel} />
+          </g>
+
+          {/* Color legend */}
+          <g
+            transform={`translate(${width - margin.right + 15}, ${margin.top})`}
+          >
+            <defs>
+              <linearGradient
+                id={`contour-gradient-${gradientId}`}
+                x1="0"
+                y1="1"
+                x2="0"
+                y2="0"
+              >
+                {colorScale.map((color, i) => (
+                  <stop
+                    key={i}
+                    offset={`${(i / (colorScale.length - 1)) * 100}%`}
+                    stopColor={color}
+                  />
+                ))}
+              </linearGradient>
+            </defs>
+            <rect
+              width={15}
+              height={innerHeight}
+              fill={`url(#contour-gradient-${gradientId})`}
+              rx={2}
+            />
+            <text
+              x={20}
+              y={0}
+              dominantBaseline="hanging"
+              className="fill-muted-foreground text-[10px]"
             >
-              {colorScale.map((color, i) => (
-                <stop
-                  key={i}
-                  offset={`${(i / (colorScale.length - 1)) * 100}%`}
-                  stopColor={color}
-                />
-              ))}
-            </linearGradient>
-          </defs>
-          <rect
-            width={15}
-            height={innerHeight}
-            fill={`url(#contour-gradient-${gradientId})`}
-            rx={2}
-          />
-          <text
-            x={20}
-            y={0}
-            dominantBaseline="hanging"
-            className="fill-muted-foreground text-[10px]"
-          >
-            {maxValue.toFixed(1)}
-          </text>
-          <text
-            x={20}
-            y={innerHeight}
-            dominantBaseline="auto"
-            className="fill-muted-foreground text-[10px]"
-          >
-            {minValue.toFixed(1)}
-          </text>
-        </g>
-      </svg>
+              {maxValue.toFixed(1)}
+            </text>
+            <text
+              x={20}
+              y={innerHeight}
+              dominantBaseline="auto"
+              className="fill-muted-foreground text-[10px]"
+            >
+              {minValue.toFixed(1)}
+            </text>
+          </g>
+        </svg>
+      </div>
 
       {/* Tooltip */}
       {showTooltip && mousePos && (

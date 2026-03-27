@@ -33,7 +33,7 @@ export function ChartLegend({
   const { config } = useChart()
 
   // Generate items from config if not provided
-  const legendItems = React.useMemo(() => {
+  const legendItems: LegendItem[] = React.useMemo(() => {
     if (items) return items
 
     return Object.entries(config).map(([key, value], index) => ({

@@ -39,9 +39,9 @@ export function WaterfallChart({
   margin = { top: 20, right: 20, bottom: 60, left: 60 },
   showGrid = true,
   showTooltip = true,
-  positiveColor = "var(--chart-2)",
-  negativeColor = "var(--chart-1)",
-  totalColor = "var(--chart-3)",
+  positiveColor = "#3b82f6",
+  negativeColor = "#93c5fd",
+  totalColor = "#1e40af",
   connectorColor = "currentColor",
   showConnector = true,
   barRadius = 2,
@@ -89,7 +89,7 @@ export function WaterfallChart({
   }, [processedData, innerHeight])
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
+    <ChartContainer config={config} className={cn("!aspect-auto", className)}>
       <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid */}

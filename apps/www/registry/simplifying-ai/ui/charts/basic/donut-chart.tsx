@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { interpolate } from "d3-interpolate"
-import { arc, pie } from "d3-shape"
+import { arc, pie, type PieArcDatum } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
@@ -138,27 +138,36 @@ export function DonutChart({
   const activeIndex = controlledActiveIndex ?? hoveredIndex
 
   // Create pie generator
-  const pieGenerator = pie<DonutChartDataPoint>()
-    .value((d) => d.value)
-    .padAngle(variant === "separated" ? 0.06 : padAngle)
-    .startAngle(startAngle)
-    .endAngle(interpolate(startAngle, endAngle)(animationProgress))
-    .sort(sortValues ? (a, b) => b.value - a.value : null)
+  const pieGenerator = React.useMemo(() => {
+    const gen = pie<DonutChartDataPoint>()
+      .value((d) => d.value)
+      .padAngle(variant === "separated" ? 0.06 : padAngle)
+      .startAngle(startAngle)
+      .endAngle(interpolate(startAngle, endAngle)(animationProgress))
+
+    if (sortValues) {
+      return gen.sort((a, b) => b.value - a.value)
+    }
+    return gen.sort(null)
+  }, [variant, padAngle, startAngle, endAngle, animationProgress, sortValues])
+
+  // Arc datum type
+  type ArcDatum = PieArcDatum<DonutChartDataPoint>
 
   // Create arc generators
-  const arcGenerator = arc<ReturnType<typeof pieGenerator>[number]>()
+  const arcGenerator = arc<ArcDatum>()
     .innerRadius(innerRadius)
     .outerRadius(outerRadius)
     .cornerRadius(cornerRadius)
 
   // Hover arc (slightly larger)
-  const hoverArcGenerator = arc<ReturnType<typeof pieGenerator>[number]>()
+  const hoverArcGenerator = arc<ArcDatum>()
     .innerRadius(innerRadius - 4)
     .outerRadius(outerRadius + 8)
     .cornerRadius(cornerRadius)
 
   // Label arc (for positioning)
-  const labelArcGenerator = arc<ReturnType<typeof pieGenerator>[number]>()
+  const labelArcGenerator = arc<ArcDatum>()
     .innerRadius(outerRadius + 15)
     .outerRadius(outerRadius + 15)
 
@@ -167,7 +176,8 @@ export function DonutChart({
   // Get color for segment
   const getColor = (d: DonutChartDataPoint, index: number): string => {
     if (d.color) return d.color
-    if (config?.[d.label]?.color) return config[d.label].color
+    const configColor = config?.[d.label]?.color
+    if (configColor) return configColor
     return DEFAULT_COLORS[index % DEFAULT_COLORS.length]
   }
 
@@ -209,9 +219,18 @@ export function DonutChart({
       : (centerLabel ?? (showTotal ? "Total" : null))
 
   return (
-    <ChartContainer config={config} className={cn("relative", className)}>
-      <div ref={containerRef} className="relative">
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+    <ChartContainer
+      config={config}
+      className={cn("relative !aspect-auto flex-col", className)}
+    >
+      <div
+        ref={containerRef}
+        className="relative mx-auto aspect-square w-full max-w-[280px]"
+      >
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full overflow-visible"
+        >
           {/* Gradient definitions */}
           {variant === "gradient" && (
             <defs>

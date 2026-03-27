@@ -103,7 +103,7 @@ export function ChartHorizontalGrid({
 
 // Simple vertical-only grid
 export interface ChartVerticalGridProps {
-  scale: ScaleLinear<number, number>
+  scale: { ticks: (count?: number) => unknown[]; (value: unknown): number }
   height: number
   tickCount?: number
   strokeDasharray?: string
