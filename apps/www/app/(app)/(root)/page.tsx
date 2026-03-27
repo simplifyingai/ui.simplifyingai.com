@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import Link from "next/link"
 
 import { Announcement } from "@/components/announcement"
-import { CardsDemo } from "@/components/cards"
+import { ChartsShowcase } from "@/components/charts-showcase"
 import { ExamplesNav } from "@/components/examples-nav"
 import {
   PageActions,
@@ -85,8 +85,8 @@ export default function IndexPage() {
       </PageNav>
       <div className="container-wrapper section-soft flex-1 pb-6">
         <div className="container overflow-hidden">
-          <section className="theme-container">
-            <CardsDemo />
+          <section className="theme-container py-6">
+            <ChartsShowcase />
           </section>
         </div>
       </div>
