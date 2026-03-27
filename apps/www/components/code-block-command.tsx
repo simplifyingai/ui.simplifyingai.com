@@ -67,7 +67,7 @@ export function CodeBlockCommand({
   }, [packageManager, tabs])
 
   return (
-    <div className="overflow-x-auto">
+    <div className="my-6 overflow-hidden rounded-lg border bg-muted/50">
       <Tabs
         value={packageManager}
         className="gap-0"
@@ -78,7 +78,7 @@ export function CodeBlockCommand({
           })
         }}
       >
-        <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
+        <div className="border-border/50 flex items-center gap-2 border-b bg-muted/30 px-3 py-1">
           <div className="bg-foreground flex size-4 items-center justify-center rounded-[1px] opacity-70">
             <TerminalIcon className="text-code size-3" />
           </div>

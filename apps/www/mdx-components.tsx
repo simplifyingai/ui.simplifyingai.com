@@ -171,7 +171,7 @@ export const mdxComponents = {
     return (
       <pre
         className={cn(
-          "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0",
+          "no-scrollbar min-w-0 overflow-x-auto rounded-lg border bg-muted/50 px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[data-slot=tabs]]:p-0",
           className
         )}
         {...props}
@@ -181,7 +181,15 @@ export const mdxComponents = {
     )
   },
   figure: ({ className, ...props }: React.ComponentProps<"figure">) => {
-    return <figure className={cn(className)} {...props} />
+    return (
+      <figure
+        className={cn(
+          "my-6 overflow-hidden rounded-lg border bg-muted/50 [&_pre]:my-0 [&_pre]:border-0 [&_pre]:bg-transparent",
+          className
+        )}
+        {...props}
+      />
+    )
   },
   figcaption: ({
     className,
@@ -228,7 +236,7 @@ export const mdxComponents = {
       return (
         <code
           className={cn(
-            "bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none",
+            "bg-muted border border-border/50 relative rounded-md px-[0.4rem] py-[0.2rem] font-mono text-[0.8rem] break-words outline-none",
             className
           )}
           {...props}
