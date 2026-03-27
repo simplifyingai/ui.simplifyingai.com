@@ -1,13 +1,20 @@
 ---
 title: Pie Chart
-description: Circular charts for showing proportional data.
+description: Circular charts for visualizing proportional data with support for multiple variants including pie, donut, interactive, and labeled styles.
 ---
 
 <ComponentPreview name="pie-chart-demo" />
 
 ## About
 
-The Pie Chart component displays data as slices of a circle, showing proportions of a whole.
+The Pie Chart component displays data as proportional slices of a circle. Built with [D3.js](https://d3js.org/) for precise control over rendering, it supports various configurations including:
+
+- **Pie and donut** chart styles
+- **Active segment** highlighting with expansion effects
+- **Center text** for displaying totals or selected values
+- **External labels** with connector lines
+- **Interactive selection** with dropdown controls
+- **Custom tooltips** with theme-aware styling
 
 ## Installation
 
@@ -21,23 +28,209 @@ npx shadcn@latest add https://ui.simplifying.ai/r/pie-chart.json
 import { PieChart } from "@/components/ui/charts"
 
 const data = [
-  { label: "Chrome", value: 65 },
-  { label: "Safari", value: 20 },
-  { label: "Firefox", value: 15 },
+  { label: "Chrome", value: 275 },
+  { label: "Safari", value: 200 },
+  { label: "Firefox", value: 187 },
+  { label: "Edge", value: 173 },
+  { label: "Other", value: 90 },
 ]
 
-export function Example() {
-  return <PieChart data={data} showLabels />
+export function MyChart() {
+  return <PieChart data={data} />
 }
 ```
+
+## Examples
+
+### Default
+
+The default pie chart displays data as filled slices with smooth hover transitions. Each segment can be hovered to show a tooltip with the exact value and percentage.
+
+<ComponentPreview name="pie-chart-demo" />
+
+### Donut
+
+A donut chart adds an inner radius creating a ring shape. This variant is useful when you want to place additional information in the center or simply prefer the aesthetic.
+
+<ComponentPreview name="pie-chart-donut-demo" />
+
+```tsx
+<PieChart data={data} variant="donut" />
+```
+
+The `variant="donut"` automatically sets an appropriate inner radius. You can customize it further with the `innerRadius` prop.
+
+### Donut with Active Segment
+
+This variant highlights the currently hovered or active segment by expanding it outward. The active segment grows by 10px while other segments dim, creating a clear visual focus.
+
+<ComponentPreview name="pie-chart-donut-active-demo" />
+
+```tsx
+<PieChart data={data} variant="donut-active" />
+```
+
+Use this variant when you want to emphasize user interaction and make segment selection more prominent.
+
+### Donut with Center Text
+
+Display a total value or the currently active segment's value in the center of the donut. When hovering over a segment, the center text updates to show that segment's value and label.
+
+<ComponentPreview name="pie-chart-donut-text-demo" />
+
+```tsx
+<PieChart
+  data={data}
+  variant="donut-text"
+  centerLabel="Visitors"
+  showTotal
+/>
+```
+
+The `showTotal` prop displays the sum of all values when no segment is hovered. You can also provide custom `centerLabel` and `centerValue` props for static content.
+
+### With Labels
+
+External labels with connector lines help identify each segment without requiring hover interaction. This is ideal for static displays, print, or when you need all information visible at once.
+
+<ComponentPreview name="pie-chart-label-demo" />
+
+```tsx
+<PieChart data={data} variant="label" showLabels />
+```
+
+Labels are automatically positioned around the chart with connecting lines from each segment's centroid.
+
+### Interactive
+
+An interactive pie chart with a dropdown selector for choosing the active segment. The selected segment displays with a double-ring effect (outer ring) and center text updates to show the selection.
+
+<ComponentPreview name="pie-chart-interactive-demo" />
+
+```tsx
+import { useState } from "react"
+
+const selectionOptions = [
+  { key: "january", label: "January" },
+  { key: "february", label: "February" },
+  { key: "march", label: "March" },
+  { key: "april", label: "April" },
+  { key: "may", label: "May" },
+]
+
+export function InteractiveChart() {
+  const [selectedKey, setSelectedKey] = useState("january")
+
+  return (
+    <PieChart
+      data={data}
+      variant="interactive"
+      selectionOptions={selectionOptions}
+      selectedKey={selectedKey}
+      onSelectionChange={setSelectedKey}
+    />
+  )
+}
+```
+
+Use this variant for dashboards where users need to drill down into specific data segments.
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | PieChartDataPoint[] | required | Data points |
-| innerRadius | number | 0 | Inner radius for donut effect |
-| padAngle | number | 0.02 | Gap between slices |
-| cornerRadius | number | 4 | Corner rounding |
-| showLabels | boolean | false | Show labels on slices |
-| labelType | "percent" \| "value" \| "label" | "percent" | Label format |
+| `data` | `PieChartDataPoint[]` | required | Array of data points to display |
+| `variant` | `"default"` \| `"donut"` \| `"donut-active"` \| `"donut-text"` \| `"label"` \| `"interactive"` | `"default"` | Chart style variant |
+| `config` | `ChartConfig` | - | Color and label configuration |
+| `width` | `number` | `400` | Chart width in pixels |
+| `height` | `number` | `400` | Chart height in pixels |
+| `innerRadius` | `number` | `0` (60 for donut) | Inner radius for donut effect |
+| `outerRadius` | `number` | auto | Outer radius (auto-calculated from dimensions) |
+| `padAngle` | `number` | `0.02` | Gap between slices in radians |
+| `cornerRadius` | `number` | `4` | Corner rounding of segments |
+| `startAngle` | `number` | `0` | Starting angle in radians |
+| `endAngle` | `number` | `2π` | Ending angle in radians |
+| `sortValues` | `boolean` | `false` | Sort segments by value (largest first) |
+| `showLabels` | `boolean` | `false` | Show labels on/around segments |
+| `labelType` | `"percent"` \| `"value"` \| `"label"` | `"percent"` | Format for displayed labels |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
+| `activeIndex` | `number` | - | Controlled active segment index |
+| `centerLabel` | `ReactNode` | - | Custom center label (donut-text variant) |
+| `centerValue` | `ReactNode` | - | Custom center value (donut-text variant) |
+| `showTotal` | `boolean` | `true` | Show total in center when idle |
+| `valueFormatter` | `(value: number, total: number) => string` | percentage | Custom value formatter |
+| `onSegmentClick` | `(data: PieChartDataPoint, index: number) => void` | - | Callback when segment is clicked |
+| `selectionOptions` | `Array<{ key: string; label: string }>` | - | Dropdown options (interactive variant) |
+| `selectedKey` | `string` | - | Currently selected key (interactive variant) |
+| `onSelectionChange` | `(key: string) => void` | - | Selection change callback |
+
+## Data Types
+
+```tsx
+interface PieChartDataPoint {
+  label: string    // Segment label displayed in tooltip/legend
+  value: number    // Numeric value determining segment size
+  color?: string   // Optional: override default color for this segment
+}
+```
+
+## Customization
+
+### Custom Colors
+
+Use the `config` prop to define colors for each segment, or set colors directly in your data:
+
+```tsx
+// Using config
+const config = {
+  Chrome: { label: "Chrome", color: "hsl(var(--chart-1))" },
+  Safari: { label: "Safari", color: "hsl(var(--chart-2))" },
+  Firefox: { label: "Firefox", color: "hsl(var(--chart-3))" },
+}
+
+<PieChart data={data} config={config} />
+
+// Or using data colors
+const data = [
+  { label: "Success", value: 80, color: "#22c55e" },
+  { label: "Warning", value: 15, color: "#eab308" },
+  { label: "Error", value: 5, color: "#ef4444" },
+]
+
+<PieChart data={data} />
+```
+
+### Custom Value Formatter
+
+Format how values are displayed in tooltips and labels:
+
+```tsx
+<PieChart
+  data={data}
+  valueFormatter={(value, total) => {
+    const percent = ((value / total) * 100).toFixed(0)
+    return `${value.toLocaleString()} (${percent}%)`
+  }}
+/>
+```
+
+### Half Donut / Gauge
+
+Create a half-circle chart by adjusting the start and end angles:
+
+```tsx
+<PieChart
+  data={data}
+  variant="donut"
+  startAngle={-Math.PI / 2}
+  endAngle={Math.PI / 2}
+/>
+```
+
+## Accessibility
+
+- Segments are keyboard accessible with clear focus indicators
+- Tooltips provide detailed information on hover/focus
+- Color schemes maintain WCAG contrast requirements
+- Legend provides an alternative way to identify segments

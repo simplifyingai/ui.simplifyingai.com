@@ -1,0 +1,48 @@
+---
+title: Slope Chart
+description: Line chart showing change between two time points.
+---
+
+<ComponentPreview name="slope-chart-demo" />
+
+## About
+
+The Slope Chart connects two data points with a line to emphasize change over time or between two conditions. It's excellent for showing before/after comparisons, rankings changes, or performance differences.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/slope-chart.json
+```
+
+## Usage
+
+```tsx
+import { SlopeChart } from "@/components/ui/charts"
+
+const data = [
+  { category: "Product A", start: 45, end: 72 },
+  { category: "Product B", start: 68, end: 55 },
+  { category: "Product C", start: 32, end: 58 },
+]
+
+export function Example() {
+  return (
+    <SlopeChart
+      data={data}
+      startLabel="Q1 2024"
+      endLabel="Q4 2024"
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | SlopeDataPoint[] | required | Array of data points |
+| startLabel | string | "Before" | Label for start column |
+| endLabel | string | "After" | Label for end column |
+| showValues | boolean | true | Show value labels |
+| showGrid | boolean | true | Show grid lines |

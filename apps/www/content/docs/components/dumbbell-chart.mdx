@@ -1,0 +1,44 @@
+---
+title: Dumbbell Chart
+description: Connected dot chart for comparing two values per category.
+---
+
+<ComponentPreview name="dumbbell-chart-demo" />
+
+## About
+
+The Dumbbell Chart (also known as a DNA chart or barbell chart) shows the change or difference between two data points. It's excellent for before/after comparisons, showing gaps between groups, or visualizing ranges.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/dumbbell-chart.json
+```
+
+## Usage
+
+```tsx
+import { DumbbellChart } from "@/components/ui/charts"
+
+const data = [
+  { category: "Marketing", start: 45, end: 72, startLabel: "2023", endLabel: "2024" },
+  { category: "Sales", start: 68, end: 85, startLabel: "2023", endLabel: "2024" },
+]
+
+export function Example() {
+  return <DumbbellChart data={data} orientation="horizontal" />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | DumbbellDataPoint[] | required | Array of data points |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
+| dotSize | number | 10 | Size of dots in pixels |
+| showGrid | boolean | true | Show grid lines |
+| showValues | boolean | true | Show value labels |
+| startColor | string | "#93c5fd" | Color for start dots |
+| endColor | string | "#1e40af" | Color for end dots |
+| connectorColor | string | "#60a5fa" | Color for connecting line |

@@ -1,13 +1,13 @@
 ---
 title: Histogram Chart
-description: Distribution histogram for visualizing data frequency.
+description: Distribution histograms with multiple variants for visualizing data frequency.
 ---
 
 <ComponentPreview name="histogram-chart-demo" />
 
 ## About
 
-The Histogram Chart displays the distribution of numerical data by grouping values into bins.
+The Histogram Chart displays the distribution of numerical data by grouping values into bins. Supports multiple datasets and various visual styles.
 
 ## Installation
 
@@ -15,7 +15,33 @@ The Histogram Chart displays the distribution of numerical data by grouping valu
 npx shadcn@latest add https://ui.simplifying.ai/r/histogram-chart.json
 ```
 
+## Variants
+
+### Default
+
+Classic histogram with solid bars and optional border stroke.
+
+### Overlay
+
+Multiple datasets displayed with transparency, overlapping to show distribution comparison.
+
+<ComponentPreview name="histogram-chart-overlay-demo" />
+
+### Gradient
+
+Each bar colored based on position using a color scale (viridis, plasma, warm, cool, rainbow).
+
+<ComponentPreview name="histogram-chart-gradient-demo" />
+
+### Stepped
+
+Area/stepped histogram style with semi-transparent fill, ideal for comparing multiple distributions.
+
+<ComponentPreview name="histogram-chart-stepped-demo" />
+
 ## Usage
+
+### Single Dataset
 
 ```tsx
 import { HistogramChart } from "@/components/ui/charts"
@@ -23,7 +49,52 @@ import { HistogramChart } from "@/components/ui/charts"
 const data = [12, 15, 18, 22, 25, 28, 30, 32, 35, 38, 40, 42, 45]
 
 export function Example() {
-  return <HistogramChart data={data} bins={10} />
+  return (
+    <HistogramChart
+      data={data}
+      bins={20}
+      color="#4285f4"
+      showBorder
+    />
+  )
+}
+```
+
+### Multiple Datasets
+
+```tsx
+import { HistogramChart } from "@/components/ui/charts"
+
+const datasets = [
+  { data: dataset1, label: "Group A", color: "#00bcd4" },
+  { data: dataset2, label: "Group B", color: "#9c27b0" },
+]
+
+export function OverlayExample() {
+  return (
+    <HistogramChart
+      data={datasets}
+      variant="overlay"
+      bins={30}
+    />
+  )
+}
+```
+
+### Gradient Colors
+
+```tsx
+import { HistogramChart } from "@/components/ui/charts"
+
+export function GradientExample() {
+  return (
+    <HistogramChart
+      data={data}
+      variant="gradient"
+      colorScale="viridis"
+      bins={40}
+    />
+  )
 }
 ```
 
@@ -31,7 +102,28 @@ export function Example() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | number[] | required | Raw numerical data |
-| bins | number | 20 | Number of histogram bins |
-| normalized | boolean | false | Show percentages |
-| showDensity | boolean | false | Show density curve |
+| data | `number[]` or `HistogramDataset[]` | required | Single or multiple datasets |
+| variant | `"default"` `"overlay"` `"gradient"` `"stepped"` | `"default"` | Display style |
+| bins | `number` | `30` | Number of histogram bins |
+| color | `string` | - | Bar color (single dataset) |
+| colorScale | `"viridis"` `"plasma"` `"warm"` `"cool"` `"rainbow"` | `"viridis"` | Color scale for gradient |
+| showBorder | `boolean` | `true` | Show bar border stroke |
+| borderColor | `string` | - | Border color (defaults to fill) |
+| cornerRadius | `number` | `0` | Bar corner radius |
+| fillOpacity | `number` | varies | Fill opacity (auto by variant) |
+| normalized | `boolean` | `false` | Show percentages |
+| showDensity | `boolean` | `false` | Show density values |
+| showLegend | `boolean` | `true` | Show legend for multi-dataset |
+| barPadding | `number` | `1` | Padding between bars |
+
+## Data Types
+
+### HistogramDataset
+
+```tsx
+interface HistogramDataset {
+  data: number[]
+  label?: string
+  color?: string
+}
+```

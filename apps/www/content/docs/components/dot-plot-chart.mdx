@@ -1,0 +1,43 @@
+---
+title: Dot Plot Chart
+description: Categorical scatter chart for comparing values across categories.
+---
+
+<ComponentPreview name="dot-plot-chart-demo" />
+
+## About
+
+The Dot Plot Chart displays individual data points as dots along a scale, making it easy to compare values across categories. It's a cleaner alternative to bar charts when you want to emphasize individual values.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/dot-plot-chart.json
+```
+
+## Usage
+
+```tsx
+import { DotPlotChart } from "@/components/ui/charts"
+
+const data = [
+  { category: "Product A", value: 85 },
+  { category: "Product B", value: 72 },
+  { category: "Product C", value: 93 },
+]
+
+export function Example() {
+  return <DotPlotChart data={data} orientation="horizontal" />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | DotPlotDataPoint[] | required | Array of data points |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
+| dotSize | number | 12 | Size of dots in pixels |
+| showGrid | boolean | true | Show grid lines |
+| showValues | boolean | true | Show value labels |
+| color | string | "#2563eb" | Default dot color |

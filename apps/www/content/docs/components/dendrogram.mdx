@@ -1,0 +1,60 @@
+---
+title: Dendrogram
+description: Hierarchical clustering tree visualization.
+---
+
+<ComponentPreview name="dendrogram-demo" />
+
+## About
+
+A Dendrogram is a tree diagram showing hierarchical relationships. It's commonly used for displaying taxonomies, organizational structures, and hierarchical clustering results. Nodes are positioned using cluster layout to evenly distribute leaf nodes.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/dendrogram.json
+```
+
+## Usage
+
+```tsx
+import { Dendrogram } from "@/components/ui/charts"
+
+const data = {
+  name: "Root",
+  children: [
+    {
+      name: "Branch A",
+      children: [
+        { name: "Leaf 1", value: 10 },
+        { name: "Leaf 2", value: 15 },
+      ],
+    },
+    { name: "Leaf 3", value: 20 },
+  ],
+}
+
+export function Example() {
+  return <Dendrogram data={data} />
+}
+```
+
+## Variants
+
+### Vertical Orientation
+
+Display the tree from top to bottom.
+
+<ComponentPreview name="dendrogram-vertical" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | DendrogramNode | required | Root node of the tree |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Tree orientation |
+| nodeRadius | number | 5 | Node circle radius |
+| showLabels | boolean | true | Show node labels |
+| showValues | boolean | false | Show node values |
+| linkColor | string | "#94a3b8" | Color for connecting lines |
+| colorScheme | string[] | blue palette | Colors by depth level |

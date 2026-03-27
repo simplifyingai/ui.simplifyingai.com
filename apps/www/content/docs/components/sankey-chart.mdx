@@ -1,11 +1,19 @@
 ---
 title: Sankey Chart
-description: Flow diagrams showing connections between nodes.
+description: Flow diagrams showing connections between nodes with proportional link widths.
 ---
+
+<ComponentPreview name="sankey-chart-demo" />
 
 ## About
 
-The Sankey Chart displays flows between nodes with proportional link widths.
+The Sankey Chart displays flows between nodes with proportional link widths. Built with [D3-Sankey](https://github.com/d3/d3-sankey), it supports:
+
+- **Multi-level flows** from sources through intermediaries to destinations
+- **Custom node colors** with the blue color palette
+- **Link highlighting** on hover to trace flow paths
+- **Interactive tooltips** showing node and link values
+- **Flexible alignment** options (left, right, center, justify)
 
 ## Installation
 
@@ -19,10 +27,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/sankey-chart.json
 import { SankeyChart } from "@/components/ui/charts"
 
 const nodes = [
-  { id: "source1", name: "Source 1" },
-  { id: "source2", name: "Source 2" },
-  { id: "target1", name: "Target 1" },
-  { id: "target2", name: "Target 2" },
+  { id: "source1", name: "Source 1", color: "#2563eb" },
+  { id: "source2", name: "Source 2", color: "#3b82f6" },
+  { id: "target1", name: "Target 1", color: "#60a5fa" },
+  { id: "target2", name: "Target 2", color: "#93c5fd" },
 ]
 
 const links = [
@@ -32,17 +40,180 @@ const links = [
   { source: "source2", target: "target2", value: 20 },
 ]
 
-export function Example() {
+export function MyChart() {
   return <SankeyChart nodes={nodes} links={links} />
 }
+```
+
+## Examples
+
+### Default
+
+A user journey flow showing traffic sources through landing pages to conversion. Hover over nodes to highlight connected flows.
+
+<ComponentPreview name="sankey-chart-demo" />
+
+### Energy Flow
+
+Visualize energy distribution from multiple sources (coal, gas, nuclear, renewables) through electricity generation to consumption sectors.
+
+<ComponentPreview name="sankey-chart-energy-demo" />
+
+```tsx
+const nodes = [
+  { id: "coal", name: "Coal", color: "#1e40af" },
+  { id: "gas", name: "Natural Gas", color: "#2563eb" },
+  { id: "electricity", name: "Electricity", color: "#3b82f6" },
+  { id: "residential", name: "Residential", color: "#60a5fa" },
+  // ...
+]
+
+const links = [
+  { source: "coal", target: "electricity", value: 350 },
+  { source: "electricity", target: "residential", value: 320 },
+  // ...
+]
+
+<SankeyChart nodes={nodes} links={links} nodeWidth={24} nodePadding={20} />
+```
+
+### Budget Allocation (Gradient)
+
+Show budget flow with custom link colors to differentiate flow types. Links can have their own colors independent of nodes.
+
+<ComponentPreview name="sankey-chart-gradient-demo" />
+
+```tsx
+const links = [
+  { source: "revenue", target: "opex", value: 450, color: "#3b82f6" },
+  { source: "revenue", target: "capex", value: 200, color: "#60a5fa" },
+  { source: "revenue", target: "profit", value: 350, color: "#93c5fd" },
+  // ...
+]
+
+<SankeyChart nodes={nodes} links={links} linkOpacity={0.6} />
+```
+
+### Minimal
+
+A simple two-level flow for basic source-to-destination visualization. Perfect for conversion funnels or simple categorization.
+
+<ComponentPreview name="sankey-chart-minimal-demo" />
+
+```tsx
+<SankeyChart
+  nodes={nodes}
+  links={links}
+  nodeWidth={20}
+  nodePadding={25}
+  showValues={false}
+/>
+```
+
+### Multi-level Journey
+
+Complex user journey tracking across four levels: traffic sources, entry pages, user actions, and final outcomes.
+
+<ComponentPreview name="sankey-chart-multilevel-demo" />
+
+```tsx
+<SankeyChart
+  nodes={nodes}
+  links={links}
+  nodeWidth={16}
+  nodePadding={14}
+  linkOpacity={0.45}
+  width={1000}
+  height={500}
+/>
 ```
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| nodes | SankeyNode[] | required | Node definitions |
-| links | SankeyLink[] | required | Link connections |
-| nodeWidth | number | 15 | Width of nodes |
-| nodePadding | number | 20 | Vertical spacing |
-| nodeAlign | "left" \| "right" \| "center" \| "justify" | "justify" | Node alignment |
+| `nodes` | `SankeyNode[]` | required | Array of node definitions |
+| `links` | `SankeyLink[]` | required | Array of link connections |
+| `width` | `number` | `800` | Chart width in pixels |
+| `height` | `number` | `500` | Chart height in pixels |
+| `margin` | `object` | `{ top: 20, right: 120, bottom: 20, left: 20 }` | Chart margins |
+| `nodeWidth` | `number` | `15` | Width of node rectangles |
+| `nodePadding` | `number` | `20` | Vertical spacing between nodes |
+| `nodeAlign` | `"left"` \| `"right"` \| `"center"` \| `"justify"` | `"justify"` | Node alignment algorithm |
+| `linkOpacity` | `number` | `0.5` | Opacity of link paths |
+| `showLabels` | `boolean` | `true` | Show node labels |
+| `showValues` | `boolean` | `true` | Show values in labels |
+| `showTooltip` | `boolean` | `true` | Enable hover tooltips |
+
+## Data Types
+
+```tsx
+interface SankeyNode {
+  id: string       // Unique identifier for the node
+  name?: string    // Display name (defaults to id)
+  color?: string   // Node color (hex, e.g., "#2563eb")
+}
+
+interface SankeyLink {
+  source: string   // Source node id
+  target: string   // Target node id
+  value: number    // Flow value (determines link width)
+  color?: string   // Optional link color override
+}
+```
+
+## Customization
+
+### Node Alignment
+
+Control how nodes are positioned horizontally:
+
+```tsx
+// Left-aligned: sources on left edge
+<SankeyChart nodes={nodes} links={links} nodeAlign="left" />
+
+// Right-aligned: sinks on right edge
+<SankeyChart nodes={nodes} links={links} nodeAlign="right" />
+
+// Center-aligned: balanced distribution
+<SankeyChart nodes={nodes} links={links} nodeAlign="center" />
+
+// Justified (default): spread across full width
+<SankeyChart nodes={nodes} links={links} nodeAlign="justify" />
+```
+
+### Custom Colors
+
+Set colors directly on nodes and links for full control:
+
+```tsx
+const nodes = [
+  { id: "a", name: "Node A", color: "#1e40af" },
+  { id: "b", name: "Node B", color: "#2563eb" },
+  { id: "c", name: "Node C", color: "#3b82f6" },
+]
+
+const links = [
+  { source: "a", target: "c", value: 100, color: "#60a5fa" },
+  { source: "b", target: "c", value: 50, color: "#93c5fd" },
+]
+```
+
+### Adjusting Density
+
+Control spacing between nodes for different data densities:
+
+```tsx
+// Sparse layout (few nodes)
+<SankeyChart nodes={nodes} links={links} nodePadding={30} nodeWidth={24} />
+
+// Dense layout (many nodes)
+<SankeyChart nodes={nodes} links={links} nodePadding={8} nodeWidth={12} />
+```
+
+## Accessibility
+
+- Nodes and links are interactive with clear hover states
+- Tooltips provide detailed flow information
+- Color palette maintains sufficient contrast
+- Labels positioned for readability without overlap

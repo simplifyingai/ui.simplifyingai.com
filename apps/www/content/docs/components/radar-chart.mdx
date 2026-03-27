@@ -1,13 +1,20 @@
 ---
 title: Radar Chart
-description: Spider/radar charts for comparing multiple variables.
+description: Spider/radar charts for comparing multiple variables across multiple series with support for variants including comparison, legend, filled, and minimal styles.
 ---
 
 <ComponentPreview name="radar-chart-demo" />
 
 ## About
 
-The Radar Chart displays multivariate data on axes starting from the same point.
+The Radar Chart (also known as spider or web chart) displays multivariate data on axes starting from the same point. Built with [D3.js](https://d3js.org/) for precise radial calculations, it supports:
+
+- **Multiple series** comparison on the same chart
+- **Polygon and circular** grid styles
+- **Interactive legend** with hover highlighting
+- **Custom axis labels** showing values
+- **Minimal mode** without grid lines
+- **Filled grid** backgrounds for emphasis
 
 ## Installation
 
@@ -38,12 +45,211 @@ export function Example() {
 }
 ```
 
+## Examples
+
+### Default
+
+The default radar chart displays data points with dots, concentric level circles with value labels, axis lines, and an interactive legend for multiple series.
+
+<ComponentPreview name="radar-chart-demo" />
+
+### Comparison
+
+A clean comparison view for multiple data series. Optimized for comparing two or more datasets without dots, using thicker strokes for better visibility.
+
+<ComponentPreview name="radar-chart-comparison-demo" />
+
+```tsx
+<RadarChart data={data} config={config} variant="comparison" />
+```
+
+### Legend
+
+Multi-series chart with an interactive legend at the bottom. Hovering over legend items highlights the corresponding series while dimming others.
+
+<ComponentPreview name="radar-chart-legend-demo" />
+
+```tsx
+<RadarChart
+  data={data}
+  config={config}
+  variant="legend"
+  margin={{ top: 30, right: 50, bottom: 50, left: 50 }}
+/>
+```
+
+### Filled
+
+A single-series variant with a filled polygon background for emphasis. The grid area is subtly highlighted to create depth.
+
+<ComponentPreview name="radar-chart-filled-demo" />
+
+```tsx
+<RadarChart data={data} config={config} variant="filled" />
+```
+
+### Circle Grid
+
+Uses concentric circles instead of polygons for the grid. This creates a softer appearance while maintaining the radar chart functionality.
+
+<ComponentPreview name="radar-chart-circle-demo" />
+
+```tsx
+<RadarChart data={data} config={config} variant="circle" />
+```
+
+You can also manually control the grid type:
+
+```tsx
+<RadarChart data={data} gridType="circle" levels={4} />
+```
+
+### Minimal
+
+A clean, minimal variant without grid lines. Only shows the data area with prominent dots at each axis point. Ideal for simple visualizations or when the focus should be entirely on the data shape.
+
+<ComponentPreview name="radar-chart-minimal-demo" />
+
+```tsx
+<RadarChart data={data} config={config} variant="minimal" />
+```
+
+### Custom Labels
+
+Displays axis values alongside axis names. For multiple series, shows values separated by a slash (e.g., "186/80"). This is useful when precise values need to be visible without hovering.
+
+<ComponentPreview name="radar-chart-labels-demo" />
+
+```tsx
+<RadarChart
+  data={data}
+  config={config}
+  variant="labels"
+  margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+/>
+```
+
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | RadarChartSeries[] | required | Data series |
-| maxValue | number | auto | Maximum axis value |
-| levels | number | 5 | Number of concentric circles |
-| showDots | boolean | true | Show data points |
-| fillOpacity | number | 0.25 | Area fill opacity |
+| `data` | `RadarChartSeries[]` | required | Array of data series to display |
+| `variant` | `"default"` \| `"comparison"` \| `"legend"` \| `"filled"` \| `"circle"` \| `"minimal"` \| `"labels"` | `"default"` | Chart style variant |
+| `config` | `ChartConfig` | - | Color and label configuration |
+| `width` | `number` | `500` | Chart width in pixels |
+| `height` | `number` | `500` | Chart height in pixels |
+| `margin` | `{ top, right, bottom, left }` | `{ top: 50, ... }` | Chart margins |
+| `maxValue` | `number` | auto | Maximum axis value (auto-calculated from data) |
+| `levels` | `number` | `5` | Number of concentric grid levels |
+| `gridType` | `"polygon"` \| `"circle"` | `"polygon"` | Shape of grid levels |
+| `showGrid` | `boolean` | `true` | Show grid levels |
+| `showRadialLines` | `boolean` | `true` | Show axis lines from center |
+| `showDots` | `boolean` | `true` | Show data point dots |
+| `dotSize` | `number` | `4` | Radius of data point dots |
+| `fillOpacity` | `number` | `0.25` | Opacity of the filled area |
+| `strokeWidth` | `number` | `2` | Width of the area outline |
+| `showLabels` | `boolean` | `true` | Show axis labels |
+| `labelOffset` | `number` | `20` | Distance of labels from outer edge |
+| `showLevelLabels` | `boolean` | `true` | Show value labels on grid levels |
+| `showLegend` | `boolean` | `true` | Show legend for multiple series |
+| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
+
+## Data Types
+
+```tsx
+interface RadarChartDataPoint {
+  axis: string   // Axis/dimension name
+  value: number  // Numeric value for this axis
+}
+
+interface RadarChartSeries {
+  name: string                  // Series name for legend/tooltip
+  data: RadarChartDataPoint[]   // Data points for each axis
+  color?: string                // Optional: override color for this series
+  fillOpacity?: number          // Optional: override fill opacity
+}
+
+type RadarChartVariant =
+  | "default"
+  | "comparison"
+  | "legend"
+  | "filled"
+  | "circle"
+  | "minimal"
+  | "labels"
+```
+
+## Customization
+
+### Custom Colors
+
+Use the `config` prop to define colors for each series:
+
+```tsx
+const config = {
+  "Product A": { label: "Product A", color: "hsl(var(--chart-1))" },
+  "Product B": { label: "Product B", color: "hsl(var(--chart-2))" },
+}
+
+<RadarChart data={data} config={config} />
+```
+
+Or set colors directly in your data:
+
+```tsx
+const data = [
+  {
+    name: "Performance",
+    color: "#3b82f6",
+    fillOpacity: 0.4,
+    data: [
+      { axis: "Speed", value: 90 },
+      { axis: "Power", value: 85 },
+      // ...
+    ],
+  },
+]
+
+<RadarChart data={data} />
+```
+
+### Adjusting Scale
+
+Control the maximum value to normalize multiple charts or emphasize differences:
+
+```tsx
+// Fixed scale from 0-100
+<RadarChart data={data} maxValue={100} />
+
+// Let the chart auto-calculate with 10% padding
+<RadarChart data={data} />
+```
+
+### Grid Customization
+
+Fine-tune the grid appearance:
+
+```tsx
+// Circular grid with 4 levels
+<RadarChart
+  data={data}
+  gridType="circle"
+  levels={4}
+  showRadialLines={false}
+/>
+
+// No grid at all (minimal style)
+<RadarChart
+  data={data}
+  showGrid={false}
+  showRadialLines={false}
+  showDots
+/>
+```
+
+## Accessibility
+
+- Data points are interactive with hover states
+- Tooltips provide exact values on hover
+- Legend enables series identification without color-only cues
+- Consistent color assignment from ChartConfig ensures predictable styling

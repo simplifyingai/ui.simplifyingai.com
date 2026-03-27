@@ -1,0 +1,62 @@
+---
+title: Density Chart
+description: 2D kernel density estimation with contour visualization.
+---
+
+<ComponentPreview name="density-chart-demo" />
+
+## About
+
+The Density Chart (2D Density Plot) visualizes the distribution of points in two dimensions using kernel density estimation (KDE). Contours show areas of equal density, making it easy to identify clusters and patterns in scatter data.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/density-chart.json
+```
+
+## Usage
+
+```tsx
+import { DensityChart } from "@/components/ui/charts"
+
+const data = [
+  { x: 10, y: 20 },
+  { x: 15, y: 25 },
+  { x: 12, y: 22 },
+  // ... more points
+]
+
+export function Example() {
+  return (
+    <DensityChart
+      data={data}
+      showPoints
+      showContours
+    />
+  )
+}
+```
+
+## Variants
+
+### Contours Only
+
+Hide individual points to focus on density patterns.
+
+<ComponentPreview name="density-chart-contours-only" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `DensityDataPoint[]` | required | Array of x, y points |
+| showPoints | `boolean` | `true` | Show individual data points |
+| showContours | `boolean` | `true` | Show density contours |
+| bandwidth | `number` | `20` | KDE bandwidth (smoothing) |
+| thresholds | `number` | `10` | Number of contour levels |
+| pointRadius | `number` | `3` | Radius of data points |
+| pointColor | `string` | `"#1e40af"` | Color for data points |
+| colorScale | `function` | `interpolateBlues` | Contour color scale |
+| xAxisLabel | `string` | `undefined` | X-axis label |
+| yAxisLabel | `string` | `undefined` | Y-axis label |

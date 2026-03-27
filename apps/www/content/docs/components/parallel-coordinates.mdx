@@ -1,0 +1,52 @@
+---
+title: Parallel Coordinates
+description: Multi-dimensional data visualization with parallel axes.
+---
+
+<ComponentPreview name="parallel-coordinates-demo" />
+
+## About
+
+Parallel Coordinates is a powerful technique for visualizing high-dimensional data. Each dimension is represented as a vertical axis, and data points are drawn as polylines connecting values across axes. Great for identifying patterns, clusters, and outliers in multivariate datasets.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/parallel-coordinates.json
+```
+
+## Usage
+
+```tsx
+import { ParallelCoordinates } from "@/components/ui/charts"
+
+const data = [
+  { id: "Item 1", values: { a: 10, b: 25, c: 15 }, group: "A" },
+  { id: "Item 2", values: { a: 22, b: 18, c: 30 }, group: "B" },
+]
+
+const dimensions = ["a", "b", "c"]
+
+export function Example() {
+  return <ParallelCoordinates data={data} dimensions={dimensions} />
+}
+```
+
+## Variants
+
+### Iris Dataset Style
+
+Classic multi-class classification visualization.
+
+<ComponentPreview name="parallel-coordinates-iris" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | ParallelCoordinatesDataPoint[] | required | Array of data points |
+| dimensions | string[] | required | Dimension names to display |
+| showLabels | boolean | true | Show dimension labels |
+| showValues | boolean | true | Show tick values |
+| lineOpacity | number | 0.5 | Line opacity (0-1) |
+| colorScheme | string[] | blue palette | Colors for groups |

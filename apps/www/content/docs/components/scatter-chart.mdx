@@ -7,7 +7,13 @@ description: Point scatter charts with multiple symbols and optional trend lines
 
 ## About
 
-The Scatter Chart component displays the relationship between two numerical variables.
+The Scatter Chart component displays the relationship between two numerical variables. Built with D3, it supports:
+
+- **Multiple data series** with different colors
+- **Various point symbols** (circle, square, triangle, diamond, cross)
+- **Bubble charts** with size-mapped data points
+- **Trend lines** showing linear regression
+- **Interactive tooltips** with point details
 
 ## Installation
 
@@ -23,6 +29,7 @@ import { ScatterChart } from "@/components/ui/charts"
 const data = [
   {
     name: "Dataset A",
+    color: "#2563eb",
     data: [
       { x: 10, y: 20 },
       { x: 15, y: 35 },
@@ -32,16 +39,47 @@ const data = [
 ]
 
 export function Example() {
-  return <ScatterChart data={data} showTrendLine />
+  return <ScatterChart data={data} showLegend />
 }
 ```
+
+## Examples
+
+### Bubble Chart
+
+Use the `size` property on data points to create bubble charts. The `sizeRange` prop controls the min/max bubble sizes.
+
+<ComponentPreview name="scatter-chart-bubble-demo" />
+
+### With Trend Line
+
+Enable `showTrendLine` to display a linear regression line through the data points.
+
+<ComponentPreview name="scatter-chart-trendline-demo" />
+
+### Multiple Symbols
+
+Each series can have its own symbol type for better differentiation.
+
+<ComponentPreview name="scatter-chart-symbols-demo" />
+
+### Correlation Analysis
+
+Visualize correlations between variables with trend lines.
+
+<ComponentPreview name="scatter-chart-correlation-demo" />
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | data | ScatterChartSeries[] | required | Array of data series |
-| symbol | "circle" \| "square" \| "triangle" \| "diamond" | "circle" | Point symbol |
-| size | number | 8 | Point size |
+| symbol | "circle" \| "square" \| "triangle" \| "diamond" \| "cross" | "circle" | Default point symbol |
+| size | number | 8 | Default point size |
 | showTrendLine | boolean | false | Show linear regression line |
 | sizeRange | [number, number] | [6, 20] | Size range for bubble charts |
+| xAxisLabel | string | - | Label for x-axis |
+| yAxisLabel | string | - | Label for y-axis |
+| showGrid | boolean | true | Show grid lines |
+| showLegend | boolean | true | Show legend |
+| showTooltip | boolean | true | Show tooltip on hover |

@@ -1,0 +1,52 @@
+---
+title: Parcats Chart
+description: Parallel Categories for visualizing flows through categorical variables.
+---
+
+<ComponentPreview name="parcats-chart-demo" />
+
+## About
+
+Parallel Categories (Parcats) is similar to Parallel Coordinates but designed for categorical data. It shows how data flows through different categorical dimensions, making it ideal for visualizing user journeys, survey responses, and multi-stage categorical processes.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/parcats-chart.json
+```
+
+## Usage
+
+```tsx
+import { ParcatsChart } from "@/components/ui/charts"
+
+const data = [
+  { id: "1", categories: { Gender: "Male", Age: "18-24", Device: "Mobile" } },
+  { id: "2", categories: { Gender: "Female", Age: "25-34", Device: "Desktop" } },
+]
+
+const dimensions = ["Gender", "Age", "Device"]
+
+export function Example() {
+  return <ParcatsChart data={data} dimensions={dimensions} />
+}
+```
+
+## Variants
+
+### User Journey Flow
+
+Track user paths through conversion funnels.
+
+<ComponentPreview name="parcats-chart-flow" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | ParcatsDataPoint[] | required | Array of data points |
+| dimensions | string[] | required | Category dimension names |
+| bundleColors | boolean | true | Color by first dimension |
+| showCounts | boolean | true | Show category counts |
+| lineOpacity | number | 0.5 | Flow line opacity (0-1) |
+| colorScheme | string[] | blue palette | Colors for categories |

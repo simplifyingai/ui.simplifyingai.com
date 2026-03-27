@@ -1,0 +1,44 @@
+---
+title: Lollipop Chart
+description: Bar chart variant with stems and circular endpoints.
+---
+
+<ComponentPreview name="lollipop-chart-demo" />
+
+## About
+
+The Lollipop Chart is a variation of a bar chart where bars are replaced with lines (stems) and circles (dots). It provides a cleaner look while maintaining the ability to compare values across categories.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/lollipop-chart.json
+```
+
+## Usage
+
+```tsx
+import { LollipopChart } from "@/components/ui/charts"
+
+const data = [
+  { category: "Jan", value: 45 },
+  { category: "Feb", value: 52 },
+  { category: "Mar", value: 78 },
+]
+
+export function Example() {
+  return <LollipopChart data={data} orientation="horizontal" />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | LollipopDataPoint[] | required | Array of data points |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
+| dotSize | number | 10 | Size of dots in pixels |
+| showGrid | boolean | true | Show grid lines |
+| showValues | boolean | false | Show value labels |
+| color | string | "#2563eb" | Dot color |
+| stemColor | string | "#93c5fd" | Stem color |

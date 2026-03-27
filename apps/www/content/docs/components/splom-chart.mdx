@@ -1,0 +1,53 @@
+---
+title: SPLOM Chart
+description: Scatter Plot Matrix for exploring pairwise relationships in multivariate data.
+---
+
+<ComponentPreview name="splom-chart-demo" />
+
+## About
+
+A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variables in a dataset. Each cell shows a scatter plot of two variables, with histograms on the diagonal showing each variable's distribution. Essential for exploratory data analysis and identifying correlations.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/splom-chart.json
+```
+
+## Usage
+
+```tsx
+import { SplomChart } from "@/components/ui/charts"
+
+const data = [
+  { id: "Item 1", values: { x: 10, y: 20, z: 15 }, group: "A" },
+  { id: "Item 2", values: { x: 25, y: 15, z: 30 }, group: "B" },
+]
+
+const dimensions = ["x", "y", "z"]
+
+export function Example() {
+  return <SplomChart data={data} dimensions={dimensions} />
+}
+```
+
+## Variants
+
+### Compact View
+
+Smaller cells for dense data visualization.
+
+<ComponentPreview name="splom-chart-compact" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | SplomDataPoint[] | required | Array of data points |
+| dimensions | string[] | required | Variable names to include |
+| cellSize | number | 100 | Size of each cell in pixels |
+| pointRadius | number | 2.5 | Radius of scatter points |
+| showLabels | boolean | true | Show dimension labels |
+| showHistograms | boolean | true | Show histograms on diagonal |
+| colorScheme | string[] | blue palette | Colors for groups |

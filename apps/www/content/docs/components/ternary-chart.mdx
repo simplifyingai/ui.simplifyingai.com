@@ -1,0 +1,57 @@
+---
+title: Ternary Chart
+description: Triangular composition plot for three-component mixtures.
+---
+
+<ComponentPreview name="ternary-chart-demo" />
+
+## About
+
+A Ternary Chart (also called a triangle plot or simplex plot) visualizes compositions of three components that sum to a constant (typically 100%). Used extensively in geology (soil composition), chemistry (alloy composition), and any field dealing with three-part mixtures.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/ternary-chart.json
+```
+
+## Usage
+
+```tsx
+import { TernaryChart } from "@/components/ui/charts"
+
+const data = [
+  { id: "Sample 1", a: 40, b: 35, c: 25, label: "Sandy Loam", group: "Loam" },
+  { id: "Sample 2", a: 20, b: 55, c: 25, label: "Clay Loam", group: "Clay" },
+]
+
+export function Example() {
+  return (
+    <TernaryChart
+      data={data}
+      labels={["Sand", "Clay", "Silt"]}
+    />
+  )
+}
+```
+
+## Variants
+
+### Metal Alloy Composition
+
+Visualize material compositions like alloys.
+
+<ComponentPreview name="ternary-chart-composition" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `TernaryDataPoint[]` | required | Array of a, b, c points |
+| labels | `[string, string, string]` | `["A", "B", "C"]` | Axis labels |
+| showGrid | `boolean` | `true` | Show grid lines |
+| showLabels | `boolean` | `true` | Show axis labels |
+| gridLines | `number` | `5` | Number of grid divisions |
+| pointRadius | `number` | `6` | Data point radius |
+| colorScheme | `string[]` | blue palette | Colors for groups |
+| normalize | `boolean` | `true` | Auto-normalize to sum=1 |

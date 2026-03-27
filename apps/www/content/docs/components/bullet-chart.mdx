@@ -1,0 +1,46 @@
+---
+title: Bullet Chart
+description: Compact performance indicator with ranges and targets.
+---
+
+<ComponentPreview name="bullet-chart-demo" />
+
+## About
+
+The Bullet Chart is a variation of a bar chart designed to replace dashboard gauges. It displays a primary measure, compares it against a target, and shows qualitative ranges (poor, satisfactory, good).
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/bullet-chart.json
+```
+
+## Usage
+
+```tsx
+import { BulletChart } from "@/components/ui/charts"
+
+const data = [
+  {
+    label: "Revenue",
+    value: 275,
+    target: 250,
+    ranges: [150, 225, 300], // [poor, satisfactory, good]
+  },
+]
+
+export function Example() {
+  return <BulletChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | BulletChartData[] | required | Array of bullet data |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
+| showLabels | boolean | true | Show category labels |
+| showValues | boolean | true | Show value labels |
+| barColor | string | "#1e40af" | Color for value bar |
+| targetColor | string | "#1e293b" | Color for target marker |

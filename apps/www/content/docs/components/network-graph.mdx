@@ -1,0 +1,59 @@
+---
+title: Network Graph
+description: Force-directed graph for visualizing relationships between entities.
+---
+
+<ComponentPreview name="network-graph-demo" />
+
+## About
+
+The Network Graph is a force-directed visualization that shows relationships between nodes. It uses D3's force simulation to position nodes and highlight connections. Ideal for social networks, system architectures, and dependency relationships.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/network-graph.json
+```
+
+## Usage
+
+```tsx
+import { NetworkGraph } from "@/components/ui/charts"
+
+const nodes = [
+  { id: "Alice", group: "Team A" },
+  { id: "Bob", group: "Team A" },
+  { id: "Carol", group: "Team B" },
+]
+
+const links = [
+  { source: "Alice", target: "Bob" },
+  { source: "Bob", target: "Carol" },
+]
+
+export function Example() {
+  return <NetworkGraph nodes={nodes} links={links} />
+}
+```
+
+## Variants
+
+### Directed Graph with Arrows
+
+Show directional relationships with arrows.
+
+<ComponentPreview name="network-graph-directed" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| nodes | NetworkNode[] | required | Array of nodes |
+| links | NetworkLink[] | required | Array of links |
+| nodeRadius | number | 8 | Default node radius |
+| linkWidth | number | 1.5 | Default link width |
+| showLabels | boolean | true | Show node labels |
+| showArrows | boolean | false | Show direction arrows |
+| charge | number | -300 | Force simulation charge |
+| linkDistance | number | 100 | Target link distance |
+| colorScheme | string[] | blue palette | Colors for groups |

@@ -1,0 +1,41 @@
+---
+title: OHLC Chart
+description: Open-High-Low-Close chart for financial data visualization.
+---
+
+<ComponentPreview name="ohlc-chart-demo" />
+
+## About
+
+The OHLC Chart displays financial data using vertical lines with horizontal ticks showing open and close prices. Similar to candlestick charts but using a simpler visual representation.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/ohlc-chart.json
+```
+
+## Usage
+
+```tsx
+import { OHLCChart } from "@/components/ui/charts"
+
+const data = [
+  { date: "2024-01-01", open: 100, high: 105, low: 98, close: 103 },
+  { date: "2024-01-02", open: 103, high: 108, low: 101, close: 106 },
+]
+
+export function Example() {
+  return <OHLCChart data={data} />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | OHLCDataPoint[] | required | Array of OHLC data points |
+| upColor | string | "#22c55e" | Color for bullish bars |
+| downColor | string | "#ef4444" | Color for bearish bars |
+| showGrid | boolean | true | Show grid lines |
+| showTooltip | boolean | true | Show tooltip on hover |

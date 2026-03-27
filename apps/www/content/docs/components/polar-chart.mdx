@@ -1,0 +1,64 @@
+---
+title: Polar Chart
+description: Rose and coxcomb charts for cyclic or directional data.
+---
+
+<ComponentPreview name="polar-chart-demo" />
+
+## About
+
+The Polar Chart (also known as Rose Chart or Nightingale Rose Diagram) displays data in a circular format with segments radiating from the center. It's ideal for visualizing cyclic data like wind direction, time-based patterns, or categorical comparisons.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/polar-chart.json
+```
+
+## Usage
+
+```tsx
+import { PolarChart } from "@/components/ui/charts"
+
+const data = [
+  { category: "N", value: 45 },
+  { category: "NE", value: 32 },
+  { category: "E", value: 28 },
+  { category: "SE", value: 15 },
+  { category: "S", value: 22 },
+  { category: "SW", value: 38 },
+  { category: "W", value: 52 },
+  { category: "NW", value: 48 },
+]
+
+export function Example() {
+  return <PolarChart data={data} variant="rose" />
+}
+```
+
+## Variants
+
+### Coxcomb Chart
+
+The coxcomb variant uses area-proportional sectors (radius varies with sqrt of value).
+
+<ComponentPreview name="polar-chart-coxcomb" />
+
+### Donut Style
+
+Add an inner radius to create a donut-style polar chart.
+
+<ComponentPreview name="polar-chart-donut" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `PolarDataPoint[]` | required | Array of data points |
+| variant | `"rose" \| "coxcomb"` | `"rose"` | Chart variant type |
+| innerRadius | `number` | `0` | Inner radius for donut style |
+| showLabels | `boolean` | `true` | Show category labels |
+| showValues | `boolean` | `false` | Show value labels |
+| showGrid | `boolean` | `true` | Show grid circles |
+| colorScheme | `string[]` | blue palette | Colors for segments |
+| valueFormatter | `function` | `toLocaleString` | Format values |

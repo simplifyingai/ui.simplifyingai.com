@@ -1,0 +1,49 @@
+---
+title: Icicle Chart
+description: Rectangular hierarchical visualization for nested data.
+---
+
+<ComponentPreview name="icicle-chart-demo" />
+
+## About
+
+The Icicle Chart displays hierarchical data as nested rectangles. Unlike treemap which uses area, icicle charts use length to represent values and show hierarchy through horizontal or vertical stacking.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/icicle-chart.json
+```
+
+## Usage
+
+```tsx
+import { IcicleChart } from "@/components/ui/charts"
+
+const data = {
+  name: "Company",
+  children: [
+    {
+      name: "Engineering",
+      children: [
+        { name: "Frontend", value: 25 },
+        { name: "Backend", value: 30 },
+      ],
+    },
+  ],
+}
+
+export function Example() {
+  return <IcicleChart data={data} orientation="vertical" />
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | IcicleNode | required | Hierarchical data structure |
+| orientation | "horizontal" \| "vertical" | "vertical" | Chart orientation |
+| showLabels | boolean | true | Show segment labels |
+| labelMinSize | number | 40 | Minimum size to show labels |
+| padding | number | 1 | Padding between segments |

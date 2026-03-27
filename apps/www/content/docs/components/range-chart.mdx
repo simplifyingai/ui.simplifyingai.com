@@ -1,0 +1,68 @@
+---
+title: Range Chart
+description: Visualize value ranges, confidence intervals, and bands.
+---
+
+<ComponentPreview name="range-chart-demo" />
+
+## About
+
+Range Charts display data ranges using various visual encodings. They're perfect for showing temperature ranges, confidence intervals, stock price ranges, or any data with low/high bounds. Supports area bands, bar ranges, and error bar styles.
+
+## Installation
+
+```bash
+npx shadcn@latest add https://ui.simplifying.ai/r/range-chart.json
+```
+
+## Usage
+
+```tsx
+import { RangeChart } from "@/components/ui/charts"
+
+const data = [
+  { x: "Jan", low: -5, high: 8, mid: 2 },
+  { x: "Feb", low: -3, high: 10, mid: 4 },
+  { x: "Mar", low: 2, high: 15, mid: 8 },
+]
+
+export function Example() {
+  return (
+    <RangeChart
+      data={data}
+      variant="area"
+      showMidLine
+    />
+  )
+}
+```
+
+## Variants
+
+### Error Bars
+
+Scientific-style error bars with caps.
+
+<ComponentPreview name="range-chart-error-bars" />
+
+### Bar Ranges
+
+Vertical bar representation of ranges.
+
+<ComponentPreview name="range-chart-bars" />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| data | `RangeDataPoint[]` | required | Array of x, low, high, mid data |
+| variant | `"area" \| "bars" \| "errorBars"` | `"area"` | Visual style |
+| xAxisType | `"linear" \| "time" \| "category"` | `"category"` | X-axis scale type |
+| showMidLine | `boolean` | `true` | Show middle value line |
+| showPoints | `boolean` | `false` | Show data points |
+| fillColor | `string` | `"#3b82f6"` | Range fill color |
+| strokeColor | `string` | `"#1e40af"` | Border stroke color |
+| midLineColor | `string` | `"#1e40af"` | Mid-line color |
+| xAxisLabel | `string` | `undefined` | X-axis label |
+| yAxisLabel | `string` | `undefined` | Y-axis label |
+| valueFormatter | `function` | `toLocaleString` | Format values |

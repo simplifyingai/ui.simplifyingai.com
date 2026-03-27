@@ -1,13 +1,13 @@
 ---
 title: Line Chart
-description: Multi-series line charts with customizable curves, dots, and tooltips.
+description: Multi-series line charts with variants for analytics, stock prices, and comparisons.
 ---
 
 <ComponentPreview name="line-chart-demo" />
 
 ## About
 
-The Line Chart component displays data points connected by lines, perfect for showing trends over time.
+The Line Chart displays data points connected by lines, perfect for showing trends over time. Supports multiple variants optimized for different use cases.
 
 ## Installation
 
@@ -15,7 +15,33 @@ The Line Chart component displays data points connected by lines, perfect for sh
 npx shadcn@latest add https://ui.simplifying.ai/r/line-chart.json
 ```
 
+## Variants
+
+### Default
+
+Classic line chart with dots and tooltips, ideal for categorical data.
+
+### Smooth
+
+Clean, minimal line with area fill. Perfect for analytics dashboards (like Google Analytics).
+
+<ComponentPreview name="line-chart-smooth-demo" />
+
+### Multi
+
+Multiple lines with distinct colors and crosshair tooltip. Great for comparing trends.
+
+<ComponentPreview name="line-chart-multi-demo" />
+
+### Stock
+
+Financial chart style with detailed data, grid lines, and title support.
+
+<ComponentPreview name="line-chart-stock-demo" />
+
 ## Usage
+
+### Basic Line Chart
 
 ```tsx
 import { LineChart } from "@/components/ui/charts"
@@ -24,16 +50,83 @@ const data = [
   {
     name: "Revenue",
     data: [
-      { x: "Jan", y: 4000 },
-      { x: "Feb", y: 3000 },
-      { x: "Mar", y: 5000 },
-      { x: "Apr", y: 4500 },
+      { x: "Jan", y: 4200 },
+      { x: "Feb", y: 4800 },
+      { x: "Mar", y: 5100 },
+      { x: "Apr", y: 4900 },
     ],
+    color: "#3b82f6",
   },
 ]
 
 export function Example() {
-  return <LineChart data={data} />
+  return <LineChart data={data} showDots />
+}
+```
+
+### Time Series Data
+
+```tsx
+import { LineChart } from "@/components/ui/charts"
+
+const data = [
+  {
+    name: "Traffic",
+    data: timeSeriesData.map(d => ({ x: d.date, y: d.value })),
+    color: "#93c5fd",
+  },
+]
+
+export function TimeSeriesExample() {
+  return (
+    <LineChart
+      data={data}
+      variant="smooth"
+      xType="time"
+    />
+  )
+}
+```
+
+### Multi-Line Comparison
+
+```tsx
+import { LineChart } from "@/components/ui/charts"
+
+const data = [
+  { name: "Product A", data: productAData, color: "#2563eb" },
+  { name: "Product B", data: productBData, color: "#06b6d4" },
+  { name: "Product C", data: productCData, color: "#f97316" },
+]
+
+export function ComparisonExample() {
+  return (
+    <LineChart
+      data={data}
+      variant="multi"
+      xType="time"
+      showLegend
+    />
+  )
+}
+```
+
+### Stock Price Chart
+
+```tsx
+import { LineChart } from "@/components/ui/charts"
+
+export function StockExample() {
+  return (
+    <LineChart
+      data={[{ name: "AAPL", data: stockData, color: "#0d9488" }]}
+      variant="stock"
+      xType="time"
+      title="Apple Inc."
+      subtitle="2024 YTD"
+      yAxisFormatter={(v) => `$${v.toLocaleString()}`}
+    />
+  )
 }
 ```
 
@@ -41,9 +134,40 @@ export function Example() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | LineChartSeries[] | required | Array of data series |
-| curve | "linear" \| "monotone" \| "cardinal" \| "step" | "monotone" | Line curve type |
-| showDots | boolean | true | Show data points |
-| showGrid | boolean | true | Show grid lines |
-| showLegend | boolean | true | Show legend |
-| showTooltip | boolean | true | Show tooltips on hover |
+| data | `LineChartSeries[]` | required | Array of data series |
+| variant | `"default"` `"smooth"` `"multi"` `"stock"` `"sparkline"` | `"default"` | Chart style variant |
+| curve | `"linear"` `"monotone"` `"cardinal"` `"step"` `"natural"` `"basis"` | `"monotone"` | Line interpolation |
+| xType | `"category"` `"number"` `"time"` | `"category"` | X-axis data type |
+| showDots | `boolean` | varies | Show data points |
+| showGrid | `boolean` | `true` | Show grid lines |
+| showLegend | `boolean` | `true` | Show legend |
+| showTooltip | `boolean` | `true` | Show tooltips |
+| showArea | `boolean` | `false` | Fill area under line |
+| showCrosshair | `boolean` | `false` | Show crosshair on hover |
+| color | `string` | - | Line color (single series) |
+| strokeWidth | `number` | `2` | Line thickness |
+| areaOpacity | `number` | `0.15` | Area fill opacity |
+| title | `string` | - | Chart title (stock variant) |
+| subtitle | `string` | - | Chart subtitle |
+| yAxisFormatter | `(value: number) => string` | - | Y-axis value formatter |
+
+## Data Types
+
+### LineChartSeries
+
+```tsx
+interface LineChartSeries {
+  name: string
+  data: LineChartDataPoint[]
+  color?: string
+  strokeWidth?: number
+  strokeDasharray?: string
+  showDots?: boolean
+  dotSize?: number
+}
+
+interface LineChartDataPoint {
+  x: string | number | Date
+  y: number
+}
+```

@@ -1,13 +1,13 @@
 ---
 title: Heatmap Chart
-description: 2D heatmaps with color-coded values.
+description: Versatile heatmaps with multiple variants including matrix, calendar, and radial displays.
 ---
 
 <ComponentPreview name="heatmap-chart-demo" />
 
 ## About
 
-The Heatmap Chart displays data in a matrix format with color intensity representing values.
+The Heatmap Chart displays data with color intensity representing values. It supports multiple variants for different use cases.
 
 ## Installation
 
@@ -15,7 +15,37 @@ The Heatmap Chart displays data in a matrix format with color intensity represen
 npx shadcn@latest add https://ui.simplifying.ai/r/heatmap-chart.json
 ```
 
+## Variants
+
+### Matrix (Default)
+
+Traditional grid heatmap with rows and columns.
+
+<ComponentPreview name="heatmap-chart-matrix-demo" />
+
+### Calendar
+
+GitHub-style contribution calendar heatmap.
+
+<ComponentPreview name="heatmap-chart-calendar-demo" />
+
+### Radial
+
+Circular/polar heatmap for time-based data with hours around the circumference and days as concentric rings.
+
+<ComponentPreview name="heatmap-chart-radial-demo" />
+
+## Color Themes
+
+Built-in color themes with automatic dark mode support.
+
+<ComponentPreview name="heatmap-chart-themes-demo" />
+
+Available themes: `green`, `blue`, `purple`, `orange`, `red`, `gray`, `pink`, `heat`, `thermal`
+
 ## Usage
+
+### Matrix Variant
 
 ```tsx
 import { HeatmapChart } from "@/components/ui/charts"
@@ -27,8 +57,63 @@ const data = [
   { x: "Tue", y: "10am", value: 30 },
 ]
 
-export function Example() {
-  return <HeatmapChart data={data} colorScale={["#eff6ff", "#3b82f6"]} />
+export function MatrixExample() {
+  return (
+    <HeatmapChart
+      data={data}
+      variant="matrix"
+      colorTheme="blue"
+      showValues
+    />
+  )
+}
+```
+
+### Calendar Variant
+
+```tsx
+import { HeatmapChart } from "@/components/ui/charts"
+
+const contributionData = [
+  { date: new Date("2024-01-15"), value: 5 },
+  { date: new Date("2024-01-16"), value: 12 },
+  { date: "2024-01-17", value: 3 }, // String dates also work
+]
+
+export function CalendarExample() {
+  return (
+    <HeatmapChart
+      data={contributionData}
+      variant="calendar"
+      colorTheme="green"
+      cellSize={11}
+      cellGap={3}
+    />
+  )
+}
+```
+
+### Radial Variant
+
+```tsx
+import { HeatmapChart } from "@/components/ui/charts"
+
+const activityData = [
+  { day: 0, hour: 9, value: 45 },  // Sunday 9am
+  { day: 1, hour: 14, value: 80 }, // Monday 2pm
+  { day: "Tuesday", hour: "3pm", value: 65 }, // String formats work too
+]
+
+export function RadialExample() {
+  return (
+    <HeatmapChart
+      data={activityData}
+      variant="radial"
+      colorTheme="heat"
+      width={500}
+      height={500}
+    />
+  )
 }
 ```
 
@@ -36,7 +121,47 @@ export function Example() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | HeatmapDataPoint[] | required | Matrix data points |
-| colorScale | string[] | ["#f0f9ff", "#0ea5e9"] | Color gradient |
-| showValues | boolean | false | Show values in cells |
-| cellRadius | number | 2 | Cell corner radius |
+| data | `DataPoint[]` | required | Data points for the heatmap |
+| variant | `"matrix"` `"calendar"` `"radial"` `"compact"` | `"matrix"` | Display variant |
+| colorTheme | `string` | `"green"` | Color theme preset |
+| colorScale | `string[]` | - | Custom color array (overrides theme) |
+| showValues | `boolean` | `false` | Show values in cells (matrix only) |
+| cellRadius | `number` | `2` | Cell corner radius |
+| cellGap | `number` | `3` | Gap between cells |
+| cellSize | `number` | `12` | Cell size (calendar/radial) |
+| showMonthLabels | `boolean` | `true` | Show month labels (calendar) |
+| showWeekdayLabels | `boolean` | `true` | Show weekday labels (calendar) |
+| weekStartsOn | `0` or `1` | `0` | Week start (0=Sunday, 1=Monday) |
+| legend | `object` | see below | Legend configuration |
+| onCellClick | `function` | - | Cell click handler |
+
+## Data Types
+
+### HeatmapDataPoint (Matrix)
+
+```tsx
+interface HeatmapDataPoint {
+  x: string | number
+  y: string | number
+  value: number
+}
+```
+
+### CalendarDataPoint (Calendar)
+
+```tsx
+interface CalendarDataPoint {
+  date: Date | string
+  value: number
+}
+```
+
+### RadialHeatmapDataPoint (Radial)
+
+```tsx
+interface RadialHeatmapDataPoint {
+  day: number | string   // 0-6 or day name
+  hour: number | string  // 0-23 or "12am", "1pm", etc.
+  value: number
+}
+```
