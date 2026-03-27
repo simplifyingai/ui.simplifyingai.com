@@ -43,3 +43,11 @@ tsconfig.tsbuildinfo
 .idea
 .fleet
 .vscode
+
+# CDK
+cdk.out
+*.js.map
+*.d.ts
+
+# npm lock (using pnpm)
+package-lock.json
