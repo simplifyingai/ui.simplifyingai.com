@@ -1,9 +1,11 @@
 ---
 title: Funnel Chart
 description: Flowing stream-style funnel chart with smooth bezier curves, stage markers, and value pills.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="funnel-chart-demo" />
+<ComponentPreview name="funnel-chart-demo" description="A multi-series funnel chart displaying flowing streams through different stages with value pills and stage markers." />
 
 ## About
 
@@ -20,13 +22,39 @@ Features:
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/funnel-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="funnel-chart" title="components/ui/charts/funnel-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { FunnelChart } from "@/components/ui/charts"
 
 const stages = ["Stage 1", "Stage 2", "Stage 3", "Stage 4"]
@@ -70,7 +98,7 @@ export function Example() {
 
 <ComponentPreview name="funnel-chart-horizontal-demo" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -88,7 +116,7 @@ export function Example() {
 
 ## Data Format
 
-```tsx
+```tsx showLineNumbers
 interface FunnelSeries {
   name: string      // Series name (shown in tooltip)
   values: number[]  // Value at each stage (must match stages length)
@@ -100,7 +128,7 @@ interface FunnelSeries {
 
 ### Custom Colors
 
-```tsx
+```tsx showLineNumbers
 const series = [
   { name: "Series A", values: [100, 200, 300], color: "#FF6B6B" },
   { name: "Series B", values: [80, 160, 240], color: "#4ECDC4" },
@@ -116,7 +144,7 @@ const series = [
 
 ### Center Pills Only
 
-```tsx
+```tsx showLineNumbers
 <FunnelChart
   stages={stages}
   series={series}
@@ -126,7 +154,7 @@ const series = [
 
 ### Custom Value Formatter
 
-```tsx
+```tsx showLineNumbers
 <FunnelChart
   stages={stages}
   series={series}
@@ -136,7 +164,7 @@ const series = [
 
 ### Click Handling
 
-```tsx
+```tsx showLineNumbers
 <FunnelChart
   stages={stages}
   series={series}
@@ -148,10 +176,21 @@ const series = [
 
 ### Without Stage Markers
 
-```tsx
+```tsx showLineNumbers
 <FunnelChart
   stages={stages}
   series={series}
   showStageMarkers={false}
 />
 ```
+
+## Notes
+
+- The funnel chart uses SVG bezier curves to create smooth, flowing streams between stages
+- Each series is stacked on top of previous series, with values accumulating
+- Value pills can be positioned at top, bottom, both, or center of each stage
+- The component automatically calculates the optimal curve shapes based on value changes
+- Animation duration can be customized or disabled for instant rendering
+- Custom color schemes allow full control over visual branding
+- Interactive tooltips show series name and value on hover
+- Click handlers provide access to both series data and stage index for custom interactions

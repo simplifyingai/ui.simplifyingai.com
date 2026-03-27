@@ -1,9 +1,11 @@
 ---
 title: Box Plot Chart
 description: A statistical chart component for visualizing data distributions through quartiles, medians, and outlier detection.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="box-plot-chart-demo" />
+<ComponentPreview name="box-plot-chart-demo" description="A box and whisker plot for visualizing statistical distributions with quartiles and outliers." />
 
 ## About
 
@@ -16,13 +18,39 @@ The Box Plot Chart (also known as box and whisker plot) displays the distributio
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/box-plot-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="box-plot-chart" title="components/ui/charts/box-plot-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { BoxPlotChart } from "@/components/ui/charts"
 
 const data = [
@@ -49,7 +77,7 @@ Use `orientation="horizontal"` for horizontal box plots. Useful when you have ma
 
 <ComponentPreview name="box-plot-chart-horizontal-demo" />
 
-```tsx
+```tsx showLineNumbers
 <BoxPlotChart data={data} orientation="horizontal" />
 ```
 
@@ -59,7 +87,7 @@ Assign different colors to each box by adding a `color` property to your data po
 
 <ComponentPreview name="box-plot-chart-multi-demo" />
 
-```tsx
+```tsx showLineNumbers
 const data = [
   { label: "Q1", values: [...], color: "#93c5fd" },
   { label: "Q2", values: [...], color: "#3b82f6" },
@@ -82,7 +110,7 @@ The IQR method automatically detects and displays outliers as individual points.
 
 <ComponentPreview name="box-plot-chart-outliers-demo" />
 
-```tsx
+```tsx showLineNumbers
 <BoxPlotChart
   data={data}
   showOutliers
@@ -90,7 +118,7 @@ The IQR method automatically detects and displays outliers as individual points.
 />
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -138,7 +166,7 @@ interface BoxPlotStats {
 
 ### Custom Colors Per Box
 
-```tsx
+```tsx showLineNumbers
 const data = [
   { label: "Success", values: [...], color: "#22c55e" },
   { label: "Warning", values: [...], color: "#eab308" },
@@ -152,7 +180,7 @@ const data = [
 
 If you've already computed the statistics, you can pass them directly:
 
-```tsx
+```tsx showLineNumbers
 const stats = [
   {
     label: "Dataset A",
@@ -167,3 +195,12 @@ const stats = [
 
 <BoxPlotChart data={stats} />
 ```
+
+## Notes
+
+- Box plots are ideal for comparing distributions across multiple groups or categories
+- The IQR (Interquartile Range) method is the standard approach for detecting outliers in statistical analysis
+- Use horizontal orientation when dealing with many categories or long labels
+- The component automatically calculates quartiles, median, and outliers from raw data arrays
+- Pre-computed statistics can be passed directly if you've already performed the calculations
+- Box width can be adjusted to improve readability when comparing multiple categories

@@ -1,9 +1,11 @@
 ---
 title: Parcats Chart
 description: Parallel Categories for visualizing flows through categorical variables.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="parcats-chart-demo" />
+<ComponentPreview name="parcats-chart-demo" description="Parallel categories showing flows through categorical dimensions" />
 
 ## About
 
@@ -11,13 +13,39 @@ Parallel Categories (Parcats) is similar to Parallel Coordinates but designed fo
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/parcats-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="parcats-chart" title="components/ui/charts/parcats-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ParcatsChart } from "@/components/ui/charts"
 
 const data = [
@@ -40,7 +68,7 @@ Track user paths through conversion funnels.
 
 <ComponentPreview name="parcats-chart-flow" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -50,3 +78,12 @@ Track user paths through conversion funnels.
 | showCounts | boolean | true | Show category counts |
 | lineOpacity | number | 0.5 | Flow line opacity (0-1) |
 | colorScheme | string[] | blue palette | Colors for categories |
+
+## Notes
+
+- Parcats charts are ideal for visualizing how categorical data flows through different stages or dimensions
+- Each vertical column represents a categorical dimension, and ribbons show how categories relate across dimensions
+- The width of each ribbon is proportional to the number of items flowing through that path
+- When bundleColors is enabled, flows are colored based on their value in the first dimension
+- Use this chart type for user journey analysis, conversion funnels, survey responses, or any multi-stage categorical data
+- The visualization makes it easy to identify common paths and drop-off points in sequential categorical processes

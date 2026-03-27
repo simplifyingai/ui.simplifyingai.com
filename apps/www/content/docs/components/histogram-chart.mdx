@@ -1,9 +1,11 @@
 ---
 title: Histogram Chart
 description: Distribution histograms with multiple variants for visualizing data frequency.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="histogram-chart-demo" />
+<ComponentPreview name="histogram-chart-demo" description="A histogram chart displaying data distribution across bins with customizable bar styling." />
 
 ## About
 
@@ -11,9 +13,35 @@ The Histogram Chart displays the distribution of numerical data by grouping valu
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/histogram-chart.json
 ```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="histogram-chart" title="components/ui/charts/histogram-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## Variants
 
@@ -43,7 +71,7 @@ Area/stepped histogram style with semi-transparent fill, ideal for comparing mul
 
 ### Single Dataset
 
-```tsx
+```tsx showLineNumbers
 import { HistogramChart } from "@/components/ui/charts"
 
 const data = [12, 15, 18, 22, 25, 28, 30, 32, 35, 38, 40, 42, 45]
@@ -62,7 +90,7 @@ export function Example() {
 
 ### Multiple Datasets
 
-```tsx
+```tsx showLineNumbers
 import { HistogramChart } from "@/components/ui/charts"
 
 const datasets = [
@@ -83,7 +111,7 @@ export function OverlayExample() {
 
 ### Gradient Colors
 
-```tsx
+```tsx showLineNumbers
 import { HistogramChart } from "@/components/ui/charts"
 
 export function GradientExample() {
@@ -98,7 +126,7 @@ export function GradientExample() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -120,10 +148,25 @@ export function GradientExample() {
 
 ### HistogramDataset
 
-```tsx
+```tsx showLineNumbers
 interface HistogramDataset {
   data: number[]
   label?: string
   color?: string
 }
 ```
+
+## Notes
+
+- The histogram chart automatically calculates bin ranges based on the data distribution
+- The default variant displays solid bars with optional border strokes
+- The overlay variant uses transparency to allow comparison of multiple distributions
+- The gradient variant applies color scales (viridis, plasma, warm, cool, rainbow) to bars based on position
+- The stepped variant creates an area/line style histogram with semi-transparent fill
+- Bin count can be customized to control the granularity of the distribution display
+- The normalized option displays percentages instead of raw frequencies
+- The showDensity option displays probability density values for statistical analysis
+- Multiple datasets are automatically handled with legends when provided as an array
+- Corner radius can be applied to bars for a softer, more modern appearance
+- Bar padding controls the spacing between adjacent bars in the histogram
+- Custom colors can be specified per dataset for multi-dataset comparisons

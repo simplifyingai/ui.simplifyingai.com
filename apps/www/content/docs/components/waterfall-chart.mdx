@@ -1,9 +1,11 @@
 ---
 title: Waterfall Chart
 description: Waterfall charts showing cumulative effect of sequential values.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="waterfall-chart-demo" />
+<ComponentPreview name="waterfall-chart-demo" description="A waterfall chart showing the cumulative effect of sequential positive and negative values" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Waterfall Chart displays how an initial value is affected by a series of pos
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/waterfall-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="waterfall-chart" title="components/ui/charts/waterfall-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { WaterfallChart } from "@/components/ui/charts"
 
 const data = [
@@ -33,7 +61,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -68,3 +96,12 @@ Track inventory changes with receipts, production, and sales.
 Simple profit calculation with basic categories.
 
 <ComponentPreview name="waterfall-chart-minimal-demo" />
+
+## Notes
+
+- Waterfall charts are ideal for visualizing how an initial value changes through a series of positive and negative contributions
+- Commonly used in financial reporting to show profit/loss breakdowns, budget variance analysis, and cash flow statements
+- The `isTotal` flag marks bars that represent cumulative totals rather than incremental changes
+- Connector lines visually link sequential bars, making it easy to follow the flow from start to finish
+- Different colors for positive, negative, and total values help users quickly understand the nature of each contribution
+- Particularly effective for presenting financial data to stakeholders who need to understand sequential changes over time

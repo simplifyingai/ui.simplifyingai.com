@@ -1,9 +1,11 @@
 ---
 title: Contour Chart
 description: Filled contour plots for visualizing 3D data on a 2D plane with data point markers.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="contour-chart-demo" />
+<ComponentPreview name="contour-chart-demo" description="A contour chart showing filled regions and iso-lines connecting points of equal value." />
 
 ## About
 
@@ -18,13 +20,39 @@ Features:
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/contour-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="contour-chart" title="components/ui/charts/contour-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ContourChart, CONTOUR_COLOR_SCALES } from "@/components/ui/charts"
 
 // 2D array of z-values
@@ -69,7 +97,7 @@ Ocean-themed with circle markers for elevation data.
 
 <ComponentPreview name="contour-chart-scatter-demo" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -93,7 +121,7 @@ Ocean-themed with circle markers for elevation data.
 
 Built-in color scales available via `CONTOUR_COLOR_SCALES`:
 
-```tsx
+```tsx showLineNumbers
 import { CONTOUR_COLOR_SCALES } from "@/components/ui/charts"
 
 // Available scales:
@@ -107,7 +135,7 @@ CONTOUR_COLOR_SCALES.blue      // Light to dark blue
 
 ### Custom Color Scale
 
-```tsx
+```tsx showLineNumbers
 <ContourChart
   data={data}
   colorScale={["#fee2e2", "#ef4444", "#7f1d1d"]}  // Red gradient
@@ -116,7 +144,7 @@ CONTOUR_COLOR_SCALES.blue      // Light to dark blue
 
 ## Marker Symbols
 
-```tsx
+```tsx showLineNumbers
 // X marks (default)
 <ContourChart data={data} markerSymbol="x" />
 
@@ -132,3 +160,11 @@ CONTOUR_COLOR_SCALES.blue      // Light to dark blue
 // No markers
 <ContourChart data={data} showMarkers={false} />
 ```
+
+## Notes
+
+- The `data` prop expects a 2D array where each cell represents a z-value at that grid position
+- Contour levels are automatically calculated based on the min/max values in your data
+- For optimal visualization, use at least 5x5 grid size; smaller grids may not produce smooth contours
+- Data point markers help viewers understand the underlying grid structure
+- Built-in color scales are optimized for accessibility and clarity

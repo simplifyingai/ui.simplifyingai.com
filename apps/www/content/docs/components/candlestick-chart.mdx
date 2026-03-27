@@ -1,9 +1,11 @@
 ---
 title: Candlestick Chart
 description: A financial chart component for visualizing OHLC (Open, High, Low, Close) price data with optional volume indicators.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="candlestick-chart-demo" />
+<ComponentPreview name="candlestick-chart-demo" description="A financial candlestick chart for visualizing OHLC price data with bullish and bearish indicators." />
 
 ## About
 
@@ -17,13 +19,39 @@ The Candlestick Chart is a financial charting component used to display price mo
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/candlestick-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="candlestick-chart" title="components/ui/charts/candlestick-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { CandlestickChart } from "@/components/ui/charts"
 
 const data = [
@@ -51,7 +79,7 @@ Traditional hollow candle style where bullish candles are hollow (outline only) 
 
 <ComponentPreview name="candlestick-chart-hollow-demo" />
 
-```tsx
+```tsx showLineNumbers
 <CandlestickChart data={data} hollowCandles />
 ```
 
@@ -67,7 +95,7 @@ This variant uses a custom implementation with:
 - Auto-scrolls to show latest data on load
 - Fixed candle width for consistent display
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -100,7 +128,7 @@ interface CandlestickDataPoint {
 
 Use different colors for bullish and bearish candles:
 
-```tsx
+```tsx showLineNumbers
 <CandlestickChart
   data={data}
   upColor="#3b82f6"    // Blue for up
@@ -112,7 +140,7 @@ Use different colors for bullish and bearish candles:
 
 Customize how dates appear on the x-axis:
 
-```tsx
+```tsx showLineNumbers
 <CandlestickChart
   data={data}
   dateFormatter={(date) =>
@@ -128,7 +156,7 @@ Customize how dates appear on the x-axis:
 
 Format the price values in tooltips and y-axis:
 
-```tsx
+```tsx showLineNumbers
 <CandlestickChart
   data={data}
   valueFormatter={(value) => `€${value.toFixed(2)}`}
@@ -143,3 +171,13 @@ Format the price values in tooltips and y-axis:
 - **Body (thick rectangle)**: Shows the open and close range
 - **Long wick, short body**: High volatility, price reversal possible
 - **Long body, short wick**: Strong trend in that direction
+
+## Notes
+
+- Candlestick charts are the standard visualization for financial price data and technical analysis
+- Each candlestick represents a time period (day, hour, minute) depending on your data granularity
+- The hollow candles variant is preferred by many traders as it provides clearer visual distinction
+- For large datasets (100+ candles), use the scrollable variant to maintain readability
+- Color coding (green/red) helps quickly identify market trends and momentum
+- The component supports both Date objects and date strings for flexible data input
+- Consider adding volume bars below the candlestick chart for complete market analysis

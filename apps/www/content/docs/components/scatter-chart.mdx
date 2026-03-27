@@ -1,9 +1,11 @@
 ---
 title: Scatter Chart
 description: Point scatter charts with multiple symbols and optional trend lines.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="scatter-chart-demo" />
+<ComponentPreview name="scatter-chart-demo" description="Scatter charts display the relationship between two numerical variables with support for multiple data series, various point symbols, and trend lines." />
 
 ## About
 
@@ -17,13 +19,39 @@ The Scatter Chart component displays the relationship between two numerical vari
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/scatter-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="scatter-chart" title="components/ui/charts/scatter-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ScatterChart } from "@/components/ui/charts"
 
 const data = [
@@ -45,11 +73,32 @@ export function Example() {
 
 ## Examples
 
+### Default
+
+The default scatter chart displays data points with circle symbols and an interactive legend for multiple series.
+
+<ComponentPreview name="scatter-chart-demo" />
+
 ### Bubble Chart
 
 Use the `size` property on data points to create bubble charts. The `sizeRange` prop controls the min/max bubble sizes.
 
 <ComponentPreview name="scatter-chart-bubble-demo" />
+
+```tsx showLineNumbers
+const data = [
+  {
+    name: "Dataset A",
+    data: [
+      { x: 10, y: 20, size: 30 },
+      { x: 15, y: 35, size: 50 },
+      { x: 25, y: 45, size: 20 },
+    ],
+  },
+]
+
+<ScatterChart data={data} sizeRange={[6, 20]} />
+```
 
 ### With Trend Line
 
@@ -57,11 +106,25 @@ Enable `showTrendLine` to display a linear regression line through the data poin
 
 <ComponentPreview name="scatter-chart-trendline-demo" />
 
+```tsx showLineNumbers
+<ScatterChart data={data} showTrendLine />
+```
+
 ### Multiple Symbols
 
 Each series can have its own symbol type for better differentiation.
 
 <ComponentPreview name="scatter-chart-symbols-demo" />
+
+```tsx showLineNumbers
+const data = [
+  { name: "Series A", symbol: "circle", data: [...] },
+  { name: "Series B", symbol: "square", data: [...] },
+  { name: "Series C", symbol: "triangle", data: [...] },
+]
+
+<ScatterChart data={data} />
+```
 
 ### Correlation Analysis
 
@@ -69,7 +132,16 @@ Visualize correlations between variables with trend lines.
 
 <ComponentPreview name="scatter-chart-correlation-demo" />
 
-## Props
+```tsx showLineNumbers
+<ScatterChart
+  data={data}
+  showTrendLine
+  xAxisLabel="Variable X"
+  yAxisLabel="Variable Y"
+/>
+```
+
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -83,3 +155,31 @@ Visualize correlations between variables with trend lines.
 | showGrid | boolean | true | Show grid lines |
 | showLegend | boolean | true | Show legend |
 | showTooltip | boolean | true | Show tooltip on hover |
+
+## Data Types
+
+```tsx showLineNumbers
+interface ScatterChartDataPoint {
+  x: number         // X-axis value
+  y: number         // Y-axis value
+  size?: number     // Optional size for bubble charts
+  label?: string    // Optional label for the point
+}
+
+interface ScatterChartSeries {
+  name: string                    // Series name for legend/tooltip
+  data: ScatterChartDataPoint[]   // Array of data points
+  color?: string                  // Optional: override series color
+  symbol?: "circle" | "square" | "triangle" | "diamond" | "cross"  // Point symbol
+}
+```
+
+## Notes
+
+- Scatter charts are best for showing relationships and correlations between two continuous variables.
+- Use bubble charts (with size property) to add a third dimension of data.
+- Different symbols help distinguish multiple series when color alone isn't sufficient.
+- Trend lines use linear regression to show the general direction of the data.
+- For optimal readability, limit the number of data series to 5 or fewer.
+- Consider using logarithmic scales for data spanning multiple orders of magnitude.
+- Grid lines help users estimate values but can be disabled for a cleaner look.

@@ -1,9 +1,11 @@
 ---
 title: Density Chart
 description: 2D kernel density estimation with contour visualization.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="density-chart-demo" />
+<ComponentPreview name="density-chart-demo" description="A 2D density plot showing point distribution using kernel density estimation." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Density Chart (2D Density Plot) visualizes the distribution of points in two
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/density-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="density-chart" title="components/ui/charts/density-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { DensityChart } from "@/components/ui/charts"
 
 const data = [
@@ -46,7 +74,7 @@ Hide individual points to focus on density patterns.
 
 <ComponentPreview name="density-chart-contours-only" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -60,3 +88,12 @@ Hide individual points to focus on density patterns.
 | colorScale | `function` | `interpolateBlues` | Contour color scale |
 | xAxisLabel | `string` | `undefined` | X-axis label |
 | yAxisLabel | `string` | `undefined` | Y-axis label |
+
+## Notes
+
+- The density chart uses kernel density estimation (KDE) to smooth point distributions
+- Increase `bandwidth` for smoother, more generalized density patterns
+- Decrease `bandwidth` to capture finer details in the density distribution
+- The `thresholds` prop controls how many contour levels are shown (more levels = more detail)
+- For large datasets (1000+ points), consider hiding individual points with `showPoints={false}` for better performance
+- Works best with datasets that have at least 20-30 points for meaningful density estimation

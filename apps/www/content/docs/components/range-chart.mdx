@@ -1,9 +1,11 @@
 ---
 title: Range Chart
 description: Visualize value ranges, confidence intervals, and bands.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="range-chart-demo" />
+<ComponentPreview name="range-chart-demo" description="Range charts display data ranges using various visual encodings, perfect for showing temperature ranges, confidence intervals, or stock price ranges." />
 
 ## About
 
@@ -11,13 +13,39 @@ Range Charts display data ranges using various visual encodings. They're perfect
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/range-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="range-chart" title="components/ui/charts/range-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { RangeChart } from "@/components/ui/charts"
 
 const data = [
@@ -37,6 +65,14 @@ export function Example() {
 }
 ```
 
+## Examples
+
+### Default
+
+The default range chart displays data ranges as filled areas with optional mid-line showing the median or average value.
+
+<ComponentPreview name="range-chart-demo" />
+
 ## Variants
 
 ### Error Bars
@@ -51,7 +87,7 @@ Vertical bar representation of ranges.
 
 <ComponentPreview name="range-chart-bars" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -66,3 +102,23 @@ Vertical bar representation of ranges.
 | xAxisLabel | `string` | `undefined` | X-axis label |
 | yAxisLabel | `string` | `undefined` | Y-axis label |
 | valueFormatter | `function` | `toLocaleString` | Format values |
+
+## Data Types
+
+```tsx showLineNumbers
+interface RangeDataPoint {
+  x: string | number | Date  // X-axis value
+  low: number                // Lower bound of range
+  high: number               // Upper bound of range
+  mid?: number               // Optional middle value
+}
+```
+
+## Notes
+
+- Range charts are ideal for visualizing uncertainty, variability, or value boundaries.
+- The `area` variant works best for continuous data with many points.
+- Use `errorBars` for scientific or statistical data to show confidence intervals.
+- The `bars` variant is suitable for categorical data or discrete time periods.
+- Ensure low values are always less than high values for proper rendering.
+- The optional `mid` value can represent mean, median, or any central tendency measure.

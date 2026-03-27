@@ -1,9 +1,11 @@
 ---
 title: Polar Chart
 description: Rose and coxcomb charts for cyclic or directional data.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="polar-chart-demo" />
+<ComponentPreview name="polar-chart-demo" description="Rose chart for visualizing cyclic and directional data" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Polar Chart (also known as Rose Chart or Nightingale Rose Diagram) displays 
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/polar-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="polar-chart" title="components/ui/charts/polar-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { PolarChart } from "@/components/ui/charts"
 
 const data = [
@@ -50,7 +78,7 @@ Add an inner radius to create a donut-style polar chart.
 
 <ComponentPreview name="polar-chart-donut" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -62,3 +90,13 @@ Add an inner radius to create a donut-style polar chart.
 | showGrid | `boolean` | `true` | Show grid circles |
 | colorScheme | `string[]` | blue palette | Colors for segments |
 | valueFormatter | `function` | `toLocaleString` | Format values |
+
+## Notes
+
+- Polar charts are excellent for visualizing cyclic data like wind direction, time of day, or compass directions
+- The "rose" variant uses bar length to represent values, making it easy to compare magnitudes
+- The "coxcomb" variant (also known as Nightingale Rose Diagram) uses area-proportional sectors where the radius represents the square root of the value
+- Named after Florence Nightingale who famously used coxcomb charts to visualize mortality data during the Crimean War
+- Use the donut style (innerRadius > 0) to create space in the center for additional labels or information
+- Polar charts work best with data that has a natural circular or directional ordering
+- The grid circles help readers gauge the magnitude of each segment

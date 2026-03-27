@@ -1,9 +1,11 @@
 ---
 title: Sankey Chart
 description: Flow diagrams showing connections between nodes with proportional link widths.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="sankey-chart-demo" />
+<ComponentPreview name="sankey-chart-demo" description="Flow diagrams displaying relationships between nodes with link widths proportional to flow values, built with D3-Sankey." />
 
 ## About
 
@@ -17,13 +19,39 @@ The Sankey Chart displays flows between nodes with proportional link widths. Bui
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/sankey-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="sankey-chart" title="components/ui/charts/sankey-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { SankeyChart } from "@/components/ui/charts"
 
 const nodes = [
@@ -59,7 +87,7 @@ Visualize energy distribution from multiple sources (coal, gas, nuclear, renewab
 
 <ComponentPreview name="sankey-chart-energy-demo" />
 
-```tsx
+```tsx showLineNumbers
 const nodes = [
   { id: "coal", name: "Coal", color: "#1e40af" },
   { id: "gas", name: "Natural Gas", color: "#2563eb" },
@@ -83,7 +111,7 @@ Show budget flow with custom link colors to differentiate flow types. Links can 
 
 <ComponentPreview name="sankey-chart-gradient-demo" />
 
-```tsx
+```tsx showLineNumbers
 const links = [
   { source: "revenue", target: "opex", value: 450, color: "#3b82f6" },
   { source: "revenue", target: "capex", value: 200, color: "#60a5fa" },
@@ -100,7 +128,7 @@ A simple two-level flow for basic source-to-destination visualization. Perfect f
 
 <ComponentPreview name="sankey-chart-minimal-demo" />
 
-```tsx
+```tsx showLineNumbers
 <SankeyChart
   nodes={nodes}
   links={links}
@@ -116,7 +144,7 @@ Complex user journey tracking across four levels: traffic sources, entry pages, 
 
 <ComponentPreview name="sankey-chart-multilevel-demo" />
 
-```tsx
+```tsx showLineNumbers
 <SankeyChart
   nodes={nodes}
   links={links}
@@ -128,7 +156,7 @@ Complex user journey tracking across four levels: traffic sources, entry pages, 
 />
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -147,7 +175,7 @@ Complex user journey tracking across four levels: traffic sources, entry pages, 
 
 ## Data Types
 
-```tsx
+```tsx showLineNumbers
 interface SankeyNode {
   id: string       // Unique identifier for the node
   name?: string    // Display name (defaults to id)
@@ -168,7 +196,7 @@ interface SankeyLink {
 
 Control how nodes are positioned horizontally:
 
-```tsx
+```tsx showLineNumbers
 // Left-aligned: sources on left edge
 <SankeyChart nodes={nodes} links={links} nodeAlign="left" />
 
@@ -186,7 +214,7 @@ Control how nodes are positioned horizontally:
 
 Set colors directly on nodes and links for full control:
 
-```tsx
+```tsx showLineNumbers
 const nodes = [
   { id: "a", name: "Node A", color: "#1e40af" },
   { id: "b", name: "Node B", color: "#2563eb" },
@@ -203,7 +231,7 @@ const links = [
 
 Control spacing between nodes for different data densities:
 
-```tsx
+```tsx showLineNumbers
 // Sparse layout (few nodes)
 <SankeyChart nodes={nodes} links={links} nodePadding={30} nodeWidth={24} />
 
@@ -217,3 +245,13 @@ Control spacing between nodes for different data densities:
 - Tooltips provide detailed flow information
 - Color palette maintains sufficient contrast
 - Labels positioned for readability without overlap
+
+## Notes
+
+- Sankey charts are ideal for visualizing flows, conversions, and resource distribution.
+- All link values should be positive numbers representing flow quantities.
+- The chart automatically calculates node heights based on incoming and outgoing flows.
+- For best results, organize your data in a logical left-to-right flow structure.
+- Avoid creating circular flows (e.g., A→B→A) as the layout algorithm doesn't support cycles.
+- Use consistent color schemes to help users trace flows through the diagram.
+- For complex multi-level flows, consider increasing chart width and adjusting nodePadding for clarity.

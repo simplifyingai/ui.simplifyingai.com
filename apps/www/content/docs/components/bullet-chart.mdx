@@ -1,9 +1,11 @@
 ---
 title: Bullet Chart
 description: Compact performance indicator with ranges and targets.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="bullet-chart-demo" />
+<ComponentPreview name="bullet-chart-demo" description="A compact performance indicator showing actual values against targets and qualitative ranges." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Bullet Chart is a variation of a bar chart designed to replace dashboard gau
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/bullet-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="bullet-chart" title="components/ui/charts/bullet-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { BulletChart } from "@/components/ui/charts"
 
 const data = [
@@ -34,7 +62,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -44,3 +72,12 @@ export function Example() {
 | showValues | boolean | true | Show value labels |
 | barColor | string | "#1e40af" | Color for value bar |
 | targetColor | string | "#1e293b" | Color for target marker |
+
+## Notes
+
+- Bullet charts are designed as a space-efficient alternative to dashboard gauges and meters
+- The ranges array typically represents performance thresholds: [poor, satisfactory, good]
+- Target markers provide a clear visual comparison point for actual performance
+- Horizontal orientation is recommended for most use cases as it's more space-efficient
+- Multiple bullet charts can be stacked vertically to compare different metrics in a compact layout
+- The component is ideal for KPI dashboards where space is at a premium

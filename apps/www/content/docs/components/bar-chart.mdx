@@ -1,9 +1,11 @@
 ---
 title: Bar Chart
 description: A flexible bar chart component for visualizing categorical data with support for multiple variants including horizontal, stacked, grouped, and interactive layouts.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="bar-chart-demo" />
+<ComponentPreview name="bar-chart-demo" description="A flexible bar chart with support for vertical, horizontal, stacked, and grouped layouts." />
 
 ## About
 
@@ -17,13 +19,39 @@ The Bar Chart component is built on top of [Recharts](https://recharts.org/) and
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/bar-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="bar-chart" title="components/ui/charts/bar-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { BarChart } from "@/components/ui/charts"
 
 const data = [
@@ -51,7 +79,7 @@ Use the `showLabel` prop to display values directly on top of each bar. This is 
 
 <ComponentPreview name="bar-chart-label-demo" />
 
-```tsx
+```tsx showLineNumbers
 <BarChart data={data} showLabel labelPosition="top" />
 ```
 
@@ -61,7 +89,7 @@ Horizontal bar charts are ideal for displaying data with long category names or 
 
 <ComponentPreview name="bar-chart-horizontal-demo" />
 
-```tsx
+```tsx showLineNumbers
 <BarChart data={data} layout="vertical" />
 ```
 
@@ -71,7 +99,7 @@ Display multiple data series side-by-side to compare different metrics across ca
 
 <ComponentPreview name="bar-chart-multiple-demo" />
 
-```tsx
+```tsx showLineNumbers
 import { MultiBarChart } from "@/components/ui/charts"
 
 const data = [
@@ -93,7 +121,7 @@ Stacked bar charts show the cumulative total of multiple series. Add a `stackId`
 
 <ComponentPreview name="bar-chart-stacked-demo" />
 
-```tsx
+```tsx showLineNumbers
 const series = [
   { name: "Desktop", dataKey: "desktop", color: "#2563eb", stackId: "stack" },
   { name: "Mobile", dataKey: "mobile", color: "#60a5fa", stackId: "stack" },
@@ -126,7 +154,7 @@ Highlight a specific bar using a custom shape with a dashed border effect. Usefu
 
 <ComponentPreview name="bar-chart-active-demo" />
 
-```tsx
+```tsx showLineNumbers
 import { Bar, BarChart, Rectangle } from "recharts"
 
 const ACTIVE_INDEX = 2
@@ -151,7 +179,7 @@ const ACTIVE_INDEX = 2
 />
 ```
 
-## Props
+## API Reference
 
 ### BarChart
 
@@ -219,7 +247,7 @@ interface MultiBarChartSeries {
 
 Pass a `color` prop or use per-bar colors via the `fill` property in data:
 
-```tsx
+```tsx showLineNumbers
 const data = [
   { label: "Success", value: 80, fill: "#22c55e" },
   { label: "Warning", value: 15, fill: "#eab308" },
@@ -233,7 +261,7 @@ const data = [
 
 For advanced tooltip customization, use the Recharts components directly:
 
-```tsx
+```tsx showLineNumbers
 import { BarChart, Bar, Tooltip } from "recharts"
 
 <BarChart data={data}>
@@ -254,3 +282,12 @@ import { BarChart, Bar, Tooltip } from "recharts"
 - Tooltips are keyboard accessible
 - Color schemes maintain sufficient contrast
 - Grid lines help users track values across the chart
+
+## Notes
+
+- Bar charts are best suited for comparing categorical data across different groups
+- Use horizontal layout (`layout="vertical"`) when dealing with long category labels
+- Stacked bar charts are ideal for showing part-to-whole relationships over categories
+- The `MultiBarChart` component automatically handles legend generation and color coordination
+- For time-series data with many points, consider using a line or area chart instead
+- Bar radius can be adjusted for different visual styles (sharp edges vs rounded corners)

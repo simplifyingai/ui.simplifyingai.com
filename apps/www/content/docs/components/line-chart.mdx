@@ -1,51 +1,56 @@
 ---
 title: Line Chart
 description: Multi-series line charts with variants for analytics, stock prices, and comparisons.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="line-chart-demo" />
-
-## About
-
-The Line Chart displays data points connected by lines, perfect for showing trends over time. Supports multiple variants optimized for different use cases.
+<ComponentPreview
+  name="line-chart-demo"
+  description="A line chart displaying data points connected by lines, showing trends over time."
+/>
 
 ## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
 
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/line-chart.json
 ```
 
-## Variants
+</TabsContent>
 
-### Default
+<TabsContent value="manual">
 
-Classic line chart with dots and tooltips, ideal for categorical data.
+<Steps>
 
-### Smooth
+<Step>Copy and paste the following code into your project.</Step>
 
-Clean, minimal line with area fill. Perfect for analytics dashboards (like Google Analytics).
+<ComponentSource name="line-chart" title="components/ui/charts/line-chart.tsx" />
 
-<ComponentPreview name="line-chart-smooth-demo" />
+<Step>Update the import paths to match your project setup.</Step>
 
-### Multi
+</Steps>
 
-Multiple lines with distinct colors and crosshair tooltip. Great for comparing trends.
+</TabsContent>
 
-<ComponentPreview name="line-chart-multi-demo" />
-
-### Stock
-
-Financial chart style with detailed data, grid lines, and title support.
-
-<ComponentPreview name="line-chart-stock-demo" />
+</CodeTabs>
 
 ## Usage
 
+```tsx showLineNumbers
+import { LineChart } from "@/components/ui/charts"
+```
+
 ### Basic Line Chart
 
-```tsx
-import { LineChart } from "@/components/ui/charts"
-
+```tsx showLineNumbers
 const data = [
   {
     name: "Revenue",
@@ -64,80 +69,67 @@ export function Example() {
 }
 ```
 
-### Time Series Data
+### Smooth Variant
 
-```tsx
-import { LineChart } from "@/components/ui/charts"
+Clean, minimal line with area fill. Perfect for analytics dashboards.
 
-const data = [
-  {
-    name: "Traffic",
-    data: timeSeriesData.map(d => ({ x: d.date, y: d.value })),
-    color: "#93c5fd",
-  },
-]
+<ComponentPreview name="line-chart-smooth-demo" description="Smooth line chart with area fill for analytics." />
 
-export function TimeSeriesExample() {
-  return (
-    <LineChart
-      data={data}
-      variant="smooth"
-      xType="time"
-    />
-  )
-}
+```tsx showLineNumbers
+<LineChart data={data} variant="smooth" xType="time" />
 ```
 
 ### Multi-Line Comparison
 
-```tsx
-import { LineChart } from "@/components/ui/charts"
+Multiple lines with distinct colors and crosshair tooltip.
 
+<ComponentPreview name="line-chart-multi-demo" description="Multiple lines for comparing trends across series." />
+
+```tsx showLineNumbers
 const data = [
   { name: "Product A", data: productAData, color: "#2563eb" },
   { name: "Product B", data: productBData, color: "#06b6d4" },
   { name: "Product C", data: productCData, color: "#f97316" },
 ]
 
-export function ComparisonExample() {
-  return (
-    <LineChart
-      data={data}
-      variant="multi"
-      xType="time"
-      showLegend
-    />
-  )
-}
+<LineChart data={data} variant="multi" xType="time" showLegend />
 ```
 
-### Stock Price Chart
+### Stock Variant
+
+Financial chart style with detailed data, grid lines, and title support.
+
+<ComponentPreview name="line-chart-stock-demo" description="Stock-style chart for financial data visualization." />
+
+```tsx showLineNumbers
+<LineChart
+  data={[{ name: "AAPL", data: stockData, color: "#0d9488" }]}
+  variant="stock"
+  xType="time"
+  title="Apple Inc."
+  subtitle="2024 YTD"
+  yAxisFormatter={(v) => `$${v.toLocaleString()}`}
+/>
+```
+
+## API Reference
+
+### LineChart
+
+The main line chart component for visualizing data trends over time.
 
 ```tsx
-import { LineChart } from "@/components/ui/charts"
-
-export function StockExample() {
-  return (
-    <LineChart
-      data={[{ name: "AAPL", data: stockData, color: "#0d9488" }]}
-      variant="stock"
-      xType="time"
-      title="Apple Inc."
-      subtitle="2024 YTD"
-      yAxisFormatter={(v) => `$${v.toLocaleString()}`}
-    />
-  )
-}
+<LineChart data={data} variant="smooth" showDots />
 ```
 
-## Props
+#### Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | data | `LineChartSeries[]` | required | Array of data series |
-| variant | `"default"` `"smooth"` `"multi"` `"stock"` `"sparkline"` | `"default"` | Chart style variant |
-| curve | `"linear"` `"monotone"` `"cardinal"` `"step"` `"natural"` `"basis"` | `"monotone"` | Line interpolation |
-| xType | `"category"` `"number"` `"time"` | `"category"` | X-axis data type |
+| variant | `"default" \| "smooth" \| "multi" \| "stock" \| "sparkline"` | `"default"` | Chart style variant |
+| curve | `"linear" \| "monotone" \| "cardinal" \| "step" \| "natural" \| "basis"` | `"monotone"` | Line interpolation |
+| xType | `"category" \| "number" \| "time"` | `"category"` | X-axis data type |
 | showDots | `boolean` | varies | Show data points |
 | showGrid | `boolean` | `true` | Show grid lines |
 | showLegend | `boolean` | `true` | Show legend |
@@ -151,9 +143,7 @@ export function StockExample() {
 | subtitle | `string` | - | Chart subtitle |
 | yAxisFormatter | `(value: number) => string` | - | Y-axis value formatter |
 
-## Data Types
-
-### LineChartSeries
+### LineChartSeries Type
 
 ```tsx
 interface LineChartSeries {
@@ -171,3 +161,13 @@ interface LineChartDataPoint {
   y: number
 }
 ```
+
+## Notes
+
+- Built on D3.js for high-performance SVG rendering
+- Supports multiple data series with individual styling
+- Variants optimized for specific use cases (analytics, financial, comparison)
+- Responsive design adapts to container dimensions
+- Smooth animations using D3 transitions
+- Automatic axis scaling based on data range
+- Touch-friendly tooltips for mobile devices

@@ -1,9 +1,11 @@
 ---
 title: Pie Chart
 description: Circular charts for visualizing proportional data with support for multiple variants including pie, donut, interactive, and labeled styles.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="pie-chart-demo" />
+<ComponentPreview name="pie-chart-demo" description="Circular chart showing proportional data distribution" />
 
 ## About
 
@@ -18,13 +20,39 @@ The Pie Chart component displays data as proportional slices of a circle. Built 
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/pie-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="pie-chart" title="components/ui/charts/pie-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { PieChart } from "@/components/ui/charts"
 
 const data = [
@@ -54,7 +82,7 @@ A donut chart adds an inner radius creating a ring shape. This variant is useful
 
 <ComponentPreview name="pie-chart-donut-demo" />
 
-```tsx
+```tsx showLineNumbers
 <PieChart data={data} variant="donut" />
 ```
 
@@ -66,7 +94,7 @@ This variant highlights the currently hovered or active segment by expanding it 
 
 <ComponentPreview name="pie-chart-donut-active-demo" />
 
-```tsx
+```tsx showLineNumbers
 <PieChart data={data} variant="donut-active" />
 ```
 
@@ -78,7 +106,7 @@ Display a total value or the currently active segment's value in the center of t
 
 <ComponentPreview name="pie-chart-donut-text-demo" />
 
-```tsx
+```tsx showLineNumbers
 <PieChart
   data={data}
   variant="donut-text"
@@ -95,7 +123,7 @@ External labels with connector lines help identify each segment without requirin
 
 <ComponentPreview name="pie-chart-label-demo" />
 
-```tsx
+```tsx showLineNumbers
 <PieChart data={data} variant="label" showLabels />
 ```
 
@@ -107,7 +135,7 @@ An interactive pie chart with a dropdown selector for choosing the active segmen
 
 <ComponentPreview name="pie-chart-interactive-demo" />
 
-```tsx
+```tsx showLineNumbers
 import { useState } from "react"
 
 const selectionOptions = [
@@ -135,7 +163,7 @@ export function InteractiveChart() {
 
 Use this variant for dashboards where users need to drill down into specific data segments.
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -167,7 +195,7 @@ Use this variant for dashboards where users need to drill down into specific dat
 
 ## Data Types
 
-```tsx
+```tsx showLineNumbers
 interface PieChartDataPoint {
   label: string    // Segment label displayed in tooltip/legend
   value: number    // Numeric value determining segment size
@@ -181,7 +209,7 @@ interface PieChartDataPoint {
 
 Use the `config` prop to define colors for each segment, or set colors directly in your data:
 
-```tsx
+```tsx showLineNumbers
 // Using config
 const config = {
   Chrome: { label: "Chrome", color: "hsl(var(--chart-1))" },
@@ -205,7 +233,7 @@ const data = [
 
 Format how values are displayed in tooltips and labels:
 
-```tsx
+```tsx showLineNumbers
 <PieChart
   data={data}
   valueFormatter={(value, total) => {
@@ -219,7 +247,7 @@ Format how values are displayed in tooltips and labels:
 
 Create a half-circle chart by adjusting the start and end angles:
 
-```tsx
+```tsx showLineNumbers
 <PieChart
   data={data}
   variant="donut"
@@ -234,3 +262,13 @@ Create a half-circle chart by adjusting the start and end angles:
 - Tooltips provide detailed information on hover/focus
 - Color schemes maintain WCAG contrast requirements
 - Legend provides an alternative way to identify segments
+
+## Notes
+
+- Pie charts work best with 5-7 segments; too many segments can make the chart difficult to read
+- Consider using a donut variant when you want to display additional information in the center
+- For data comparisons across multiple categories, consider using a bar chart instead
+- The interactive variant is ideal for dashboards where users need to focus on specific segments
+- Use external labels (variant="label") when you need all information visible without user interaction
+- Sort segments by value (sortValues=true) to make it easier to compare segment sizes
+- The component uses D3.js for precise arc calculations and smooth animations

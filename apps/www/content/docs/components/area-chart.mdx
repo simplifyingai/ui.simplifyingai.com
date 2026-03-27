@@ -1,19 +1,47 @@
 ---
 title: Area Chart
 description: Filled area charts with gradient support and multiple curve types.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="area-chart-demo" />
+<ComponentPreview name="area-chart-demo" description="A filled area chart with gradient support and smooth animations." />
 
 ## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
 
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/area-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="area-chart" title="components/ui/charts/area-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { AreaChart, generateAreaChartData } from "@/components/ui/charts"
 
 const data = generateAreaChartData(
@@ -54,7 +82,7 @@ Overlapping areas with multiple data series using `MultiAreaChart`.
 
 <ComponentPreview name="area-chart-multi-demo" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -86,3 +114,11 @@ Overlapping areas with multiple data series using `MultiAreaChart`.
 | showLegend | boolean | true | Show legend below chart |
 | showCursor | boolean | true | Show vertical cursor line on hover |
 | gradientOpacity | [number, number] | [0.6, 0.1] | Gradient opacity from top to bottom |
+
+## Notes
+
+- Area charts are ideal for showing trends over time with emphasis on volume or magnitude
+- Use `curveType="monotone"` for smooth curves that maintain data integrity
+- The `MultiAreaChart` component supports both stacked and overlapping area visualizations
+- Gradient colors can be customized to match your brand or data visualization needs
+- Consider using step curves (`curveType="step"`) for discrete data points or state changes

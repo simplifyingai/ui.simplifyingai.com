@@ -1,9 +1,11 @@
 ---
 title: Parallel Coordinates
 description: Multi-dimensional data visualization with parallel axes.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="parallel-coordinates-demo" />
+<ComponentPreview name="parallel-coordinates-demo" description="Multi-dimensional data visualization using parallel axes" />
 
 ## About
 
@@ -11,13 +13,39 @@ Parallel Coordinates is a powerful technique for visualizing high-dimensional da
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/parallel-coordinates.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="parallel-coordinates" title="components/ui/charts/parallel-coordinates.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ParallelCoordinates } from "@/components/ui/charts"
 
 const data = [
@@ -40,7 +68,7 @@ Classic multi-class classification visualization.
 
 <ComponentPreview name="parallel-coordinates-iris" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -50,3 +78,12 @@ Classic multi-class classification visualization.
 | showValues | boolean | true | Show tick values |
 | lineOpacity | number | 0.5 | Line opacity (0-1) |
 | colorScheme | string[] | blue palette | Colors for groups |
+
+## Notes
+
+- Parallel coordinates are excellent for visualizing multivariate data with 3 or more dimensions
+- Each vertical axis represents a different dimension, and each polyline represents a single data point
+- Lines that intersect frequently may indicate correlations between dimensions
+- Adjust lineOpacity to better see overlapping patterns in dense datasets
+- Groups are color-coded to help identify clusters and patterns
+- This visualization is particularly useful for comparing multiple variables across different categories or identifying outliers in high-dimensional data

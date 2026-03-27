@@ -1,9 +1,11 @@
 ---
 title: Sunburst Chart
 description: Radial hierarchical visualization for nested data.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="sunburst-chart-demo" />
+<ComponentPreview name="sunburst-chart-demo" description="A sunburst chart displaying hierarchical data as concentric rings" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Sunburst Chart displays hierarchical data as concentric rings radiating from
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/sunburst-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="sunburst-chart" title="components/ui/charts/sunburst-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { SunburstChart } from "@/components/ui/charts"
 
 const data = {
@@ -39,7 +67,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -73,3 +101,11 @@ Project file structure by size.
 Simple 2-level hierarchy.
 
 <ComponentPreview name="sunburst-chart-minimal-demo" />
+
+## Notes
+
+- The sunburst chart is ideal for visualizing hierarchical data with multiple nested levels
+- Each ring represents a level in the hierarchy, with segments sized proportionally to their values
+- Interactive hover states help users explore the data structure
+- The `innerRadius` prop controls the size of the center hole, allowing for donut-style visualizations
+- Use `padAngle` to add visual separation between segments for improved readability

@@ -1,9 +1,11 @@
 ---
 title: Donut Chart
 description: Animated ring chart with interactive segments, tooltips, and center content.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="donut-chart-demo" />
+<ComponentPreview name="donut-chart-demo" description="An interactive ring chart with proportional segments and smooth animations." />
 
 ## About
 
@@ -19,13 +21,39 @@ Features:
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/donut-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="donut-chart" title="components/ui/charts/donut-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { DonutChart } from "@/components/ui/charts"
 
 const data = [
@@ -68,7 +96,7 @@ Semi-circle donut for gauge-style displays.
 
 <ComponentPreview name="donut-chart-half-demo" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -93,7 +121,7 @@ Semi-circle donut for gauge-style displays.
 
 ## Data Format
 
-```tsx
+```tsx showLineNumbers
 interface DonutChartDataPoint {
   label: string    // Segment label
   value: number    // Segment value
@@ -105,7 +133,7 @@ interface DonutChartDataPoint {
 
 ### Custom Colors
 
-```tsx
+```tsx showLineNumbers
 const data = [
   { label: "Sales", value: 45, color: "#8B5CF6" },
   { label: "Support", value: 30, color: "#EC4899" },
@@ -115,7 +143,7 @@ const data = [
 
 ### Custom Value Formatter
 
-```tsx
+```tsx showLineNumbers
 <DonutChart
   data={data}
   valueFormatter={(value, total) => `$${value.toLocaleString()}`}
@@ -124,7 +152,7 @@ const data = [
 
 ### Half Donut (Gauge Style)
 
-```tsx
+```tsx showLineNumbers
 <DonutChart
   data={data}
   startAngle={-Math.PI}
@@ -136,7 +164,7 @@ const data = [
 
 ### Click Handling
 
-```tsx
+```tsx showLineNumbers
 <DonutChart
   data={data}
   onSegmentClick={(item, index) => {
@@ -144,3 +172,13 @@ const data = [
   }}
 />
 ```
+
+## Notes
+
+- The donut chart automatically animates on mount unless `animate={false}` is set
+- Use `innerRadius` between 0.5-0.75 for optimal visual balance (0.6 is recommended)
+- Small segments (< 5%) automatically get label lines when `showLabelLines={true}`
+- The gradient variant applies radial gradients to each segment for a modern look
+- For gauge-style displays, use half-circle configuration with `startAngle` and `endAngle`
+- Segment percentages are calculated automatically from values
+- The center content updates on hover to show individual segment details

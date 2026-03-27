@@ -1,9 +1,11 @@
 ---
 title: Gauge Chart
 description: Gauges and indicators for displaying single values with 8 distinct variants.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="gauge-chart-demo" />
+<ComponentPreview name="gauge-chart-demo" description="A modern gauge chart displaying a single value with animated arc and centered value display." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Gauge Chart displays a single value within a defined range using animated ar
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/gauge-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="gauge-chart" title="components/ui/charts/gauge-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { GaugeChart } from "@/components/ui/charts"
 
 export function Example() {
@@ -85,7 +113,7 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
 
 <ComponentPreview name="gauge-chart-dashboard-demo" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -112,7 +140,7 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
 
 ### With Custom Segments
 
-```tsx
+```tsx showLineNumbers
 <GaugeChart
   value={72}
   variant="segmented"
@@ -127,7 +155,7 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
 
 ### Gradient with Custom Colors
 
-```tsx
+```tsx showLineNumbers
 <GaugeChart
   value={65}
   variant="gradient"
@@ -140,7 +168,7 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
 
 ### Speedometer with Ticks
 
-```tsx
+```tsx showLineNumbers
 <GaugeChart
   value={120}
   min={0}
@@ -152,3 +180,17 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
   color="#ef4444"
 />
 ```
+
+## Notes
+
+- The gauge chart supports 8 distinct variants, each optimized for different use cases
+- All variants support smooth animations that can be customized or disabled
+- The `modern` variant is the default and works well for most dashboard scenarios
+- The `segmented` variant is ideal for status indicators with color-coded ranges
+- The `speedometer` variant includes a needle indicator and works well for real-time metrics
+- The `radial` variant displays a full 360-degree arc, perfect for completion rates
+- The `gradient` variant creates smooth color transitions between two colors
+- The `meter` variant includes external tick marks, suited for technical displays
+- The `dashboard` variant emphasizes percentage values with large typography
+- Custom value formatters allow for currency, percentages, or any custom display format
+- Tick marks can be enabled on compatible variants to show scale divisions

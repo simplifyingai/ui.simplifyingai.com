@@ -1,9 +1,11 @@
 ---
 title: Lollipop Chart
 description: Bar chart variant with stems and circular endpoints.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="lollipop-chart-demo" />
+<ComponentPreview name="lollipop-chart-demo" description="A lollipop chart displaying data with stems and circular dots for a clean visual comparison." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Lollipop Chart is a variation of a bar chart where bars are replaced with li
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/lollipop-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="lollipop-chart" title="components/ui/charts/lollipop-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { LollipopChart } from "@/components/ui/charts"
 
 const data = [
@@ -31,7 +59,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -42,3 +70,16 @@ export function Example() {
 | showValues | boolean | false | Show value labels |
 | color | string | "#2563eb" | Dot color |
 | stemColor | string | "#93c5fd" | Stem color |
+
+## Notes
+
+- The lollipop chart is a cleaner alternative to traditional bar charts, reducing visual clutter
+- It's particularly effective when displaying many categories or when comparing values
+- The horizontal orientation is best for long category labels
+- The vertical orientation works well for time-series data or short category names
+- Dot size can be adjusted to emphasize or de-emphasize the data points
+- Grid lines help with precise value reading and can be toggled on/off
+- Value labels can be displayed directly on the chart for exact readings
+- Custom colors for both dots and stems allow for brand consistency
+- The minimal design makes it easier to focus on the actual data values
+- Lollipop charts reduce ink-to-data ratio compared to bar charts while maintaining clarity

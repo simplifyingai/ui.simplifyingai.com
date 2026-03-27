@@ -1,9 +1,11 @@
 ---
 title: Dot Plot Chart
 description: Categorical scatter chart for comparing values across categories.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="dot-plot-chart-demo" />
+<ComponentPreview name="dot-plot-chart-demo" description="A categorical scatter chart displaying individual values as dots along a scale." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Dot Plot Chart displays individual data points as dots along a scale, making
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/dot-plot-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dot-plot-chart" title="components/ui/charts/dot-plot-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { DotPlotChart } from "@/components/ui/charts"
 
 const data = [
@@ -31,7 +59,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -41,3 +69,12 @@ export function Example() {
 | showGrid | boolean | true | Show grid lines |
 | showValues | boolean | true | Show value labels |
 | color | string | "#2563eb" | Default dot color |
+
+## Notes
+
+- Dot plots are ideal for comparing individual values across categories without the visual weight of bars
+- They work best with 3-15 categories; too many categories make comparison difficult
+- Horizontal orientation is recommended when category labels are long
+- Grid lines help viewers accurately read values when `showGrid={true}`
+- Unlike bar charts, dot plots emphasize precision over magnitude
+- Each data point can optionally have its own color by adding a `color` property

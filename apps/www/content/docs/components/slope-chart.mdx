@@ -1,9 +1,11 @@
 ---
 title: Slope Chart
 description: Line chart showing change between two time points.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="slope-chart-demo" />
+<ComponentPreview name="slope-chart-demo" description="Slope charts connect two data points with a line to emphasize change over time or between two conditions." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Slope Chart connects two data points with a line to emphasize change over ti
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/slope-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="slope-chart" title="components/ui/charts/slope-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { SlopeChart } from "@/components/ui/charts"
 
 const data = [
@@ -37,7 +65,15 @@ export function Example() {
 }
 ```
 
-## Props
+## Examples
+
+### Default
+
+The default slope chart displays lines connecting start and end values, with category labels and values shown on both sides.
+
+<ComponentPreview name="slope-chart-demo" />
+
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -46,3 +82,23 @@ export function Example() {
 | endLabel | string | "After" | Label for end column |
 | showValues | boolean | true | Show value labels |
 | showGrid | boolean | true | Show grid lines |
+
+## Data Types
+
+```tsx showLineNumbers
+interface SlopeDataPoint {
+  category: string  // Category or item name
+  start: number     // Starting value
+  end: number       // Ending value
+  color?: string    // Optional: custom line color
+}
+```
+
+## Notes
+
+- Slope charts are most effective for comparing changes between exactly two time points or conditions.
+- The steepness and direction of each line makes it easy to spot which categories improved, declined, or stayed stable.
+- Color coding can be used to differentiate between positive and negative changes.
+- For best readability, limit the number of categories to 10-15 items.
+- This chart type works well for before/after comparisons, period-over-period analysis, and ranking changes.
+- Unlike line charts, slope charts focus on the change itself rather than the path between points.

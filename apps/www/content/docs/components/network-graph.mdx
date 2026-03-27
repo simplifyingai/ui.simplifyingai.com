@@ -1,9 +1,11 @@
 ---
 title: Network Graph
 description: Force-directed graph for visualizing relationships between entities.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="network-graph-demo" />
+<ComponentPreview name="network-graph-demo" description="Force-directed graph showing relationships between nodes" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Network Graph is a force-directed visualization that shows relationships bet
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/network-graph.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="network-graph" title="components/ui/charts/network-graph.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { NetworkGraph } from "@/components/ui/charts"
 
 const nodes = [
@@ -44,7 +72,7 @@ Show directional relationships with arrows.
 
 <ComponentPreview name="network-graph-directed" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -57,3 +85,12 @@ Show directional relationships with arrows.
 | charge | number | -300 | Force simulation charge |
 | linkDistance | number | 100 | Target link distance |
 | colorScheme | string[] | blue palette | Colors for groups |
+
+## Notes
+
+- The force simulation automatically positions nodes based on their relationships
+- Node groups are used for color coding; nodes without a group will use the default color
+- The charge prop controls how strongly nodes repel each other (negative values create repulsion)
+- Link distance is a target value; the simulation will attempt to maintain this distance between connected nodes
+- Use showArrows for directed graphs to indicate the direction of relationships
+- The simulation continues running until equilibrium is reached; you can interact with nodes by dragging them

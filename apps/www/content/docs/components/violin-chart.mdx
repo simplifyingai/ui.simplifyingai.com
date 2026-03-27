@@ -1,9 +1,11 @@
 ---
 title: Violin Chart
 description: Violin plots showing probability density of data.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="violin-chart-demo" />
+<ComponentPreview name="violin-chart-demo" description="A violin chart showing data distribution with kernel density estimation" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Violin Chart combines box plots with kernel density estimation to show data 
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/violin-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="violin-chart" title="components/ui/charts/violin-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ViolinChart } from "@/components/ui/charts"
 
 const data = [
@@ -30,7 +58,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -64,3 +92,13 @@ Test scores across multiple subjects.
 Simple distribution without box plot overlay.
 
 <ComponentPreview name="violin-chart-minimal-demo" />
+
+## Notes
+
+- Violin charts combine box plots with kernel density estimation (KDE) to show the full distribution shape
+- The width of the violin at each value represents the probability density at that point
+- Ideal for comparing distributions across multiple categories or groups
+- The `showBoxPlot` option overlays a traditional box plot showing quartiles and outliers
+- The `showMedian` option highlights the median value with a distinct marker
+- The `bandwidth` parameter controls the smoothness of the KDE curve - lower values show more detail but may be noisier
+- Violin charts are particularly useful in scientific and statistical analysis where understanding the full distribution is important

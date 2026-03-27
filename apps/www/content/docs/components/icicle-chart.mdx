@@ -1,9 +1,11 @@
 ---
 title: Icicle Chart
 description: Rectangular hierarchical visualization for nested data.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="icicle-chart-demo" />
+<ComponentPreview name="icicle-chart-demo" description="An icicle chart displaying hierarchical data as nested rectangles with labels." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Icicle Chart displays hierarchical data as nested rectangles. Unlike treemap
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/icicle-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="icicle-chart" title="components/ui/charts/icicle-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { IcicleChart } from "@/components/ui/charts"
 
 const data = {
@@ -38,7 +66,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -47,3 +75,16 @@ export function Example() {
 | showLabels | boolean | true | Show segment labels |
 | labelMinSize | number | 40 | Minimum size to show labels |
 | padding | number | 1 | Padding between segments |
+
+## Notes
+
+- The icicle chart is ideal for displaying hierarchical data with depth and proportional values
+- Unlike treemaps which use area to represent values, icicle charts use length (width or height)
+- The vertical orientation stacks hierarchy from top to bottom, with parent nodes at the top
+- The horizontal orientation displays hierarchy from left to right, with parent nodes on the left
+- Labels are automatically hidden when segments are too small to accommodate them (controlled by `labelMinSize`)
+- The component automatically calculates segment sizes based on the sum of child values
+- Padding between segments can be adjusted for visual clarity and separation
+- Hierarchical navigation is naturally represented through the stacked rectangular layout
+- Colors are automatically assigned to different hierarchy levels and branches
+- The chart is particularly effective for organizational structures, file systems, and budget breakdowns

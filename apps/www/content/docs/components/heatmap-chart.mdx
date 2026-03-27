@@ -1,9 +1,11 @@
 ---
 title: Heatmap Chart
 description: Versatile heatmaps with multiple variants including matrix, calendar, and radial displays.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="heatmap-chart-demo" />
+<ComponentPreview name="heatmap-chart-demo" description="A matrix heatmap displaying data intensity with color gradients across rows and columns." />
 
 ## About
 
@@ -11,9 +13,35 @@ The Heatmap Chart displays data with color intensity representing values. It sup
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/heatmap-chart.json
 ```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="heatmap-chart" title="components/ui/charts/heatmap-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## Variants
 
@@ -47,7 +75,7 @@ Available themes: `green`, `blue`, `purple`, `orange`, `red`, `gray`, `pink`, `h
 
 ### Matrix Variant
 
-```tsx
+```tsx showLineNumbers
 import { HeatmapChart } from "@/components/ui/charts"
 
 const data = [
@@ -71,7 +99,7 @@ export function MatrixExample() {
 
 ### Calendar Variant
 
-```tsx
+```tsx showLineNumbers
 import { HeatmapChart } from "@/components/ui/charts"
 
 const contributionData = [
@@ -95,7 +123,7 @@ export function CalendarExample() {
 
 ### Radial Variant
 
-```tsx
+```tsx showLineNumbers
 import { HeatmapChart } from "@/components/ui/charts"
 
 const activityData = [
@@ -117,7 +145,7 @@ export function RadialExample() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -139,7 +167,7 @@ export function RadialExample() {
 
 ### HeatmapDataPoint (Matrix)
 
-```tsx
+```tsx showLineNumbers
 interface HeatmapDataPoint {
   x: string | number
   y: string | number
@@ -149,7 +177,7 @@ interface HeatmapDataPoint {
 
 ### CalendarDataPoint (Calendar)
 
-```tsx
+```tsx showLineNumbers
 interface CalendarDataPoint {
   date: Date | string
   value: number
@@ -158,10 +186,25 @@ interface CalendarDataPoint {
 
 ### RadialHeatmapDataPoint (Radial)
 
-```tsx
+```tsx showLineNumbers
 interface RadialHeatmapDataPoint {
   day: number | string   // 0-6 or day name
   hour: number | string  // 0-23 or "12am", "1pm", etc.
   value: number
 }
 ```
+
+## Notes
+
+- The heatmap chart supports three distinct variants: matrix, calendar, and radial
+- Matrix variant is ideal for visualizing correlations and patterns in two-dimensional data
+- Calendar variant mimics GitHub's contribution graph, perfect for tracking daily activities
+- Radial variant displays time-based patterns in a circular layout with hours and days
+- All variants support multiple color themes with automatic dark mode support
+- Built-in themes include: green, blue, purple, orange, red, gray, pink, heat, and thermal
+- Custom color scales can override theme presets for full control over appearance
+- The calendar variant supports both Date objects and ISO date strings
+- The radial variant accepts both numeric and string formats for days and hours
+- Cell interactions can be captured through the `onCellClick` handler
+- Color intensity automatically scales based on the min/max values in the dataset
+- The component handles responsive sizing and maintains aspect ratios across different screen sizes

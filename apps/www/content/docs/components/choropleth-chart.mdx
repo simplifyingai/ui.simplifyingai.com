@@ -1,9 +1,11 @@
 ---
 title: Choropleth Chart
 description: A world map with color-coded countries based on data values.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="choropleth-chart-demo" />
+<ComponentPreview name="choropleth-chart-demo" description="A world map with color-coded regions based on data values, supporting multiple projections and custom maps." />
 
 ## About
 
@@ -19,13 +21,39 @@ Features:
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/choropleth-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="choropleth-chart" title="components/ui/charts/choropleth-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { ChoroplethChart } from "@/components/ui/charts"
 
 // Data uses ISO 3166-1 numeric country codes
@@ -47,7 +75,7 @@ export function MyChart() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -155,7 +183,7 @@ Use browser DevTools or a JSON viewer to find:
 
 Match your data IDs to the map's region names:
 
-```tsx
+```tsx showLineNumbers
 // Example: Japan Prefectures
 const data = [
   { id: "Tokyo", value: 14.0 },
@@ -167,7 +195,7 @@ const data = [
 
 ### Step 4: Configure the Chart
 
-```tsx
+```tsx showLineNumbers
 <ChoroplethChart
   data={data}
   geoUrl="https://raw.githubusercontent.com/markmarkoh/datamaps/master/src/js/data/jpn.topo.json"
@@ -204,7 +232,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 
 ### Custom Colors
 
-```tsx
+```tsx showLineNumbers
 <ChoroplethChart
   data={data}
   colorScale={["#fef3c7", "#f59e0b", "#b45309"]}  // Yellow-orange
@@ -213,7 +241,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 
 ### Different Projection
 
-```tsx
+```tsx showLineNumbers
 <ChoroplethChart
   data={data}
   projection="mercator"  // or "equalEarth", "albersUsa" (for USA maps)
@@ -224,7 +252,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 
 ### Custom Value Formatting
 
-```tsx
+```tsx showLineNumbers
 <ChoroplethChart
   data={data}
   valueFormatter={(v) => `${v.toFixed(0)}%`}
@@ -236,7 +264,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 
 Different countries have different shapes. Adjust `aspectRatio` accordingly:
 
-```tsx
+```tsx showLineNumbers
 // Wide countries (Russia, USA)
 <ChoroplethChart data={data} aspectRatio={2.2} />
 
@@ -246,3 +274,14 @@ Different countries have different shapes. Adjust `aspectRatio` accordingly:
 // Square-ish countries (France, Germany)
 <ChoroplethChart data={data} aspectRatio={1.2} />
 ```
+
+## Notes
+
+- Choropleth maps are ideal for visualizing geographic data distributions and regional comparisons
+- The component comes with a built-in world map, no external GeoJSON files needed for world visualizations
+- Use ISO 3166-1 numeric country codes for world maps to ensure proper country matching
+- Custom regional maps (states, provinces, districts) can be loaded via the `geoUrl` prop
+- The `albersUsa` projection is specifically optimized for USA maps with Alaska and Hawaii repositioned
+- Color scales should use 2-3 colors for optimal visual distinction
+- Tooltip interactions are enabled by default for better data exploration
+- Consider your data range when choosing color scales - sequential data works best with gradient scales

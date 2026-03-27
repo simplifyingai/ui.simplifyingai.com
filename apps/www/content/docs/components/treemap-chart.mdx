@@ -1,9 +1,11 @@
 ---
 title: Treemap Chart
 description: Hierarchical treemap for nested data visualization.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="treemap-chart-demo" />
+<ComponentPreview name="treemap-chart-demo" description="A treemap chart displaying hierarchical data as nested rectangles" />
 
 ## About
 
@@ -11,13 +13,39 @@ The Treemap Chart displays hierarchical data as nested rectangles sized by value
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/treemap-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="treemap-chart" title="components/ui/charts/treemap-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { TreemapChart } from "@/components/ui/charts"
 
 const data = {
@@ -40,7 +68,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -74,3 +102,12 @@ Deep organizational structure with multiple levels.
 Simple quarterly sales breakdown.
 
 <ComponentPreview name="treemap-chart-minimal-demo" />
+
+## Notes
+
+- Treemap charts efficiently visualize hierarchical data using nested rectangles sized by value
+- The `tile` prop offers different layout algorithms: "squarify" creates more square-like shapes, while "binary", "slice", and "dice" create different rectangular patterns
+- Ideal for visualizing large datasets with hierarchical structure, such as disk usage, portfolio allocation, or organizational budgets
+- Rectangle size is proportional to the value, making it easy to compare relative magnitudes at a glance
+- Padding between cells improves readability and helps distinguish between hierarchy levels
+- Interactive hover states provide detailed information for each cell

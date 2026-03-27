@@ -1,9 +1,11 @@
 ---
 title: SPLOM Chart
 description: Scatter Plot Matrix for exploring pairwise relationships in multivariate data.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="splom-chart-demo" />
+<ComponentPreview name="splom-chart-demo" description="A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variables in a dataset, essential for exploratory data analysis." />
 
 ## About
 
@@ -11,13 +13,39 @@ A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variab
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
-npx shadcn@latest add https://ui.simplifying.ai/r/splom-chart.json
+npx shadcn@latest add https://ui.splifying.ai/r/splom-chart.json
 ```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="splom-chart" title="components/ui/charts/splom-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { SplomChart } from "@/components/ui/charts"
 
 const data = [
@@ -32,6 +60,14 @@ export function Example() {
 }
 ```
 
+## Examples
+
+### Default
+
+The default SPLOM chart displays scatter plots for each variable pair with histograms on the diagonal showing distribution.
+
+<ComponentPreview name="splom-chart-demo" />
+
 ## Variants
 
 ### Compact View
@@ -40,7 +76,11 @@ Smaller cells for dense data visualization.
 
 <ComponentPreview name="splom-chart-compact" />
 
-## Props
+```tsx showLineNumbers
+<SplomChart data={data} dimensions={dimensions} cellSize={80} pointRadius={2} />
+```
+
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -51,3 +91,23 @@ Smaller cells for dense data visualization.
 | showLabels | boolean | true | Show dimension labels |
 | showHistograms | boolean | true | Show histograms on diagonal |
 | colorScheme | string[] | blue palette | Colors for groups |
+
+## Data Types
+
+```tsx showLineNumbers
+interface SplomDataPoint {
+  id: string                      // Unique identifier for the data point
+  values: Record<string, number>  // Object with dimension names as keys
+  group?: string                  // Optional: group for color coding
+}
+```
+
+## Notes
+
+- SPLOM charts are powerful for exploratory data analysis with multivariate datasets.
+- The matrix shows each variable plotted against every other variable, revealing correlations and patterns.
+- Diagonal cells typically show histograms or density plots of individual variable distributions.
+- For best results, use 3-6 dimensions. More than 6 can make the chart difficult to read.
+- The chart is symmetric around the diagonal - upper and lower triangles show the same relationships from different perspectives.
+- Color-coded groups help identify clusters and patterns across multiple dimensions.
+- Use the compact variant when you need to display more dimensions in limited space.

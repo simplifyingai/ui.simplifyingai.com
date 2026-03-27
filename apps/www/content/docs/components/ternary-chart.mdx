@@ -1,9 +1,11 @@
 ---
 title: Ternary Chart
 description: Triangular composition plot for three-component mixtures.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="ternary-chart-demo" />
+<ComponentPreview name="ternary-chart-demo" description="A ternary chart displaying three-component mixture compositions" />
 
 ## About
 
@@ -11,13 +13,39 @@ A Ternary Chart (also called a triangle plot or simplex plot) visualizes composi
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/ternary-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="ternary-chart" title="components/ui/charts/ternary-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { TernaryChart } from "@/components/ui/charts"
 
 const data = [
@@ -43,7 +71,7 @@ Visualize material compositions like alloys.
 
 <ComponentPreview name="ternary-chart-composition" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -55,3 +83,12 @@ Visualize material compositions like alloys.
 | pointRadius | `number` | `6` | Data point radius |
 | colorScheme | `string[]` | blue palette | Colors for groups |
 | normalize | `boolean` | `true` | Auto-normalize to sum=1 |
+
+## Notes
+
+- Ternary charts are specialized for visualizing three-component mixtures where the sum equals 100% or 1
+- Commonly used in geology for soil composition (sand, silt, clay), chemistry for alloy compositions, and material science
+- The `normalize` prop automatically adjusts values to sum to 100%, making data preparation easier
+- Grid lines help users read precise values from the triangular coordinate system
+- Each vertex of the triangle represents 100% of one component, with values decreasing toward the opposite edge
+- The chart is ideal when you need to show the relationship between three interdependent variables

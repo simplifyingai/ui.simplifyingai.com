@@ -1,9 +1,11 @@
 ---
 title: Dumbbell Chart
 description: Connected dot chart for comparing two values per category.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="dumbbell-chart-demo" />
+<ComponentPreview name="dumbbell-chart-demo" description="A barbell-style chart showing the change or difference between two data points." />
 
 ## About
 
@@ -11,13 +13,39 @@ The Dumbbell Chart (also known as a DNA chart or barbell chart) shows the change
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/dumbbell-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dumbbell-chart" title="components/ui/charts/dumbbell-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { DumbbellChart } from "@/components/ui/charts"
 
 const data = [
@@ -30,7 +58,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -42,3 +70,13 @@ export function Example() {
 | startColor | string | "#93c5fd" | Color for start dots |
 | endColor | string | "#1e40af" | Color for end dots |
 | connectorColor | string | "#60a5fa" | Color for connecting line |
+
+## Notes
+
+- Dumbbell charts excel at showing before/after comparisons, growth/decline, or gaps between groups
+- The connecting line makes it easy to see the magnitude of change at a glance
+- Use contrasting colors for start and end points to clearly distinguish them
+- Horizontal orientation is recommended when category labels are long
+- Works best with 3-12 categories for optimal readability
+- Consider using different color schemes to indicate positive/negative changes
+- The `startLabel` and `endLabel` properties provide context for what each endpoint represents

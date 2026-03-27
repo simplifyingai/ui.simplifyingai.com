@@ -1,9 +1,11 @@
 ---
 title: OHLC Chart
 description: Open-High-Low-Close chart for financial data visualization.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="ohlc-chart-demo" />
+<ComponentPreview name="ohlc-chart-demo" description="Open-High-Low-Close chart displaying financial data" />
 
 ## About
 
@@ -11,13 +13,39 @@ The OHLC Chart displays financial data using vertical lines with horizontal tick
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/ohlc-chart.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="ohlc-chart" title="components/ui/charts/ohlc-chart.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { OHLCChart } from "@/components/ui/charts"
 
 const data = [
@@ -30,7 +58,7 @@ export function Example() {
 }
 ```
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -39,3 +67,12 @@ export function Example() {
 | downColor | string | "#ef4444" | Color for bearish bars |
 | showGrid | boolean | true | Show grid lines |
 | showTooltip | boolean | true | Show tooltip on hover |
+
+## Notes
+
+- OHLC charts are ideal for displaying stock price movements and other financial data
+- Each bar represents a time period with four key values: open, high, low, and close
+- Bullish bars (close > open) are displayed in green (upColor) by default
+- Bearish bars (close < open) are displayed in red (downColor) by default
+- The vertical line shows the range from low to high, with horizontal ticks indicating open (left) and close (right) prices
+- This chart type is more minimalist than candlestick charts while conveying the same information

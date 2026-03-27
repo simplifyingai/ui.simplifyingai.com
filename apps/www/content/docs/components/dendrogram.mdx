@@ -1,9 +1,11 @@
 ---
 title: Dendrogram
 description: Hierarchical clustering tree visualization.
+featured: true
+component: true
 ---
 
-<ComponentPreview name="dendrogram-demo" />
+<ComponentPreview name="dendrogram-demo" description="A tree diagram showing hierarchical relationships and clustering." />
 
 ## About
 
@@ -11,13 +13,39 @@ A Dendrogram is a tree diagram showing hierarchical relationships. It's commonly
 
 ## Installation
 
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
 ```bash
 npx shadcn@latest add https://ui.simplifying.ai/r/dendrogram.json
 ```
 
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="dendrogram" title="components/ui/charts/dendrogram.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
 ## Usage
 
-```tsx
+```tsx showLineNumbers
 import { Dendrogram } from "@/components/ui/charts"
 
 const data = {
@@ -47,7 +75,7 @@ Display the tree from top to bottom.
 
 <ComponentPreview name="dendrogram-vertical" />
 
-## Props
+## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -58,3 +86,11 @@ Display the tree from top to bottom.
 | showValues | boolean | false | Show node values |
 | linkColor | string | "#94a3b8" | Color for connecting lines |
 | colorScheme | string[] | blue palette | Colors by depth level |
+
+## Notes
+
+- The dendrogram uses D3's cluster layout algorithm to evenly distribute leaf nodes
+- Node colors are automatically assigned based on tree depth level
+- Horizontal orientation is recommended for taxonomies with long labels
+- Vertical orientation works well for organizational charts
+- Each node can optionally have a `value` property that can be displayed when `showValues` is enabled
