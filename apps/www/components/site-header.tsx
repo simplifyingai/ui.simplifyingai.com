@@ -1,10 +1,10 @@
+import Image from "next/image"
 import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
 import { GitHubLink } from "@/components/github-link"
-import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { MobileNav } from "@/components/mobile-nav"
 import { ModeSwitcher } from "@/components/mode-switcher"
@@ -31,7 +31,13 @@ export function SiteHeader() {
             className="hidden size-8 lg:flex"
           >
             <Link href="/">
-              <Icons.logo className="size-10" />
+              <Image
+                src="/images/logo.png"
+                alt={siteConfig.name}
+                width={32}
+                height={32}
+                className="size-7 dark:invert"
+              />
               <span className="sr-only">{siteConfig.name}</span>
             </Link>
           </Button>

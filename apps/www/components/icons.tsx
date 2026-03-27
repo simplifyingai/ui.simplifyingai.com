@@ -5,13 +5,53 @@ type IconProps = React.HTMLAttributes<SVGElement>
 export const Icons = {
   logo: (props: IconProps) => (
     <svg
-      viewBox="0 0 876 876"
+      viewBox="0 0 100 87"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path d="M468 292H528V584H468V292Z" fill="currentColor" />
-      <path d="M348 292H408V584H348V292Z" fill="currentColor" />
+      {/* Interlocking triangular knot logo */}
+      {/* Top triangle segment */}
+      <path
+        d="M50 0L62 20.8H38L50 0ZM50 8L43 18.8H57L50 8Z"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+      {/* Bottom left triangle segment */}
+      <path
+        d="M12 66.2L0 87H24L12 66.2ZM12 74.2L19 83H5L12 74.2Z"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+      {/* Bottom right triangle segment */}
+      <path
+        d="M88 66.2L76 87H100L88 66.2ZM88 74.2L81 83H95L88 74.2Z"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+      {/* Connecting bands - left side */}
+      <path
+        d="M38 20.8L12 66.2L20 66.2L42 28L38 20.8Z"
+        fill="currentColor"
+      />
+      <path
+        d="M24 87L50 43.5L46 36.3L16 87H24Z"
+        fill="currentColor"
+      />
+      {/* Connecting bands - right side */}
+      <path
+        d="M62 20.8L88 66.2L80 66.2L58 28L62 20.8Z"
+        fill="currentColor"
+      />
+      <path
+        d="M76 87L50 43.5L54 36.3L84 87H76Z"
+        fill="currentColor"
+      />
+      {/* Connecting bands - bottom */}
+      <path
+        d="M24 87H76L68 79H32L24 87Z"
+        fill="currentColor"
+      />
     </svg>
   ),
   twitter: (props: IconProps) => (
