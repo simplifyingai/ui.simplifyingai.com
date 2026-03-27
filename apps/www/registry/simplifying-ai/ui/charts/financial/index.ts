@@ -4,6 +4,11 @@ export {
   type CandlestickDataPoint,
 } from "./candlestick-chart"
 export {
+  OHLCChart,
+  type OHLCChartProps,
+  type OHLCDataPoint,
+} from "./ohlc-chart"
+export {
   WaterfallChart,
   type WaterfallChartProps,
   type WaterfallDataPoint,

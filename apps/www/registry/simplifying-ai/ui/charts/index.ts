@@ -64,6 +64,15 @@ export {
 export { ScatterChart, type ScatterChartProps } from "./basic/scatter-chart"
 export { PieChart, type PieChartProps } from "./basic/pie-chart"
 export { DonutChart, type DonutChartProps } from "./basic/donut-chart"
+export { DotPlotChart, type DotPlotChartProps } from "./basic/dot-plot-chart"
+export { LollipopChart, type LollipopChartProps } from "./basic/lollipop-chart"
+export { DumbbellChart, type DumbbellChartProps } from "./basic/dumbbell-chart"
+export { SlopeChart, type SlopeChartProps } from "./basic/slope-chart"
+export {
+  RangeChart,
+  type RangeChartProps,
+  type RangeDataPoint,
+} from "./basic/range-chart"
 
 // Statistical Charts
 export {
@@ -77,6 +86,26 @@ export {
   type BoxPlotStats,
 } from "./statistical/box-plot-chart"
 export { ViolinChart, type ViolinChartProps } from "./statistical/violin-chart"
+export {
+  PolarChart,
+  type PolarChartProps,
+  type PolarDataPoint,
+} from "./statistical/polar-chart"
+export {
+  ParallelCoordinates,
+  type ParallelCoordinatesProps,
+  type ParallelCoordinatesDataPoint,
+} from "./statistical/parallel-coordinates"
+export {
+  SplomChart,
+  type SplomChartProps,
+  type SplomDataPoint,
+} from "./statistical/splom-chart"
+export {
+  ParcatsChart,
+  type ParcatsChartProps,
+  type ParcatsDataPoint,
+} from "./statistical/parcats-chart"
 
 // Financial Charts
 export {
@@ -93,6 +122,7 @@ export {
   type FunnelDataPoint,
   type FunnelSeries,
 } from "./financial/funnel-chart"
+export { OHLCChart, type OHLCChartProps } from "./financial/ohlc-chart"
 
 // Scientific Charts
 export {
@@ -105,9 +135,25 @@ export {
   type ContourChartProps,
   type ContourPoint,
 } from "./scientific/contour-chart"
+export {
+  DensityChart,
+  type DensityChartProps,
+  type DensityDataPoint,
+} from "./scientific/density-chart"
+export {
+  TernaryChart,
+  type TernaryChartProps,
+  type TernaryDataPoint,
+} from "./scientific/ternary-chart"
 
 // Specialized Charts
-export { RadarChart, type RadarChartProps } from "./specialized/radar-chart"
+export {
+  RadarChart,
+  type RadarChartProps,
+  type RadarChartDataPoint,
+  type RadarChartSeries,
+  type RadarChartVariant,
+} from "./specialized/radar-chart"
 export {
   TreemapChart,
   type TreemapChartProps,
@@ -118,6 +164,19 @@ export {
 } from "./specialized/sunburst-chart"
 export { SankeyChart, type SankeyChartProps } from "./specialized/sankey-chart"
 export { GaugeChart, type GaugeChartProps } from "./specialized/gauge-chart"
+export { BulletChart, type BulletChartProps } from "./specialized/bullet-chart"
+export { IcicleChart, type IcicleChartProps } from "./specialized/icicle-chart"
+export {
+  NetworkGraph,
+  type NetworkGraphProps,
+  type NetworkNode,
+  type NetworkLink,
+} from "./specialized/network-graph"
+export {
+  Dendrogram,
+  type DendrogramProps,
+  type DendrogramNode,
+} from "./specialized/dendrogram"
 
 // Map Charts
 export {

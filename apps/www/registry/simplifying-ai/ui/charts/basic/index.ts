@@ -32,3 +32,28 @@ export {
   type DonutChartProps,
   type DonutChartDataPoint,
 } from "./donut-chart"
+export {
+  DotPlotChart,
+  type DotPlotChartProps,
+  type DotPlotDataPoint,
+} from "./dot-plot-chart"
+export {
+  LollipopChart,
+  type LollipopChartProps,
+  type LollipopDataPoint,
+} from "./lollipop-chart"
+export {
+  DumbbellChart,
+  type DumbbellChartProps,
+  type DumbbellDataPoint,
+} from "./dumbbell-chart"
+export {
+  SlopeChart,
+  type SlopeChartProps,
+  type SlopeDataPoint,
+} from "./slope-chart"
+export {
+  RangeChart,
+  type RangeChartProps,
+  type RangeDataPoint,
+} from "./range-chart"

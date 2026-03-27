@@ -3,6 +3,7 @@ export {
   type RadarChartProps,
   type RadarChartDataPoint,
   type RadarChartSeries,
+  type RadarChartVariant,
 } from "./radar-chart"
 export {
   TreemapChart,
@@ -21,3 +22,24 @@ export {
   type SankeyLink,
 } from "./sankey-chart"
 export { GaugeChart, type GaugeChartProps } from "./gauge-chart"
+export {
+  BulletChart,
+  type BulletChartProps,
+  type BulletChartData,
+} from "./bullet-chart"
+export {
+  IcicleChart,
+  type IcicleChartProps,
+  type IcicleNode,
+} from "./icicle-chart"
+export {
+  NetworkGraph,
+  type NetworkGraphProps,
+  type NetworkNode,
+  type NetworkLink,
+} from "./network-graph"
+export {
+  Dendrogram,
+  type DendrogramProps,
+  type DendrogramNode,
+} from "./dendrogram"
