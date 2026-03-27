@@ -182,6 +182,66 @@ export const ui: Registry["items"] = [
       { path: "ui/charts/specialized/gauge-chart.tsx", type: "registry:ui" },
     ],
   },
+  {
+    name: "bullet-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/specialized/bullet-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "icicle-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/specialized/icicle-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Basic Charts (Additional)
+  {
+    name: "dot-plot-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/basic/dot-plot-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "lollipop-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/basic/lollipop-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "dumbbell-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/basic/dumbbell-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "slope-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/basic/slope-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Financial Charts (Additional)
+  {
+    name: "ohlc-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/financial/ohlc-chart.tsx", type: "registry:ui" },
+    ],
+  },
 
   // Map Charts
   {
@@ -190,6 +250,91 @@ export const ui: Registry["items"] = [
     registryDependencies: ["chart"],
     files: [
       { path: "ui/charts/maps/choropleth-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 2 Charts - Statistical
+  {
+    name: "polar-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/statistical/polar-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "parallel-coordinates",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/statistical/parallel-coordinates.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 2 Charts - Scientific
+  {
+    name: "density-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    dependencies: ["d3-contour"],
+    files: [
+      { path: "ui/charts/scientific/density-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 2 Charts - Specialized
+  {
+    name: "network-graph",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/specialized/network-graph.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "dendrogram",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/specialized/dendrogram.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 3 Charts - Statistical
+  {
+    name: "splom-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/statistical/splom-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "parcats-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/statistical/parcats-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 3 Charts - Scientific
+  {
+    name: "ternary-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/scientific/ternary-chart.tsx", type: "registry:ui" },
+    ],
+  },
+
+  // Phase 3 Charts - Basic
+  {
+    name: "range-chart",
+    type: "registry:ui",
+    registryDependencies: ["chart"],
+    files: [
+      { path: "ui/charts/basic/range-chart.tsx", type: "registry:ui" },
     ],
   },
 ]

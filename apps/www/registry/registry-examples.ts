@@ -157,6 +157,39 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "line-chart-smooth-demo",
+    type: "registry:example",
+    registryDependencies: ["line-chart"],
+    files: [
+      {
+        path: "examples/line-chart-smooth-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "line-chart-multi-demo",
+    type: "registry:example",
+    registryDependencies: ["line-chart"],
+    files: [
+      {
+        path: "examples/line-chart-multi-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "line-chart-stock-demo",
+    type: "registry:example",
+    registryDependencies: ["line-chart"],
+    files: [
+      {
+        path: "examples/line-chart-stock-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "scatter-chart-demo",
     type: "registry:example",
     registryDependencies: ["scatter-chart"],
@@ -168,12 +201,111 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "scatter-chart-bubble-demo",
+    type: "registry:example",
+    registryDependencies: ["scatter-chart"],
+    files: [
+      {
+        path: "examples/scatter-chart-bubble-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "scatter-chart-trendline-demo",
+    type: "registry:example",
+    registryDependencies: ["scatter-chart"],
+    files: [
+      {
+        path: "examples/scatter-chart-trendline-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "scatter-chart-symbols-demo",
+    type: "registry:example",
+    registryDependencies: ["scatter-chart"],
+    files: [
+      {
+        path: "examples/scatter-chart-symbols-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "scatter-chart-correlation-demo",
+    type: "registry:example",
+    registryDependencies: ["scatter-chart"],
+    files: [
+      {
+        path: "examples/scatter-chart-correlation-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "pie-chart-demo",
     type: "registry:example",
     registryDependencies: ["pie-chart"],
     files: [
       {
         path: "examples/pie-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "pie-chart-donut-demo",
+    type: "registry:example",
+    registryDependencies: ["pie-chart"],
+    files: [
+      {
+        path: "examples/pie-chart-donut-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "pie-chart-donut-active-demo",
+    type: "registry:example",
+    registryDependencies: ["pie-chart"],
+    files: [
+      {
+        path: "examples/pie-chart-donut-active-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "pie-chart-donut-text-demo",
+    type: "registry:example",
+    registryDependencies: ["pie-chart"],
+    files: [
+      {
+        path: "examples/pie-chart-donut-text-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "pie-chart-label-demo",
+    type: "registry:example",
+    registryDependencies: ["pie-chart"],
+    files: [
+      {
+        path: "examples/pie-chart-label-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "pie-chart-interactive-demo",
+    type: "registry:example",
+    registryDependencies: ["pie-chart"],
+    files: [
+      {
+        path: "examples/pie-chart-interactive-demo.tsx",
         type: "registry:example",
       },
     ],
@@ -230,6 +362,39 @@ export const examples: Registry["items"] = [
     files: [
       {
         path: "examples/histogram-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "histogram-chart-overlay-demo",
+    type: "registry:example",
+    registryDependencies: ["histogram-chart"],
+    files: [
+      {
+        path: "examples/histogram-chart-overlay-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "histogram-chart-gradient-demo",
+    type: "registry:example",
+    registryDependencies: ["histogram-chart"],
+    files: [
+      {
+        path: "examples/histogram-chart-gradient-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "histogram-chart-stepped-demo",
+    type: "registry:example",
+    registryDependencies: ["histogram-chart"],
+    files: [
+      {
+        path: "examples/histogram-chart-stepped-demo.tsx",
         type: "registry:example",
       },
     ],
@@ -300,6 +465,50 @@ export const examples: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "violin-chart-comparison-demo",
+    type: "registry:example",
+    registryDependencies: ["violin-chart"],
+    files: [
+      {
+        path: "examples/violin-chart-comparison-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "violin-chart-horizontal-demo",
+    type: "registry:example",
+    registryDependencies: ["violin-chart"],
+    files: [
+      {
+        path: "examples/violin-chart-horizontal-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "violin-chart-grouped-demo",
+    type: "registry:example",
+    registryDependencies: ["violin-chart"],
+    files: [
+      {
+        path: "examples/violin-chart-grouped-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "violin-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["violin-chart"],
+    files: [
+      {
+        path: "examples/violin-chart-minimal-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
   // Financial Charts
   {
     name: "candlestick-chart-demo",
@@ -341,6 +550,50 @@ export const examples: Registry["items"] = [
     files: [
       {
         path: "examples/waterfall-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "waterfall-chart-quarterly-demo",
+    type: "registry:example",
+    registryDependencies: ["waterfall-chart"],
+    files: [
+      {
+        path: "examples/waterfall-chart-quarterly-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "waterfall-chart-budget-demo",
+    type: "registry:example",
+    registryDependencies: ["waterfall-chart"],
+    files: [
+      {
+        path: "examples/waterfall-chart-budget-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "waterfall-chart-inventory-demo",
+    type: "registry:example",
+    registryDependencies: ["waterfall-chart"],
+    files: [
+      {
+        path: "examples/waterfall-chart-inventory-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "waterfall-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["waterfall-chart"],
+    files: [
+      {
+        path: "examples/waterfall-chart-minimal-demo.tsx",
         type: "registry:example",
       },
     ],
@@ -413,6 +666,50 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "heatmap-chart-calendar-demo",
+    type: "registry:example",
+    registryDependencies: ["heatmap-chart"],
+    files: [
+      {
+        path: "examples/heatmap-chart-calendar-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "heatmap-chart-matrix-demo",
+    type: "registry:example",
+    registryDependencies: ["heatmap-chart"],
+    files: [
+      {
+        path: "examples/heatmap-chart-matrix-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "heatmap-chart-themes-demo",
+    type: "registry:example",
+    registryDependencies: ["heatmap-chart"],
+    files: [
+      {
+        path: "examples/heatmap-chart-themes-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "heatmap-chart-radial-demo",
+    type: "registry:example",
+    registryDependencies: ["heatmap-chart"],
+    files: [
+      {
+        path: "examples/heatmap-chart-radial-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "contour-chart-demo",
     type: "registry:example",
     registryDependencies: ["contour-chart"],
@@ -469,12 +766,122 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "radar-chart-comparison-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-comparison-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radar-chart-legend-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-legend-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radar-chart-filled-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-filled-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radar-chart-circle-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-circle-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radar-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-minimal-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radar-chart-labels-demo",
+    type: "registry:example",
+    registryDependencies: ["radar-chart"],
+    files: [
+      {
+        path: "examples/radar-chart-labels-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "treemap-chart-demo",
     type: "registry:example",
     registryDependencies: ["treemap-chart"],
     files: [
       {
         path: "examples/treemap-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "treemap-chart-portfolio-demo",
+    type: "registry:example",
+    registryDependencies: ["treemap-chart"],
+    files: [
+      {
+        path: "examples/treemap-chart-portfolio-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "treemap-chart-filesize-demo",
+    type: "registry:example",
+    registryDependencies: ["treemap-chart"],
+    files: [
+      {
+        path: "examples/treemap-chart-filesize-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "treemap-chart-nested-demo",
+    type: "registry:example",
+    registryDependencies: ["treemap-chart"],
+    files: [
+      {
+        path: "examples/treemap-chart-nested-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "treemap-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["treemap-chart"],
+    files: [
+      {
+        path: "examples/treemap-chart-minimal-demo.tsx",
         type: "registry:example",
       },
     ],
@@ -490,18 +897,105 @@ export const examples: Registry["items"] = [
       },
     ],
   },
-  // Sankey chart demo temporarily disabled due to d3-sankey integration issue
-  // {
-  //   name: "sankey-chart-demo",
-  //   type: "registry:example",
-  //   registryDependencies: ["sankey-chart"],
-  //   files: [
-  //     {
-  //       path: "examples/sankey-chart-demo.tsx",
-  //       type: "registry:example",
-  //     },
-  //   ],
-  // },
+  {
+    name: "sunburst-chart-organizational-demo",
+    type: "registry:example",
+    registryDependencies: ["sunburst-chart"],
+    files: [
+      {
+        path: "examples/sunburst-chart-organizational-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sunburst-chart-budget-demo",
+    type: "registry:example",
+    registryDependencies: ["sunburst-chart"],
+    files: [
+      {
+        path: "examples/sunburst-chart-budget-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sunburst-chart-filesize-demo",
+    type: "registry:example",
+    registryDependencies: ["sunburst-chart"],
+    files: [
+      {
+        path: "examples/sunburst-chart-filesize-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sunburst-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["sunburst-chart"],
+    files: [
+      {
+        path: "examples/sunburst-chart-minimal-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sankey-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["sankey-chart"],
+    files: [
+      {
+        path: "examples/sankey-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sankey-chart-energy-demo",
+    type: "registry:example",
+    registryDependencies: ["sankey-chart"],
+    files: [
+      {
+        path: "examples/sankey-chart-energy-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sankey-chart-gradient-demo",
+    type: "registry:example",
+    registryDependencies: ["sankey-chart"],
+    files: [
+      {
+        path: "examples/sankey-chart-gradient-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sankey-chart-minimal-demo",
+    type: "registry:example",
+    registryDependencies: ["sankey-chart"],
+    files: [
+      {
+        path: "examples/sankey-chart-minimal-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "sankey-chart-multilevel-demo",
+    type: "registry:example",
+    registryDependencies: ["sankey-chart"],
+    files: [
+      {
+        path: "examples/sankey-chart-multilevel-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
   {
     name: "gauge-chart-demo",
     type: "registry:example",
@@ -664,6 +1158,309 @@ export const examples: Registry["items"] = [
     files: [
       {
         path: "examples/choropleth-chart-brazil-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+
+  // Phase 1 New Charts
+  {
+    name: "ohlc-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["ohlc-chart"],
+    files: [
+      {
+        path: "examples/ohlc-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "bullet-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["bullet-chart"],
+    files: [
+      {
+        path: "examples/bullet-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "dot-plot-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["dot-plot-chart"],
+    files: [
+      {
+        path: "examples/dot-plot-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "lollipop-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["lollipop-chart"],
+    files: [
+      {
+        path: "examples/lollipop-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "dumbbell-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["dumbbell-chart"],
+    files: [
+      {
+        path: "examples/dumbbell-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "icicle-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["icicle-chart"],
+    files: [
+      {
+        path: "examples/icicle-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "slope-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [
+      {
+        path: "examples/slope-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+
+  // Phase 2 Charts
+  {
+    name: "polar-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["polar-chart"],
+    files: [
+      {
+        path: "examples/charts/polar-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "polar-chart-coxcomb",
+    type: "registry:example",
+    registryDependencies: ["polar-chart"],
+    files: [
+      {
+        path: "examples/charts/polar-chart-coxcomb.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "polar-chart-donut",
+    type: "registry:example",
+    registryDependencies: ["polar-chart"],
+    files: [
+      {
+        path: "examples/charts/polar-chart-donut.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "network-graph-demo",
+    type: "registry:example",
+    registryDependencies: ["network-graph"],
+    files: [
+      {
+        path: "examples/charts/network-graph-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "network-graph-directed",
+    type: "registry:example",
+    registryDependencies: ["network-graph"],
+    files: [
+      {
+        path: "examples/charts/network-graph-directed.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "parallel-coordinates-demo",
+    type: "registry:example",
+    registryDependencies: ["parallel-coordinates"],
+    files: [
+      {
+        path: "examples/charts/parallel-coordinates-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "parallel-coordinates-iris",
+    type: "registry:example",
+    registryDependencies: ["parallel-coordinates"],
+    files: [
+      {
+        path: "examples/charts/parallel-coordinates-iris.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "dendrogram-demo",
+    type: "registry:example",
+    registryDependencies: ["dendrogram"],
+    files: [
+      {
+        path: "examples/charts/dendrogram-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "dendrogram-vertical",
+    type: "registry:example",
+    registryDependencies: ["dendrogram"],
+    files: [
+      {
+        path: "examples/charts/dendrogram-vertical.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "density-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["density-chart"],
+    files: [
+      {
+        path: "examples/charts/density-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "density-chart-contours-only",
+    type: "registry:example",
+    registryDependencies: ["density-chart"],
+    files: [
+      {
+        path: "examples/charts/density-chart-contours-only.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+
+  // Phase 3 Charts
+  {
+    name: "splom-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["splom-chart"],
+    files: [
+      {
+        path: "examples/charts/splom-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "splom-chart-compact",
+    type: "registry:example",
+    registryDependencies: ["splom-chart"],
+    files: [
+      {
+        path: "examples/charts/splom-chart-compact.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "parcats-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["parcats-chart"],
+    files: [
+      {
+        path: "examples/charts/parcats-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "parcats-chart-flow",
+    type: "registry:example",
+    registryDependencies: ["parcats-chart"],
+    files: [
+      {
+        path: "examples/charts/parcats-chart-flow.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "ternary-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["ternary-chart"],
+    files: [
+      {
+        path: "examples/charts/ternary-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "ternary-chart-composition",
+    type: "registry:example",
+    registryDependencies: ["ternary-chart"],
+    files: [
+      {
+        path: "examples/charts/ternary-chart-composition.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "range-chart-demo",
+    type: "registry:example",
+    registryDependencies: ["range-chart"],
+    files: [
+      {
+        path: "examples/charts/range-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "range-chart-error-bars",
+    type: "registry:example",
+    registryDependencies: ["range-chart"],
+    files: [
+      {
+        path: "examples/charts/range-chart-error-bars.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "range-chart-bars",
+    type: "registry:example",
+    registryDependencies: ["range-chart"],
+    files: [
+      {
+        path: "examples/charts/range-chart-bars.tsx",
         type: "registry:example",
       },
     ],
