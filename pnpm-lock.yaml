@@ -225,6 +225,9 @@ importers:
       '@types/d3-contour':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/d3-scale-chromatic':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/topojson-client':
         specifier: ^3.1.5
         version: 3.1.5
@@ -282,6 +285,9 @@ importers:
       d3-scale:
         specifier: ^4.0.2
         version: 4.0.2
+      d3-scale-chromatic:
+        specifier: ^3.1.0
+        version: 3.1.0
       d3-shape:
         specifier: ^3.2.0
         version: 3.2.0
