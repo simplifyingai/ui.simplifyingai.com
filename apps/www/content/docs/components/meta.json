@@ -1,7 +1,6 @@
 {
   "title": "Charts",
   "pages": [
-    "index",
     "line-chart",
     "bar-chart",
     "area-chart",
