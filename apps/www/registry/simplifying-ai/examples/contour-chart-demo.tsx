@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  CONTOUR_COLOR_SCALES,
-  ContourChart,
-} from "@/registry/simplifying-ai/ui/charts"
+import { ContourChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Generate sample 2D terrain-like data with multiple peaks
 const generateContourData = (): number[][] => {
@@ -51,11 +48,18 @@ export default function ContourChartDemo() {
         xAxisLabel="X"
         yAxisLabel="Y"
         levels={12}
-        colorScale={CONTOUR_COLOR_SCALES.rainbow}
+        colorScale={[
+          "#1e40af",
+          "#2563eb",
+          "#3b82f6",
+          "#60a5fa",
+          "#93c5fd",
+          "#bfdbfe",
+        ]}
         showMarkers={true}
         markerSymbol="x"
         markerSize={6}
-        markerColor="#333"
+        markerColor="#1e40af"
         showGrid={true}
         lineWidth={0.5}
       />

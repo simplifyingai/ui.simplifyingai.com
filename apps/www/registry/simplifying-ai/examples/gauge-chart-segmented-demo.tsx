@@ -12,9 +12,9 @@ export default function GaugeChartSegmentedDemo() {
       label="Risk Level"
       thickness={0.15}
       segments={[
-        { value: 0, color: "#22c55e", label: "Low" },
-        { value: 33, color: "#f59e0b", label: "Medium" },
-        { value: 66, color: "#ef4444", label: "High" },
+        { value: 0, color: "#bfdbfe", label: "Low" },
+        { value: 33, color: "#60a5fa", label: "Medium" },
+        { value: 66, color: "#1e40af", label: "High" },
       ]}
       animate
     />

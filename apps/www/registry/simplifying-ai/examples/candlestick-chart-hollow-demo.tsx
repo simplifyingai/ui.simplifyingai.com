@@ -26,6 +26,8 @@ export default function CandlestickChartHollowDemo() {
   return (
     <CandlestickChart
       data={chartData}
+      upColor="#22c55e"
+      downColor="#ef4444"
       showGrid
       hollowCandles
       aspectRatio={2.5}

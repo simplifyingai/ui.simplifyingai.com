@@ -49,7 +49,7 @@ export default function ChoroplethChartDemo() {
     <ChoroplethChart
       data={gdpData}
       legendTitle="GDP (Trillion $)"
-      colorScale={["#dbeafe", "#3b82f6", "#1e3a8a"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `$${v.toFixed(1)}T`}
       aspectRatio={2}
     />

@@ -10,7 +10,7 @@ export default function GaugeChartMinimalDemo() {
       max={100}
       variant="minimal"
       label="Completion"
-      color="#10b981"
+      color="#60a5fa"
       thickness={0.08}
       animate
     />

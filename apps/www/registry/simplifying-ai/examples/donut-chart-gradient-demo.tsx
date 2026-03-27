@@ -3,10 +3,10 @@
 import { DonutChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
-  { label: "Sales", value: 45000, color: "#8B5CF6" },
-  { label: "Marketing", value: 32000, color: "#EC4899" },
-  { label: "Development", value: 28000, color: "#3B82F6" },
-  { label: "Operations", value: 15000, color: "#10B981" },
+  { label: "Sales", value: 45000, color: "#2563eb" },
+  { label: "Marketing", value: 32000, color: "#3b82f6" },
+  { label: "Development", value: 28000, color: "#60a5fa" },
+  { label: "Operations", value: 15000, color: "#93c5fd" },
 ]
 
 export default function DonutChartGradientDemo() {

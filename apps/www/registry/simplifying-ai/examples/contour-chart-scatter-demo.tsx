@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  CONTOUR_COLOR_SCALES,
-  ContourChart,
-} from "@/registry/simplifying-ai/ui/charts"
+import { ContourChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Generate data representing elevation/topography
 const generateTopographyData = (): number[][] => {
@@ -46,14 +43,21 @@ export default function ContourChartScatterDemo() {
         xAxisLabel="Longitude"
         yAxisLabel="Latitude"
         levels={8}
-        colorScale={CONTOUR_COLOR_SCALES.ocean}
+        colorScale={[
+          "#1e40af",
+          "#2563eb",
+          "#3b82f6",
+          "#60a5fa",
+          "#93c5fd",
+          "#bfdbfe",
+        ]}
         showMarkers={true}
         markerSymbol="circle"
         markerSize={5}
-        markerColor="#1e3a5f"
+        markerColor="#1e40af"
         showGrid={true}
         lineWidth={1}
-        lineColor="#1e3a5f"
+        lineColor="#1e40af"
       />
     </div>
   )

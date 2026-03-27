@@ -2,23 +2,35 @@
 
 import { WaterfallChart } from "@/registry/simplifying-ai/ui/charts"
 
+// P&L Statement breakdown
 const data = [
-  { label: "Starting", value: 1000, type: "total" as const },
-  { label: "Product Sales", value: 500, type: "positive" as const },
-  { label: "Service Revenue", value: 300, type: "positive" as const },
-  { label: "Operating Costs", value: -400, type: "negative" as const },
-  { label: "Marketing", value: -200, type: "negative" as const },
-  { label: "Tax", value: -150, type: "negative" as const },
-  { label: "Net Income", value: 1050, type: "total" as const },
+  { label: "Revenue", value: 5200, isTotal: true },
+  { label: "Product Sales", value: 1800 },
+  { label: "Services", value: 1200 },
+  { label: "Licensing", value: 650 },
+  { label: "Gross Profit", value: 8850, isSubtotal: true },
+  { label: "Salaries", value: -2400 },
+  { label: "Marketing", value: -850 },
+  { label: "Operations", value: -1200 },
+  { label: "R&D", value: -950 },
+  { label: "Operating Income", value: 3450, isSubtotal: true },
+  { label: "Interest", value: -180 },
+  { label: "Taxes", value: -720 },
+  { label: "Net Income", value: 2550, isTotal: true },
 ]
 
 export default function WaterfallChartDemo() {
   return (
-    <div className="w-full max-w-3xl">
+    <div className="mx-auto w-full max-w-xl">
       <WaterfallChart
         data={data}
+        width={560}
+        height={380}
         xAxisLabel="Category"
-        yAxisLabel="Amount ($)"
+        yAxisLabel="Amount ($K)"
+        positiveColor="#2563eb"
+        negativeColor="#60a5fa"
+        totalColor="#1e40af"
       />
     </div>
   )

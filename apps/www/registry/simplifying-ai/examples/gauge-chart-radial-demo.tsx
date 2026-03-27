@@ -10,7 +10,7 @@ export default function GaugeChartRadialDemo() {
       max={100}
       variant="radial"
       label="%"
-      color="#8b5cf6"
+      color="#2563eb"
       thickness={0.1}
       width={200}
       height={200}

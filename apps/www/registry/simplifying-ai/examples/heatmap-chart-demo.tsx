@@ -2,32 +2,39 @@
 
 import { HeatmapChart } from "@/registry/simplifying-ai/ui/charts"
 
-const data = [
-  { x: "Mon", y: "Morning", value: 5 },
-  { x: "Mon", y: "Afternoon", value: 8 },
-  { x: "Mon", y: "Evening", value: 3 },
-  { x: "Tue", y: "Morning", value: 7 },
-  { x: "Tue", y: "Afternoon", value: 9 },
-  { x: "Tue", y: "Evening", value: 4 },
-  { x: "Wed", y: "Morning", value: 6 },
-  { x: "Wed", y: "Afternoon", value: 10 },
-  { x: "Wed", y: "Evening", value: 5 },
-  { x: "Thu", y: "Morning", value: 4 },
-  { x: "Thu", y: "Afternoon", value: 7 },
-  { x: "Thu", y: "Evening", value: 6 },
-  { x: "Fri", y: "Morning", value: 8 },
-  { x: "Fri", y: "Afternoon", value: 6 },
-  { x: "Fri", y: "Evening", value: 9 },
-]
+// Generate matrix data for hours vs days
+const hours = ["00", "03", "06", "09", "12", "15", "18", "21"]
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+const data = days.flatMap((day, dayIndex) =>
+  hours.map((hour, hourIndex) => {
+    // Create a pattern: more activity during work hours on weekdays
+    const isWeekend = dayIndex >= 5
+    const isWorkHour = hourIndex >= 2 && hourIndex <= 5
+    const baseValue = isWeekend ? 20 : isWorkHour ? 80 : 30
+    const variance = ((dayIndex * 7 + hourIndex) % 10) * 5
+
+    return {
+      x: hour,
+      y: day,
+      value: Math.max(0, baseValue + variance - 25),
+    }
+  })
+)
 
 export default function HeatmapChartDemo() {
   return (
     <div className="w-full max-w-3xl">
       <HeatmapChart
         data={data}
-        xAxisLabel="Day"
-        yAxisLabel="Time"
-        colorScale={["#f0f9ff", "#0369a1"]}
+        variant="matrix"
+        xAxisLabel="Hour"
+        yAxisLabel="Day"
+        colorTheme="blue"
+        showValues
+        cellRadius={4}
+        height={300}
+        valueFormat={(v) => v.toString()}
       />
     </div>
   )

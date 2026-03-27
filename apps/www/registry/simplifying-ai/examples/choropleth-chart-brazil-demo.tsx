@@ -41,7 +41,7 @@ export default function ChoroplethChartBrazilDemo() {
       geoUrl="https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/brazil-states.geojson"
       idProperty="name"
       legendTitle="Population (M)"
-      colorScale={["#dcfce7", "#22c55e", "#166534"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `${v.toFixed(1)}M`}
       aspectRatio={1.1}
       projection="mercator"

@@ -3,25 +3,17 @@
 import { PieChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
-  { label: "Chrome", value: 62.5 },
-  { label: "Safari", value: 18.8 },
-  { label: "Firefox", value: 6.3 },
-  { label: "Edge", value: 5.2 },
-  { label: "Other", value: 7.2 },
+  { label: "Chrome", value: 275, color: "#2563eb" },
+  { label: "Safari", value: 200, color: "#3b82f6" },
+  { label: "Firefox", value: 187, color: "#60a5fa" },
+  { label: "Edge", value: 173, color: "#93c5fd" },
+  { label: "Other", value: 90, color: "#bfdbfe" },
 ]
-
-const config = {
-  Chrome: { label: "Chrome", color: "var(--chart-1)" },
-  Safari: { label: "Safari", color: "var(--chart-2)" },
-  Firefox: { label: "Firefox", color: "var(--chart-3)" },
-  Edge: { label: "Edge", color: "var(--chart-4)" },
-  Other: { label: "Other", color: "var(--chart-5)" },
-}
 
 export default function PieChartDemo() {
   return (
     <div className="w-full max-w-md">
-      <PieChart data={data} config={config} showLegend showLabels />
+      <PieChart data={data} />
     </div>
   )
 }

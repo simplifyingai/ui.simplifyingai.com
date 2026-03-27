@@ -27,7 +27,7 @@ export default function ChoroplethChartFranceDemo() {
       geoUrl="https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/regions-version-simplifiee.geojson"
       idProperty="nom"
       legendTitle="Population (M)"
-      colorScale={["#dbeafe", "#3b82f6", "#1e3a8a"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `${v.toFixed(1)}M`}
       aspectRatio={1.2}
       projection="mercator"

@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  CONTOUR_COLOR_SCALES,
-  ContourChart,
-} from "@/registry/simplifying-ai/ui/charts"
+import { ContourChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Generate thermal/heat distribution data
 const generateThermalData = (): number[][] => {
@@ -44,11 +41,18 @@ export default function ContourChartThermalDemo() {
         xAxisLabel="X Position"
         yAxisLabel="Y Position"
         levels={10}
-        colorScale={CONTOUR_COLOR_SCALES.thermal}
+        colorScale={[
+          "#1e40af",
+          "#2563eb",
+          "#3b82f6",
+          "#60a5fa",
+          "#93c5fd",
+          "#bfdbfe",
+        ]}
         showMarkers={false}
         showGrid={false}
         lineWidth={0.3}
-        lineColor="rgba(255,255,255,0.4)"
+        lineColor="#60a5fa"
       />
     </div>
   )

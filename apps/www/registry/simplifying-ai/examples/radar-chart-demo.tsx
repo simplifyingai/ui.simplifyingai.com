@@ -5,6 +5,7 @@ import { RadarChart } from "@/registry/simplifying-ai/ui/charts"
 const data = [
   {
     name: "Product A",
+    color: "#2563eb",
     data: [
       { axis: "Performance", value: 85 },
       { axis: "Reliability", value: 90 },
@@ -16,6 +17,7 @@ const data = [
   },
   {
     name: "Product B",
+    color: "#93c5fd",
     data: [
       { axis: "Performance", value: 72 },
       { axis: "Reliability", value: 85 },
@@ -27,15 +29,10 @@ const data = [
   },
 ]
 
-const config = {
-  "Product A": { label: "Product A", color: "var(--chart-1)" },
-  "Product B": { label: "Product B", color: "var(--chart-2)" },
-}
-
 export default function RadarChartDemo() {
   return (
     <div className="w-full max-w-md">
-      <RadarChart data={data} config={config} showLegend fillOpacity={0.3} />
+      <RadarChart data={data} showLegend fillOpacity={0.3} />
     </div>
   )
 }

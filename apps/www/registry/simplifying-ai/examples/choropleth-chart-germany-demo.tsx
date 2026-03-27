@@ -30,7 +30,7 @@ export default function ChoroplethChartGermanyDemo() {
       geoUrl="https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/master/2_bundeslaender/4_niedrig.geo.json"
       idProperty="name"
       legendTitle="Population (M)"
-      colorScale={["#fef3c7", "#f59e0b", "#b45309"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `${v.toFixed(1)}M`}
       aspectRatio={1.3}
       projection="mercator"

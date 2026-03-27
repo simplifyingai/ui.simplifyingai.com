@@ -3,11 +3,11 @@
 import { DonutChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
-  { label: "Chrome", value: 62.5, color: "#4285F4" },
-  { label: "Safari", value: 19.3, color: "#FF9500" },
-  { label: "Firefox", value: 4.2, color: "#FF7139" },
-  { label: "Edge", value: 4.1, color: "#0078D7" },
-  { label: "Other", value: 9.9, color: "#6B7280" },
+  { label: "Chrome", value: 62.5, color: "#2563eb" },
+  { label: "Safari", value: 19.3, color: "#3b82f6" },
+  { label: "Firefox", value: 4.2, color: "#60a5fa" },
+  { label: "Edge", value: 4.1, color: "#93c5fd" },
+  { label: "Other", value: 9.9, color: "#bfdbfe" },
 ]
 
 export default function DonutChartDemo() {

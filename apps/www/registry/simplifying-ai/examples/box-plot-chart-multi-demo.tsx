@@ -6,7 +6,7 @@ const data = [
   {
     label: "Q1",
     values: [45, 52, 58, 62, 68, 72, 75, 78, 82, 85, 88, 92],
-    color: "#93c5fd",
+    color: "#2563eb",
   },
   {
     label: "Q2",
@@ -16,12 +16,12 @@ const data = [
   {
     label: "Q3",
     values: [62, 68, 72, 78, 82, 85, 88, 92, 95, 100, 105],
-    color: "#2563eb",
+    color: "#60a5fa",
   },
   {
     label: "Q4",
     values: [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120],
-    color: "#1d4ed8",
+    color: "#93c5fd",
   },
 ]
 

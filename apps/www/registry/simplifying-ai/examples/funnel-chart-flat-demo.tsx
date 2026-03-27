@@ -6,10 +6,10 @@ import { FunnelChart } from "@/registry/simplifying-ai/ui/charts"
 const stages = ["Sent", "Delivered", "Opened", "Clicked"]
 
 const series = [
-  { name: "Campaign A", values: [25000, 24200, 8500, 2100] },
-  { name: "Campaign B", values: [18000, 17400, 6200, 1600] },
-  { name: "Campaign C", values: [12000, 11600, 4100, 1100] },
-  { name: "Campaign D", values: [8000, 7700, 2800, 750] },
+  { name: "Campaign A", values: [25000, 24200, 8500, 2100], color: "#1e40af" },
+  { name: "Campaign B", values: [18000, 17400, 6200, 1600], color: "#2563eb" },
+  { name: "Campaign C", values: [12000, 11600, 4100, 1100], color: "#3b82f6" },
+  { name: "Campaign D", values: [8000, 7700, 2800, 750], color: "#60a5fa" },
 ]
 
 export default function FunnelChartFlatDemo() {
@@ -18,7 +18,7 @@ export default function FunnelChartFlatDemo() {
       <FunnelChart
         stages={stages}
         series={series}
-        colorScheme="purple"
+        colorScheme="custom"
         showStageMarkers
         showValuePills
         pillPosition="center"

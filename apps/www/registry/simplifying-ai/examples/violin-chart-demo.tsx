@@ -3,35 +3,40 @@
 import { ViolinChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Generate sample data with normal-ish distribution
-const generateData = (mean: number, std: number, n: number) =>
-  Array.from({ length: n }, () => {
-    const u1 = Math.random()
-    const u2 = Math.random()
-    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)
-    return mean + std * z
-  })
-
-const data = [
-  { name: "Treatment A", values: generateData(50, 10, 50) },
-  { name: "Treatment B", values: generateData(65, 15, 50) },
-  { name: "Control", values: generateData(45, 12, 50) },
-]
-
-const config = {
-  "Treatment A": { label: "Treatment A", color: "var(--chart-1)" },
-  "Treatment B": { label: "Treatment B", color: "var(--chart-2)" },
-  Control: { label: "Control", color: "var(--chart-3)" },
+const generateData = (mean: number, std: number, n: number, seed: number) => {
+  const values: number[] = []
+  let s = seed
+  for (let i = 0; i < n; i++) {
+    s = (s * 9301 + 49297) % 233280
+    const u1 = s / 233280
+    s = (s * 9301 + 49297) % 233280
+    const u2 = s / 233280
+    const z = Math.sqrt(-2 * Math.log(u1 || 0.001)) * Math.cos(2 * Math.PI * u2)
+    values.push(mean + std * z)
+  }
+  return values
 }
+
+// Performance scores by department
+const data = [
+  { label: "Engineering", values: generateData(78, 12, 80, 1), color: "#1e40af" },
+  { label: "Sales", values: generateData(72, 15, 80, 2), color: "#2563eb" },
+  { label: "Marketing", values: generateData(75, 10, 80, 3), color: "#3b82f6" },
+  { label: "Support", values: generateData(70, 18, 80, 4), color: "#60a5fa" },
+  { label: "Finance", values: generateData(82, 8, 80, 5), color: "#93c5fd" },
+]
 
 export default function ViolinChartDemo() {
   return (
-    <div className="w-full max-w-3xl">
+    <div className="mx-auto w-full max-w-lg">
       <ViolinChart
         data={data}
-        config={config}
+        width={480}
+        height={380}
         showBoxPlot
-        xAxisLabel="Group"
-        yAxisLabel="Measurement"
+        showMedian
+        xAxisLabel="Department"
+        yAxisLabel="Performance Score"
       />
     </div>
   )

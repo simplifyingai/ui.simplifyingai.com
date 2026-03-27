@@ -35,7 +35,7 @@ export default function ChoroplethChartUKDemo() {
       topojsonObject="gbr"
       idProperty="name"
       legendTitle="Population (M)"
-      colorScale={["#dbeafe", "#3b82f6", "#1e3a8a"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `${v.toFixed(1)}M`}
       aspectRatio={1.5}
       projection="mercator"

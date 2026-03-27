@@ -9,7 +9,7 @@ export default function GaugeChartDemo() {
       min={0}
       max={100}
       label="Performance Score"
-      color="#3b82f6"
+      color="#2563eb"
       thickness={0.12}
       animate
     />

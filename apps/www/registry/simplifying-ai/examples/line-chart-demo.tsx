@@ -4,45 +4,29 @@ import { LineChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
   {
-    name: "Users",
+    name: "Views",
     data: [
-      { x: "Jan", y: 1200 },
-      { x: "Feb", y: 1900 },
-      { x: "Mar", y: 1700 },
-      { x: "Apr", y: 2400 },
-      { x: "May", y: 2800 },
-      { x: "Jun", y: 3200 },
+      { x: "Jan", y: 186 },
+      { x: "Feb", y: 305 },
+      { x: "Mar", y: 237 },
+      { x: "Apr", y: 73 },
+      { x: "May", y: 209 },
+      { x: "Jun", y: 214 },
+      { x: "Jul", y: 251 },
+      { x: "Aug", y: 298 },
+      { x: "Sep", y: 187 },
+      { x: "Oct", y: 342 },
+      { x: "Nov", y: 276 },
+      { x: "Dec", y: 301 },
     ],
-  },
-  {
-    name: "Sessions",
-    data: [
-      { x: "Jan", y: 2400 },
-      { x: "Feb", y: 3200 },
-      { x: "Mar", y: 2900 },
-      { x: "Apr", y: 4100 },
-      { x: "May", y: 4800 },
-      { x: "Jun", y: 5500 },
-    ],
+    color: "#93c5fd",
   },
 ]
-
-const config = {
-  Users: { label: "Users", color: "var(--chart-1)" },
-  Sessions: { label: "Sessions", color: "var(--chart-2)" },
-}
 
 export default function LineChartDemo() {
   return (
     <div className="w-full max-w-3xl">
-      <LineChart
-        data={data}
-        config={config}
-        showLegend
-        showDots
-        xAxisLabel="Month"
-        yAxisLabel="Count"
-      />
+      <LineChart data={data} />
     </div>
   )
 }

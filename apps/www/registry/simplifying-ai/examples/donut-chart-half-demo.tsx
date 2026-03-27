@@ -3,8 +3,8 @@
 import { DonutChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
-  { label: "Used", value: 73, color: "#3B82F6" },
-  { label: "Free", value: 27, color: "#E5E7EB" },
+  { label: "Used", value: 73, color: "#2563eb" },
+  { label: "Free", value: 27, color: "#bfdbfe" },
 ]
 
 export default function DonutChartHalfDemo() {

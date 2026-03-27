@@ -10,7 +10,7 @@ export default function GaugeChartDashboardDemo() {
       max={100}
       variant="dashboard"
       label="Completion Rate"
-      color="#8b5cf6"
+      color="#2563eb"
       thickness={0.15}
       animate
     />

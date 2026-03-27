@@ -46,7 +46,7 @@ export default function ChoroplethChartChinaDemo() {
       topojsonObject="chn"
       idProperty="name"
       legendTitle="GDP (T CNY)"
-      colorScale={["#fee2e2", "#ef4444", "#991b1b"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `¥${v.toFixed(1)}T`}
       aspectRatio={1.3}
       projection="mercator"

@@ -3,9 +3,9 @@
 import { DonutChart } from "@/registry/simplifying-ai/ui/charts"
 
 const data = [
-  { label: "Completed", value: 68, color: "#22C55E" },
-  { label: "In Progress", value: 22, color: "#F59E0B" },
-  { label: "Pending", value: 10, color: "#EF4444" },
+  { label: "Completed", value: 68, color: "#2563eb" },
+  { label: "In Progress", value: 22, color: "#3b82f6" },
+  { label: "Pending", value: 10, color: "#60a5fa" },
 ]
 
 export default function DonutChartSeparatedDemo() {

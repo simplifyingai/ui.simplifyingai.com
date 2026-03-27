@@ -1,9 +1,6 @@
 "use client"
 
-import {
-  CONTOUR_COLOR_SCALES,
-  ContourChart,
-} from "@/registry/simplifying-ai/ui/charts"
+import { ContourChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Generate sample data with interesting contours
 const generateContourData = (): number[][] => {
@@ -34,10 +31,18 @@ export default function ContourChartLinesDemo() {
         xAxisLabel="X"
         yAxisLabel="Y"
         levels={15}
-        colorScale={CONTOUR_COLOR_SCALES.viridis}
+        colorScale={[
+          "#1e40af",
+          "#2563eb",
+          "#3b82f6",
+          "#60a5fa",
+          "#93c5fd",
+          "#bfdbfe",
+        ]}
         showFill={false}
         showLines={true}
         lineWidth={1.5}
+        lineColor="#2563eb"
         showMarkers={false}
         showGrid={true}
       />

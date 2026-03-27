@@ -23,10 +23,12 @@ const data = [
       95,
       100, // outliers above
     ],
+    color: "#2563eb",
   },
   {
     label: "Dataset B",
     values: [40, 45, 48, 52, 55, 58, 62, 65, 68, 72, 75, 78, 82],
+    color: "#3b82f6",
   },
   {
     label: "Dataset C",
@@ -46,6 +48,7 @@ const data = [
       120,
       125, // outliers above
     ],
+    color: "#60a5fa",
   },
 ]
 
@@ -54,7 +57,6 @@ export default function BoxPlotChartOutliersDemo() {
     <div className="w-full">
       <BoxPlotChart
         data={data}
-        color="#2563eb"
         showGrid
         showTooltip
         showOutliers

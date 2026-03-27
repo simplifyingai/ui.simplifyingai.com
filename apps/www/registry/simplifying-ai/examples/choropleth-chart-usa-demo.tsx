@@ -63,7 +63,7 @@ export default function ChoroplethChartUSADemo() {
       geoUrl="https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json"
       topojsonObject="states"
       legendTitle="Population (M)"
-      colorScale={["#dbeafe", "#3b82f6", "#1e3a8a"]}
+      colorScale={["#bfdbfe", "#60a5fa", "#1e40af"]}
       valueFormatter={(v) => `${v.toFixed(1)}M`}
       aspectRatio={1.6}
       projection="albersUsa"

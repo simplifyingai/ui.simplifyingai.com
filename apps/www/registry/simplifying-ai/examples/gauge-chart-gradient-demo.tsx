@@ -10,8 +10,8 @@ export default function GaugeChartGradientDemo() {
       max={100}
       variant="gradient"
       label="Progress"
-      color="#3b82f6"
-      colorSecondary="#ec4899"
+      color="#1e40af"
+      colorSecondary="#93c5fd"
       thickness={0.12}
       animate
     />

@@ -10,7 +10,7 @@ export default function GaugeChartMeterDemo() {
       max={100}
       variant="meter"
       label="Efficiency"
-      color="#10b981"
+      color="#3b82f6"
       thickness={0.1}
       showTicks
       tickCount={5}

@@ -9,7 +9,7 @@ export default function GaugeChartSpeedometerDemo() {
       min={0}
       max={100}
       variant="speedometer"
-      color="#f59e0b"
+      color="#3b82f6"
       thickness={0.18}
       showTicks
       tickCount={5}
