@@ -67,7 +67,7 @@ export function CodeBlockCommand({
   }, [packageManager, tabs])
 
   return (
-    <div className="relative my-6 overflow-hidden rounded-lg border border-[oklch(0.3_0_0)] bg-code text-code-foreground">
+    <div className="overflow-x-auto">
       <Tabs
         value={packageManager}
         className="gap-0"
@@ -78,17 +78,17 @@ export function CodeBlockCommand({
           })
         }}
       >
-        <div className="flex items-center gap-2 border-b border-[oklch(0.3_0_0)] bg-[oklch(0.1_0_0)] px-3 py-1.5">
-          <div className="flex size-4 items-center justify-center rounded-[2px] bg-[oklch(0.85_0_0)]">
-            <TerminalIcon className="size-3 text-[oklch(0.1_0_0)]" />
+        <div className="border-border/50 flex items-center gap-2 border-b px-3 py-1">
+          <div className="bg-foreground flex size-4 items-center justify-center rounded-[1px] opacity-70">
+            <TerminalIcon className="text-code size-3" />
           </div>
-          <TabsList className="h-auto gap-0 rounded-none bg-transparent p-0">
+          <TabsList className="rounded-none bg-transparent p-0">
             {Object.entries(tabs).map(([key]) => {
               return (
                 <TabsTrigger
                   key={key}
                   value={key}
-                  className="h-7 rounded-sm border-0 px-2 text-xs text-[oklch(0.6_0_0)] data-[state=active]:bg-[oklch(0.2_0_0)] data-[state=active]:text-[oklch(0.9_0_0)] data-[state=active]:shadow-none"
+                  className="data-[state=active]:bg-accent data-[state=active]:border-input h-7 border border-transparent pt-0.5 data-[state=active]:shadow-none"
                 >
                   {key}
                 </TabsTrigger>
@@ -102,7 +102,7 @@ export function CodeBlockCommand({
               <TabsContent key={key} value={key} className="mt-0 px-4 py-3.5">
                 <pre>
                   <code
-                    className="relative font-mono text-sm leading-none text-[oklch(0.85_0_0)]"
+                    className="relative font-mono text-sm leading-none"
                     data-language="bash"
                   >
                     {value}
@@ -119,7 +119,7 @@ export function CodeBlockCommand({
             data-slot="copy-button"
             size="icon"
             variant="ghost"
-            className="absolute top-1.5 right-2 z-10 size-7 text-[oklch(0.6_0_0)] hover:text-[oklch(0.9_0_0)] hover:bg-[oklch(0.2_0_0)]"
+            className="absolute top-2 right-2 z-10 size-7 opacity-70 hover:opacity-100 focus-visible:opacity-100"
             onClick={copyCommand}
           >
             <span className="sr-only">Copy</span>
