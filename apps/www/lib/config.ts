@@ -6,16 +6,12 @@ export const siteConfig = {
     "800+ beautiful chart components for React. Copy. Paste. Ship. The most comprehensive data visualization library with the simplicity of shadcn/ui.",
   links: {
     twitter: "https://twitter.com/simplaboratories",
-    github: "https://github.com/simplifying-ai/charts",
+    github: "https://github.com/simplifyingai/ui.simplifyingai.com",
   },
   navItems: [
     {
       href: "/docs",
       label: "Docs",
-    },
-    {
-      href: "/docs/charts",
-      label: "Charts",
     },
     {
       href: "/docs/components",

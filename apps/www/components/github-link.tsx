@@ -21,7 +21,7 @@ export function GitHubLink() {
 
 export async function StarsCount() {
   try {
-    const data = await fetch("https://api.github.com/repos/simplifying-ai/ui", {
+    const data = await fetch("https://api.github.com/repos/simplifyingai/ui.simplifyingai.com", {
       next: { revalidate: 86400 }, // Cache for 1 day (86400 seconds)
     })
     const json = await data.json()
