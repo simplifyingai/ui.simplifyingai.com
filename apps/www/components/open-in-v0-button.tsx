@@ -2,6 +2,9 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { Button } from "@/registry/simplifying-ai/ui/button"
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://ui.simplifyingai.com"
+const V0_URL = process.env.NEXT_PUBLIC_V0_URL || "https://v0.dev"
+
 export function OpenInV0Button({
   name,
   className,
@@ -17,7 +20,7 @@ export function OpenInV0Button({
       {...props}
     >
       <a
-        href={`${process.env.NEXT_PUBLIC_V0_URL}/chat/api/open?url=${process.env.NEXT_PUBLIC_APP_URL}/r/${name}.json`}
+        href={`${V0_URL}/chat/api/open?url=${APP_URL}/r/${name}.json`}
         target="_blank"
       >
         Open in <Icons.v0 className="size-5" />
