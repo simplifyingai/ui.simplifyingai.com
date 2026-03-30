@@ -5,11 +5,11 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="range-chart-demo" description="Range charts display data ranges using various visual encodings, perfect for showing temperature ranges, confidence intervals, or stock price ranges." />
+<ComponentPreview name="range-chart-demo" description="Range charts display data ranges with low/high bounds and optional midpoint values." />
 
 ## About
 
-Range Charts display data ranges using various visual encodings. They're perfect for showing temperature ranges, confidence intervals, stock price ranges, or any data with low/high bounds. Supports area bands, bar ranges, and error bar styles.
+Range Charts display data ranges using area bands or bar ranges. They're perfect for showing temperature ranges, confidence intervals, stock price ranges, or any data with low/high bounds.
 
 ## Installation
 
@@ -49,17 +49,18 @@ npx shadcn@latest add https://ui.simplifying.ai/r/range-chart.json
 import { RangeChart } from "@/components/ui/charts"
 
 const data = [
-  { x: "Jan", low: -5, high: 8, mid: 2 },
-  { x: "Feb", low: -3, high: 10, mid: 4 },
-  { x: "Mar", low: 2, high: 15, mid: 8 },
+  { category: "Jan", low: -5, high: 8, mid: 2 },
+  { category: "Feb", low: -3, high: 10, mid: 4 },
+  { category: "Mar", low: 2, high: 15, mid: 8 },
 ]
 
 export function Example() {
   return (
     <RangeChart
       data={data}
-      variant="area"
-      showMidLine
+      lowLabel="Min"
+      highLabel="Max"
+      midLabel="Avg"
     />
   )
 }
@@ -67,58 +68,55 @@ export function Example() {
 
 ## Examples
 
-### Default
+### Default (Area Band)
 
-The default range chart displays data ranges as filled areas with optional mid-line showing the median or average value.
+The default range chart displays data ranges as a smooth filled area with a dashed mid-line.
 
 <ComponentPreview name="range-chart-demo" />
 
-## Variants
-
-### Error Bars
-
-Scientific-style error bars with caps.
-
-<ComponentPreview name="range-chart-error-bars" />
-
 ### Bar Ranges
 
-Vertical bar representation of ranges.
+Vertical bar representation of ranges, ideal for categorical comparisons.
 
 <ComponentPreview name="range-chart-bars" />
+
+### Statistical Data
+
+Bar ranges work well for confidence intervals and statistical data.
+
+<ComponentPreview name="range-chart-error-bars" />
 
 ## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | `RangeDataPoint[]` | required | Array of x, low, high, mid data |
-| variant | `"area" \| "bars" \| "errorBars"` | `"area"` | Visual style |
-| xAxisType | `"linear" \| "time" \| "category"` | `"category"` | X-axis scale type |
-| showMidLine | `boolean` | `true` | Show middle value line |
-| showPoints | `boolean` | `false` | Show data points |
-| fillColor | `string` | `"#3b82f6"` | Range fill color |
-| strokeColor | `string` | `"#1e40af"` | Border stroke color |
-| midLineColor | `string` | `"#1e40af"` | Mid-line color |
-| xAxisLabel | `string` | `undefined` | X-axis label |
-| yAxisLabel | `string` | `undefined` | Y-axis label |
-| valueFormatter | `function` | `toLocaleString` | Format values |
+| data | RangeDataPoint[] | required | Array of data points |
+| variant | "area" \| "bars" | "area" | Visual style |
+| showMidLine | boolean | true | Show middle value line/marker |
+| showGrid | boolean | true | Show grid lines |
+| fillColor | string | "#3b82f6" | Range fill color |
+| strokeColor | string | "#1d4ed8" | Border stroke color |
+| midLineColor | string | "#1e40af" | Mid-line color |
+| lowLabel | string | "Low" | Label for low values |
+| highLabel | string | "High" | Label for high values |
+| midLabel | string | "Average" | Label for mid values |
+| valueFormatter | function | toLocaleString | Format values |
 
-## Data Types
+## Data Format
 
-```tsx showLineNumbers
+```tsx
 interface RangeDataPoint {
-  x: string | number | Date  // X-axis value
-  low: number                // Lower bound of range
-  high: number               // Upper bound of range
-  mid?: number               // Optional middle value
+  category: string  // X-axis category label
+  low: number       // Lower bound of range
+  high: number      // Upper bound of range
+  mid?: number      // Optional middle value (mean, median, etc.)
 }
 ```
 
 ## Notes
 
-- Range charts are ideal for visualizing uncertainty, variability, or value boundaries.
-- The `area` variant works best for continuous data with many points.
-- Use `errorBars` for scientific or statistical data to show confidence intervals.
-- The `bars` variant is suitable for categorical data or discrete time periods.
-- Ensure low values are always less than high values for proper rendering.
-- The optional `mid` value can represent mean, median, or any central tendency measure.
+- The `area` variant creates a smooth band between low and high values with a dashed mid-line
+- The `bars` variant shows individual range bars with a solid mid-line marker
+- Hover over any data point to see detailed values in the tooltip
+- Legend automatically displays what the band and mid-line represent
+- Use custom labels (lowLabel, highLabel, midLabel) to match your data context

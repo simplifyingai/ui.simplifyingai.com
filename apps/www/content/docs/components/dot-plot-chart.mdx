@@ -1,15 +1,15 @@
 ---
 title: Dot Plot Chart
-description: Categorical scatter chart for comparing values across categories.
+description: A Wilkinson dot plot showing frequency distribution with stacked dots.
 featured: true
 component: true
 ---
 
-<ComponentPreview name="dot-plot-chart-demo" description="A categorical scatter chart displaying individual values as dots along a scale." />
+<ComponentPreview name="dot-plot-chart-demo" description="A stacked dot plot showing the frequency distribution of values." />
 
 ## About
 
-The Dot Plot Chart displays individual data points as dots along a scale, making it easy to compare values across categories. It's a cleaner alternative to bar charts when you want to emphasize individual values.
+The Dot Plot Chart (Wilkinson dot plot) displays the distribution of numeric data by stacking dots vertically. Each dot represents one observation, making it easy to see both the shape of the distribution and individual data points.
 
 ## Installation
 
@@ -48,14 +48,28 @@ npx shadcn@latest add https://ui.simplifying.ai/r/dot-plot-chart.json
 ```tsx showLineNumbers
 import { DotPlotChart } from "@/components/ui/charts"
 
+// Simple array of numbers
+const data = [45, 52, 48, 55, 60, 52, 48, 55, 63, 58, 52, 49]
+
+export function Example() {
+  return <DotPlotChart data={data} xAxisLabel="Values" />
+}
+```
+
+### With Custom Colors
+
+```tsx showLineNumbers
+import { DotPlotChart } from "@/components/ui/charts"
+
+// Array of objects with optional colors
 const data = [
-  { category: "Product A", value: 85 },
-  { category: "Product B", value: 72 },
-  { category: "Product C", value: 93 },
+  { value: 45, color: "#ef4444" },
+  { value: 52, color: "#3b82f6" },
+  { value: 55, color: "#22c55e" },
 ]
 
 export function Example() {
-  return <DotPlotChart data={data} orientation="horizontal" />
+  return <DotPlotChart data={data} />
 }
 ```
 
@@ -63,18 +77,21 @@ export function Example() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | DotPlotDataPoint[] | required | Array of data points |
-| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
-| dotSize | number | 12 | Size of dots in pixels |
-| showGrid | boolean | true | Show grid lines |
-| showValues | boolean | true | Show value labels |
+| data | number[] \| DotPlotDataPoint[] | required | Array of values or data points |
+| dotSize | number | 8 | Diameter of dots in pixels |
+| dotSpacing | number | 2 | Space between stacked dots |
+| binCount | number | 20 | Number of bins for grouping values |
+| showGrid | boolean | true | Show vertical grid lines |
+| showXAxis | boolean | true | Show x-axis labels |
+| xAxisLabel | string | - | Label for the x-axis |
 | color | string | "#2563eb" | Default dot color |
+| valueFormatter | function | toLocaleString | Format axis values |
 
 ## Notes
 
-- Dot plots are ideal for comparing individual values across categories without the visual weight of bars
-- They work best with 3-15 categories; too many categories make comparison difficult
-- Horizontal orientation is recommended when category labels are long
-- Grid lines help viewers accurately read values when `showGrid={true}`
-- Unlike bar charts, dot plots emphasize precision over magnitude
-- Each data point can optionally have its own color by adding a `color` property
+- Dot plots are ideal for showing distributions with up to ~200 data points
+- Each dot represents a single observation, preserving individual data visibility
+- The `binCount` prop controls how values are grouped; increase for more precision
+- Dots are stacked from bottom to top at each bin position
+- Hover over dots to see the bin range and count
+- Unlike histograms, dot plots show discrete counts making it easier to see exact frequencies

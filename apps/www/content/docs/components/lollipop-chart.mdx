@@ -1,15 +1,15 @@
 ---
 title: Lollipop Chart
-description: Bar chart variant with stems and circular endpoints.
+description: Diverging chart with stems and circular endpoints for comparing positive and negative values.
 featured: true
 component: true
 ---
 
-<ComponentPreview name="lollipop-chart-demo" description="A lollipop chart displaying data with stems and circular dots for a clean visual comparison." />
+<ComponentPreview name="lollipop-chart-demo" description="A diverging lollipop chart showing positive and negative values with grouped coloring." />
 
 ## About
 
-The Lollipop Chart is a variation of a bar chart where bars are replaced with lines (stems) and circles (dots). It provides a cleaner look while maintaining the ability to compare values across categories.
+The Lollipop Chart is a variation of a bar chart where bars are replaced with lines (stems) and circles (dots). It's especially effective for diverging data where values can be positive or negative, with stems extending from a zero baseline.
 
 ## Installation
 
@@ -49,13 +49,21 @@ npx shadcn@latest add https://ui.simplifying.ai/r/lollipop-chart.json
 import { LollipopChart } from "@/components/ui/charts"
 
 const data = [
-  { category: "Jan", value: 45 },
-  { category: "Feb", value: 52 },
-  { category: "Mar", value: 78 },
+  { category: "Product A", value: 1.5, color: "#00BFC4", group: "High" },
+  { category: "Product B", value: 0.8, color: "#00BFC4", group: "High" },
+  { category: "Product C", value: -0.3, color: "#F8766D", group: "Low" },
+  { category: "Product D", value: -1.2, color: "#F8766D", group: "Low" },
 ]
 
 export function Example() {
-  return <LollipopChart data={data} orientation="horizontal" />
+  return (
+    <LollipopChart
+      data={data}
+      orientation="vertical"
+      showLegend
+      yAxisLabel="Score"
+    />
+  )
 }
 ```
 
@@ -64,22 +72,30 @@ export function Example() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | data | LollipopDataPoint[] | required | Array of data points |
-| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
-| dotSize | number | 10 | Size of dots in pixels |
+| orientation | "horizontal" \| "vertical" | "vertical" | Chart orientation |
+| dotSize | number | 12 | Radius of dots in pixels |
 | showGrid | boolean | true | Show grid lines |
-| showValues | boolean | false | Show value labels |
-| color | string | "#2563eb" | Dot color |
-| stemColor | string | "#93c5fd" | Stem color |
+| showLegend | boolean | true | Show legend for grouped data |
+| color | string | "#2563eb" | Default dot color |
+| stemColor | string | "#e5e7eb" | Stem color |
+| yAxisLabel | string | - | Label for the y-axis |
+
+## Data Format
+
+```tsx
+interface LollipopDataPoint {
+  category: string  // Label for the data point
+  value: number     // Can be positive or negative
+  color?: string    // Optional custom color
+  group?: string    // Optional group for legend
+}
+```
 
 ## Notes
 
-- The lollipop chart is a cleaner alternative to traditional bar charts, reducing visual clutter
-- It's particularly effective when displaying many categories or when comparing values
-- The horizontal orientation is best for long category labels
-- The vertical orientation works well for time-series data or short category names
-- Dot size can be adjusted to emphasize or de-emphasize the data points
-- Grid lines help with precise value reading and can be toggled on/off
-- Value labels can be displayed directly on the chart for exact readings
-- Custom colors for both dots and stems allow for brand consistency
-- The minimal design makes it easier to focus on the actual data values
-- Lollipop charts reduce ink-to-data ratio compared to bar charts while maintaining clarity
+- Lollipop charts excel at showing diverging data with positive and negative values
+- The zero baseline makes it easy to identify above/below average values
+- Use the `group` property to create a color legend for categorical groupings
+- Chart width automatically scales based on the number of data points
+- Horizontally scrollable when data exceeds viewport width
+- Works well with normalized/z-score data for comparing across different scales

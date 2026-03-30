@@ -5,11 +5,11 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="slope-chart-demo" description="Slope charts connect two data points with a line to emphasize change over time or between two conditions." />
+<ComponentPreview name="slope-chart-demo" description="Slope charts connect two data points with a line to emphasize change over time." />
 
 ## About
 
-The Slope Chart connects two data points with a line to emphasize change over time or between two conditions. It's excellent for showing before/after comparisons, rankings changes, or performance differences.
+The Slope Chart connects two data points with a line to emphasize change over time or between two conditions. Lines are automatically colored green for increases and red for decreases, making it easy to spot trends at a glance.
 
 ## Installation
 
@@ -49,9 +49,9 @@ npx shadcn@latest add https://ui.simplifying.ai/r/slope-chart.json
 import { SlopeChart } from "@/components/ui/charts"
 
 const data = [
-  { category: "Product A", start: 45, end: 72 },
-  { category: "Product B", start: 68, end: 55 },
-  { category: "Product C", start: 32, end: 58 },
+  { category: "Marketing", start: 45, end: 72 },
+  { category: "Sales", start: 68, end: 55 },
+  { category: "Engineering", start: 32, end: 58 },
 ]
 
 export function Example() {
@@ -65,14 +65,6 @@ export function Example() {
 }
 ```
 
-## Examples
-
-### Default
-
-The default slope chart displays lines connecting start and end values, with category labels and values shown on both sides.
-
-<ComponentPreview name="slope-chart-demo" />
-
 ## API Reference
 
 | Prop | Type | Default | Description |
@@ -80,25 +72,29 @@ The default slope chart displays lines connecting start and end values, with cat
 | data | SlopeDataPoint[] | required | Array of data points |
 | startLabel | string | "Before" | Label for start column |
 | endLabel | string | "After" | Label for end column |
-| showValues | boolean | true | Show value labels |
 | showGrid | boolean | true | Show grid lines |
+| showChange | boolean | true | Show percentage change |
+| increaseColor | string | "#22c55e" | Color for increasing lines |
+| decreaseColor | string | "#ef4444" | Color for decreasing lines |
+| neutralColor | string | "#6b7280" | Color for unchanged lines |
+| valueFormatter | function | toLocaleString | Format values |
 
-## Data Types
+## Data Format
 
-```tsx showLineNumbers
+```tsx
 interface SlopeDataPoint {
   category: string  // Category or item name
   start: number     // Starting value
   end: number       // Ending value
-  color?: string    // Optional: custom line color
+  color?: string    // Optional: override auto color
 }
 ```
 
 ## Notes
 
-- Slope charts are most effective for comparing changes between exactly two time points or conditions.
-- The steepness and direction of each line makes it easy to spot which categories improved, declined, or stayed stable.
-- Color coding can be used to differentiate between positive and negative changes.
-- For best readability, limit the number of categories to 10-15 items.
-- This chart type works well for before/after comparisons, period-over-period analysis, and ranking changes.
-- Unlike line charts, slope charts focus on the change itself rather than the path between points.
+- Lines are automatically colored: green for increases, red for decreases
+- Hover over any line to see detailed values and change amount
+- Category labels appear on the left, end values with percentage change on the right
+- Legend at top shows color meaning
+- Best for comparing 3-10 categories between two time points
+- Works well for before/after comparisons and period-over-period analysis

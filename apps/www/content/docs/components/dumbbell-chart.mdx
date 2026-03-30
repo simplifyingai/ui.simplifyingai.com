@@ -49,12 +49,19 @@ npx shadcn@latest add https://ui.simplifying.ai/r/dumbbell-chart.json
 import { DumbbellChart } from "@/components/ui/charts"
 
 const data = [
-  { category: "Marketing", start: 45, end: 72, startLabel: "2023", endLabel: "2024" },
-  { category: "Sales", start: 68, end: 85, startLabel: "2023", endLabel: "2024" },
+  { category: "Marketing", start: 45, end: 72 },
+  { category: "Sales", start: 68, end: 85 },
+  { category: "Engineering", start: 82, end: 78 },
 ]
 
 export function Example() {
-  return <DumbbellChart data={data} orientation="horizontal" />
+  return (
+    <DumbbellChart
+      data={data}
+      startLabel="2023"
+      endLabel="2024"
+    />
+  )
 }
 ```
 
@@ -63,20 +70,30 @@ export function Example() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | data | DumbbellDataPoint[] | required | Array of data points |
-| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
-| dotSize | number | 10 | Size of dots in pixels |
+| dotSize | number | 8 | Size of dots in pixels |
 | showGrid | boolean | true | Show grid lines |
-| showValues | boolean | true | Show value labels |
-| startColor | string | "#93c5fd" | Color for start dots |
-| endColor | string | "#1e40af" | Color for end dots |
-| connectorColor | string | "#60a5fa" | Color for connecting line |
+| startColor | string | "#94a3b8" | Color for start dots |
+| endColor | string | "#3b82f6" | Color for end dots |
+| connectorColor | string | "#cbd5e1" | Color for connecting line |
+| startLabel | string | "Start" | Label for start values (legend) |
+| endLabel | string | "End" | Label for end values (legend) |
+| valueFormatter | function | toLocaleString | Format values in tooltip |
+
+## Data Format
+
+```tsx
+interface DumbbellDataPoint {
+  category: string  // Label for the row
+  start: number     // Starting value
+  end: number       // Ending value
+}
+```
 
 ## Notes
 
 - Dumbbell charts excel at showing before/after comparisons, growth/decline, or gaps between groups
 - The connecting line makes it easy to see the magnitude of change at a glance
-- Use contrasting colors for start and end points to clearly distinguish them
-- Horizontal orientation is recommended when category labels are long
+- Hover over any row to see detailed values and the change amount
+- Tooltip shows both values and the difference (positive or negative)
 - Works best with 3-12 categories for optimal readability
-- Consider using different color schemes to indicate positive/negative changes
-- The `startLabel` and `endLabel` properties provide context for what each endpoint represents
+- Categories are displayed horizontally for easy reading
