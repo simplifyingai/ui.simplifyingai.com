@@ -57,14 +57,11 @@ const dimensions = ["Source", "Landing", "Action"]
 
 export default function ParcatsChartFlow() {
   return (
-    <div className="mx-auto w-full max-w-2xl">
-      <ParcatsChart
-        data={userJourneyData}
-        dimensions={dimensions}
-        bundleColors
-        showCounts
-        colorScheme={["#059669", "#0891b2", "#7c3aed", "#dc2626"]}
-      />
-    </div>
+    <ParcatsChart
+      data={userJourneyData}
+      dimensions={dimensions}
+      colorByCategory
+      showCounts
+    />
   )
 }

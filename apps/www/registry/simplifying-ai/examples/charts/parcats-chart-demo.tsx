@@ -26,14 +26,5 @@ const surveyData = [
 const dimensions = ["Gender", "Age", "Device"]
 
 export default function ParcatsChartDemo() {
-  return (
-    <div className="mx-auto w-full max-w-2xl">
-      <ParcatsChart
-        data={surveyData}
-        dimensions={dimensions}
-        bundleColors
-        showCounts
-      />
-    </div>
-  )
+  return <ParcatsChart data={surveyData} dimensions={dimensions} showCounts />
 }
