@@ -1241,6 +1241,39 @@ export const examples: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "slope-chart-bumps",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [
+      {
+        path: "examples/charts/slope-chart-bumps.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "slope-chart-multi",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [
+      {
+        path: "examples/charts/slope-chart-multi.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "slope-chart-parallel",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [
+      {
+        path: "examples/charts/slope-chart-parallel.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
 
   // Phase 2 Charts
   {

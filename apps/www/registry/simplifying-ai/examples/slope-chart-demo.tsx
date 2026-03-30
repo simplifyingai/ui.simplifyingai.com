@@ -14,8 +14,7 @@ export default function SlopeChartDemo() {
   return (
     <SlopeChart
       data={data}
-      startLabel="Q1 2024"
-      endLabel="Q4 2024"
+      labels={["Q1 2024", "Q4 2024"]}
     />
   )
 }

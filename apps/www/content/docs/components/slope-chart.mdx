@@ -1,15 +1,15 @@
 ---
 title: Slope Chart
-description: Line chart showing change between two time points.
+description: Line chart showing change between two or more time points.
 featured: true
 component: true
 ---
 
-<ComponentPreview name="slope-chart-demo" description="Slope charts connect two data points with a line to emphasize change over time." />
+<ComponentPreview name="slope-chart-demo" description="Slope charts connect data points with lines to emphasize change over time." />
 
 ## About
 
-The Slope Chart connects two data points with a line to emphasize change over time or between two conditions. Lines are automatically colored green for increases and red for decreases, making it easy to spot trends at a glance.
+The Slope Chart connects data points with lines to emphasize change over time or between conditions. Lines are automatically colored green for increases and red for decreases, making it easy to spot trends at a glance. Supports multiple time periods and ranking visualizations.
 
 ## Installation
 
@@ -58,28 +58,56 @@ export function Example() {
   return (
     <SlopeChart
       data={data}
-      startLabel="Q1 2024"
-      endLabel="Q4 2024"
+      labels={["Q1 2024", "Q4 2024"]}
     />
   )
 }
 ```
 
+## Examples
+
+### Default (Lines)
+
+The default slope chart displays smooth curved lines connecting two data points.
+
+<ComponentPreview name="slope-chart-demo" />
+
+### Multi-Period
+
+Track changes across multiple time periods with the multi-period data format.
+
+<ComponentPreview name="slope-chart-multi" />
+
+### Bump Chart (Rankings)
+
+Visualize ranking changes over time. Lines show position changes rather than values.
+
+<ComponentPreview name="slope-chart-bumps" />
+
+### Parallel Coordinates
+
+Straight lines connecting points, ideal for comparing absolute values.
+
+<ComponentPreview name="slope-chart-parallel" />
+
 ## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| data | SlopeDataPoint[] | required | Array of data points |
-| startLabel | string | "Before" | Label for start column |
-| endLabel | string | "After" | Label for end column |
+| data | SlopeDataPoint[] \| MultiPeriodSlopeDataPoint[] | required | Array of data points |
+| variant | "lines" \| "bumps" \| "parallel" | "lines" | Visual style |
+| labels | string[] | ["Start", "End"] | Labels for each period |
 | showGrid | boolean | true | Show grid lines |
-| showChange | boolean | true | Show percentage change |
+| showValues | boolean | true | Show end values |
+| showRankChange | boolean | false | Show rank change (bumps variant) |
 | increaseColor | string | "#22c55e" | Color for increasing lines |
 | decreaseColor | string | "#ef4444" | Color for decreasing lines |
-| neutralColor | string | "#6b7280" | Color for unchanged lines |
+| neutralColor | string | "#94a3b8" | Color for unchanged lines |
 | valueFormatter | function | toLocaleString | Format values |
 
-## Data Format
+## Data Formats
+
+### Simple (Two Points)
 
 ```tsx
 interface SlopeDataPoint {
@@ -90,11 +118,32 @@ interface SlopeDataPoint {
 }
 ```
 
+### Multi-Period
+
+```tsx
+interface MultiPeriodSlopeDataPoint {
+  category: string  // Category or item name
+  values: number[]  // Values at each time period
+  color?: string    // Optional: override auto color
+}
+```
+
+## Variants
+
+### Lines (Default)
+Smooth curved connections between points. Best for showing trends where the direction of change matters more than exact positions.
+
+### Bumps
+Shows ranking changes over time. Values are converted to ranks at each period, and lines show position changes. Perfect for competitive rankings, market share positions, or survey results.
+
+### Parallel
+Straight line connections without curves. Ideal for comparing before/after scenarios or when precise value representation is important.
+
 ## Notes
 
-- Lines are automatically colored: green for increases, red for decreases
-- Hover over any line to see detailed values and change amount
+- Lines are automatically colored: green for increases, red for decreases, gray for no change
+- Hover over any line to see detailed values and percentage change
 - Category labels appear on the left, end values with percentage change on the right
 - Legend at top shows color meaning
-- Best for comparing 3-10 categories between two time points
-- Works well for before/after comparisons and period-over-period analysis
+- Supports 2+ time periods
+- Works well for before/after comparisons, period-over-period analysis, and ranking visualizations
