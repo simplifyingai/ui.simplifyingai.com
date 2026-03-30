@@ -3,24 +3,23 @@
 import { RangeChart } from "@/registry/simplifying-ai/ui/charts"
 
 const salaryData = [
-  { category: "Junior", low: 45000, high: 65000, mid: 55000 },
-  { category: "Mid-Level", low: 65000, high: 95000, mid: 80000 },
-  { category: "Senior", low: 95000, high: 140000, mid: 115000 },
-  { category: "Lead", low: 120000, high: 170000, mid: 145000 },
-  { category: "Principal", low: 150000, high: 220000, mid: 185000 },
+  { category: "Junior", low: 45, high: 65, mid: 55 },
+  { category: "Mid-Level", low: 65, high: 95, mid: 80 },
+  { category: "Senior", low: 95, high: 140, mid: 115 },
+  { category: "Lead", low: 120, high: 170, mid: 145 },
+  { category: "Principal", low: 150, high: 220, mid: 185 },
 ]
 
 export default function RangeChartFloating() {
   return (
     <RangeChart
       data={salaryData}
-      variant="floating"
       lowLabel="Min Salary"
       highLabel="Max Salary"
       midLabel="Median"
-      fillColor="#8b5cf6"
-      midLineColor="#6d28d9"
-      valueFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}
+      color="#8b5cf6"
+      fillOpacity={0.4}
+      valueFormatter={(v) => `$${v}K`}
     />
   )
 }

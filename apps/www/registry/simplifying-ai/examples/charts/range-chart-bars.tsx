@@ -2,26 +2,26 @@
 
 import { RangeChart } from "@/registry/simplifying-ai/ui/charts"
 
-const stockData = [
-  { category: "AAPL", low: 145, high: 182, mid: 165 },
-  { category: "GOOGL", low: 120, high: 145, mid: 133 },
-  { category: "MSFT", low: 310, high: 385, mid: 350 },
-  { category: "AMZN", low: 125, high: 175, mid: 152 },
-  { category: "META", low: 280, high: 350, mid: 315 },
+const salesData = [
+  { category: "Australia", low: 2500, high: 4200, mid: 3500 },
+  { category: "Canada", low: 4000, high: 8000, mid: 6000 },
+  { category: "Central", low: 2800, high: 4200, mid: 3500 },
+  { category: "France", low: 2500, high: 4000, mid: 3200 },
+  { category: "Germany", low: 900, high: 2800, mid: 1800 },
+  { category: "Northeast", low: 3200, high: 5500, mid: 4300 },
 ]
 
 export default function RangeChartBars() {
   return (
     <RangeChart
-      data={stockData}
+      data={salesData}
       variant="bars"
-      lowLabel="52w Low"
-      highLabel="52w High"
-      midLabel="Current"
-      fillColor="#059669"
-      strokeColor="#047857"
-      midLineColor="#065f46"
-      valueFormatter={(v) => `$${v}`}
+      lowLabel="Min"
+      highLabel="Max"
+      midLabel="Avg"
+      color="#4472c4"
+      fillOpacity={0.5}
+      showMarkers={true}
     />
   )
 }

@@ -3,25 +3,25 @@
 import { RangeChart } from "@/registry/simplifying-ai/ui/charts"
 
 const performanceData = [
-  { category: "Response Time", low: 120, high: 280, mid: 180 },
-  { category: "Throughput", low: 450, high: 720, mid: 580 },
-  { category: "CPU Usage", low: 35, high: 85, mid: 55 },
-  { category: "Memory", low: 2.1, high: 4.8, mid: 3.2 },
-  { category: "Latency", low: 15, high: 65, mid: 32 },
+  { category: "Engineering", low: 72, high: 95, mid: 85 },
+  { category: "Design", low: 68, high: 92, mid: 80 },
+  { category: "Marketing", low: 75, high: 98, mid: 88 },
+  { category: "Sales", low: 65, high: 90, mid: 78 },
+  { category: "Support", low: 70, high: 88, mid: 82 },
 ]
 
 export default function RangeChartHorizontal() {
   return (
     <RangeChart
       data={performanceData}
-      variant="bars"
-      orientation="horizontal"
+      variant="horizontal"
+      showMarkers={true}
       lowLabel="Min"
       highLabel="Max"
       midLabel="Avg"
-      fillColor="#f59e0b"
-      strokeColor="#d97706"
-      midLineColor="#b45309"
+      color="#10b981"
+      fillOpacity={0.4}
+      valueFormatter={(v) => `${v}%`}
     />
   )
 }

@@ -3,24 +3,26 @@
 import { RangeChart } from "@/registry/simplifying-ai/ui/charts"
 
 const experimentData = [
-  { category: "Control", low: 42, high: 58, mid: 50 },
-  { category: "Group A", low: 55, high: 75, mid: 65 },
-  { category: "Group B", low: 48, high: 68, mid: 58 },
-  { category: "Group C", low: 70, high: 90, mid: 80 },
-  { category: "Group D", low: 35, high: 55, mid: 45 },
+  { category: "Control", low: 45, high: 55, mid: 50 },
+  { category: "Treatment A", low: 58, high: 72, mid: 65 },
+  { category: "Treatment B", low: 52, high: 68, mid: 60 },
+  { category: "Treatment C", low: 70, high: 85, mid: 78 },
+  { category: "Treatment D", low: 62, high: 75, mid: 68 },
 ]
 
 export default function RangeChartErrorBars() {
   return (
     <RangeChart
       data={experimentData}
-      variant="errorBars"
+      variant="bars"
+      showErrorBars={true}
+      showMarkers={true}
       lowLabel="Lower CI"
       highLabel="Upper CI"
       midLabel="Mean"
-      fillColor="#dc2626"
-      strokeColor="#b91c1c"
-      midLineColor="#7f1d1d"
+      color="#8b5cf6"
+      fillOpacity={0.4}
+      valueFormatter={(v) => `${v}%`}
     />
   )
 }
