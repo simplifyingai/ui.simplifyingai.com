@@ -38,9 +38,11 @@ COPY --from=builder /app/apps/www/.next/standalone ./
 COPY --from=builder /app/apps/www/.next/static ./apps/www/.next/static
 COPY --from=builder /app/apps/www/public ./apps/www/public
 
-# Copy registry and content directories (required by outputFileTracingIncludes)
+# Copy registry, content, and .source directories (required by outputFileTracingIncludes)
+# .source contains fumadocs-mdx compiled MDX content map - required for /docs routes
 COPY --from=builder /app/apps/www/registry ./apps/www/registry
 COPY --from=builder /app/apps/www/content ./apps/www/content
+COPY --from=builder /app/apps/www/.source ./apps/www/.source
 
 USER nextjs
 
