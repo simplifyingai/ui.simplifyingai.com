@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { scaleBand, scaleLinear } from "d3-scale"
-import { area, line, curveMonotoneX } from "d3-shape"
+import { area, curveMonotoneX, line } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
@@ -124,7 +124,9 @@ export function RangeChart({
             className="h-3 w-6 rounded-sm opacity-40"
             style={{ backgroundColor: fillColor }}
           />
-          <span className="text-muted-foreground text-sm">{lowLabel} - {highLabel}</span>
+          <span className="text-muted-foreground text-sm">
+            {lowLabel} - {highLabel}
+          </span>
         </div>
         {showMidLine && (
           <div className="flex items-center gap-2">
@@ -327,13 +329,21 @@ export function RangeChart({
           style={getTooltipStyle(hoveredIndex)}
         >
           <div className="bg-foreground text-background mb-2 rounded-md px-3 py-2 text-xs font-medium shadow-lg">
-            <div className="mb-1 font-semibold">{data[hoveredIndex].category}</div>
+            <div className="mb-1 font-semibold">
+              {data[hoveredIndex].category}
+            </div>
             <div className="space-y-0.5 opacity-90">
-              <div>{highLabel}: {valueFormatter(data[hoveredIndex].high)}</div>
+              <div>
+                {highLabel}: {valueFormatter(data[hoveredIndex].high)}
+              </div>
               {data[hoveredIndex].mid !== undefined && (
-                <div>{midLabel}: {valueFormatter(data[hoveredIndex].mid!)}</div>
+                <div>
+                  {midLabel}: {valueFormatter(data[hoveredIndex].mid!)}
+                </div>
               )}
-              <div>{lowLabel}: {valueFormatter(data[hoveredIndex].low)}</div>
+              <div>
+                {lowLabel}: {valueFormatter(data[hoveredIndex].low)}
+              </div>
             </div>
           </div>
         </div>

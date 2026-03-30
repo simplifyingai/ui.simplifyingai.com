@@ -19,13 +19,20 @@ const monthlyData = [
 
 export default function PolarChartCoxcomb() {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       <PolarChart
         data={monthlyData}
         variant="coxcomb"
         showLabels
         showValues={false}
-        colorScheme={["#059669", "#10b981", "#34d399", "#6ee7b7", "#a7f3d0", "#d1fae5"]}
+        colorScheme={[
+          "#059669",
+          "#10b981",
+          "#34d399",
+          "#6ee7b7",
+          "#a7f3d0",
+          "#d1fae5",
+        ]}
       />
     </div>
   )

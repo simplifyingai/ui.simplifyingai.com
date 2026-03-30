@@ -1,7 +1,8 @@
 "use client"
 
-import { DensityChart } from "@/registry/simplifying-ai/ui/charts/scientific/density-chart"
 import { interpolateViridis } from "d3-scale-chromatic"
+
+import { DensityChart } from "@/registry/simplifying-ai/ui/charts/scientific/density-chart"
 
 // Generate normally distributed 2D data
 function generateNormalData(): { x: number; y: number }[] {
@@ -29,7 +30,7 @@ const normalData = generateNormalData()
 
 export default function DensityChartContoursOnly() {
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="mx-auto w-full max-w-lg">
       <DensityChart
         data={normalData}
         showPoints={false}

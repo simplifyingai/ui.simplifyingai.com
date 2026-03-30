@@ -13,14 +13,21 @@ const skillsData = [
 
 export default function PolarChartDonut() {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       <PolarChart
         data={skillsData}
         variant="rose"
         innerRadius={40}
         showLabels
         showValues={false}
-        colorScheme={["#7c3aed", "#8b5cf6", "#a78bfa", "#c4b5fd", "#ddd6fe", "#ede9fe"]}
+        colorScheme={[
+          "#7c3aed",
+          "#8b5cf6",
+          "#a78bfa",
+          "#c4b5fd",
+          "#ddd6fe",
+          "#ede9fe",
+        ]}
       />
     </div>
   )

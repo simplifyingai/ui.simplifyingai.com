@@ -15,7 +15,7 @@ const soilData = [
 
 export default function TernaryChartDemo() {
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="mx-auto w-full max-w-lg">
       <TernaryChart
         data={soilData}
         labels={["Sand", "Clay", "Silt"]}

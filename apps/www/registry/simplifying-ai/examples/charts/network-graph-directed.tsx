@@ -28,7 +28,7 @@ const links = [
 
 export default function NetworkGraphDirected() {
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="mx-auto w-full max-w-lg">
       <NetworkGraph
         nodes={nodes}
         links={links}

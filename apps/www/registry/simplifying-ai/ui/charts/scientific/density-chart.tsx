@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { scaleLinear, scaleSequential } from "d3-scale"
-import { interpolateBlues } from "d3-scale-chromatic"
 import { contourDensity } from "d3-contour"
 import { geoPath } from "d3-geo"
+import { scaleLinear, scaleSequential } from "d3-scale"
+import { interpolateBlues } from "d3-scale-chromatic"
 
 import { cn } from "@/lib/utils"
 
@@ -57,10 +57,7 @@ export function DensityChart({
     return [min - padding, max + padding]
   }, [data])
 
-  const xScale = scaleLinear()
-    .domain(xExtent)
-    .range([0, innerWidth])
-    .nice()
+  const xScale = scaleLinear().domain(xExtent).range([0, innerWidth]).nice()
 
   // Y Scale
   const yExtent = React.useMemo(() => {
@@ -71,10 +68,7 @@ export function DensityChart({
     return [min - padding, max + padding]
   }, [data])
 
-  const yScale = scaleLinear()
-    .domain(yExtent)
-    .range([innerHeight, 0])
-    .nice()
+  const yScale = scaleLinear().domain(yExtent).range([innerHeight, 0]).nice()
 
   // Contour density
   const contours = React.useMemo(() => {
@@ -88,7 +82,16 @@ export function DensityChart({
       .thresholds(thresholds)
 
     return densityGenerator(data)
-  }, [data, xScale, yScale, innerWidth, innerHeight, bandwidth, thresholds, showContours])
+  }, [
+    data,
+    xScale,
+    yScale,
+    innerWidth,
+    innerHeight,
+    bandwidth,
+    thresholds,
+    showContours,
+  ])
 
   // Color scale for contours
   const densityColorScale = scaleSequential(colorScale).domain([
@@ -137,36 +140,38 @@ export function DensityChart({
           ))}
 
           {/* Contours */}
-          {showContours && contours.map((contour, i) => (
-            <path
-              key={`contour-${i}`}
-              d={pathGenerator(contour) ?? ""}
-              fill={densityColorScale(contour.value)}
-              fillOpacity={0.6}
-              stroke={densityColorScale(contour.value)}
-              strokeWidth={0.5}
-            />
-          ))}
+          {showContours &&
+            contours.map((contour, i) => (
+              <path
+                key={`contour-${i}`}
+                d={pathGenerator(contour) ?? ""}
+                fill={densityColorScale(contour.value)}
+                fillOpacity={0.6}
+                stroke={densityColorScale(contour.value)}
+                strokeWidth={0.5}
+              />
+            ))}
 
           {/* Points */}
-          {showPoints && data.map((d, i) => {
-            const isHovered = hoveredPoint === i
-            return (
-              <circle
-                key={`point-${i}`}
-                cx={xScale(d.x)}
-                cy={yScale(d.y)}
-                r={isHovered ? pointRadius * 1.5 : pointRadius}
-                fill={pointColor}
-                fillOpacity={showContours ? 0.7 : 1}
-                stroke="#fff"
-                strokeWidth={1}
-                className="cursor-pointer transition-all duration-200"
-                onMouseEnter={() => setHoveredPoint(i)}
-                onMouseLeave={() => setHoveredPoint(null)}
-              />
-            )
-          })}
+          {showPoints &&
+            data.map((d, i) => {
+              const isHovered = hoveredPoint === i
+              return (
+                <circle
+                  key={`point-${i}`}
+                  cx={xScale(d.x)}
+                  cy={yScale(d.y)}
+                  r={isHovered ? pointRadius * 1.5 : pointRadius}
+                  fill={pointColor}
+                  fillOpacity={showContours ? 0.7 : 1}
+                  stroke="#fff"
+                  strokeWidth={1}
+                  className="cursor-pointer transition-all duration-200"
+                  onMouseEnter={() => setHoveredPoint(i)}
+                  onMouseLeave={() => setHoveredPoint(null)}
+                />
+              )
+            })}
 
           {/* X Axis */}
           <g transform={`translate(0, ${innerHeight})`}>
@@ -229,7 +234,8 @@ export function DensityChart({
         <div className="mt-2 text-center">
           <div className="border-border/50 bg-background mx-auto inline-block rounded-lg border px-3 py-2 text-sm shadow-lg">
             <div className="text-muted-foreground">
-              x: {data[hoveredPoint].x.toFixed(2)}, y: {data[hoveredPoint].y.toFixed(2)}
+              x: {data[hoveredPoint].x.toFixed(2)}, y:{" "}
+              {data[hoveredPoint].y.toFixed(2)}
             </div>
           </div>
         </div>

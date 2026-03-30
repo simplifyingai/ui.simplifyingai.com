@@ -37,7 +37,7 @@ const clusterData = generateClusteredData()
 
 export default function DensityChartDemo() {
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="mx-auto w-full max-w-lg">
       <DensityChart
         data={clusterData}
         showPoints

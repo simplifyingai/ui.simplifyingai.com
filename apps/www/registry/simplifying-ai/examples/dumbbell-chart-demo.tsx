@@ -12,11 +12,5 @@ const data = [
 ]
 
 export default function DumbbellChartDemo() {
-  return (
-    <DumbbellChart
-      data={data}
-      startLabel="2023"
-      endLabel="2024"
-    />
-  )
+  return <DumbbellChart data={data} startLabel="2023" endLabel="2024" />
 }

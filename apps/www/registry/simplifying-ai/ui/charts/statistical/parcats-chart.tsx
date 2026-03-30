@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { scalePoint, scaleBand } from "d3-scale"
+import { scaleBand, scalePoint } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
@@ -29,10 +29,22 @@ export function ParcatsChart({
   bundleColors = true,
   showCounts = true,
   lineOpacity = 0.5,
-  colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#dc2626", "#059669", "#d97706"],
+  colorScheme = [
+    "#1e40af",
+    "#2563eb",
+    "#3b82f6",
+    "#60a5fa",
+    "#93c5fd",
+    "#dc2626",
+    "#059669",
+    "#d97706",
+  ],
 }: ParcatsChartProps) {
   const [hoveredPath, setHoveredPath] = React.useState<string | null>(null)
-  const [hoveredCategory, setHoveredCategory] = React.useState<{ dim: string; cat: string } | null>(null)
+  const [hoveredCategory, setHoveredCategory] = React.useState<{
+    dim: string
+    cat: string
+  } | null>(null)
 
   const width = 600
   const height = 400
@@ -58,9 +70,7 @@ export function ParcatsChart({
   }
 
   // X scale for dimensions
-  const xScale = scalePoint<string>()
-    .domain(dimensions)
-    .range([0, innerWidth])
+  const xScale = scalePoint<string>().domain(dimensions).range([0, innerWidth])
 
   // Y scales for each dimension (band scale for categories)
   const yScales = React.useMemo(() => {
@@ -110,7 +120,7 @@ export function ParcatsChart({
 
       const color = bundleColors
         ? getCategoryColor(d.categories[dimensions[0]])
-        : d.color ?? colorScheme[0]
+        : (d.color ?? colorScheme[0])
 
       return {
         id: d.id,
@@ -122,7 +132,7 @@ export function ParcatsChart({
   }, [data, dimensions, xScale, yScales, bundleColors, colorScheme])
 
   // Check if path matches hovered category
-  const isPathHighlighted = (path: typeof paths[0]) => {
+  const isPathHighlighted = (path: (typeof paths)[0]) => {
     if (hoveredPath === path.id) return true
     if (hoveredCategory) {
       return path.categories[hoveredCategory.dim] === hoveredCategory.cat
@@ -159,7 +169,8 @@ export function ParcatsChart({
                   const y = yBand(cat) ?? 0
                   const h = yBand.bandwidth()
                   const count = categoryCounts[dim][cat]
-                  const isHovered = hoveredCategory?.dim === dim && hoveredCategory?.cat === cat
+                  const isHovered =
+                    hoveredCategory?.dim === dim && hoveredCategory?.cat === cat
 
                   return (
                     <g
@@ -173,7 +184,11 @@ export function ParcatsChart({
                         y={y}
                         width={60}
                         height={h}
-                        fill={dim === dimensions[0] ? getCategoryColor(cat) : "hsl(var(--muted))"}
+                        fill={
+                          dim === dimensions[0]
+                            ? getCategoryColor(cat)
+                            : "hsl(var(--muted))"
+                        }
                         fillOpacity={isHovered ? 1 : 0.8}
                         stroke="hsl(var(--border))"
                         strokeWidth={isHovered ? 2 : 1}
@@ -185,7 +200,7 @@ export function ParcatsChart({
                         y={y + h / 2}
                         textAnchor="middle"
                         dominantBaseline="middle"
-                        className="fill-foreground text-[10px] font-medium pointer-events-none"
+                        className="fill-foreground pointer-events-none text-[10px] font-medium"
                       >
                         {cat}
                       </text>
@@ -195,7 +210,7 @@ export function ParcatsChart({
                           y={y + h / 2 + 10}
                           textAnchor="middle"
                           dominantBaseline="middle"
-                          className="fill-muted-foreground text-[8px] pointer-events-none"
+                          className="fill-muted-foreground pointer-events-none text-[8px]"
                         >
                           ({count})
                         </text>
@@ -209,9 +224,10 @@ export function ParcatsChart({
 
           {/* Flow paths */}
           {paths.map((path) => {
-            const highlighted = hoveredPath !== null || hoveredCategory !== null
-              ? isPathHighlighted(path)
-              : true
+            const highlighted =
+              hoveredPath !== null || hoveredCategory !== null
+                ? isPathHighlighted(path)
+                : true
 
             return (
               <path
@@ -220,7 +236,13 @@ export function ParcatsChart({
                 fill="none"
                 stroke={path.color}
                 strokeWidth={highlighted ? 2.5 : 1.5}
-                strokeOpacity={highlighted ? (hoveredPath === path.id || hoveredCategory ? 0.9 : lineOpacity) : 0.1}
+                strokeOpacity={
+                  highlighted
+                    ? hoveredPath === path.id || hoveredCategory
+                      ? 0.9
+                      : lineOpacity
+                    : 0.1
+                }
                 className="cursor-pointer transition-all duration-150"
                 onMouseEnter={() => setHoveredPath(path.id)}
                 onMouseLeave={() => setHoveredPath(null)}

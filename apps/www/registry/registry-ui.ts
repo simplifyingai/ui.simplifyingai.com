@@ -228,9 +228,7 @@ export const ui: Registry["items"] = [
     name: "slope-chart",
     type: "registry:ui",
     registryDependencies: ["chart"],
-    files: [
-      { path: "ui/charts/basic/slope-chart.tsx", type: "registry:ui" },
-    ],
+    files: [{ path: "ui/charts/basic/slope-chart.tsx", type: "registry:ui" }],
   },
 
   // Financial Charts (Additional)
@@ -267,7 +265,10 @@ export const ui: Registry["items"] = [
     type: "registry:ui",
     registryDependencies: ["chart"],
     files: [
-      { path: "ui/charts/statistical/parallel-coordinates.tsx", type: "registry:ui" },
+      {
+        path: "ui/charts/statistical/parallel-coordinates.tsx",
+        type: "registry:ui",
+      },
     ],
   },
 
@@ -333,8 +334,6 @@ export const ui: Registry["items"] = [
     name: "range-chart",
     type: "registry:ui",
     registryDependencies: ["chart"],
-    files: [
-      { path: "ui/charts/basic/range-chart.tsx", type: "registry:ui" },
-    ],
+    files: [{ path: "ui/charts/basic/range-chart.tsx", type: "registry:ui" }],
   },
 ]

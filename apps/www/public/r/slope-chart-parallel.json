@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slope-chart-parallel",
+  "registryDependencies": [
+    "slope-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/slope-chart-parallel.tsx",
+      "content": "\"use client\"\n\nimport { SlopeChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Product A\", start: 1200, end: 1850 },\n  { category: \"Product B\", start: 980, end: 1100 },\n  { category: \"Product C\", start: 1500, end: 1350 },\n  { category: \"Product D\", start: 750, end: 1200 },\n]\n\nexport default function SlopeChartParallel() {\n  return (\n    <SlopeChart\n      data={data}\n      variant=\"parallel\"\n      labels={[\"Before Launch\", \"After Launch\"]}\n      valueFormatter={(v) => `${v} units`}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

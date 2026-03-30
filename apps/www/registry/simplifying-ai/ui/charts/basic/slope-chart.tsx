@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { scaleLinear, scalePoint } from "d3-scale"
-import { line, curveMonotoneX, curveLinear } from "d3-shape"
+import { curveLinear, curveMonotoneX, line } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
@@ -34,12 +34,16 @@ export interface SlopeChartProps {
 }
 
 // Type guard for multi-period data
-function isMultiPeriod(data: SlopeDataPoint[] | MultiPeriodSlopeDataPoint[]): data is MultiPeriodSlopeDataPoint[] {
+function isMultiPeriod(
+  data: SlopeDataPoint[] | MultiPeriodSlopeDataPoint[]
+): data is MultiPeriodSlopeDataPoint[] {
   return data.length > 0 && "values" in data[0]
 }
 
 // Convert simple data to multi-period format
-function normalizeData(data: SlopeDataPoint[] | MultiPeriodSlopeDataPoint[]): MultiPeriodSlopeDataPoint[] {
+function normalizeData(
+  data: SlopeDataPoint[] | MultiPeriodSlopeDataPoint[]
+): MultiPeriodSlopeDataPoint[] {
   if (isMultiPeriod(data)) {
     return data
   }
@@ -70,7 +74,11 @@ export function SlopeChart({
   const periodCount = normalizedData[0]?.values.length ?? 2
 
   // Default labels
-  const periodLabels = labels ?? (periodCount === 2 ? ["Start", "End"] : Array.from({ length: periodCount }, (_, i) => `Period ${i + 1}`))
+  const periodLabels =
+    labels ??
+    (periodCount === 2
+      ? ["Start", "End"]
+      : Array.from({ length: periodCount }, (_, i) => `Period ${i + 1}`))
 
   const width = 500
   const height = Math.max(300, normalizedData.length * 40 + 80)
@@ -125,7 +133,11 @@ export function SlopeChart({
 
     for (let period = 0; period < periodCount; period++) {
       const sorted = [...normalizedData]
-        .map((d, i) => ({ index: i, category: d.category, value: d.values[period] }))
+        .map((d, i) => ({
+          index: i,
+          category: d.category,
+          value: d.values[period],
+        }))
         .sort((a, b) => b.value - a.value)
 
       sorted.forEach((item, rank) => {
@@ -175,7 +187,11 @@ export function SlopeChart({
   }
 
   // Get Y position for endpoint
-  const getEndY = (d: MultiPeriodSlopeDataPoint, index: number, periodIndex: number) => {
+  const getEndY = (
+    d: MultiPeriodSlopeDataPoint,
+    index: number,
+    periodIndex: number
+  ) => {
     if (variant === "bumps" && getRanks && rankYScale) {
       const ranks = getRanks.get(d.category)
       return ranks ? rankYScale(ranks[periodIndex]) : 0
@@ -229,7 +245,8 @@ export function SlopeChart({
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid lines */}
-          {showGrid && variant !== "bumps" &&
+          {showGrid &&
+            variant !== "bumps" &&
             yTicks.map((tick) => (
               <line
                 key={tick}
@@ -336,17 +353,11 @@ export function SlopeChart({
                     className="fill-foreground"
                   >
                     {variant === "bumps" && showRankChange ? (
-                      <>
-                        {getRankChangeDisplay(d)}
-                      </>
+                      <>{getRankChangeDisplay(d)}</>
                     ) : (
                       <>
                         {valueFormatter(d.values[d.values.length - 1])}
-                        <tspan
-                          fill={color}
-                          fontSize={10}
-                          fontWeight={500}
-                        >
+                        <tspan fill={color} fontSize={10} fontWeight={500}>
                           {" "}
                           {getChange(d) >= 0 ? "+" : ""}
                           {getChange(d).toFixed(0)}%
@@ -363,12 +374,16 @@ export function SlopeChart({
 
       {/* Tooltip */}
       {hoveredIndex !== null && (
-        <div className="bg-foreground text-background pointer-events-none absolute left-1/2 top-16 z-50 -translate-x-1/2 rounded-md px-3 py-2 text-xs font-medium shadow-lg">
-          <div className="mb-1 font-semibold">{normalizedData[hoveredIndex].category}</div>
+        <div className="bg-foreground text-background pointer-events-none absolute top-16 left-1/2 z-50 -translate-x-1/2 rounded-md px-3 py-2 text-xs font-medium shadow-lg">
+          <div className="mb-1 font-semibold">
+            {normalizedData[hoveredIndex].category}
+          </div>
           <div className="flex flex-wrap items-center gap-2 opacity-90">
             {normalizedData[hoveredIndex].values.map((value, i) => (
               <React.Fragment key={i}>
-                <span>{periodLabels[i]}: {valueFormatter(value)}</span>
+                <span>
+                  {periodLabels[i]}: {valueFormatter(value)}
+                </span>
                 {i < normalizedData[hoveredIndex].values.length - 1 && (
                   <span className="opacity-50">→</span>
                 )}
@@ -382,10 +397,11 @@ export function SlopeChart({
             >
               {getChange(normalizedData[hoveredIndex]) >= 0 ? "+" : ""}
               {valueFormatter(
-                normalizedData[hoveredIndex].values[normalizedData[hoveredIndex].values.length - 1] -
-                normalizedData[hoveredIndex].values[0]
-              )}
-              {" "}({getChange(normalizedData[hoveredIndex]) >= 0 ? "+" : ""}
+                normalizedData[hoveredIndex].values[
+                  normalizedData[hoveredIndex].values.length - 1
+                ] - normalizedData[hoveredIndex].values[0]
+              )}{" "}
+              ({getChange(normalizedData[hoveredIndex]) >= 0 ? "+" : ""}
               {getChange(normalizedData[hoveredIndex]).toFixed(1)}%)
             </div>
           )}

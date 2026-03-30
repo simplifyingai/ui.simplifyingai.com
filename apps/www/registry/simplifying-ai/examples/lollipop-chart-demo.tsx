@@ -26,11 +26,5 @@ const data = [
 ]
 
 export default function LollipopChartDemo() {
-  return (
-    <LollipopChart
-      data={data}
-      dotSize={10}
-      yAxisLabel="mpg_z"
-    />
-  )
+  return <LollipopChart data={data} dotSize={10} yAxisLabel="mpg_z" />
 }

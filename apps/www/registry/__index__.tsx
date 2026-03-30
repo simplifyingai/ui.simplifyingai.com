@@ -2754,6 +2754,60 @@ export const Index: Record<string, any> = {
     categories: undefined,
     meta: undefined,
   },
+  "slope-chart-bumps": {
+    name: "slope-chart-bumps",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [{
+      path: "registry/simplifying-ai/examples/charts/slope-chart-bumps.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/charts/slope-chart-bumps.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "slope-chart-multi": {
+    name: "slope-chart-multi",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [{
+      path: "registry/simplifying-ai/examples/charts/slope-chart-multi.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/charts/slope-chart-multi.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "slope-chart-parallel": {
+    name: "slope-chart-parallel",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["slope-chart"],
+    files: [{
+      path: "registry/simplifying-ai/examples/charts/slope-chart-parallel.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/charts/slope-chart-parallel.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
   "polar-chart-demo": {
     name: "polar-chart-demo",
     description: "",

@@ -29,7 +29,14 @@ export function IcicleChart({
   showLabels = true,
   labelMinSize = 40,
   padding = 1,
-  colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"],
+  colorScheme = [
+    "#1e40af",
+    "#2563eb",
+    "#3b82f6",
+    "#60a5fa",
+    "#93c5fd",
+    "#bfdbfe",
+  ],
 }: IcicleChartProps) {
   const [hoveredNode, setHoveredNode] = React.useState<IcicleNode | null>(null)
 
@@ -57,7 +64,7 @@ export function IcicleChart({
   const totalValue = root.value ?? 1
 
   // Get color based on depth and index
-  const getColor = (node: typeof nodes[number]): string => {
+  const getColor = (node: (typeof nodes)[number]): string => {
     if (node.data.color) return node.data.color
     const depthIndex = node.depth - 1
     return colorScheme[depthIndex % colorScheme.length]
@@ -130,7 +137,8 @@ export function IcicleChart({
               Value: {(hoveredNode.value ?? 0).toLocaleString()}
             </div>
             <div className="text-muted-foreground">
-              {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of total
+              {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
+              total
             </div>
           </div>
         </div>

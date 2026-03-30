@@ -19,7 +19,11 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
 
 // Performance scores by department
 const data = [
-  { label: "Engineering", values: generateData(78, 12, 80, 1), color: "#1e40af" },
+  {
+    label: "Engineering",
+    values: generateData(78, 12, 80, 1),
+    color: "#1e40af",
+  },
   { label: "Sales", values: generateData(72, 15, 80, 2), color: "#2563eb" },
   { label: "Marketing", values: generateData(75, 10, 80, 3), color: "#3b82f6" },
   { label: "Support", values: generateData(70, 18, 80, 4), color: "#60a5fa" },

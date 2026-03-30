@@ -46,9 +46,7 @@ export function BulletChart({
   const valueWidth = 60
 
   const width = 500
-  const height = isHorizontal
-    ? data.length * barSpacing + 40
-    : 400
+  const height = isHorizontal ? data.length * barSpacing + 40 : 400
 
   const margin = isHorizontal
     ? { top: 20, right: valueWidth + 20, bottom: 20, left: labelWidth }
@@ -163,7 +161,9 @@ export function BulletChart({
       {hoveredIndex !== null && (
         <div className="mt-2 text-center text-sm">
           <span className="text-muted-foreground">
-            {data[hoveredIndex].label}: {valueFormatter(data[hoveredIndex].value)} / Target: {valueFormatter(data[hoveredIndex].target)}
+            {data[hoveredIndex].label}:{" "}
+            {valueFormatter(data[hoveredIndex].value)} / Target:{" "}
+            {valueFormatter(data[hoveredIndex].target)}
           </span>
         </div>
       )}

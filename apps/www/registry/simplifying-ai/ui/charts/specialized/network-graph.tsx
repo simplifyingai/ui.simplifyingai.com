@@ -2,13 +2,13 @@
 
 import * as React from "react"
 import {
-  forceSimulation,
-  forceLink,
-  forceManyBody,
   forceCenter,
   forceCollide,
-  type SimulationNodeDatum,
+  forceLink,
+  forceManyBody,
+  forceSimulation,
   type SimulationLinkDatum,
+  type SimulationNodeDatum,
 } from "d3-force"
 
 import { cn } from "@/lib/utils"
@@ -97,7 +97,15 @@ export function NetworkGraph({
     return () => {
       simulation.stop()
     }
-  }, [initialNodes, initialLinks, charge, linkDistance, nodeRadius, width, height])
+  }, [
+    initialNodes,
+    initialLinks,
+    charge,
+    linkDistance,
+    nodeRadius,
+    width,
+    height,
+  ])
 
   return (
     <div className={cn("w-full", className)}>
@@ -128,7 +136,13 @@ export function NetworkGraph({
           {links.map((link, index) => {
             const sourceNode = link.source as NetworkNode
             const targetNode = link.target as NetworkNode
-            if (!sourceNode.x || !sourceNode.y || !targetNode.x || !targetNode.y) return null
+            if (
+              !sourceNode.x ||
+              !sourceNode.y ||
+              !targetNode.x ||
+              !targetNode.y
+            )
+              return null
 
             const isConnectedToHovered =
               hoveredNode === sourceNode.id || hoveredNode === targetNode.id
@@ -142,7 +156,9 @@ export function NetworkGraph({
                 y2={targetNode.y}
                 stroke={link.color ?? "#94a3b8"}
                 strokeWidth={link.value ? linkWidth * link.value : linkWidth}
-                strokeOpacity={hoveredNode ? (isConnectedToHovered ? 1 : 0.2) : 0.6}
+                strokeOpacity={
+                  hoveredNode ? (isConnectedToHovered ? 1 : 0.2) : 0.6
+                }
                 markerEnd={showArrows ? "url(#arrowhead)" : undefined}
                 className="transition-opacity duration-200"
               />
@@ -158,8 +174,10 @@ export function NetworkGraph({
             const isHovered = hoveredNode === node.id
             const isConnected = links.some(
               (l) =>
-                (typeof l.source === "object" ? l.source.id : l.source) === node.id ||
-                (typeof l.target === "object" ? l.target.id : l.target) === node.id
+                (typeof l.source === "object" ? l.source.id : l.source) ===
+                  node.id ||
+                (typeof l.target === "object" ? l.target.id : l.target) ===
+                  node.id
             )
             const radius = node.size ?? nodeRadius
 

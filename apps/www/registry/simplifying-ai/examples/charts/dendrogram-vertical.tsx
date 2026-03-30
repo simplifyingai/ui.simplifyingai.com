@@ -32,7 +32,7 @@ const orgData = {
 
 export default function DendrogramVertical() {
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="mx-auto w-full max-w-xl">
       <Dendrogram
         data={orgData}
         orientation="vertical"

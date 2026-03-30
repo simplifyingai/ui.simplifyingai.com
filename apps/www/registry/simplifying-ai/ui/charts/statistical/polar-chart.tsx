@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { scaleBand, scaleLinear } from "d3-scale"
 import { arc } from "d3-shape"
-import { scaleLinear, scaleBand } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
@@ -33,7 +33,14 @@ export function PolarChart({
   showValues = false,
   showGrid = true,
   valueFormatter = (value) => value.toLocaleString(),
-  colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"],
+  colorScheme = [
+    "#1e40af",
+    "#2563eb",
+    "#3b82f6",
+    "#60a5fa",
+    "#93c5fd",
+    "#bfdbfe",
+  ],
 }: PolarChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
 
@@ -59,7 +66,12 @@ export function PolarChart({
   const gridCircles = radiusScale.ticks(4)
 
   // Arc generator
-  const arcGenerator = arc<{ startAngle: number; endAngle: number; innerRadius: number; outerRadius: number }>()
+  const arcGenerator = arc<{
+    startAngle: number
+    endAngle: number
+    innerRadius: number
+    outerRadius: number
+  }>()
 
   return (
     <div className={cn("w-full", className)}>
@@ -69,42 +81,47 @@ export function PolarChart({
       >
         <g transform={`translate(${centerX}, ${centerY})`}>
           {/* Grid circles */}
-          {showGrid && gridCircles.map((tick, i) => (
-            <g key={`grid-${i}`}>
-              <circle
-                r={radiusScale(tick)}
-                fill="none"
-                stroke="hsl(var(--border))"
-                strokeDasharray="3 3"
-                strokeOpacity={0.5}
-              />
-              <text
-                x={4}
-                y={-radiusScale(tick) - 2}
-                className="fill-muted-foreground text-[10px]"
-              >
-                {valueFormatter(tick)}
-              </text>
-            </g>
-          ))}
+          {showGrid &&
+            gridCircles.map((tick, i) => (
+              <g key={`grid-${i}`}>
+                <circle
+                  r={radiusScale(tick)}
+                  fill="none"
+                  stroke="hsl(var(--border))"
+                  strokeDasharray="3 3"
+                  strokeOpacity={0.5}
+                />
+                <text
+                  x={4}
+                  y={-radiusScale(tick) - 2}
+                  className="fill-muted-foreground text-[10px]"
+                >
+                  {valueFormatter(tick)}
+                </text>
+              </g>
+            ))}
 
           {/* Grid lines (spokes) */}
-          {showGrid && data.map((d, i) => {
-            const angle = (angleScale(d.category) ?? 0) + (angleScale.bandwidth() / 2) - Math.PI / 2
-            const x2 = Math.cos(angle) * outerRadius
-            const y2 = Math.sin(angle) * outerRadius
-            return (
-              <line
-                key={`spoke-${i}`}
-                x1={0}
-                y1={0}
-                x2={x2}
-                y2={y2}
-                stroke="hsl(var(--border))"
-                strokeOpacity={0.3}
-              />
-            )
-          })}
+          {showGrid &&
+            data.map((d, i) => {
+              const angle =
+                (angleScale(d.category) ?? 0) +
+                angleScale.bandwidth() / 2 -
+                Math.PI / 2
+              const x2 = Math.cos(angle) * outerRadius
+              const y2 = Math.sin(angle) * outerRadius
+              return (
+                <line
+                  key={`spoke-${i}`}
+                  x1={0}
+                  y1={0}
+                  x2={x2}
+                  y2={y2}
+                  stroke="hsl(var(--border))"
+                  strokeOpacity={0.3}
+                />
+              )
+            })}
 
           {/* Rose/Coxcomb segments */}
           {data.map((d, index) => {
@@ -116,7 +133,9 @@ export function PolarChart({
             let segmentRadius: number
             if (variant === "coxcomb") {
               // Coxcomb: equal angles, radius varies with sqrt(value) for equal area
-              segmentRadius = radiusScale(Math.sqrt(d.value / maxValue) * maxValue)
+              segmentRadius = radiusScale(
+                Math.sqrt(d.value / maxValue) * maxValue
+              )
             } else {
               // Rose: equal angles, radius varies linearly with value
               segmentRadius = radiusScale(d.value)
@@ -149,29 +168,33 @@ export function PolarChart({
           })}
 
           {/* Labels */}
-          {showLabels && data.map((d, index) => {
-            const angle = (angleScale(d.category) ?? 0) + (angleScale.bandwidth() / 2) - Math.PI / 2
-            const labelRadius = outerRadius + 20
-            const x = Math.cos(angle) * labelRadius
-            const y = Math.sin(angle) * labelRadius
+          {showLabels &&
+            data.map((d, index) => {
+              const angle =
+                (angleScale(d.category) ?? 0) +
+                angleScale.bandwidth() / 2 -
+                Math.PI / 2
+              const labelRadius = outerRadius + 20
+              const x = Math.cos(angle) * labelRadius
+              const y = Math.sin(angle) * labelRadius
 
-            return (
-              <text
-                key={`label-${index}`}
-                x={x}
-                y={y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="fill-foreground text-xs font-medium"
-                style={{
-                  transform: `rotate(${angle > Math.PI / 2 && angle < (3 * Math.PI) / 2 ? 180 : 0}deg)`,
-                  transformOrigin: `${x}px ${y}px`,
-                }}
-              >
-                {d.category}
-              </text>
-            )
-          })}
+              return (
+                <text
+                  key={`label-${index}`}
+                  x={x}
+                  y={y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="fill-foreground text-xs font-medium"
+                  style={{
+                    transform: `rotate(${angle > Math.PI / 2 && angle < (3 * Math.PI) / 2 ? 180 : 0}deg)`,
+                    transformOrigin: `${x}px ${y}px`,
+                  }}
+                >
+                  {d.category}
+                </text>
+              )
+            })}
         </g>
       </svg>
 

@@ -101,18 +101,16 @@ export function LollipopChart({
                 className="h-3.5 w-3.5 rounded-full"
                 style={{ backgroundColor: groupColor }}
               />
-              <span className="text-foreground text-sm">{group.replace(' cyl', '')}</span>
+              <span className="text-foreground text-sm">
+                {group.replace(" cyl", "")}
+              </span>
             </div>
           ))}
         </div>
       )}
 
       <div className="overflow-x-auto">
-        <svg
-          width={width}
-          height={height}
-          className="overflow-visible"
-        >
+        <svg width={width} height={height} className="overflow-visible">
           <g transform={`translate(${margin.left}, ${margin.top})`}>
             {/* Grid lines */}
             {showGrid &&
@@ -245,13 +243,15 @@ export function LollipopChart({
         <div
           className="bg-foreground text-background pointer-events-none fixed z-[100] rounded-md px-2.5 py-1.5 text-xs font-medium shadow-lg"
           style={{
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         >
           <span className="font-semibold">{data[hoveredIndex].category}</span>
-          <span className="ml-1.5">{valueFormatter(data[hoveredIndex].value)}</span>
+          <span className="ml-1.5">
+            {valueFormatter(data[hoveredIndex].value)}
+          </span>
         </div>
       )}
     </div>

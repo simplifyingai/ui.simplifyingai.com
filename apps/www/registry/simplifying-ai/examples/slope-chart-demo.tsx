@@ -11,10 +11,5 @@ const data = [
 ]
 
 export default function SlopeChartDemo() {
-  return (
-    <SlopeChart
-      data={data}
-      labels={["Q1 2024", "Q4 2024"]}
-    />
-  )
+  return <SlopeChart data={data} labels={["Q1 2024", "Q4 2024"]} />
 }

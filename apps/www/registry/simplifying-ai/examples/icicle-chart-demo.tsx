@@ -44,11 +44,7 @@ const data = {
 export default function IcicleChartDemo() {
   return (
     <div className="mx-auto w-full max-w-lg">
-      <IcicleChart
-        data={data}
-        orientation="vertical"
-        showLabels
-      />
+      <IcicleChart data={data} orientation="vertical" showLabels />
     </div>
   )
 }

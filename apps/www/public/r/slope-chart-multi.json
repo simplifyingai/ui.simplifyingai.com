@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slope-chart-multi",
+  "registryDependencies": [
+    "slope-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/slope-chart-multi.tsx",
+      "content": "\"use client\"\n\nimport { SlopeChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Revenue\", values: [120, 145, 168, 195, 220] },\n  { category: \"Costs\", values: [80, 95, 105, 115, 125] },\n  { category: \"Profit\", values: [40, 50, 63, 80, 95] },\n  { category: \"Users\", values: [50, 72, 95, 130, 175] },\n]\n\nexport default function SlopeChartMulti() {\n  return (\n    <SlopeChart\n      data={data}\n      labels={[\"2020\", \"2021\", \"2022\", \"2023\", \"2024\"]}\n      valueFormatter={(v) => `$${v}M`}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

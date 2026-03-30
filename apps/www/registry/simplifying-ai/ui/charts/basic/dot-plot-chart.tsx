@@ -45,7 +45,7 @@ export function DotPlotChart({
 
   // Get colors if provided
   const colors = React.useMemo(() => {
-    return data.map((d) => (typeof d === "number" ? color : d.color ?? color))
+    return data.map((d) => (typeof d === "number" ? color : (d.color ?? color)))
   }, [data, color])
 
   const width = 500
@@ -56,9 +56,7 @@ export function DotPlotChart({
   // Create bins
   const binnedData = React.useMemo(() => {
     const [minVal, maxVal] = extent(values) as [number, number]
-    const binGenerator = bin()
-      .domain([minVal, maxVal])
-      .thresholds(binCount)
+    const binGenerator = bin().domain([minVal, maxVal]).thresholds(binCount)
 
     const bins = binGenerator(values)
 
@@ -216,7 +214,9 @@ export function DotPlotChart({
           style={getTooltipPosition(hoveredBin)}
         >
           <div className="bg-foreground text-background rounded-md px-2 py-1 text-xs font-medium shadow-lg">
-            {Math.round(binnedData[hoveredBin].x0)}-{Math.round(binnedData[hoveredBin].x1)}: {binnedData[hoveredBin].count}
+            {Math.round(binnedData[hoveredBin].x0)}-
+            {Math.round(binnedData[hoveredBin].x1)}:{" "}
+            {binnedData[hoveredBin].count}
           </div>
         </div>
       )}

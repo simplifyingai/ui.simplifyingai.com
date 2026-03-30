@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { hierarchy, cluster } from "d3-hierarchy"
+import { cluster, hierarchy } from "d3-hierarchy"
 import { linkHorizontal, linkVertical } from "d3-shape"
 
 import { cn } from "@/lib/utils"
@@ -49,8 +49,9 @@ export function Dendrogram({
   // Create hierarchy and apply cluster layout
   const root = React.useMemo(() => {
     const h = hierarchy(data)
-    const clusterLayout = cluster<DendrogramNode>()
-      .size(isHorizontal ? [innerHeight, innerWidth] : [innerWidth, innerHeight])
+    const clusterLayout = cluster<DendrogramNode>().size(
+      isHorizontal ? [innerHeight, innerWidth] : [innerWidth, innerHeight]
+    )
 
     return clusterLayout(h)
   }, [data, innerWidth, innerHeight, isHorizontal])
@@ -74,7 +75,7 @@ export function Dendrogram({
   }
 
   // Check if node or any of its descendants is hovered
-  const isNodeHighlighted = (node: typeof nodes[number]): boolean => {
+  const isNodeHighlighted = (node: (typeof nodes)[number]): boolean => {
     if (node.data.name === hoveredNode) return true
     if (node.ancestors().some((a) => a.data.name === hoveredNode)) return true
     if (node.descendants().some((d) => d.data.name === hoveredNode)) return true
@@ -102,7 +103,9 @@ export function Dendrogram({
                 fill="none"
                 stroke={linkColor}
                 strokeWidth={isHighlighted ? 2 : 1}
-                strokeOpacity={hoveredNode === null ? 0.6 : isHighlighted ? 1 : 0.15}
+                strokeOpacity={
+                  hoveredNode === null ? 0.6 : isHighlighted ? 1 : 0.15
+                }
                 className="transition-all duration-200"
               />
             )
@@ -115,7 +118,8 @@ export function Dendrogram({
             const isLeaf = !node.children
             const color = node.data.color ?? getNodeColor(node.depth)
             const isHovered = hoveredNode === node.data.name
-            const isHighlighted = hoveredNode === null || isNodeHighlighted(node)
+            const isHighlighted =
+              hoveredNode === null || isNodeHighlighted(node)
 
             return (
               <g
@@ -139,15 +143,13 @@ export function Dendrogram({
                 {showLabels && (
                   <text
                     x={isHorizontal ? (isLeaf ? 10 : -10) : 0}
-                    y={isHorizontal ? 0 : (isLeaf ? 15 : -15)}
+                    y={isHorizontal ? 0 : isLeaf ? 15 : -15}
                     textAnchor={
-                      isHorizontal
-                        ? isLeaf
-                          ? "start"
-                          : "end"
-                        : "middle"
+                      isHorizontal ? (isLeaf ? "start" : "end") : "middle"
                     }
-                    dominantBaseline={isHorizontal ? "middle" : isLeaf ? "hanging" : "auto"}
+                    dominantBaseline={
+                      isHorizontal ? "middle" : isLeaf ? "hanging" : "auto"
+                    }
                     className="fill-foreground text-[11px]"
                   >
                     {node.data.name}
@@ -157,8 +159,10 @@ export function Dendrogram({
                 {showValues && node.data.value !== undefined && (
                   <text
                     x={isHorizontal ? (isLeaf ? 10 : -10) : 0}
-                    y={isHorizontal ? 12 : (isLeaf ? 28 : -28)}
-                    textAnchor={isHorizontal ? (isLeaf ? "start" : "end") : "middle"}
+                    y={isHorizontal ? 12 : isLeaf ? 28 : -28}
+                    textAnchor={
+                      isHorizontal ? (isLeaf ? "start" : "end") : "middle"
+                    }
                     className="fill-muted-foreground text-[9px]"
                   >
                     {node.data.value}
@@ -175,9 +179,11 @@ export function Dendrogram({
         <div className="mt-2 text-center">
           <div className="border-border/50 bg-background mx-auto inline-block rounded-lg border px-3 py-2 text-sm shadow-lg">
             <div className="font-medium">{hoveredNode}</div>
-            {nodes.find((n) => n.data.name === hoveredNode)?.data.value !== undefined && (
+            {nodes.find((n) => n.data.name === hoveredNode)?.data.value !==
+              undefined && (
               <div className="text-muted-foreground">
-                Value: {nodes.find((n) => n.data.name === hoveredNode)?.data.value}
+                Value:{" "}
+                {nodes.find((n) => n.data.name === hoveredNode)?.data.value}
               </div>
             )}
           </div>

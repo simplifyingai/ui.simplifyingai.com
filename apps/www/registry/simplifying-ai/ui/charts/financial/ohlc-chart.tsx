@@ -263,19 +263,51 @@ export function OHLCChart({
             </p>
             <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-sm">
               <span className="text-muted-foreground">Open</span>
-              <span className="font-mono" style={{ color: data[hoveredIndex].close >= data[hoveredIndex].open ? upColor : downColor }}>
+              <span
+                className="font-mono"
+                style={{
+                  color:
+                    data[hoveredIndex].close >= data[hoveredIndex].open
+                      ? upColor
+                      : downColor,
+                }}
+              >
                 {valueFormatter(data[hoveredIndex].open)}
               </span>
               <span className="text-muted-foreground">High</span>
-              <span className="font-mono" style={{ color: data[hoveredIndex].close >= data[hoveredIndex].open ? upColor : downColor }}>
+              <span
+                className="font-mono"
+                style={{
+                  color:
+                    data[hoveredIndex].close >= data[hoveredIndex].open
+                      ? upColor
+                      : downColor,
+                }}
+              >
                 {valueFormatter(data[hoveredIndex].high)}
               </span>
               <span className="text-muted-foreground">Low</span>
-              <span className="font-mono" style={{ color: data[hoveredIndex].close >= data[hoveredIndex].open ? upColor : downColor }}>
+              <span
+                className="font-mono"
+                style={{
+                  color:
+                    data[hoveredIndex].close >= data[hoveredIndex].open
+                      ? upColor
+                      : downColor,
+                }}
+              >
                 {valueFormatter(data[hoveredIndex].low)}
               </span>
               <span className="text-muted-foreground">Close</span>
-              <span className="font-mono" style={{ color: data[hoveredIndex].close >= data[hoveredIndex].open ? upColor : downColor }}>
+              <span
+                className="font-mono"
+                style={{
+                  color:
+                    data[hoveredIndex].close >= data[hoveredIndex].open
+                      ? upColor
+                      : downColor,
+                }}
+              >
                 {valueFormatter(data[hoveredIndex].close)}
               </span>
             </div>

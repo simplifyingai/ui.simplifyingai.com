@@ -15,7 +15,7 @@ const windData = [
 
 export default function PolarChartDemo() {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       <PolarChart
         data={windData}
         variant="rose"

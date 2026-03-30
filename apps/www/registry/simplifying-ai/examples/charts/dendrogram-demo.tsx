@@ -49,7 +49,7 @@ const taxonomyData = {
 
 export default function DendrogramDemo() {
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="mx-auto w-full max-w-2xl">
       <Dendrogram
         data={taxonomyData}
         orientation="horizontal"

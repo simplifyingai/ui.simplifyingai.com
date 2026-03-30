@@ -53,10 +53,15 @@ export function SplomChart({
 
   // Create scales for each dimension
   const scales = React.useMemo(() => {
-    const result: Record<string, ReturnType<typeof scaleLinear<number, number>>> = {}
+    const result: Record<
+      string,
+      ReturnType<typeof scaleLinear<number, number>>
+    > = {}
 
     dimensions.forEach((dim) => {
-      const values = data.map((d) => d.values[dim]).filter((v) => v !== undefined)
+      const values = data
+        .map((d) => d.values[dim])
+        .filter((v) => v !== undefined)
       const min = Math.min(...values)
       const max = Math.max(...values)
       const pad = (max - min) * 0.1 || 1
@@ -95,14 +100,15 @@ export function SplomChart({
         className="overflow-visible"
       >
         {/* Matrix cells */}
-        {dimensions.map((yDim, row) => (
+        {dimensions.map((yDim, row) =>
           dimensions.map((xDim, col) => {
             const x = col * cellSize + labelSize
             const y = row * cellSize
 
             // Diagonal: histogram
             if (row === col && showHistograms) {
-              const { bins, binWidth, min, maxBinCount } = getHistogramBins(xDim)
+              const { bins, binWidth, min, maxBinCount } =
+                getHistogramBins(xDim)
               const barWidth = (cellSize - 2 * padding) / bins.length
               const heightScale = (cellSize - 2 * padding) / maxBinCount
 
@@ -186,34 +192,36 @@ export function SplomChart({
               </g>
             )
           })
-        ))}
+        )}
 
         {/* Row labels (left) */}
-        {showLabels && dimensions.map((dim, i) => (
-          <text
-            key={`row-${i}`}
-            x={labelSize - 5}
-            y={i * cellSize + cellSize / 2}
-            textAnchor="end"
-            dominantBaseline="middle"
-            className="fill-muted-foreground text-[9px]"
-          >
-            {dim}
-          </text>
-        ))}
+        {showLabels &&
+          dimensions.map((dim, i) => (
+            <text
+              key={`row-${i}`}
+              x={labelSize - 5}
+              y={i * cellSize + cellSize / 2}
+              textAnchor="end"
+              dominantBaseline="middle"
+              className="fill-muted-foreground text-[9px]"
+            >
+              {dim}
+            </text>
+          ))}
 
         {/* Column labels (bottom) */}
-        {showLabels && dimensions.map((dim, i) => (
-          <text
-            key={`col-${i}`}
-            x={i * cellSize + labelSize + cellSize / 2}
-            y={n * cellSize + 15}
-            textAnchor="middle"
-            className="fill-muted-foreground text-[9px]"
-          >
-            {dim}
-          </text>
-        ))}
+        {showLabels &&
+          dimensions.map((dim, i) => (
+            <text
+              key={`col-${i}`}
+              x={i * cellSize + labelSize + cellSize / 2}
+              y={n * cellSize + 15}
+              textAnchor="middle"
+              className="fill-muted-foreground text-[9px]"
+            >
+              {dim}
+            </text>
+          ))}
       </svg>
 
       {/* Legend */}

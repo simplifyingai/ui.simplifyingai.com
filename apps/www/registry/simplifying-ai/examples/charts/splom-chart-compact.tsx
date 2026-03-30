@@ -17,7 +17,7 @@ const dimensions = ["revenue", "expenses", "profit"]
 
 export default function SplomChartCompact() {
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="mx-auto w-full max-w-md">
       <SplomChart
         data={metricsData}
         dimensions={dimensions}

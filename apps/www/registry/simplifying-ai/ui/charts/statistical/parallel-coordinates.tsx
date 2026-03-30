@@ -33,7 +33,9 @@ export function ParallelCoordinates({
   colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd"],
 }: ParallelCoordinatesProps) {
   const [hoveredId, setHoveredId] = React.useState<string | null>(null)
-  const [brushedDimension, setBrushedDimension] = React.useState<string | null>(null)
+  const [brushedDimension, setBrushedDimension] = React.useState<string | null>(
+    null
+  )
 
   const width = 600
   const height = 350
@@ -52,16 +54,19 @@ export function ParallelCoordinates({
   }
 
   // X scale for dimensions
-  const xScale = scalePoint<string>()
-    .domain(dimensions)
-    .range([0, innerWidth])
+  const xScale = scalePoint<string>().domain(dimensions).range([0, innerWidth])
 
   // Y scales for each dimension
   const yScales = React.useMemo(() => {
-    const scales: Record<string, ReturnType<typeof scaleLinear<number, number>>> = {}
+    const scales: Record<
+      string,
+      ReturnType<typeof scaleLinear<number, number>>
+    > = {}
 
     dimensions.forEach((dim) => {
-      const values = data.map((d) => d.values[dim]).filter((v) => v !== undefined)
+      const values = data
+        .map((d) => d.values[dim])
+        .filter((v) => v !== undefined)
       const minVal = Math.min(...values)
       const maxVal = Math.max(...values)
       const padding = (maxVal - minVal) * 0.1 || 1
@@ -118,19 +123,20 @@ export function ParallelCoordinates({
                 />
 
                 {/* Ticks */}
-                {showValues && ticks.map((tick, i) => (
-                  <g key={i} transform={`translate(0, ${scale(tick)})`}>
-                    <line x1={-4} x2={0} stroke="hsl(var(--border))" />
-                    <text
-                      x={-8}
-                      textAnchor="end"
-                      dominantBaseline="middle"
-                      className="fill-muted-foreground text-[9px]"
-                    >
-                      {tick.toFixed(0)}
-                    </text>
-                  </g>
-                ))}
+                {showValues &&
+                  ticks.map((tick, i) => (
+                    <g key={i} transform={`translate(0, ${scale(tick)})`}>
+                      <line x1={-4} x2={0} stroke="hsl(var(--border))" />
+                      <text
+                        x={-8}
+                        textAnchor="end"
+                        dominantBaseline="middle"
+                        className="fill-muted-foreground text-[9px]"
+                      >
+                        {tick.toFixed(0)}
+                      </text>
+                    </g>
+                  ))}
 
                 {/* Dimension label */}
                 {showLabels && (
@@ -162,11 +168,7 @@ export function ParallelCoordinates({
                 stroke={color}
                 strokeWidth={isHovered ? 3 : 1.5}
                 strokeOpacity={
-                  hoveredId === null
-                    ? lineOpacity
-                    : isHovered
-                      ? 1
-                      : 0.1
+                  hoveredId === null ? lineOpacity : isHovered ? 1 : 0.1
                 }
                 className="cursor-pointer transition-all duration-200"
                 onMouseEnter={() => setHoveredId(d.id)}

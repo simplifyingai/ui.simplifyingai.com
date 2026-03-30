@@ -157,8 +157,14 @@ export function ScatterChart({
   }))
 
   return (
-    <ChartContainer config={config} className={cn("!aspect-auto flex-col", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full overflow-visible">
+    <ChartContainer
+      config={config}
+      className={cn("!aspect-auto flex-col", className)}
+    >
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full overflow-visible"
+      >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid */}
           {showGrid && (

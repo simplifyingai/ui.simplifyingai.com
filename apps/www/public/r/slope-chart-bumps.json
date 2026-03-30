@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slope-chart-bumps",
+  "registryDependencies": [
+    "slope-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/slope-chart-bumps.tsx",
+      "content": "\"use client\"\n\nimport { SlopeChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Apple\", values: [85, 92, 88, 95] },\n  { category: \"Google\", values: [92, 85, 90, 88] },\n  { category: \"Microsoft\", values: [78, 82, 85, 92] },\n  { category: \"Amazon\", values: [88, 78, 82, 80] },\n  { category: \"Meta\", values: [72, 75, 78, 75] },\n]\n\nexport default function SlopeChartBumps() {\n  return (\n    <SlopeChart\n      data={data}\n      variant=\"bumps\"\n      labels={[\"Q1\", \"Q2\", \"Q3\", \"Q4\"]}\n      showRankChange\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

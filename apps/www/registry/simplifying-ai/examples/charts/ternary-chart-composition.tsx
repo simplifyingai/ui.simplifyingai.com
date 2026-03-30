@@ -13,7 +13,7 @@ const alloyData = [
 
 export default function TernaryChartComposition() {
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="mx-auto w-full max-w-lg">
       <TernaryChart
         data={alloyData}
         labels={["Iron", "Copper", "Zinc"]}

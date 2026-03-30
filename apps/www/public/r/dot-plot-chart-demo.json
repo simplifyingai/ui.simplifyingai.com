@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/dot-plot-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { DotPlotChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Product A\", value: 85, color: \"#1e40af\" },\n  { category: \"Product B\", value: 72, color: \"#2563eb\" },\n  { category: \"Product C\", value: 93, color: \"#3b82f6\" },\n  { category: \"Product D\", value: 68, color: \"#60a5fa\" },\n  { category: \"Product E\", value: 78, color: \"#93c5fd\" },\n  { category: \"Product F\", value: 88, color: \"#1e40af\" },\n]\n\nexport default function DotPlotChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <DotPlotChart\n        data={data}\n        orientation=\"horizontal\"\n        dotSize={10}\n        showValues\n      />\n    </div>\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { DotPlotChart } from \"@/components/ui/charts\"\n\n// Static sample data resembling a distribution\nconst data = [\n  34, 38, 41, 42, 43, 44, 44, 45, 45, 46,\n  46, 46, 47, 47, 47, 47, 48, 48, 48, 48,\n  49, 49, 49, 49, 49, 50, 50, 50, 50, 50,\n  51, 51, 51, 51, 51, 51, 52, 52, 52, 52,\n  53, 53, 53, 53, 53, 54, 54, 54, 54, 55,\n  55, 55, 55, 55, 56, 56, 56, 56, 57, 57,\n  57, 57, 58, 58, 58, 59, 59, 59, 60, 60,\n  61, 61, 62, 62, 63, 64, 65, 66, 68, 70,\n  71, 72, 73, 75, 77, 79,\n]\n\nexport default function DotPlotChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <DotPlotChart\n        data={data}\n        dotSize={8}\n        binCount={25}\n        xAxisLabel=\"Score Distribution\"\n        color=\"#2563eb\"\n      />\n    </div>\n  )\n}\n",
       "type": "registry:example"
     }
   ],

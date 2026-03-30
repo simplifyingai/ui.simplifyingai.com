@@ -205,12 +205,16 @@ export function DumbbellChart({
 
       {/* Tooltip */}
       {hoveredIndex !== null && (
-        <div className="bg-foreground text-background pointer-events-none absolute left-1/2 top-12 z-50 -translate-x-1/2 rounded-md px-3 py-1.5 text-xs font-medium shadow-lg">
+        <div className="bg-foreground text-background pointer-events-none absolute top-12 left-1/2 z-50 -translate-x-1/2 rounded-md px-3 py-1.5 text-xs font-medium shadow-lg">
           <span className="font-semibold">{data[hoveredIndex].category}</span>
           <span className="mx-2">·</span>
-          <span>{startLabel}: {valueFormatter(data[hoveredIndex].start)}</span>
+          <span>
+            {startLabel}: {valueFormatter(data[hoveredIndex].start)}
+          </span>
           <span className="mx-1">→</span>
-          <span>{endLabel}: {valueFormatter(data[hoveredIndex].end)}</span>
+          <span>
+            {endLabel}: {valueFormatter(data[hoveredIndex].end)}
+          </span>
           <span className="ml-2 opacity-70">
             ({data[hoveredIndex].end >= data[hoveredIndex].start ? "+" : ""}
             {valueFormatter(data[hoveredIndex].end - data[hoveredIndex].start)})

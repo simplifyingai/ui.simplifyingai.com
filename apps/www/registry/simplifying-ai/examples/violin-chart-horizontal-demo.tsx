@@ -19,10 +19,26 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
 
 // API response time distribution
 const data = [
-  { label: "GET /users", values: generateData(45, 20, 100, 1), color: "#1e40af" },
-  { label: "POST /orders", values: generateData(120, 40, 100, 2), color: "#2563eb" },
-  { label: "GET /products", values: generateData(35, 15, 100, 3), color: "#3b82f6" },
-  { label: "PUT /cart", values: generateData(85, 25, 100, 4), color: "#60a5fa" },
+  {
+    label: "GET /users",
+    values: generateData(45, 20, 100, 1),
+    color: "#1e40af",
+  },
+  {
+    label: "POST /orders",
+    values: generateData(120, 40, 100, 2),
+    color: "#2563eb",
+  },
+  {
+    label: "GET /products",
+    values: generateData(35, 15, 100, 3),
+    color: "#3b82f6",
+  },
+  {
+    label: "PUT /cart",
+    values: generateData(85, 25, 100, 4),
+    color: "#60a5fa",
+  },
 ]
 
 export default function ViolinChartHorizontalDemo() {

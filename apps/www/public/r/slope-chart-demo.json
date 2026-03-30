@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/slope-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { SlopeChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Product A\", start: 45, end: 72 },\n  { category: \"Product B\", start: 68, end: 55 },\n  { category: \"Product C\", start: 32, end: 58 },\n  { category: \"Product D\", start: 55, end: 78 },\n  { category: \"Product E\", start: 82, end: 65 },\n]\n\nexport default function SlopeChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-lg\">\n      <SlopeChart\n        data={data}\n        startLabel=\"Q1 2024\"\n        endLabel=\"Q4 2024\"\n        showValues\n      />\n    </div>\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { SlopeChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Marketing\", start: 45, end: 72 },\n  { category: \"Sales\", start: 68, end: 55 },\n  { category: \"Engineering\", start: 32, end: 58 },\n  { category: \"Support\", start: 55, end: 78 },\n  { category: \"Operations\", start: 82, end: 65 },\n]\n\nexport default function SlopeChartDemo() {\n  return (\n    <SlopeChart\n      data={data}\n      labels={[\"Q1 2024\", \"Q4 2024\"]}\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],

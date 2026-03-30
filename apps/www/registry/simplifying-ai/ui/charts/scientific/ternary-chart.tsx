@@ -77,11 +77,12 @@ export function TernaryChart({
     const nc = normalize ? c / sum : c
 
     // Ternary to Cartesian transformation
-    const x = vertices.bottomLeft.x +
-      (nb * (vertices.bottomRight.x - vertices.bottomLeft.x)) +
-      (nc * (vertices.top.x - vertices.bottomLeft.x))
-    const y = vertices.bottomLeft.y +
-      (nc * (vertices.top.y - vertices.bottomLeft.y))
+    const x =
+      vertices.bottomLeft.x +
+      nb * (vertices.bottomRight.x - vertices.bottomLeft.x) +
+      nc * (vertices.top.x - vertices.bottomLeft.x)
+    const y =
+      vertices.bottomLeft.y + nc * (vertices.top.y - vertices.bottomLeft.y)
 
     return { x, y }
   }
@@ -122,15 +123,30 @@ export function TernaryChart({
 
       // A axis (bottom-left to top)
       const aPos = ternaryToCartesian(1 - t, 0, t)
-      ticks.push({ x: aPos.x - 15, y: aPos.y, value: `${value}`, anchor: "end" })
+      ticks.push({
+        x: aPos.x - 15,
+        y: aPos.y,
+        value: `${value}`,
+        anchor: "end",
+      })
 
       // B axis (bottom-left to bottom-right)
       const bPos = ternaryToCartesian(1 - t, t, 0)
-      ticks.push({ x: bPos.x, y: bPos.y + 18, value: `${value}`, anchor: "middle" })
+      ticks.push({
+        x: bPos.x,
+        y: bPos.y + 18,
+        value: `${value}`,
+        anchor: "middle",
+      })
 
       // C axis (top to bottom-right)
       const cPos = ternaryToCartesian(0, 1 - t, t)
-      ticks.push({ x: cPos.x + 15, y: cPos.y, value: `${value}`, anchor: "start" })
+      ticks.push({
+        x: cPos.x + 15,
+        y: cPos.y,
+        value: `${value}`,
+        anchor: "start",
+      })
     }
 
     return ticks
@@ -152,18 +168,19 @@ export function TernaryChart({
         />
 
         {/* Grid lines */}
-        {showGrid && gridLineData.map((line, i) => (
-          <line
-            key={`grid-${i}`}
-            x1={line.x1}
-            y1={line.y1}
-            x2={line.x2}
-            y2={line.y2}
-            stroke="hsl(var(--border))"
-            strokeWidth={0.5}
-            strokeOpacity={0.5}
-          />
-        ))}
+        {showGrid &&
+          gridLineData.map((line, i) => (
+            <line
+              key={`grid-${i}`}
+              x1={line.x1}
+              y1={line.y1}
+              x2={line.x2}
+              y2={line.y2}
+              stroke="hsl(var(--border))"
+              strokeWidth={0.5}
+              strokeOpacity={0.5}
+            />
+          ))}
 
         {/* Axis labels */}
         {showLabels && (
@@ -196,18 +213,19 @@ export function TernaryChart({
         )}
 
         {/* Tick labels */}
-        {showGrid && tickLabels.map((tick, i) => (
-          <text
-            key={`tick-${i}`}
-            x={tick.x}
-            y={tick.y}
-            textAnchor={tick.anchor}
-            dominantBaseline="middle"
-            className="fill-muted-foreground text-[8px]"
-          >
-            {tick.value}
-          </text>
-        ))}
+        {showGrid &&
+          tickLabels.map((tick, i) => (
+            <text
+              key={`tick-${i}`}
+              x={tick.x}
+              y={tick.y}
+              textAnchor={tick.anchor}
+              dominantBaseline="middle"
+              className="fill-muted-foreground text-[8px]"
+            >
+              {tick.value}
+            </text>
+          ))}
 
         {/* Data points */}
         {data.map((d) => {
@@ -274,9 +292,15 @@ export function TernaryChart({
                 const sum = point.a + point.b + point.c
                 return (
                   <>
-                    <div>{labels[0]}: {((point.a / sum) * 100).toFixed(1)}%</div>
-                    <div>{labels[1]}: {((point.b / sum) * 100).toFixed(1)}%</div>
-                    <div>{labels[2]}: {((point.c / sum) * 100).toFixed(1)}%</div>
+                    <div>
+                      {labels[0]}: {((point.a / sum) * 100).toFixed(1)}%
+                    </div>
+                    <div>
+                      {labels[1]}: {((point.b / sum) * 100).toFixed(1)}%
+                    </div>
+                    <div>
+                      {labels[2]}: {((point.c / sum) * 100).toFixed(1)}%
+                    </div>
                   </>
                 )
               })()}
