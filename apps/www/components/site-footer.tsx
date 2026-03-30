@@ -37,7 +37,10 @@ const footerLinks = {
       { label: "Box Plot", href: "/docs/components/box-plot-chart" },
       { label: "Violin Chart", href: "/docs/components/violin-chart" },
       { label: "Polar Chart", href: "/docs/components/polar-chart" },
-      { label: "Parallel Coordinates", href: "/docs/components/parallel-coordinates" },
+      {
+        label: "Parallel Coordinates",
+        href: "/docs/components/parallel-coordinates",
+      },
       { label: "SPLOM Chart", href: "/docs/components/splom-chart" },
       { label: "Parcats Chart", href: "/docs/components/parcats-chart" },
     ],
@@ -146,14 +149,14 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom text */}
-        <div className="text-muted-foreground mt-12 border-t border-border/40 pt-8 text-center text-xs">
+        <div className="text-muted-foreground border-border/40 mt-12 border-t pt-8 text-center text-xs">
           <p>
             Built by{" "}
             <a
               href={siteConfig.utm.main}
               target="_blank"
               rel="noreferrer"
-              className="font-medium underline underline-offset-4 hover:text-foreground"
+              className="hover:text-foreground font-medium underline underline-offset-4"
             >
               Simplifying AI
             </a>
@@ -162,7 +165,7 @@ export function SiteFooter() {
               href={siteConfig.links.github}
               target="_blank"
               rel="noreferrer"
-              className="font-medium underline underline-offset-4 hover:text-foreground"
+              className="hover:text-foreground font-medium underline underline-offset-4"
             >
               GitHub
             </a>

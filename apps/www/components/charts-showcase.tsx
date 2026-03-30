@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Index } from "@/registry/__index__"
+
 import { cn } from "@/lib/utils"
+import { Index } from "@/registry/__index__"
 
 type ChartSize = "small" | "medium" | "large"
 
@@ -103,20 +104,14 @@ const PREMIUM_CHARTS: PremiumChart[] = [
   },
 ]
 
-function ChartCard({
-  name,
-  title,
-  description,
-  href,
-  size,
-}: PremiumChart) {
+function ChartCard({ name, title, description, href, size }: PremiumChart) {
   const Component = Index[name]?.component
 
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-lg hover:border-primary/50",
+        "group bg-card text-card-foreground hover:border-primary/50 relative flex flex-col overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-lg",
         size === "large" && "md:col-span-2 md:row-span-2",
         size === "medium" && "md:row-span-2",
         size === "small" && ""
@@ -133,12 +128,12 @@ function ChartCard({
         {Component ? (
           <React.Suspense
             fallback={
-              <div className="flex items-center justify-center h-full w-full">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+              <div className="flex h-full w-full items-center justify-center">
+                <div className="border-primary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" />
               </div>
             }
           >
-            <div className="w-full h-full flex items-center justify-center transform scale-[0.85] origin-center">
+            <div className="flex h-full w-full origin-center scale-[0.85] transform items-center justify-center">
               <Component />
             </div>
           </React.Suspense>
@@ -146,16 +141,16 @@ function ChartCard({
           <div className="text-muted-foreground text-sm">Loading...</div>
         )}
       </div>
-      <div className="border-t bg-muted/30 px-4 py-3">
+      <div className="bg-muted/30 border-t px-4 py-3">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-sm group-hover:text-primary transition-colors">
+            <h3 className="group-hover:text-primary text-sm font-semibold transition-colors">
               {title}
             </h3>
-            <p className="text-xs text-muted-foreground">{description}</p>
+            <p className="text-muted-foreground text-xs">{description}</p>
           </div>
           <svg
-            className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all"
+            className="text-muted-foreground group-hover:text-primary h-4 w-4 transition-all group-hover:translate-x-0.5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -175,7 +170,7 @@ function ChartCard({
 
 export function ChartsShowcase() {
   return (
-    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {PREMIUM_CHARTS.map((chart) => (
         <ChartCard key={chart.name} {...chart} />
       ))}

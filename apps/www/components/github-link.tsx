@@ -21,9 +21,12 @@ export function GitHubLink() {
 
 export async function StarsCount() {
   try {
-    const data = await fetch("https://api.github.com/repos/simplifyingai/ui.simplifyingai.com", {
-      next: { revalidate: 86400 }, // Cache for 1 day (86400 seconds)
-    })
+    const data = await fetch(
+      "https://api.github.com/repos/simplifyingai/ui.simplifyingai.com",
+      {
+        next: { revalidate: 86400 }, // Cache for 1 day (86400 seconds)
+      }
+    )
     const json = await data.json()
     const count = json.stargazers_count ?? 0
 
@@ -35,6 +38,8 @@ export async function StarsCount() {
       </span>
     )
   } catch {
-    return <span className="text-muted-foreground w-8 text-xs tabular-nums">-</span>
+    return (
+      <span className="text-muted-foreground w-8 text-xs tabular-nums">-</span>
+    )
   }
 }

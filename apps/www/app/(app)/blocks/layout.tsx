@@ -54,7 +54,9 @@ export default function BlocksLayout({
             <a href="#blocks">Browse Examples</a>
           </Button>
           <Button asChild variant="ghost" size="sm">
-            <Link href="https://github.com/simplifyingai/ui.simplifyingai.com">Add a block</Link>
+            <Link href="https://github.com/simplifyingai/ui.simplifyingai.com">
+              Add a block
+            </Link>
           </Button>
         </PageActions>
       </PageHeader>

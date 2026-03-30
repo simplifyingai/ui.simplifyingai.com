@@ -23,10 +23,7 @@ export function SiteHeader() {
             items={siteConfig.navItems}
             className="flex lg:hidden"
           />
-          <Link
-            href="/"
-            className="hidden items-center gap-2 lg:flex"
-          >
+          <Link href="/" className="hidden items-center gap-2 lg:flex">
             <Image
               src="/images/logo.png"
               alt={siteConfig.name}

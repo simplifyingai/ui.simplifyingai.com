@@ -3,8 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { ScrollArea, ScrollBar } from "@/registry/simplifying-ai/ui/scroll-area"
 import { registryCategories } from "@/registry/registry-categories"
+import { ScrollArea, ScrollBar } from "@/registry/simplifying-ai/ui/scroll-area"
 
 export function BlocksNav() {
   const pathname = usePathname()

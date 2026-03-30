@@ -30,28 +30,13 @@ export const Icons = {
         fillRule="evenodd"
       />
       {/* Connecting bands - left side */}
-      <path
-        d="M38 20.8L12 66.2L20 66.2L42 28L38 20.8Z"
-        fill="currentColor"
-      />
-      <path
-        d="M24 87L50 43.5L46 36.3L16 87H24Z"
-        fill="currentColor"
-      />
+      <path d="M38 20.8L12 66.2L20 66.2L42 28L38 20.8Z" fill="currentColor" />
+      <path d="M24 87L50 43.5L46 36.3L16 87H24Z" fill="currentColor" />
       {/* Connecting bands - right side */}
-      <path
-        d="M62 20.8L88 66.2L80 66.2L58 28L62 20.8Z"
-        fill="currentColor"
-      />
-      <path
-        d="M76 87L50 43.5L54 36.3L84 87H76Z"
-        fill="currentColor"
-      />
+      <path d="M62 20.8L88 66.2L80 66.2L58 28L62 20.8Z" fill="currentColor" />
+      <path d="M76 87L50 43.5L54 36.3L84 87H76Z" fill="currentColor" />
       {/* Connecting bands - bottom */}
-      <path
-        d="M24 87H76L68 79H32L24 87Z"
-        fill="currentColor"
-      />
+      <path d="M24 87H76L68 79H32L24 87Z" fill="currentColor" />
     </svg>
   ),
   twitter: (props: IconProps) => (
