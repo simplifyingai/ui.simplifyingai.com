@@ -95,9 +95,8 @@ export function CardsShare() {
                 </div>
                 <Select defaultValue="edit">
                   <SelectTrigger
-                    className="ml-auto pr-2"
+                    className="ml-auto h-8 w-auto gap-1 pr-2"
                     aria-label="Edit"
-                    size="sm"
                   >
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
