@@ -18,31 +18,62 @@ export interface TernaryDataPoint {
 export interface TernaryChartProps {
   data: TernaryDataPoint[]
   className?: string
-  labels?: [string, string, string] // [A, B, C] axis labels
+  /** Visual style variant: standard (full grid), minimal (points only), filled (convex hull) */
+  variant?: "standard" | "minimal" | "filled"
+  /** Axis labels [A, B, C] */
+  labels?: [string, string, string]
+  /** Show grid lines */
   showGrid?: boolean
+  /** Show axis labels */
   showLabels?: boolean
+  /** Show tick value labels on axes */
+  showTickValues?: boolean
+  /** Number of grid divisions */
   gridLines?: number
+  /** Data point radius */
   pointRadius?: number
+  /** Single color for all points (overrides group colors) */
+  color?: string
+  /** Enable coloring by group */
+  colorByGroup?: boolean
+  /** Color scheme for groups when colorByGroup is true */
   colorScheme?: string[]
-  normalize?: boolean // Auto-normalize to sum=1
+  /** Auto-normalize values to sum=1 */
+  normalize?: boolean
 }
+
+const DEFAULT_COLOR = "#3b82f6"
+
+const DEFAULT_COLOR_SCHEME = [
+  "#3b82f6",
+  "#10b981",
+  "#f59e0b",
+  "#ef4444",
+  "#8b5cf6",
+]
 
 export function TernaryChart({
   data,
   className,
+  variant = "standard",
   labels = ["A", "B", "C"],
   showGrid = true,
   showLabels = true,
+  showTickValues = true,
   gridLines = 5,
   pointRadius = 6,
-  colorScheme = ["#1e40af", "#dc2626", "#059669", "#d97706", "#7c3aed"],
+  color,
+  colorByGroup = false,
+  colorScheme = DEFAULT_COLOR_SCHEME,
   normalize = true,
 }: TernaryChartProps) {
   const [hoveredPoint, setHoveredPoint] = React.useState<string | null>(null)
+  const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   const width = 500
   const height = 450
-  const margin = { top: 40, right: 40, bottom: 60, left: 40 }
+  const margin = { top: 50, right: 50, bottom: 70, left: 50 }
 
   // Triangle dimensions
   const triangleHeight = height - margin.top - margin.bottom
@@ -52,40 +83,51 @@ export function TernaryChart({
   const bottomY = margin.top + triangleHeight
 
   // Triangle vertices
-  const vertices = {
-    top: { x: centerX, y: topY }, // C vertex
-    bottomLeft: { x: centerX - triangleWidth / 2, y: bottomY }, // A vertex
-    bottomRight: { x: centerX + triangleWidth / 2, y: bottomY }, // B vertex
-  }
+  const vertices = React.useMemo(
+    () => ({
+      top: { x: centerX, y: topY }, // C vertex
+      bottomLeft: { x: centerX - triangleWidth / 2, y: bottomY }, // A vertex
+      bottomRight: { x: centerX + triangleWidth / 2, y: bottomY }, // B vertex
+    }),
+    [centerX, topY, bottomY, triangleWidth]
+  )
 
   // Get unique groups
   const groups = React.useMemo(() => {
     return [...new Set(data.map((d) => d.group ?? "default"))]
   }, [data])
 
-  const getGroupColor = (group?: string) => {
-    const index = groups.indexOf(group ?? "default")
-    return colorScheme[index % colorScheme.length]
-  }
+  const getGroupColor = React.useCallback(
+    (group?: string) => {
+      if (color) return color
+      if (!colorByGroup) return DEFAULT_COLOR
+      const index = groups.indexOf(group ?? "default")
+      return colorScheme[index % colorScheme.length]
+    },
+    [color, colorByGroup, groups, colorScheme]
+  )
 
   // Convert ternary coordinates to Cartesian
-  const ternaryToCartesian = (a: number, b: number, c: number) => {
-    // Normalize if needed
-    const sum = a + b + c
-    const na = normalize ? a / sum : a
-    const nb = normalize ? b / sum : b
-    const nc = normalize ? c / sum : c
+  const ternaryToCartesian = React.useCallback(
+    (a: number, b: number, c: number) => {
+      // Normalize if needed
+      const sum = a + b + c
+      const na = normalize ? a / sum : a
+      const nb = normalize ? b / sum : b
+      const nc = normalize ? c / sum : c
 
-    // Ternary to Cartesian transformation
-    const x =
-      vertices.bottomLeft.x +
-      nb * (vertices.bottomRight.x - vertices.bottomLeft.x) +
-      nc * (vertices.top.x - vertices.bottomLeft.x)
-    const y =
-      vertices.bottomLeft.y + nc * (vertices.top.y - vertices.bottomLeft.y)
+      // Ternary to Cartesian transformation
+      const x =
+        vertices.bottomLeft.x +
+        nb * (vertices.bottomRight.x - vertices.bottomLeft.x) +
+        nc * (vertices.top.x - vertices.bottomLeft.x)
+      const y =
+        vertices.bottomLeft.y + nc * (vertices.top.y - vertices.bottomLeft.y)
 
-    return { x, y }
-  }
+      return { x, y }
+    },
+    [normalize, vertices]
+  )
 
   // Generate grid lines
   const gridLineData = React.useMemo(() => {
@@ -111,7 +153,7 @@ export function TernaryChart({
     }
 
     return lines
-  }, [gridLines, vertices])
+  }, [gridLines, ternaryToCartesian])
 
   // Generate tick labels
   const tickLabels = React.useMemo(() => {
@@ -150,10 +192,99 @@ export function TernaryChart({
     }
 
     return ticks
-  }, [gridLines, vertices])
+  }, [gridLines, ternaryToCartesian])
+
+  // Calculate convex hull for filled variant
+  const convexHullPath = React.useMemo(() => {
+    if (variant !== "filled" || data.length < 3) return null
+
+    const points = data.map((d) => ternaryToCartesian(d.a, d.b, d.c))
+
+    // Simple convex hull using gift wrapping algorithm
+    const hull: typeof points = []
+    let pointOnHull = points.reduce((lowest, p) =>
+      p.y > lowest.y ? p : lowest
+    )
+    let startPoint = pointOnHull
+    let endpoint: (typeof points)[0]
+
+    do {
+      hull.push(pointOnHull)
+      endpoint = points[0]
+
+      for (const point of points) {
+        if (
+          endpoint === pointOnHull ||
+          cross(pointOnHull, endpoint, point) < 0
+        ) {
+          endpoint = point
+        }
+      }
+
+      pointOnHull = endpoint
+    } while (endpoint !== startPoint && hull.length < points.length)
+
+    if (hull.length < 3) return null
+
+    return (
+      hull.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") +
+      " Z"
+    )
+  }, [variant, data, ternaryToCartesian])
+
+  // Cross product helper for convex hull
+  function cross(
+    o: { x: number; y: number },
+    a: { x: number; y: number },
+    b: { x: number; y: number }
+  ) {
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent, pointId: string) => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect()
+      setTooltipPos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      })
+    }
+    setHoveredPoint(pointId)
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div
+        className={cn(
+          "text-muted-foreground flex h-[450px] items-center justify-center",
+          className
+        )}
+      >
+        No data available
+      </div>
+    )
+  }
+
+  const showGridLines = showGrid && variant !== "minimal"
+  const effectiveColor = color ?? DEFAULT_COLOR
 
   return (
-    <div className={cn("w-full", className)}>
+    <div ref={containerRef} className={cn("relative w-full", className)}>
+      {/* Legend - only show when colorByGroup is enabled */}
+      {colorByGroup && !color && groups.length > 1 && (
+        <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {groups.map((group) => (
+            <div key={group} className="flex items-center gap-2">
+              <div
+                className="h-3 w-3 rounded-full"
+                style={{ backgroundColor: getGroupColor(group) }}
+              />
+              <span className="text-muted-foreground text-sm">{group}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="h-auto w-full overflow-visible"
@@ -161,14 +292,12 @@ export function TernaryChart({
         {/* Triangle outline */}
         <polygon
           points={`${vertices.top.x},${vertices.top.y} ${vertices.bottomLeft.x},${vertices.bottomLeft.y} ${vertices.bottomRight.x},${vertices.bottomRight.y}`}
-          fill="hsl(var(--muted))"
-          fillOpacity={0.2}
-          stroke="hsl(var(--border))"
+          className="fill-muted/20 stroke-border"
           strokeWidth={1.5}
         />
 
         {/* Grid lines */}
-        {showGrid &&
+        {showGridLines &&
           gridLineData.map((line, i) => (
             <line
               key={`grid-${i}`}
@@ -176,11 +305,23 @@ export function TernaryChart({
               y1={line.y1}
               x2={line.x2}
               y2={line.y2}
-              stroke="hsl(var(--border))"
+              className="stroke-border"
               strokeWidth={0.5}
               strokeOpacity={0.5}
             />
           ))}
+
+        {/* Filled variant - convex hull */}
+        {variant === "filled" && convexHullPath && (
+          <path
+            d={convexHullPath}
+            fill={effectiveColor}
+            fillOpacity={0.15}
+            stroke={effectiveColor}
+            strokeWidth={1}
+            strokeOpacity={0.3}
+          />
+        )}
 
         {/* Axis labels */}
         {showLabels && (
@@ -213,15 +354,16 @@ export function TernaryChart({
         )}
 
         {/* Tick labels */}
-        {showGrid &&
+        {showGridLines &&
+          showTickValues &&
           tickLabels.map((tick, i) => (
             <text
               key={`tick-${i}`}
               x={tick.x}
               y={tick.y}
-              textAnchor={tick.anchor}
+              textAnchor={tick.anchor as "start" | "middle" | "end"}
               dominantBaseline="middle"
-              className="fill-muted-foreground text-[8px]"
+              className="fill-muted-foreground text-[10px]"
             >
               {tick.value}
             </text>
@@ -230,82 +372,57 @@ export function TernaryChart({
         {/* Data points */}
         {data.map((d) => {
           const pos = ternaryToCartesian(d.a, d.b, d.c)
-          const color = d.color ?? getGroupColor(d.group)
+          const pointColor = d.color ?? getGroupColor(d.group)
           const isHovered = hoveredPoint === d.id
           const radius = d.size ?? pointRadius
 
           return (
-            <g key={d.id}>
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={isHovered ? radius * 1.5 : radius}
-                fill={color}
-                fillOpacity={hoveredPoint ? (isHovered ? 1 : 0.3) : 0.8}
-                stroke="#fff"
-                strokeWidth={1.5}
-                className="cursor-pointer transition-all duration-150"
-                onMouseEnter={() => setHoveredPoint(d.id)}
-                onMouseLeave={() => setHoveredPoint(null)}
-              />
-              {isHovered && d.label && (
-                <text
-                  x={pos.x}
-                  y={pos.y - radius - 8}
-                  textAnchor="middle"
-                  className="fill-foreground text-[10px] font-medium"
-                >
-                  {d.label}
-                </text>
-              )}
-            </g>
+            <circle
+              key={d.id}
+              cx={pos.x}
+              cy={pos.y}
+              r={isHovered ? radius * 1.3 : radius}
+              fill={pointColor}
+              fillOpacity={hoveredPoint ? (isHovered ? 1 : 0.3) : 0.85}
+              stroke="#fff"
+              strokeWidth={1.5}
+              className="cursor-pointer transition-all duration-150"
+              onMouseMove={(e) => handleMouseMove(e, d.id)}
+              onMouseLeave={() => setHoveredPoint(null)}
+            />
           )
         })}
       </svg>
 
-      {/* Legend */}
-      {groups.length > 1 && (
-        <div className="mt-3 flex flex-wrap justify-center gap-4">
-          {groups.map((group) => (
-            <div key={group} className="flex items-center gap-1.5 text-sm">
-              <div
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: getGroupColor(group) }}
-              />
-              <span className="text-muted-foreground">{group}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Tooltip */}
       {hoveredPoint && (
-        <div className="mt-2 text-center">
-          <div className="border-border/50 bg-background mx-auto inline-block rounded-lg border px-3 py-2 text-sm shadow-lg">
-            <div className="font-medium">
-              {data.find((d) => d.id === hoveredPoint)?.label ?? hoveredPoint}
-            </div>
-            <div className="text-muted-foreground text-xs">
-              {(() => {
-                const point = data.find((d) => d.id === hoveredPoint)
-                if (!point) return null
-                const sum = point.a + point.b + point.c
-                return (
-                  <>
-                    <div>
-                      {labels[0]}: {((point.a / sum) * 100).toFixed(1)}%
-                    </div>
-                    <div>
-                      {labels[1]}: {((point.b / sum) * 100).toFixed(1)}%
-                    </div>
-                    <div>
-                      {labels[2]}: {((point.c / sum) * 100).toFixed(1)}%
-                    </div>
-                  </>
-                )
-              })()}
-            </div>
-          </div>
+        <div
+          className="bg-foreground text-background pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full rounded-lg px-3 py-2 text-xs shadow-lg"
+          style={{ left: tooltipPos.x, top: tooltipPos.y - 10 }}
+        >
+          {(() => {
+            const point = data.find((d) => d.id === hoveredPoint)
+            if (!point) return null
+            const sum = point.a + point.b + point.c
+            return (
+              <>
+                <div className="mb-1 font-semibold">
+                  {point.label ?? hoveredPoint}
+                </div>
+                <div className="space-y-0.5 opacity-90">
+                  <div>
+                    {labels[0]}: {((point.a / sum) * 100).toFixed(1)}%
+                  </div>
+                  <div>
+                    {labels[1]}: {((point.b / sum) * 100).toFixed(1)}%
+                  </div>
+                  <div>
+                    {labels[2]}: {((point.c / sum) * 100).toFixed(1)}%
+                  </div>
+                </div>
+              </>
+            )
+          })()}
         </div>
       )}
     </div>

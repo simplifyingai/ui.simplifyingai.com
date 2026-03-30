@@ -13,16 +13,14 @@ const alloyData = [
 
 export default function TernaryChartComposition() {
   return (
-    <div className="mx-auto w-full max-w-lg">
-      <TernaryChart
-        data={alloyData}
-        labels={["Iron", "Copper", "Zinc"]}
-        showGrid
-        showLabels
-        gridLines={4}
-        pointRadius={8}
-        colorScheme={["#3b82f6", "#f59e0b", "#8b5cf6"]}
-      />
-    </div>
+    <TernaryChart
+      data={alloyData}
+      labels={["Iron", "Copper", "Zinc"]}
+      colorByGroup
+      showGrid
+      showLabels
+      gridLines={4}
+      pointRadius={8}
+    />
   )
 }
