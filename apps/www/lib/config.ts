@@ -3,7 +3,7 @@ export const siteConfig = {
   url: "https://ui.simplifyingai.com",
   ogImage: "https://ui.simplifyingai.com/og.jpg",
   description:
-    "800+ beautiful chart components for React. Copy. Paste. Ship. The most comprehensive data visualization library with the simplicity of shadcn/ui.",
+    "39+ beautiful chart components for React. Copy. Paste. Ship. A comprehensive data visualization library with the simplicity of shadcn/ui.",
   links: {
     twitter: "https://twitter.com/simplaboratories",
     github: "https://github.com/simplifyingai/ui.simplifyingai.com",
