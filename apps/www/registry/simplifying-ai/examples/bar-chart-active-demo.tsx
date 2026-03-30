@@ -30,6 +30,7 @@ interface BarShapeProps {
   index?: number
   payload?: { fill: string }
   radius?: number | [number, number, number, number]
+  [key: string]: unknown
 }
 
 export default function BarChartActiveDemo() {
@@ -76,10 +77,11 @@ export default function BarChartActiveDemo() {
           <Bar
             dataKey="sales"
             radius={12}
-            shape={({ index, fill, ...props }: BarShapeProps) =>
-              index === ACTIVE_INDEX ? (
+            shape={(props: unknown) => {
+              const { index, fill, ...rest } = props as BarShapeProps
+              return index === ACTIVE_INDEX ? (
                 <Rectangle
-                  {...props}
+                  {...rest}
                   fill={fill}
                   fillOpacity={0.6}
                   stroke={fill}
@@ -87,9 +89,9 @@ export default function BarChartActiveDemo() {
                   strokeDasharray="4 4"
                 />
               ) : (
-                <Rectangle {...props} fill={fill} />
+                <Rectangle {...rest} fill={fill} />
               )
-            }
+            }}
           />
         </BarChart>
       </ResponsiveContainer>
