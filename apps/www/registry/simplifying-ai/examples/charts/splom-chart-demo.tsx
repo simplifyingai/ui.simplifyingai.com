@@ -84,15 +84,11 @@ const dimensions = ["sepalL", "sepalW", "petalL", "petalW"]
 
 export default function SplomChartDemo() {
   return (
-    <div className="mx-auto w-full max-w-2xl">
-      <SplomChart
-        data={irisData}
-        dimensions={dimensions}
-        cellSize={100}
-        showLabels
-        showHistograms
-        colorScheme={["#2563eb", "#dc2626", "#059669"]}
-      />
-    </div>
+    <SplomChart
+      data={irisData}
+      dimensions={dimensions}
+      showLabels
+      showHistograms
+    />
   )
 }
