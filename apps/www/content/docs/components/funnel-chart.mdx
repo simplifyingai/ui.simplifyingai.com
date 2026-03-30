@@ -5,13 +5,17 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="funnel-chart-demo" description="A multi-series funnel chart displaying flowing streams through different stages with value pills and stage markers." />
+<ComponentPreview
+  name="funnel-chart-demo"
+  description="A multi-series funnel chart displaying flowing streams through different stages with value pills and stage markers."
+/>
 
 ## About
 
 The Funnel Chart displays multiple data series flowing through stages, with organic stream-like shapes that expand and contract based on values. Perfect for visualizing multi-channel conversion funnels, user flows, and pipeline analysis.
 
 Features:
+
 - **Flowing streams** - Organic bezier curves create smooth river-like flows
 - **Multiple series** - Stack multiple data series with color gradients
 - **Stage markers** - White vertical lines mark each stage
@@ -42,7 +46,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/funnel-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="funnel-chart" title="components/ui/charts/funnel-chart.tsx" />
+<ComponentSource
+  name="funnel-chart"
+  title="components/ui/charts/funnel-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -100,27 +107,27 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `stages` | `string[]` | required | Array of stage labels |
-| `series` | `FunnelSeries[]` | required | Array of data series |
-| `colorScheme` | `"orange" \| "blue" \| "purple" \| "green" \| "pink" \| "custom"` | `"orange"` | Color scheme |
-| `showStageMarkers` | `boolean` | `true` | Show vertical stage marker lines |
-| `showValuePills` | `boolean` | `true` | Show value badges at stages |
-| `pillPosition` | `"top" \| "bottom" \| "both" \| "center"` | `"both"` | Position of value pills |
-| `animate` | `boolean` | `true` | Animate on mount |
-| `animationDuration` | `number` | `1000` | Animation duration in ms |
-| `minFlowHeight` | `number` | `8` | Minimum height for flow streams |
-| `valueFormatter` | `function` | - | Custom value formatter |
-| `onSeriesClick` | `function` | - | Click handler for series |
+| Prop                | Type                                                              | Default    | Description                      |
+| ------------------- | ----------------------------------------------------------------- | ---------- | -------------------------------- |
+| `stages`            | `string[]`                                                        | required   | Array of stage labels            |
+| `series`            | `FunnelSeries[]`                                                  | required   | Array of data series             |
+| `colorScheme`       | `"orange" \| "blue" \| "purple" \| "green" \| "pink" \| "custom"` | `"orange"` | Color scheme                     |
+| `showStageMarkers`  | `boolean`                                                         | `true`     | Show vertical stage marker lines |
+| `showValuePills`    | `boolean`                                                         | `true`     | Show value badges at stages      |
+| `pillPosition`      | `"top" \| "bottom" \| "both" \| "center"`                         | `"both"`   | Position of value pills          |
+| `animate`           | `boolean`                                                         | `true`     | Animate on mount                 |
+| `animationDuration` | `number`                                                          | `1000`     | Animation duration in ms         |
+| `minFlowHeight`     | `number`                                                          | `8`        | Minimum height for flow streams  |
+| `valueFormatter`    | `function`                                                        | -          | Custom value formatter           |
+| `onSeriesClick`     | `function`                                                        | -          | Click handler for series         |
 
 ## Data Format
 
 ```tsx showLineNumbers
 interface FunnelSeries {
-  name: string      // Series name (shown in tooltip)
-  values: number[]  // Value at each stage (must match stages length)
-  color?: string    // Optional custom color (for "custom" colorScheme)
+  name: string // Series name (shown in tooltip)
+  values: number[] // Value at each stage (must match stages length)
+  color?: string // Optional custom color (for "custom" colorScheme)
 }
 ```
 
@@ -145,11 +152,7 @@ const series = [
 ### Center Pills Only
 
 ```tsx showLineNumbers
-<FunnelChart
-  stages={stages}
-  series={series}
-  pillPosition="center"
-/>
+<FunnelChart stages={stages} series={series} pillPosition="center" />
 ```
 
 ### Custom Value Formatter
@@ -177,11 +180,7 @@ const series = [
 ### Without Stage Markers
 
 ```tsx showLineNumbers
-<FunnelChart
-  stages={stages}
-  series={series}
-  showStageMarkers={false}
-/>
+<FunnelChart stages={stages} series={series} showStageMarkers={false} />
 ```
 
 ## Notes

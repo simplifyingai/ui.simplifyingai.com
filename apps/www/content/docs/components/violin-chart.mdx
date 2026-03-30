@@ -1,15 +1,18 @@
 ---
 title: Violin Chart
-description: Violin plots showing probability density of data.
+description: Violin plots showing probability density of data with kernel density estimation.
 featured: true
 component: true
 ---
 
-<ComponentPreview name="violin-chart-demo" description="A violin chart showing data distribution with kernel density estimation" />
+<ComponentPreview
+  name="violin-chart-demo"
+  description="A violin chart showing data distribution with kernel density estimation"
+/>
 
 ## About
 
-The Violin Chart combines box plots with kernel density estimation to show data distribution.
+Violin Charts combine box plots with kernel density estimation (KDE) to show the full distribution shape of data. The width of the violin at each value represents the probability density. Perfect for comparing distributions across multiple categories.
 
 ## Installation
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/violin-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="violin-chart" title="components/ui/charts/violin-chart.tsx" />
+<ComponentSource
+  name="violin-chart"
+  title="components/ui/charts/violin-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -49,8 +55,8 @@ npx shadcn@latest add https://ui.simplifying.ai/r/violin-chart.json
 import { ViolinChart } from "@/components/ui/charts"
 
 const data = [
-  { label: "Dataset A", values: [12, 15, 18, 22, 25, 28, 30, 32, 35] },
-  { label: "Dataset B", values: [8, 12, 15, 20, 25, 30, 35, 40, 45] },
+  { category: "Group A", values: [12, 15, 18, 22, 25, 28, 30, 32, 35] },
+  { category: "Group B", values: [8, 12, 15, 20, 25, 30, 35, 40, 45] },
 ]
 
 export function Example() {
@@ -58,16 +64,13 @@ export function Example() {
 }
 ```
 
-## API Reference
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | ViolinChartData[] | required | Data with labels and values |
-| showBoxPlot | boolean | true | Overlay box plot |
-| showMedian | boolean | true | Show median point |
-| bandwidth | number | auto | KDE bandwidth |
-
 ## Examples
+
+### Default (Standard)
+
+Standard violin chart with box plot overlay and median markers.
+
+<ComponentPreview name="violin-chart-demo" />
 
 ### Comparison
 
@@ -75,11 +78,11 @@ Before and after treatment comparison.
 
 <ComponentPreview name="violin-chart-comparison-demo" />
 
-### Horizontal
+### Box Plot Only
 
-API response time distribution with horizontal orientation.
+Shows only the box plot without the violin shape.
 
-<ComponentPreview name="violin-chart-horizontal-demo" />
+<ComponentPreview name="violin-chart-boxplot-demo" />
 
 ### Grouped
 
@@ -87,18 +90,59 @@ Test scores across multiple subjects.
 
 <ComponentPreview name="violin-chart-grouped-demo" />
 
+### Custom Color
+
+API response times with custom color.
+
+<ComponentPreview name="violin-chart-horizontal-demo" />
+
 ### Minimal
 
 Simple distribution without box plot overlay.
 
 <ComponentPreview name="violin-chart-minimal-demo" />
 
-## Notes
+## API Reference
 
-- Violin charts combine box plots with kernel density estimation (KDE) to show the full distribution shape
-- The width of the violin at each value represents the probability density at that point
-- Ideal for comparing distributions across multiple categories or groups
-- The `showBoxPlot` option overlays a traditional box plot showing quartiles and outliers
-- The `showMedian` option highlights the median value with a distinct marker
-- The `bandwidth` parameter controls the smoothness of the KDE curve - lower values show more detail but may be noisier
-- Violin charts are particularly useful in scientific and statistical analysis where understanding the full distribution is important
+| Prop           | Type                                 | Default    | Description                     |
+| -------------- | ------------------------------------ | ---------- | ------------------------------- |
+| data           | ViolinDataPoint[]                    | required   | Violin data                     |
+| variant        | "standard" \| "boxplot" \| "minimal" | "standard" | Visual style                    |
+| showBoxPlot    | boolean                              | true       | Show box plot overlay           |
+| showMedian     | boolean                              | true       | Show median marker              |
+| showGrid       | boolean                              | true       | Show grid lines                 |
+| bandwidth      | number                               | auto       | KDE bandwidth (auto-calculated) |
+| resolution     | number                               | 50         | KDE resolution (smoothness)     |
+| color          | string                               | "#3b82f6"  | Color for all violins           |
+| valueFormatter | function                             | toFixed(0) | Format display values           |
+
+## Data Format
+
+```tsx
+interface ViolinDataPoint {
+  category: string // Category label
+  values: number[] // Array of numeric values
+}
+```
+
+## Variants
+
+### Standard
+
+Full mirrored violin with optional box plot and median. Best for showing complete distribution shapes.
+
+### Box Plot
+
+Shows only the box plot without the violin density shape. Classic statistical visualization.
+
+### Minimal
+
+Simplified view focusing on the violin shape without overlays.
+
+## Features
+
+- **Kernel Density Estimation**: Automatic bandwidth calculation using Silverman's rule
+- **Box plot overlay**: Shows quartiles (Q1, median, Q3) and whiskers (min/max)
+- **Interactive tooltips**: Hover to see detailed statistics
+- **Single consistent color**: Clean, professional appearance
+- **Dark mode support**: Proper styling for both themes

@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="parallel-coordinates-demo" description="Multi-dimensional data visualization using parallel axes" />
+<ComponentPreview
+  name="parallel-coordinates-demo"
+  description="Multi-dimensional data visualization using parallel axes"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/parallel-coordinates.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="parallel-coordinates" title="components/ui/charts/parallel-coordinates.tsx" />
+<ComponentSource
+  name="parallel-coordinates"
+  title="components/ui/charts/parallel-coordinates.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -60,30 +66,66 @@ export function Example() {
 }
 ```
 
-## Variants
+## Examples
 
-### Iris Dataset Style
+### Default (Standard)
 
-Classic multi-class classification visualization.
+Standard parallel coordinates with straight lines.
 
-<ComponentPreview name="parallel-coordinates-iris" />
+<ComponentPreview name="parallel-coordinates-demo" />
+
+### Curved Lines
+
+Smooth curved lines for a softer visual appearance.
+
+<ComponentPreview name="parallel-coordinates-curved" />
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | ParallelCoordinatesDataPoint[] | required | Array of data points |
-| dimensions | string[] | required | Dimension names to display |
-| showLabels | boolean | true | Show dimension labels |
-| showValues | boolean | true | Show tick values |
-| lineOpacity | number | 0.5 | Line opacity (0-1) |
-| colorScheme | string[] | blue palette | Colors for groups |
+| Prop           | Type                           | Default      | Description                |
+| -------------- | ------------------------------ | ------------ | -------------------------- |
+| data           | ParallelCoordinatesDataPoint[] | required     | Array of data points       |
+| dimensions     | string[]                       | required     | Dimension names to display |
+| variant        | "standard" \| "curved"         | "standard"   | Line style                 |
+| showLabels     | boolean                        | true         | Show dimension labels      |
+| showValues     | boolean                        | true         | Show tick values           |
+| lineOpacity    | number                         | 0.5          | Line opacity (0-1)         |
+| color          | string                         | -            | Single color for all lines |
+| colorScheme    | string[]                       | blue palette | Colors for groups          |
+| valueFormatter | function                       | toFixed(0)   | Format tick values         |
+
+## Data Format
+
+```tsx
+interface ParallelCoordinatesDataPoint {
+  id: string // Unique identifier
+  values: Record<string, number> // Dimension values
+  group?: string // Optional group for coloring
+}
+```
+
+## Variants
+
+### Standard
+
+Straight lines connecting values across axes. Default and most common style.
+
+### Curved
+
+Smooth curved lines using monotone interpolation. Provides a softer visual appearance.
+
+## Features
+
+- **Hover interactions**: Lines highlight on hover with tooltip showing all values
+- **Group coloring**: Automatic color assignment based on data groups
+- **Single color mode**: Use `color` prop for a consistent appearance
+- **Interactive tooltips**: See all dimension values on hover
+- **Dark mode support**: Proper styling for both themes
 
 ## Notes
 
 - Parallel coordinates are excellent for visualizing multivariate data with 3 or more dimensions
-- Each vertical axis represents a different dimension, and each polyline represents a single data point
+- Each vertical axis represents a different dimension
 - Lines that intersect frequently may indicate correlations between dimensions
 - Adjust lineOpacity to better see overlapping patterns in dense datasets
 - Groups are color-coded to help identify clusters and patterns
-- This visualization is particularly useful for comparing multiple variables across different categories or identifying outliers in high-dimensional data

@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="bar-chart-demo" description="A flexible bar chart with support for vertical, horizontal, stacked, and grouped layouts." />
+<ComponentPreview
+  name="bar-chart-demo"
+  description="A flexible bar chart with support for vertical, horizontal, stacked, and grouped layouts."
+/>
 
 ## About
 
@@ -183,61 +186,61 @@ const ACTIVE_INDEX = 2
 
 ### BarChart
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `BarChartDataPoint[]` | required | Array of data points to display |
-| `color` | `string` | `"#2563eb"` | Fill color for bars |
-| `className` | `string` | - | Additional CSS classes |
-| `showGrid` | `boolean` | `true` | Show horizontal grid lines |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
-| `showLabel` | `boolean` | `false` | Show value labels on bars |
-| `labelPosition` | `"top" \| "center" \| "bottom" \| "inside"` | `"top"` | Position of value labels |
-| `valueFormatter` | `(value: number) => string` | - | Format displayed values |
-| `labelFormatter` | `(label: string) => string` | - | Format category labels |
-| `layout` | `"vertical" \| "horizontal"` | `"horizontal"` | Bar orientation (`vertical` = horizontal bars) |
-| `barRadius` | `number` | `4` | Corner radius of bars |
-| `aspectRatio` | `number` | `2` | Width to height ratio |
-| `yAxisWidth` | `number` | `48` | Width reserved for Y-axis labels |
+| Prop             | Type                                        | Default        | Description                                    |
+| ---------------- | ------------------------------------------- | -------------- | ---------------------------------------------- |
+| `data`           | `BarChartDataPoint[]`                       | required       | Array of data points to display                |
+| `color`          | `string`                                    | `"#2563eb"`    | Fill color for bars                            |
+| `className`      | `string`                                    | -              | Additional CSS classes                         |
+| `showGrid`       | `boolean`                                   | `true`         | Show horizontal grid lines                     |
+| `showTooltip`    | `boolean`                                   | `true`         | Enable tooltip on hover                        |
+| `showLabel`      | `boolean`                                   | `false`        | Show value labels on bars                      |
+| `labelPosition`  | `"top" \| "center" \| "bottom" \| "inside"` | `"top"`        | Position of value labels                       |
+| `valueFormatter` | `(value: number) => string`                 | -              | Format displayed values                        |
+| `labelFormatter` | `(label: string) => string`                 | -              | Format category labels                         |
+| `layout`         | `"vertical" \| "horizontal"`                | `"horizontal"` | Bar orientation (`vertical` = horizontal bars) |
+| `barRadius`      | `number`                                    | `4`            | Corner radius of bars                          |
+| `aspectRatio`    | `number`                                    | `2`            | Width to height ratio                          |
+| `yAxisWidth`     | `number`                                    | `48`           | Width reserved for Y-axis labels               |
 
 ### MultiBarChart
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `MultiBarChartDataPoint[]` | required | Array of data points |
-| `series` | `MultiBarChartSeries[]` | required | Configuration for each data series |
-| `className` | `string` | - | Additional CSS classes |
-| `showGrid` | `boolean` | `true` | Show horizontal grid lines |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
-| `showLegend` | `boolean` | `true` | Show legend below chart |
-| `valueFormatter` | `(value: number) => string` | - | Format displayed values |
-| `labelFormatter` | `(label: string) => string` | - | Format category labels |
-| `layout` | `"vertical" \| "horizontal"` | `"horizontal"` | Bar orientation |
-| `barRadius` | `number` | `4` | Corner radius of bars |
-| `aspectRatio` | `number` | `2` | Width to height ratio |
-| `yAxisWidth` | `number` | `48` | Width reserved for Y-axis labels |
+| Prop             | Type                         | Default        | Description                        |
+| ---------------- | ---------------------------- | -------------- | ---------------------------------- |
+| `data`           | `MultiBarChartDataPoint[]`   | required       | Array of data points               |
+| `series`         | `MultiBarChartSeries[]`      | required       | Configuration for each data series |
+| `className`      | `string`                     | -              | Additional CSS classes             |
+| `showGrid`       | `boolean`                    | `true`         | Show horizontal grid lines         |
+| `showTooltip`    | `boolean`                    | `true`         | Enable tooltip on hover            |
+| `showLegend`     | `boolean`                    | `true`         | Show legend below chart            |
+| `valueFormatter` | `(value: number) => string`  | -              | Format displayed values            |
+| `labelFormatter` | `(label: string) => string`  | -              | Format category labels             |
+| `layout`         | `"vertical" \| "horizontal"` | `"horizontal"` | Bar orientation                    |
+| `barRadius`      | `number`                     | `4`            | Corner radius of bars              |
+| `aspectRatio`    | `number`                     | `2`            | Width to height ratio              |
+| `yAxisWidth`     | `number`                     | `48`           | Width reserved for Y-axis labels   |
 
 ## Data Types
 
 ```tsx
 // Single series data point
 interface BarChartDataPoint {
-  label: string      // Category name (e.g., "January")
-  value: number      // Numeric value
-  fill?: string      // Optional: override color for this bar
+  label: string // Category name (e.g., "January")
+  value: number // Numeric value
+  fill?: string // Optional: override color for this bar
 }
 
 // Multiple series data point
 interface MultiBarChartDataPoint {
-  label: string                    // Category name
-  [key: string]: string | number   // Dynamic keys for each series
+  label: string // Category name
+  [key: string]: string | number // Dynamic keys for each series
 }
 
 // Series configuration
 interface MultiBarChartSeries {
-  name: string       // Display name in tooltip/legend
-  dataKey: string    // Key in data object
-  color: string      // Bar fill color
-  stackId?: string   // Optional: group into stack
+  name: string // Display name in tooltip/legend
+  dataKey: string // Key in data object
+  color: string // Bar fill color
+  stackId?: string // Optional: group into stack
 }
 ```
 
@@ -262,14 +265,12 @@ const data = [
 For advanced tooltip customization, use the Recharts components directly:
 
 ```tsx showLineNumbers
-import { BarChart, Bar, Tooltip } from "recharts"
+import { Bar, BarChart, Tooltip } from "recharts"
 
-<BarChart data={data}>
+;<BarChart data={data}>
   <Tooltip
     content={({ active, payload }) => (
-      <div className="custom-tooltip">
-        {/* Your custom content */}
-      </div>
+      <div className="custom-tooltip">{/* Your custom content */}</div>
     )}
   />
   <Bar dataKey="value" />

@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="candlestick-chart-demo" description="A financial candlestick chart for visualizing OHLC price data with bullish and bearish indicators." />
+<ComponentPreview
+  name="candlestick-chart-demo"
+  description="A financial candlestick chart for visualizing OHLC price data with bullish and bearish indicators."
+/>
 
 ## About
 
@@ -39,7 +42,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/candlestick-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="candlestick-chart" title="components/ui/charts/candlestick-chart.tsx" />
+<ComponentSource
+  name="candlestick-chart"
+  title="components/ui/charts/candlestick-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -90,6 +96,7 @@ For large datasets with 100+ data points, use a scrollable layout where the y-ax
 <ComponentPreview name="candlestick-chart-scrollable-demo" />
 
 This variant uses a custom implementation with:
+
 - Fixed y-axis on the left
 - Horizontally scrollable chart area
 - Auto-scrolls to show latest data on load
@@ -97,28 +104,28 @@ This variant uses a custom implementation with:
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `CandlestickDataPoint[]` | required | Array of OHLC data points |
-| `upColor` | `string` | `"#22c55e"` | Color for bullish (up) candles |
-| `downColor` | `string` | `"#ef4444"` | Color for bearish (down) candles |
-| `className` | `string` | - | Additional CSS classes |
-| `showGrid` | `boolean` | `true` | Show dashed grid lines |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
-| `hollowCandles` | `boolean` | `false` | Use hollow style for bullish candles |
-| `aspectRatio` | `number` | `2.5` | Width to height ratio |
-| `valueFormatter` | `(value: number) => string` | `$X` | Format price values |
-| `dateFormatter` | `(date: Date) => string` | `MMM` | Format date labels |
+| Prop             | Type                        | Default     | Description                          |
+| ---------------- | --------------------------- | ----------- | ------------------------------------ |
+| `data`           | `CandlestickDataPoint[]`    | required    | Array of OHLC data points            |
+| `upColor`        | `string`                    | `"#22c55e"` | Color for bullish (up) candles       |
+| `downColor`      | `string`                    | `"#ef4444"` | Color for bearish (down) candles     |
+| `className`      | `string`                    | -           | Additional CSS classes               |
+| `showGrid`       | `boolean`                   | `true`      | Show dashed grid lines               |
+| `showTooltip`    | `boolean`                   | `true`      | Enable tooltip on hover              |
+| `hollowCandles`  | `boolean`                   | `false`     | Use hollow style for bullish candles |
+| `aspectRatio`    | `number`                    | `2.5`       | Width to height ratio                |
+| `valueFormatter` | `(value: number) => string` | `$X`        | Format price values                  |
+| `dateFormatter`  | `(date: Date) => string`    | `MMM`       | Format date labels                   |
 
 ## Data Types
 
 ```tsx
 interface CandlestickDataPoint {
-  date: string | Date    // Trading date
-  open: number           // Opening price
-  high: number           // Highest price
-  low: number            // Lowest price
-  close: number          // Closing price
+  date: string | Date // Trading date
+  open: number // Opening price
+  high: number // Highest price
+  low: number // Lowest price
+  close: number // Closing price
 }
 ```
 
@@ -131,8 +138,8 @@ Use different colors for bullish and bearish candles:
 ```tsx showLineNumbers
 <CandlestickChart
   data={data}
-  upColor="#3b82f6"    // Blue for up
-  downColor="#f97316"  // Orange for down
+  upColor="#3b82f6" // Blue for up
+  downColor="#f97316" // Orange for down
 />
 ```
 
@@ -146,7 +153,7 @@ Customize how dates appear on the x-axis:
   dateFormatter={(date) =>
     date.toLocaleDateString("en-US", {
       month: "short",
-      day: "numeric"
+      day: "numeric",
     })
   }
 />

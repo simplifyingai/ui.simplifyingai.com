@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="ohlc-chart-demo" description="Open-High-Low-Close chart displaying financial data" />
+<ComponentPreview
+  name="ohlc-chart-demo"
+  description="Open-High-Low-Close chart displaying financial data"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/ohlc-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="ohlc-chart" title="components/ui/charts/ohlc-chart.tsx" />
+<ComponentSource
+  name="ohlc-chart"
+  title="components/ui/charts/ohlc-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -60,13 +66,13 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | OHLCDataPoint[] | required | Array of OHLC data points |
-| upColor | string | "#22c55e" | Color for bullish bars |
-| downColor | string | "#ef4444" | Color for bearish bars |
-| showGrid | boolean | true | Show grid lines |
-| showTooltip | boolean | true | Show tooltip on hover |
+| Prop        | Type            | Default   | Description               |
+| ----------- | --------------- | --------- | ------------------------- |
+| data        | OHLCDataPoint[] | required  | Array of OHLC data points |
+| upColor     | string          | "#22c55e" | Color for bullish bars    |
+| downColor   | string          | "#ef4444" | Color for bearish bars    |
+| showGrid    | boolean         | true      | Show grid lines           |
+| showTooltip | boolean         | true      | Show tooltip on hover     |
 
 ## Notes
 

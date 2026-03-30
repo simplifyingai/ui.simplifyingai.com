@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="ternary-chart-demo" description="A ternary chart displaying three-component mixture compositions" />
+<ComponentPreview
+  name="ternary-chart-demo"
+  description="A ternary chart displaying three-component mixture compositions"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/ternary-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="ternary-chart" title="components/ui/charts/ternary-chart.tsx" />
+<ComponentSource
+  name="ternary-chart"
+  title="components/ui/charts/ternary-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -49,40 +55,44 @@ npx shadcn@latest add https://ui.simplifying.ai/r/ternary-chart.json
 import { TernaryChart } from "@/components/ui/charts"
 
 const data = [
-  { id: "Sample 1", a: 40, b: 35, c: 25, label: "Sandy Loam", group: "Loam" },
-  { id: "Sample 2", a: 20, b: 55, c: 25, label: "Clay Loam", group: "Clay" },
+  { id: "Sample 1", a: 40, b: 35, c: 25, label: "Sandy Loam" },
+  { id: "Sample 2", a: 20, b: 55, c: 25, label: "Clay Loam" },
 ]
 
 export function Example() {
-  return (
-    <TernaryChart
-      data={data}
-      labels={["Sand", "Clay", "Silt"]}
-    />
-  )
+  return <TernaryChart data={data} labels={["Sand", "Clay", "Silt"]} />
 }
 ```
 
 ## Variants
 
-### Metal Alloy Composition
+### Filled Variant
 
-Visualize material compositions like alloys.
+Shows a convex hull area around data points.
+
+<ComponentPreview name="ternary-chart-filled" />
+
+### Color By Group
+
+Visualize material compositions with different colors per group.
 
 <ComponentPreview name="ternary-chart-composition" />
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | `TernaryDataPoint[]` | required | Array of a, b, c points |
-| labels | `[string, string, string]` | `["A", "B", "C"]` | Axis labels |
-| showGrid | `boolean` | `true` | Show grid lines |
-| showLabels | `boolean` | `true` | Show axis labels |
-| gridLines | `number` | `5` | Number of grid divisions |
-| pointRadius | `number` | `6` | Data point radius |
-| colorScheme | `string[]` | blue palette | Colors for groups |
-| normalize | `boolean` | `true` | Auto-normalize to sum=1 |
+| Prop         | Type                                  | Default           | Description                 |
+| ------------ | ------------------------------------- | ----------------- | --------------------------- |
+| data         | `TernaryDataPoint[]`                  | required          | Array of a, b, c points     |
+| variant      | `"standard" \| "minimal" \| "filled"` | `"standard"`      | Visual style variant        |
+| labels       | `[string, string, string]`            | `["A", "B", "C"]` | Axis labels                 |
+| showGrid     | `boolean`                             | `true`            | Show grid lines             |
+| showLabels   | `boolean`                             | `true`            | Show axis labels            |
+| gridLines    | `number`                              | `5`               | Number of grid divisions    |
+| pointRadius  | `number`                              | `6`               | Data point radius           |
+| color        | `string`                              | `"#3b82f6"`       | Single color for all points |
+| colorByGroup | `boolean`                             | `false`           | Enable coloring by group    |
+| colorScheme  | `string[]`                            | blue palette      | Colors for groups           |
+| normalize    | `boolean`                             | `true`            | Auto-normalize to sum=1     |
 
 ## Notes
 
@@ -91,4 +101,4 @@ Visualize material compositions like alloys.
 - The `normalize` prop automatically adjusts values to sum to 100%, making data preparation easier
 - Grid lines help users read precise values from the triangular coordinate system
 - Each vertex of the triangle represents 100% of one component, with values decreasing toward the opposite edge
-- The chart is ideal when you need to show the relationship between three interdependent variables
+- The `filled` variant shows a convex hull around data points, useful for visualizing cluster boundaries

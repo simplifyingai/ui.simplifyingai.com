@@ -1,15 +1,18 @@
 ---
 title: Range Chart
-description: Visualize value ranges, confidence intervals, and bands.
+description: Visualize value ranges, confidence intervals, and forecast bands.
 featured: true
 component: true
 ---
 
-<ComponentPreview name="range-chart-demo" description="Range charts display data ranges with low/high bounds and optional midpoint values." />
+<ComponentPreview
+  name="range-chart-demo"
+  description="Range charts display data ranges with low/high bounds and optional midpoint values."
+/>
 
 ## About
 
-Range Charts display data ranges using various visual styles including area bands, bar ranges, error bars, and floating bars. Perfect for showing temperature ranges, confidence intervals, stock price ranges, salary bands, or any data with low/high bounds.
+Range Charts display data ranges as filled area bands between low and high values with a solid line through the midpoint. Perfect for showing temperature ranges, confidence intervals, sales forecasts, or any data with upper and lower bounds. Supports multiple series with different colors and forecast data with dashed lines.
 
 ## Installation
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/range-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="range-chart" title="components/ui/charts/range-chart.tsx" />
+<ComponentSource
+  name="range-chart"
+  title="components/ui/charts/range-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -49,104 +55,116 @@ npx shadcn@latest add https://ui.simplifying.ai/r/range-chart.json
 import { RangeChart } from "@/components/ui/charts"
 
 const data = [
-  { category: "Jan", low: -5, high: 8, mid: 2 },
-  { category: "Feb", low: -3, high: 10, mid: 4 },
-  { category: "Mar", low: 2, high: 15, mid: 8 },
+  { category: "Jan", low: 5, high: 26, mid: 15 },
+  { category: "Feb", low: 8, high: 37, mid: 22 },
+  { category: "Mar", low: 12, high: 44, mid: 28 },
 ]
 
 export function Example() {
   return (
-    <RangeChart
-      data={data}
-      lowLabel="Min"
-      highLabel="Max"
-      midLabel="Avg"
-    />
+    <RangeChart data={data} lowLabel="Min" highLabel="Max" midLabel="Avg" />
   )
 }
 ```
 
 ## Examples
 
-### Default (Area Band)
+### Default (Smooth Area)
 
-Smooth filled area between low and high values with a dashed mid-line.
+Smooth filled area between low and high values with a solid mid-line.
 
 <ComponentPreview name="range-chart-demo" />
 
-### Bar Ranges
+### Linear Area
 
-Vertical bar representation of ranges, ideal for categorical comparisons.
+Linear interpolation for angular range visualization, ideal for regional comparisons.
 
 <ComponentPreview name="range-chart-bars" />
 
-### Error Bars
+### Multi-Series with Forecast
 
-Statistical error bars with caps, perfect for scientific data and confidence intervals.
+Multiple data series with forecast sections shown as dashed lines.
 
 <ComponentPreview name="range-chart-error-bars" />
 
-### Floating Bars
+### Salary Bands
 
-Solid floating bars without stroke, great for salary ranges and price bands.
+Visualize salary ranges across different job levels.
 
 <ComponentPreview name="range-chart-floating" />
 
-### Horizontal Orientation
+### Band Variant
 
-Horizontal layout for better label readability with many categories.
+Uniform fill opacity for cleaner stock price visualizations.
 
 <ComponentPreview name="range-chart-horizontal" />
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | RangeDataPoint[] | required | Array of data points |
-| variant | "area" \| "bars" \| "errorBars" \| "floating" | "area" | Visual style |
-| orientation | "vertical" \| "horizontal" | "vertical" | Chart orientation |
-| showMidLine | boolean | true | Show middle value line/marker |
-| showGrid | boolean | true | Show grid lines |
-| showValues | boolean | false | Show value labels |
-| fillColor | string | "#3b82f6" | Range fill color |
-| strokeColor | string | "#1d4ed8" | Border stroke color |
-| midLineColor | string | "#1e40af" | Mid-line color |
-| lowLabel | string | "Low" | Label for low values |
-| highLabel | string | "High" | Label for high values |
-| midLabel | string | "Average" | Label for mid values |
-| valueFormatter | function | toLocaleString | Format values |
+| Prop           | Type                 | Default        | Description                         |
+| -------------- | -------------------- | -------------- | ----------------------------------- |
+| data           | RangeDataPoint[]     | -              | Single series data points           |
+| series         | RangeSeries[]        | -              | Multiple series data                |
+| variant        | "area" \| "band"     | "area"         | Visual style                        |
+| curve          | "smooth" \| "linear" | "smooth"       | Curve interpolation                 |
+| showMidLine    | boolean              | true           | Show line through mid values        |
+| showGrid       | boolean              | true           | Show grid lines                     |
+| showMarkers    | boolean              | true           | Show data point markers             |
+| fillOpacity    | number               | 0.25           | Opacity of range fill (0-1)         |
+| color          | string               | "#3b82f6"      | Default color for single series     |
+| colors         | string[]             | [...]          | Array of colors for multiple series |
+| lowLabel       | string               | "Low"          | Label for low values in tooltip     |
+| highLabel      | string               | "High"         | Label for high values in tooltip    |
+| midLabel       | string               | "Value"        | Label for mid values in tooltip     |
+| valueFormatter | function             | toLocaleString | Format display values               |
 
 ## Data Format
 
+### Single Series
+
 ```tsx
 interface RangeDataPoint {
-  category: string  // X-axis category label
-  low: number       // Lower bound of range
-  high: number      // Upper bound of range
-  mid?: number      // Optional middle value (mean, median, etc.)
-  color?: string    // Optional custom color for this data point
+  category: string // X-axis category label
+  low: number // Lower bound of range
+  high: number // Upper bound of range
+  mid?: number // Optional middle value (mean, median, etc.)
+  forecast?: boolean // Mark as forecast data (dashed line)
 }
+```
+
+### Multiple Series
+
+```tsx
+interface RangeSeries {
+  name: string // Series name for legend
+  data: RangeDataPoint[] // Array of data points
+  color?: string // Optional series color
+}
+
+// Usage
+;<RangeChart
+  series={[
+    { name: "Team A", data: teamAData, color: "#22d3ee" },
+    { name: "Team B", data: teamBData, color: "#f87171" },
+  ]}
+/>
 ```
 
 ## Variants
 
-### Area
-Smooth band connecting all data points. Best for time series data where you want to show continuous ranges like temperature bands or confidence intervals.
+### Area (Default)
 
-### Bars
-Individual rectangular bars for each category. Ideal for comparing discrete ranges across categories like stock price ranges or salary bands.
+Filled area band between low and high values with gradient fill. Best for continuous data like time series ranges.
 
-### Error Bars
-Statistical visualization with thin lines and caps. Perfect for scientific data, showing mean values with confidence intervals or standard deviations.
+### Band
 
-### Floating
-Solid filled bars without borders. Great for cleaner visualizations of ranges like salary bands or price ranges where the focus is on the range itself.
+Similar to area but with uniform fill opacity. Good for simpler visualizations.
 
-## Notes
+## Features
 
-- All variants support both vertical and horizontal orientations
-- The `area` variant only works with vertical orientation (horizontal falls back to bars)
-- Hover over any data point to see detailed values in the tooltip
-- Legend automatically displays what the band and mid-line represent
-- Use custom labels (lowLabel, highLabel, midLabel) to match your data context
-- Each data point can have a custom color via the `color` property
+- **Multi-series support**: Display multiple range series with automatic color assignment
+- **Forecast mode**: Mark data points as forecasts to render them with dashed lines
+- **Smooth/Linear curves**: Choose between smooth monotone curves or sharp linear interpolation
+- **Interactive tooltips**: Hover over data points to see detailed values
+- **Responsive design**: Charts automatically scale to container width
+- **Dark mode support**: Proper styling for both light and dark themes

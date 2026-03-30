@@ -5,13 +5,17 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="choropleth-chart-demo" description="A world map with color-coded regions based on data values, supporting multiple projections and custom maps." />
+<ComponentPreview
+  name="choropleth-chart-demo"
+  description="A world map with color-coded regions based on data values, supporting multiple projections and custom maps."
+/>
 
 ## About
 
 The Choropleth Chart displays a world map with countries colored according to their data values. It automatically fetches and renders all countries, requiring only the data values to be provided.
 
 Features:
+
 - **Built-in world map** - No external GeoJSON required
 - **Multiple projections** - Natural Earth, Mercator, Equal Earth
 - **Interactive tooltips** - Hover to see country details
@@ -41,7 +45,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/choropleth-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="choropleth-chart" title="components/ui/charts/choropleth-chart.tsx" />
+<ComponentSource
+  name="choropleth-chart"
+  title="components/ui/charts/choropleth-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -58,10 +65,10 @@ import { ChoroplethChart } from "@/components/ui/charts"
 
 // Data uses ISO 3166-1 numeric country codes
 const data = [
-  { id: "840", value: 25.5 },  // United States
-  { id: "156", value: 17.9 },  // China
-  { id: "392", value: 4.2 },   // Japan
-  { id: "276", value: 4.1 },   // Germany
+  { id: "840", value: 25.5 }, // United States
+  { id: "156", value: 17.9 }, // China
+  { id: "392", value: 4.2 }, // Japan
+  { id: "276", value: 4.1 }, // Germany
 ]
 
 export function MyChart() {
@@ -77,27 +84,27 @@ export function MyChart() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `ChoroplethDataPoint[]` | required | Values by country ID |
-| `colorScale` | `string[]` | `["#dbeafe", "#3b82f6", "#1e40af"]` | Color gradient (2-3 colors) |
-| `projection` | `"naturalEarth" \| "mercator" \| "equalEarth" \| "albersUsa"` | `"naturalEarth"` | Map projection type |
-| `showTooltip` | `boolean` | `true` | Show tooltip on hover |
-| `showLegend` | `boolean` | `true` | Show color legend |
-| `legendTitle` | `string` | `"Value"` | Legend title text |
-| `aspectRatio` | `number` | `2` | Width to height ratio |
-| `valueFormatter` | `(value: number) => string` | `toLocaleString` | Format values |
-| `noDataColor` | `string` | `"hsl(var(--muted))"` | Color for countries without data |
-| `geoUrl` | `string` | world countries | Custom GeoJSON/TopoJSON URL |
-| `topojsonObject` | `string` | auto-detected | Object name in TopoJSON |
-| `idProperty` | `string` | - | Property name to use as feature ID |
-| `className` | `string` | - | Additional CSS classes |
+| Prop             | Type                                                          | Default                             | Description                        |
+| ---------------- | ------------------------------------------------------------- | ----------------------------------- | ---------------------------------- |
+| `data`           | `ChoroplethDataPoint[]`                                       | required                            | Values by country ID               |
+| `colorScale`     | `string[]`                                                    | `["#dbeafe", "#3b82f6", "#1e40af"]` | Color gradient (2-3 colors)        |
+| `projection`     | `"naturalEarth" \| "mercator" \| "equalEarth" \| "albersUsa"` | `"naturalEarth"`                    | Map projection type                |
+| `showTooltip`    | `boolean`                                                     | `true`                              | Show tooltip on hover              |
+| `showLegend`     | `boolean`                                                     | `true`                              | Show color legend                  |
+| `legendTitle`    | `string`                                                      | `"Value"`                           | Legend title text                  |
+| `aspectRatio`    | `number`                                                      | `2`                                 | Width to height ratio              |
+| `valueFormatter` | `(value: number) => string`                                   | `toLocaleString`                    | Format values                      |
+| `noDataColor`    | `string`                                                      | `"hsl(var(--muted))"`               | Color for countries without data   |
+| `geoUrl`         | `string`                                                      | world countries                     | Custom GeoJSON/TopoJSON URL        |
+| `topojsonObject` | `string`                                                      | auto-detected                       | Object name in TopoJSON            |
+| `idProperty`     | `string`                                                      | -                                   | Property name to use as feature ID |
+| `className`      | `string`                                                      | -                                   | Additional CSS classes             |
 
 ## Data Format
 
 ```tsx
 interface ChoroplethDataPoint {
-  id: string    // Region/country identifier
+  id: string // Region/country identifier
   value: number // The value to display
   label?: string // Optional label
 }
@@ -107,18 +114,18 @@ interface ChoroplethDataPoint {
 
 The world map uses ISO 3166-1 numeric country codes. Common examples:
 
-| Country | Code |
-|---------|------|
-| United States | 840 |
-| China | 156 |
-| Japan | 392 |
-| Germany | 276 |
-| United Kingdom | 826 |
-| France | 250 |
-| India | 356 |
-| Brazil | 076 |
-| Canada | 124 |
-| Australia | 036 |
+| Country        | Code |
+| -------------- | ---- |
+| United States  | 840  |
+| China          | 156  |
+| Japan          | 392  |
+| Germany        | 276  |
+| United Kingdom | 826  |
+| France         | 250  |
+| India          | 356  |
+| Brazil         | 076  |
+| Canada         | 124  |
+| Australia      | 036  |
 
 ## Country Variants
 
@@ -131,7 +138,6 @@ The choropleth chart supports country-specific maps using the `geoUrl` prop. Bel
 ### China Provinces
 
 <ComponentPreview name="choropleth-chart-china-demo" />
-
 
 ### UK Local Authorities
 
@@ -158,12 +164,15 @@ You can display any country's regional map by providing a GeoJSON or TopoJSON UR
 **Recommended sources (CORS-enabled):**
 
 1. **Datamaps** - Comprehensive world subdivisions (200+ countries)
+
    ```
    https://raw.githubusercontent.com/markmarkoh/datamaps/master/src/js/data/{iso3}.topo.json
    ```
+
    Replace `{iso3}` with ISO 3166-1 alpha-3 code (e.g., `ind` for India, `chn` for China)
 
 2. **US Atlas** (npm package) - USA states and counties
+
    ```
    https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json
    ```
@@ -176,6 +185,7 @@ You can display any country's regional map by providing a GeoJSON or TopoJSON UR
 ### Step 2: Inspect the Data Structure
 
 Use browser DevTools or a JSON viewer to find:
+
 - **Object name** (for TopoJSON): Look for `objects.{name}` (e.g., `objects.states`, `objects.ind`)
 - **ID property**: Check `features[0].properties` for the name field (e.g., `name`, `NAME`, `nom`)
 
@@ -199,8 +209,8 @@ const data = [
 <ChoroplethChart
   data={data}
   geoUrl="https://raw.githubusercontent.com/markmarkoh/datamaps/master/src/js/data/jpn.topo.json"
-  topojsonObject="JPN"  // Check your TopoJSON's object name
-  idProperty="name"     // Property containing region names
+  topojsonObject="JPN" // Check your TopoJSON's object name
+  idProperty="name" // Property containing region names
   legendTitle="Population (M)"
   valueFormatter={(v) => `${v.toFixed(1)}M`}
 />
@@ -210,21 +220,21 @@ const data = [
 
 Common country codes for Datamaps URLs:
 
-| Country | Code | URL |
-|---------|------|-----|
-| India | ind | `.../ind.topo.json` |
-| China | chn | `.../chn.topo.json` |
-| Japan | jpn | `.../jpn.topo.json` |
-| Russia | rus | `.../rus.topo.json` |
-| Germany | deu | `.../deu.topo.json` |
-| France | fra | `.../fra.topo.json` |
-| Brazil | bra | `.../bra.topo.json` |
-| Australia | aus | `.../aus.topo.json` |
-| Canada | can | `.../can.topo.json` |
-| Mexico | mex | `.../mex.topo.json` |
-| South Korea | kor | `.../kor.topo.json` |
-| Spain | esp | `.../esp.topo.json` |
-| Italy | ita | `.../ita.topo.json` |
+| Country     | Code | URL                 |
+| ----------- | ---- | ------------------- |
+| India       | ind  | `.../ind.topo.json` |
+| China       | chn  | `.../chn.topo.json` |
+| Japan       | jpn  | `.../jpn.topo.json` |
+| Russia      | rus  | `.../rus.topo.json` |
+| Germany     | deu  | `.../deu.topo.json` |
+| France      | fra  | `.../fra.topo.json` |
+| Brazil      | bra  | `.../bra.topo.json` |
+| Australia   | aus  | `.../aus.topo.json` |
+| Canada      | can  | `.../can.topo.json` |
+| Mexico      | mex  | `.../mex.topo.json` |
+| South Korea | kor  | `.../kor.topo.json` |
+| Spain       | esp  | `.../esp.topo.json` |
+| Italy       | ita  | `.../ita.topo.json` |
 
 Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
 
@@ -235,7 +245,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 ```tsx showLineNumbers
 <ChoroplethChart
   data={data}
-  colorScale={["#fef3c7", "#f59e0b", "#b45309"]}  // Yellow-orange
+  colorScale={["#fef3c7", "#f59e0b", "#b45309"]} // Yellow-orange
 />
 ```
 
@@ -244,7 +254,7 @@ Full list: [ISO 3166-1 alpha-3 codes](https://en.wikipedia.org/wiki/ISO_3166-1_a
 ```tsx showLineNumbers
 <ChoroplethChart
   data={data}
-  projection="mercator"  // or "equalEarth", "albersUsa" (for USA maps)
+  projection="mercator" // or "equalEarth", "albersUsa" (for USA maps)
 />
 ```
 

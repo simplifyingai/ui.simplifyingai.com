@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="parcats-chart-demo" description="Parallel categories showing flows through categorical dimensions" />
+<ComponentPreview
+  name="parcats-chart-demo"
+  description="Parallel categories showing flows through categorical dimensions"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/parcats-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="parcats-chart" title="components/ui/charts/parcats-chart.tsx" />
+<ComponentSource
+  name="parcats-chart"
+  title="components/ui/charts/parcats-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -50,7 +56,10 @@ import { ParcatsChart } from "@/components/ui/charts"
 
 const data = [
   { id: "1", categories: { Gender: "Male", Age: "18-24", Device: "Mobile" } },
-  { id: "2", categories: { Gender: "Female", Age: "25-34", Device: "Desktop" } },
+  {
+    id: "2",
+    categories: { Gender: "Female", Age: "25-34", Device: "Desktop" },
+  },
 ]
 
 const dimensions = ["Gender", "Age", "Device"]
@@ -60,30 +69,76 @@ export function Example() {
 }
 ```
 
-## Variants
+## Examples
 
-### User Journey Flow
+### Default (Standard)
 
-Track user paths through conversion funnels.
+Standard parallel categories with single color flow lines.
+
+<ComponentPreview name="parcats-chart-demo" />
+
+### Color By Category
+
+Flow lines colored by their first dimension category.
 
 <ComponentPreview name="parcats-chart-flow" />
 
+### Ribbon Variant
+
+Thicker ribbon-style lines with custom color.
+
+<ComponentPreview name="parcats-chart-ribbon" />
+
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | ParcatsDataPoint[] | required | Array of data points |
-| dimensions | string[] | required | Category dimension names |
-| bundleColors | boolean | true | Color by first dimension |
-| showCounts | boolean | true | Show category counts |
-| lineOpacity | number | 0.5 | Flow line opacity (0-1) |
-| colorScheme | string[] | blue palette | Colors for categories |
+| Prop            | Type                                | Default      | Description                |
+| --------------- | ----------------------------------- | ------------ | -------------------------- |
+| data            | ParcatsDataPoint[]                  | required     | Array of data points       |
+| dimensions      | string[]                            | required     | Category dimension names   |
+| variant         | "standard" \| "ribbon" \| "minimal" | "standard"   | Visual style               |
+| showCounts      | boolean                             | true         | Show category counts       |
+| lineOpacity     | number                              | 0.5          | Flow line opacity (0-1)    |
+| color           | string                              | "#3b82f6"    | Single color for all flows |
+| colorByCategory | boolean                             | false        | Color by first dimension   |
+| colorScheme     | string[]                            | blue palette | Colors for categories      |
+
+## Data Format
+
+```tsx
+interface ParcatsDataPoint {
+  id: string // Unique identifier
+  categories: Record<string, string> // Category values per dimension
+  value?: number // Optional weight/count
+}
+```
+
+## Variants
+
+### Standard
+
+Default flow lines connecting categories across dimensions. Clean and readable.
+
+### Ribbon
+
+Thicker ribbon-style lines for more visual impact. Good for emphasizing flows.
+
+### Minimal
+
+Clean view without category counts. Focus on the flow patterns.
+
+## Features
+
+- **Flow visualization**: See how data flows through categorical dimensions
+- **Category highlighting**: Hover over categories to highlight all related flows
+- **Interactive tooltips**: See full path on hover
+- **Color by category**: Optional coloring based on first dimension
+- **Single color mode**: Use `color` prop for consistent appearance
+- **Dark mode support**: Proper styling for both themes
 
 ## Notes
 
-- Parcats charts are ideal for visualizing how categorical data flows through different stages or dimensions
-- Each vertical column represents a categorical dimension, and ribbons show how categories relate across dimensions
-- The width of each ribbon is proportional to the number of items flowing through that path
-- When bundleColors is enabled, flows are colored based on their value in the first dimension
-- Use this chart type for user journey analysis, conversion funnels, survey responses, or any multi-stage categorical data
-- The visualization makes it easy to identify common paths and drop-off points in sequential categorical processes
+- Parcats charts are ideal for visualizing how categorical data flows through different stages
+- Each vertical column represents a categorical dimension
+- Ribbons show how categories relate across dimensions
+- When `colorByCategory` is enabled, flows are colored based on their value in the first dimension
+- Use this chart for user journey analysis, conversion funnels, survey responses, or any multi-stage categorical data

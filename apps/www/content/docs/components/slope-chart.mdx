@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="slope-chart-demo" description="Slope charts connect data points with lines to emphasize change over time." />
+<ComponentPreview
+  name="slope-chart-demo"
+  description="Slope charts connect data points with lines to emphasize change over time."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/slope-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="slope-chart" title="components/ui/charts/slope-chart.tsx" />
+<ComponentSource
+  name="slope-chart"
+  title="components/ui/charts/slope-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -55,12 +61,7 @@ const data = [
 ]
 
 export function Example() {
-  return (
-    <SlopeChart
-      data={data}
-      labels={["Q1 2024", "Q4 2024"]}
-    />
-  )
+  return <SlopeChart data={data} labels={["Q1 2024", "Q4 2024"]} />
 }
 ```
 
@@ -92,18 +93,18 @@ Straight lines connecting points, ideal for comparing absolute values.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | SlopeDataPoint[] \| MultiPeriodSlopeDataPoint[] | required | Array of data points |
-| variant | "lines" \| "bumps" \| "parallel" | "lines" | Visual style |
-| labels | string[] | ["Start", "End"] | Labels for each period |
-| showGrid | boolean | true | Show grid lines |
-| showValues | boolean | true | Show end values |
-| showRankChange | boolean | false | Show rank change (bumps variant) |
-| increaseColor | string | "#22c55e" | Color for increasing lines |
-| decreaseColor | string | "#ef4444" | Color for decreasing lines |
-| neutralColor | string | "#94a3b8" | Color for unchanged lines |
-| valueFormatter | function | toLocaleString | Format values |
+| Prop           | Type                                            | Default          | Description                      |
+| -------------- | ----------------------------------------------- | ---------------- | -------------------------------- |
+| data           | SlopeDataPoint[] \| MultiPeriodSlopeDataPoint[] | required         | Array of data points             |
+| variant        | "lines" \| "bumps" \| "parallel"                | "lines"          | Visual style                     |
+| labels         | string[]                                        | ["Start", "End"] | Labels for each period           |
+| showGrid       | boolean                                         | true             | Show grid lines                  |
+| showValues     | boolean                                         | true             | Show end values                  |
+| showRankChange | boolean                                         | false            | Show rank change (bumps variant) |
+| increaseColor  | string                                          | "#22c55e"        | Color for increasing lines       |
+| decreaseColor  | string                                          | "#ef4444"        | Color for decreasing lines       |
+| neutralColor   | string                                          | "#94a3b8"        | Color for unchanged lines        |
+| valueFormatter | function                                        | toLocaleString   | Format values                    |
 
 ## Data Formats
 
@@ -111,10 +112,10 @@ Straight lines connecting points, ideal for comparing absolute values.
 
 ```tsx
 interface SlopeDataPoint {
-  category: string  // Category or item name
-  start: number     // Starting value
-  end: number       // Ending value
-  color?: string    // Optional: override auto color
+  category: string // Category or item name
+  start: number // Starting value
+  end: number // Ending value
+  color?: string // Optional: override auto color
 }
 ```
 
@@ -122,21 +123,24 @@ interface SlopeDataPoint {
 
 ```tsx
 interface MultiPeriodSlopeDataPoint {
-  category: string  // Category or item name
-  values: number[]  // Values at each time period
-  color?: string    // Optional: override auto color
+  category: string // Category or item name
+  values: number[] // Values at each time period
+  color?: string // Optional: override auto color
 }
 ```
 
 ## Variants
 
 ### Lines (Default)
+
 Smooth curved connections between points. Best for showing trends where the direction of change matters more than exact positions.
 
 ### Bumps
+
 Shows ranking changes over time. Values are converted to ranks at each period, and lines show position changes. Perfect for competitive rankings, market share positions, or survey results.
 
 ### Parallel
+
 Straight line connections without curves. Ideal for comparing before/after scenarios or when precise value representation is important.
 
 ## Notes

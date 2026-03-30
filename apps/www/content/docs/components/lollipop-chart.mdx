@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="lollipop-chart-demo" description="A diverging lollipop chart showing positive and negative values with grouped coloring." />
+<ComponentPreview
+  name="lollipop-chart-demo"
+  description="A diverging lollipop chart showing positive and negative values with grouped coloring."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/lollipop-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="lollipop-chart" title="components/ui/charts/lollipop-chart.tsx" />
+<ComponentSource
+  name="lollipop-chart"
+  title="components/ui/charts/lollipop-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -69,25 +75,25 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | LollipopDataPoint[] | required | Array of data points |
-| orientation | "horizontal" \| "vertical" | "vertical" | Chart orientation |
-| dotSize | number | 12 | Radius of dots in pixels |
-| showGrid | boolean | true | Show grid lines |
-| showLegend | boolean | true | Show legend for grouped data |
-| color | string | "#2563eb" | Default dot color |
-| stemColor | string | "#e5e7eb" | Stem color |
-| yAxisLabel | string | - | Label for the y-axis |
+| Prop        | Type                       | Default    | Description                  |
+| ----------- | -------------------------- | ---------- | ---------------------------- |
+| data        | LollipopDataPoint[]        | required   | Array of data points         |
+| orientation | "horizontal" \| "vertical" | "vertical" | Chart orientation            |
+| dotSize     | number                     | 12         | Radius of dots in pixels     |
+| showGrid    | boolean                    | true       | Show grid lines              |
+| showLegend  | boolean                    | true       | Show legend for grouped data |
+| color       | string                     | "#2563eb"  | Default dot color            |
+| stemColor   | string                     | "#e5e7eb"  | Stem color                   |
+| yAxisLabel  | string                     | -          | Label for the y-axis         |
 
 ## Data Format
 
 ```tsx
 interface LollipopDataPoint {
-  category: string  // Label for the data point
-  value: number     // Can be positive or negative
-  color?: string    // Optional custom color
-  group?: string    // Optional group for legend
+  category: string // Label for the data point
+  value: number // Can be positive or negative
+  color?: string // Optional custom color
+  group?: string // Optional group for legend
 }
 ```
 

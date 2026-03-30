@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="box-plot-chart-demo" description="A box and whisker plot for visualizing statistical distributions with quartiles and outliers." />
+<ComponentPreview
+  name="box-plot-chart-demo"
+  description="A box and whisker plot for visualizing statistical distributions with quartiles and outliers."
+/>
 
 ## About
 
@@ -38,7 +41,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/box-plot-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="box-plot-chart" title="components/ui/charts/box-plot-chart.tsx" />
+<ComponentSource
+  name="box-plot-chart"
+  title="components/ui/charts/box-plot-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -111,37 +117,33 @@ The IQR method automatically detects and displays outliers as individual points.
 <ComponentPreview name="box-plot-chart-outliers-demo" />
 
 ```tsx showLineNumbers
-<BoxPlotChart
-  data={data}
-  showOutliers
-  whiskerType="iqr"
-/>
+<BoxPlotChart data={data} showOutliers whiskerType="iqr" />
 ```
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `BoxPlotDataPoint[]` | required | Array of data points with labels and values |
-| `color` | `string` | `"#2563eb"` | Default fill color for boxes |
-| `className` | `string` | - | Additional CSS classes |
-| `showGrid` | `boolean` | `true` | Show grid lines |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
-| `showOutliers` | `boolean` | `true` | Display outlier points |
-| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Box orientation |
-| `boxWidth` | `number` | `0.6` | Width of boxes relative to category spacing (0-1) |
-| `whiskerType` | `"minmax" \| "iqr"` | `"iqr"` | Whisker calculation method |
-| `aspectRatio` | `number` | `2` | Width to height ratio |
-| `valueFormatter` | `(value: number) => string` | - | Format displayed values |
+| Prop             | Type                         | Default      | Description                                       |
+| ---------------- | ---------------------------- | ------------ | ------------------------------------------------- |
+| `data`           | `BoxPlotDataPoint[]`         | required     | Array of data points with labels and values       |
+| `color`          | `string`                     | `"#2563eb"`  | Default fill color for boxes                      |
+| `className`      | `string`                     | -            | Additional CSS classes                            |
+| `showGrid`       | `boolean`                    | `true`       | Show grid lines                                   |
+| `showTooltip`    | `boolean`                    | `true`       | Enable tooltip on hover                           |
+| `showOutliers`   | `boolean`                    | `true`       | Display outlier points                            |
+| `orientation`    | `"vertical" \| "horizontal"` | `"vertical"` | Box orientation                                   |
+| `boxWidth`       | `number`                     | `0.6`        | Width of boxes relative to category spacing (0-1) |
+| `whiskerType`    | `"minmax" \| "iqr"`          | `"iqr"`      | Whisker calculation method                        |
+| `aspectRatio`    | `number`                     | `2`          | Width to height ratio                             |
+| `valueFormatter` | `(value: number) => string`  | -            | Format displayed values                           |
 
 ## Data Types
 
 ```tsx
 // Raw data with values array
 interface BoxPlotDataPoint {
-  label: string      // Category name
-  values: number[]   // Array of numeric values
-  color?: string     // Optional: custom color for this box
+  label: string // Category name
+  values: number[] // Array of numeric values
+  color?: string // Optional: custom color for this box
 }
 
 // Pre-computed statistics (alternative)

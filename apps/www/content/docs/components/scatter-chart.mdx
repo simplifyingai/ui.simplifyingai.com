@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="scatter-chart-demo" description="Scatter charts display the relationship between two numerical variables with support for multiple data series, various point symbols, and trend lines." />
+<ComponentPreview
+  name="scatter-chart-demo"
+  description="Scatter charts display the relationship between two numerical variables with support for multiple data series, various point symbols, and trend lines."
+/>
 
 ## About
 
@@ -39,7 +42,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/scatter-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="scatter-chart" title="components/ui/charts/scatter-chart.tsx" />
+<ComponentSource
+  name="scatter-chart"
+  title="components/ui/charts/scatter-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -143,34 +149,34 @@ Visualize correlations between variables with trend lines.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | ScatterChartSeries[] | required | Array of data series |
-| symbol | "circle" \| "square" \| "triangle" \| "diamond" \| "cross" | "circle" | Default point symbol |
-| size | number | 8 | Default point size |
-| showTrendLine | boolean | false | Show linear regression line |
-| sizeRange | [number, number] | [6, 20] | Size range for bubble charts |
-| xAxisLabel | string | - | Label for x-axis |
-| yAxisLabel | string | - | Label for y-axis |
-| showGrid | boolean | true | Show grid lines |
-| showLegend | boolean | true | Show legend |
-| showTooltip | boolean | true | Show tooltip on hover |
+| Prop          | Type                                                       | Default  | Description                  |
+| ------------- | ---------------------------------------------------------- | -------- | ---------------------------- |
+| data          | ScatterChartSeries[]                                       | required | Array of data series         |
+| symbol        | "circle" \| "square" \| "triangle" \| "diamond" \| "cross" | "circle" | Default point symbol         |
+| size          | number                                                     | 8        | Default point size           |
+| showTrendLine | boolean                                                    | false    | Show linear regression line  |
+| sizeRange     | [number, number]                                           | [6, 20]  | Size range for bubble charts |
+| xAxisLabel    | string                                                     | -        | Label for x-axis             |
+| yAxisLabel    | string                                                     | -        | Label for y-axis             |
+| showGrid      | boolean                                                    | true     | Show grid lines              |
+| showLegend    | boolean                                                    | true     | Show legend                  |
+| showTooltip   | boolean                                                    | true     | Show tooltip on hover        |
 
 ## Data Types
 
 ```tsx showLineNumbers
 interface ScatterChartDataPoint {
-  x: number         // X-axis value
-  y: number         // Y-axis value
-  size?: number     // Optional size for bubble charts
-  label?: string    // Optional label for the point
+  x: number // X-axis value
+  y: number // Y-axis value
+  size?: number // Optional size for bubble charts
+  label?: string // Optional label for the point
 }
 
 interface ScatterChartSeries {
-  name: string                    // Series name for legend/tooltip
-  data: ScatterChartDataPoint[]   // Array of data points
-  color?: string                  // Optional: override series color
-  symbol?: "circle" | "square" | "triangle" | "diamond" | "cross"  // Point symbol
+  name: string // Series name for legend/tooltip
+  data: ScatterChartDataPoint[] // Array of data points
+  color?: string // Optional: override series color
+  symbol?: "circle" | "square" | "triangle" | "diamond" | "cross" // Point symbol
 }
 ```
 

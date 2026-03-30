@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="radar-chart-demo" description="A radar chart displaying multivariate data on axes starting from the same point with support for multiple series comparison." />
+<ComponentPreview
+  name="radar-chart-demo"
+  description="A radar chart displaying multivariate data on axes starting from the same point with support for multiple series comparison."
+/>
 
 ## About
 
@@ -40,7 +43,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/radar-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="radar-chart" title="components/ui/charts/radar-chart.tsx" />
+<ComponentSource
+  name="radar-chart"
+  title="components/ui/charts/radar-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -159,42 +165,42 @@ Displays axis values alongside axis names. For multiple series, shows values sep
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `RadarChartSeries[]` | required | Array of data series to display |
-| `variant` | `"default"` \| `"comparison"` \| `"legend"` \| `"filled"` \| `"circle"` \| `"minimal"` \| `"labels"` | `"default"` | Chart style variant |
-| `config` | `ChartConfig` | - | Color and label configuration |
-| `width` | `number` | `500` | Chart width in pixels |
-| `height` | `number` | `500` | Chart height in pixels |
-| `margin` | `{ top, right, bottom, left }` | `{ top: 50, ... }` | Chart margins |
-| `maxValue` | `number` | auto | Maximum axis value (auto-calculated from data) |
-| `levels` | `number` | `5` | Number of concentric grid levels |
-| `gridType` | `"polygon"` \| `"circle"` | `"polygon"` | Shape of grid levels |
-| `showGrid` | `boolean` | `true` | Show grid levels |
-| `showRadialLines` | `boolean` | `true` | Show axis lines from center |
-| `showDots` | `boolean` | `true` | Show data point dots |
-| `dotSize` | `number` | `4` | Radius of data point dots |
-| `fillOpacity` | `number` | `0.25` | Opacity of the filled area |
-| `strokeWidth` | `number` | `2` | Width of the area outline |
-| `showLabels` | `boolean` | `true` | Show axis labels |
-| `labelOffset` | `number` | `20` | Distance of labels from outer edge |
-| `showLevelLabels` | `boolean` | `true` | Show value labels on grid levels |
-| `showLegend` | `boolean` | `true` | Show legend for multiple series |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
+| Prop              | Type                                                                                                 | Default            | Description                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------- |
+| `data`            | `RadarChartSeries[]`                                                                                 | required           | Array of data series to display                |
+| `variant`         | `"default"` \| `"comparison"` \| `"legend"` \| `"filled"` \| `"circle"` \| `"minimal"` \| `"labels"` | `"default"`        | Chart style variant                            |
+| `config`          | `ChartConfig`                                                                                        | -                  | Color and label configuration                  |
+| `width`           | `number`                                                                                             | `500`              | Chart width in pixels                          |
+| `height`          | `number`                                                                                             | `500`              | Chart height in pixels                         |
+| `margin`          | `{ top, right, bottom, left }`                                                                       | `{ top: 50, ... }` | Chart margins                                  |
+| `maxValue`        | `number`                                                                                             | auto               | Maximum axis value (auto-calculated from data) |
+| `levels`          | `number`                                                                                             | `5`                | Number of concentric grid levels               |
+| `gridType`        | `"polygon"` \| `"circle"`                                                                            | `"polygon"`        | Shape of grid levels                           |
+| `showGrid`        | `boolean`                                                                                            | `true`             | Show grid levels                               |
+| `showRadialLines` | `boolean`                                                                                            | `true`             | Show axis lines from center                    |
+| `showDots`        | `boolean`                                                                                            | `true`             | Show data point dots                           |
+| `dotSize`         | `number`                                                                                             | `4`                | Radius of data point dots                      |
+| `fillOpacity`     | `number`                                                                                             | `0.25`             | Opacity of the filled area                     |
+| `strokeWidth`     | `number`                                                                                             | `2`                | Width of the area outline                      |
+| `showLabels`      | `boolean`                                                                                            | `true`             | Show axis labels                               |
+| `labelOffset`     | `number`                                                                                             | `20`               | Distance of labels from outer edge             |
+| `showLevelLabels` | `boolean`                                                                                            | `true`             | Show value labels on grid levels               |
+| `showLegend`      | `boolean`                                                                                            | `true`             | Show legend for multiple series                |
+| `showTooltip`     | `boolean`                                                                                            | `true`             | Enable tooltip on hover                        |
 
 ## Data Types
 
 ```tsx showLineNumbers
 interface RadarChartDataPoint {
-  axis: string   // Axis/dimension name
-  value: number  // Numeric value for this axis
+  axis: string // Axis/dimension name
+  value: number // Numeric value for this axis
 }
 
 interface RadarChartSeries {
-  name: string                  // Series name for legend/tooltip
-  data: RadarChartDataPoint[]   // Data points for each axis
-  color?: string                // Optional: override color for this series
-  fillOpacity?: number          // Optional: override fill opacity
+  name: string // Series name for legend/tooltip
+  data: RadarChartDataPoint[] // Data points for each axis
+  color?: string // Optional: override color for this series
+  fillOpacity?: number // Optional: override fill opacity
 }
 
 type RadarChartVariant =

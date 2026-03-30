@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="gauge-chart-demo" description="A modern gauge chart displaying a single value with animated arc and centered value display." />
+<ComponentPreview
+  name="gauge-chart-demo"
+  description="A modern gauge chart displaying a single value with animated arc and centered value display."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/gauge-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="gauge-chart" title="components/ui/charts/gauge-chart.tsx" />
+<ComponentSource
+  name="gauge-chart"
+  title="components/ui/charts/gauge-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -115,26 +121,26 @@ Bold percentage display optimized for KPI dashboards. Shows completion with larg
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| value | `number` | required | Current value to display |
-| min | `number` | `0` | Minimum value |
-| max | `number` | `100` | Maximum value |
-| variant | `"modern" \| "speedometer" \| "segmented" \| "radial" \| "minimal" \| "gradient" \| "meter" \| "dashboard"` | `"modern"` | Gauge style variant |
-| label | `string` | - | Label text below value |
-| units | `string` | - | Units suffix (e.g., "%", "mph") |
-| showValue | `boolean` | `true` | Show the numeric value |
-| thickness | `number` | `0.15` | Arc thickness (0-1, as percentage of radius) |
-| color | `string` | `"#3b82f6"` | Primary arc color |
-| colorSecondary | `string` | `"#8b5cf6"` | Secondary color (for gradient variant) |
-| bgColor | `string` | `"#e5e7eb"` | Background arc color |
-| segments | `Array<{ value: number; color: string; label?: string }>` | - | Custom segments for segmented variant |
-| showTicks | `boolean` | `false` | Show tick marks |
-| tickCount | `number` | `5` | Number of tick marks |
-| animate | `boolean` | `true` | Animate on mount |
-| animationDuration | `number` | `1000` | Animation duration in ms |
-| valueFormatter | `(value: number) => string` | - | Custom value formatter |
-| showPercentage | `boolean` | `false` | Show percentage instead of raw value |
+| Prop              | Type                                                                                                        | Default     | Description                                  |
+| ----------------- | ----------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------- |
+| value             | `number`                                                                                                    | required    | Current value to display                     |
+| min               | `number`                                                                                                    | `0`         | Minimum value                                |
+| max               | `number`                                                                                                    | `100`       | Maximum value                                |
+| variant           | `"modern" \| "speedometer" \| "segmented" \| "radial" \| "minimal" \| "gradient" \| "meter" \| "dashboard"` | `"modern"`  | Gauge style variant                          |
+| label             | `string`                                                                                                    | -           | Label text below value                       |
+| units             | `string`                                                                                                    | -           | Units suffix (e.g., "%", "mph")              |
+| showValue         | `boolean`                                                                                                   | `true`      | Show the numeric value                       |
+| thickness         | `number`                                                                                                    | `0.15`      | Arc thickness (0-1, as percentage of radius) |
+| color             | `string`                                                                                                    | `"#3b82f6"` | Primary arc color                            |
+| colorSecondary    | `string`                                                                                                    | `"#8b5cf6"` | Secondary color (for gradient variant)       |
+| bgColor           | `string`                                                                                                    | `"#e5e7eb"` | Background arc color                         |
+| segments          | `Array<{ value: number; color: string; label?: string }>`                                                   | -           | Custom segments for segmented variant        |
+| showTicks         | `boolean`                                                                                                   | `false`     | Show tick marks                              |
+| tickCount         | `number`                                                                                                    | `5`         | Number of tick marks                         |
+| animate           | `boolean`                                                                                                   | `true`      | Animate on mount                             |
+| animationDuration | `number`                                                                                                    | `1000`      | Animation duration in ms                     |
+| valueFormatter    | `(value: number) => string`                                                                                 | -           | Custom value formatter                       |
+| showPercentage    | `boolean`                                                                                                   | `false`     | Show percentage instead of raw value         |
 
 ## Examples
 

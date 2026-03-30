@@ -32,7 +32,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/line-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="line-chart" title="components/ui/charts/line-chart.tsx" />
+<ComponentSource
+  name="line-chart"
+  title="components/ui/charts/line-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -73,7 +76,10 @@ export function Example() {
 
 Clean, minimal line with area fill. Perfect for analytics dashboards.
 
-<ComponentPreview name="line-chart-smooth-demo" description="Smooth line chart with area fill for analytics." />
+<ComponentPreview
+  name="line-chart-smooth-demo"
+  description="Smooth line chart with area fill for analytics."
+/>
 
 ```tsx showLineNumbers
 <LineChart data={data} variant="smooth" xType="time" />
@@ -83,7 +89,10 @@ Clean, minimal line with area fill. Perfect for analytics dashboards.
 
 Multiple lines with distinct colors and crosshair tooltip.
 
-<ComponentPreview name="line-chart-multi-demo" description="Multiple lines for comparing trends across series." />
+<ComponentPreview
+  name="line-chart-multi-demo"
+  description="Multiple lines for comparing trends across series."
+/>
 
 ```tsx showLineNumbers
 const data = [
@@ -99,7 +108,10 @@ const data = [
 
 Financial chart style with detailed data, grid lines, and title support.
 
-<ComponentPreview name="line-chart-stock-demo" description="Stock-style chart for financial data visualization." />
+<ComponentPreview
+  name="line-chart-stock-demo"
+  description="Stock-style chart for financial data visualization."
+/>
 
 ```tsx showLineNumbers
 <LineChart
@@ -124,24 +136,24 @@ The main line chart component for visualizing data trends over time.
 
 #### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | `LineChartSeries[]` | required | Array of data series |
-| variant | `"default" \| "smooth" \| "multi" \| "stock" \| "sparkline"` | `"default"` | Chart style variant |
-| curve | `"linear" \| "monotone" \| "cardinal" \| "step" \| "natural" \| "basis"` | `"monotone"` | Line interpolation |
-| xType | `"category" \| "number" \| "time"` | `"category"` | X-axis data type |
-| showDots | `boolean` | varies | Show data points |
-| showGrid | `boolean` | `true` | Show grid lines |
-| showLegend | `boolean` | `true` | Show legend |
-| showTooltip | `boolean` | `true` | Show tooltips |
-| showArea | `boolean` | `false` | Fill area under line |
-| showCrosshair | `boolean` | `false` | Show crosshair on hover |
-| color | `string` | - | Line color (single series) |
-| strokeWidth | `number` | `2` | Line thickness |
-| areaOpacity | `number` | `0.15` | Area fill opacity |
-| title | `string` | - | Chart title (stock variant) |
-| subtitle | `string` | - | Chart subtitle |
-| yAxisFormatter | `(value: number) => string` | - | Y-axis value formatter |
+| Prop           | Type                                                                     | Default      | Description                 |
+| -------------- | ------------------------------------------------------------------------ | ------------ | --------------------------- |
+| data           | `LineChartSeries[]`                                                      | required     | Array of data series        |
+| variant        | `"default" \| "smooth" \| "multi" \| "stock" \| "sparkline"`             | `"default"`  | Chart style variant         |
+| curve          | `"linear" \| "monotone" \| "cardinal" \| "step" \| "natural" \| "basis"` | `"monotone"` | Line interpolation          |
+| xType          | `"category" \| "number" \| "time"`                                       | `"category"` | X-axis data type            |
+| showDots       | `boolean`                                                                | varies       | Show data points            |
+| showGrid       | `boolean`                                                                | `true`       | Show grid lines             |
+| showLegend     | `boolean`                                                                | `true`       | Show legend                 |
+| showTooltip    | `boolean`                                                                | `true`       | Show tooltips               |
+| showArea       | `boolean`                                                                | `false`      | Fill area under line        |
+| showCrosshair  | `boolean`                                                                | `false`      | Show crosshair on hover     |
+| color          | `string`                                                                 | -            | Line color (single series)  |
+| strokeWidth    | `number`                                                                 | `2`          | Line thickness              |
+| areaOpacity    | `number`                                                                 | `0.15`       | Area fill opacity           |
+| title          | `string`                                                                 | -            | Chart title (stock variant) |
+| subtitle       | `string`                                                                 | -            | Chart subtitle              |
+| yAxisFormatter | `(value: number) => string`                                              | -            | Y-axis value formatter      |
 
 ### LineChartSeries Type
 

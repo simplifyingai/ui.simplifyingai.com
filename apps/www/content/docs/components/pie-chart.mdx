@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="pie-chart-demo" description="Circular chart showing proportional data distribution" />
+<ComponentPreview
+  name="pie-chart-demo"
+  description="Circular chart showing proportional data distribution"
+/>
 
 ## About
 
@@ -107,12 +110,7 @@ Display a total value or the currently active segment's value in the center of t
 <ComponentPreview name="pie-chart-donut-text-demo" />
 
 ```tsx showLineNumbers
-<PieChart
-  data={data}
-  variant="donut-text"
-  centerLabel="Visitors"
-  showTotal
-/>
+<PieChart data={data} variant="donut-text" centerLabel="Visitors" showTotal />
 ```
 
 The `showTotal` prop displays the sum of all values when no segment is hovered. You can also provide custom `centerLabel` and `centerValue` props for static content.
@@ -165,41 +163,41 @@ Use this variant for dashboards where users need to drill down into specific dat
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `PieChartDataPoint[]` | required | Array of data points to display |
-| `variant` | `"default"` \| `"donut"` \| `"donut-active"` \| `"donut-text"` \| `"label"` \| `"interactive"` | `"default"` | Chart style variant |
-| `config` | `ChartConfig` | - | Color and label configuration |
-| `width` | `number` | `400` | Chart width in pixels |
-| `height` | `number` | `400` | Chart height in pixels |
-| `innerRadius` | `number` | `0` (60 for donut) | Inner radius for donut effect |
-| `outerRadius` | `number` | auto | Outer radius (auto-calculated from dimensions) |
-| `padAngle` | `number` | `0.02` | Gap between slices in radians |
-| `cornerRadius` | `number` | `4` | Corner rounding of segments |
-| `startAngle` | `number` | `0` | Starting angle in radians |
-| `endAngle` | `number` | `2π` | Ending angle in radians |
-| `sortValues` | `boolean` | `false` | Sort segments by value (largest first) |
-| `showLabels` | `boolean` | `false` | Show labels on/around segments |
-| `labelType` | `"percent"` \| `"value"` \| `"label"` | `"percent"` | Format for displayed labels |
-| `showLegend` | `boolean` | `true` | Show legend below chart |
-| `showTooltip` | `boolean` | `true` | Enable tooltip on hover |
-| `activeIndex` | `number` | - | Controlled active segment index |
-| `centerLabel` | `ReactNode` | - | Custom center label (donut-text variant) |
-| `centerValue` | `ReactNode` | - | Custom center value (donut-text variant) |
-| `showTotal` | `boolean` | `true` | Show total in center when idle |
-| `valueFormatter` | `(value: number, total: number) => string` | percentage | Custom value formatter |
-| `onSegmentClick` | `(data: PieChartDataPoint, index: number) => void` | - | Callback when segment is clicked |
-| `selectionOptions` | `Array<{ key: string; label: string }>` | - | Dropdown options (interactive variant) |
-| `selectedKey` | `string` | - | Currently selected key (interactive variant) |
-| `onSelectionChange` | `(key: string) => void` | - | Selection change callback |
+| Prop                | Type                                                                                           | Default            | Description                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------- |
+| `data`              | `PieChartDataPoint[]`                                                                          | required           | Array of data points to display                |
+| `variant`           | `"default"` \| `"donut"` \| `"donut-active"` \| `"donut-text"` \| `"label"` \| `"interactive"` | `"default"`        | Chart style variant                            |
+| `config`            | `ChartConfig`                                                                                  | -                  | Color and label configuration                  |
+| `width`             | `number`                                                                                       | `400`              | Chart width in pixels                          |
+| `height`            | `number`                                                                                       | `400`              | Chart height in pixels                         |
+| `innerRadius`       | `number`                                                                                       | `0` (60 for donut) | Inner radius for donut effect                  |
+| `outerRadius`       | `number`                                                                                       | auto               | Outer radius (auto-calculated from dimensions) |
+| `padAngle`          | `number`                                                                                       | `0.02`             | Gap between slices in radians                  |
+| `cornerRadius`      | `number`                                                                                       | `4`                | Corner rounding of segments                    |
+| `startAngle`        | `number`                                                                                       | `0`                | Starting angle in radians                      |
+| `endAngle`          | `number`                                                                                       | `2π`               | Ending angle in radians                        |
+| `sortValues`        | `boolean`                                                                                      | `false`            | Sort segments by value (largest first)         |
+| `showLabels`        | `boolean`                                                                                      | `false`            | Show labels on/around segments                 |
+| `labelType`         | `"percent"` \| `"value"` \| `"label"`                                                          | `"percent"`        | Format for displayed labels                    |
+| `showLegend`        | `boolean`                                                                                      | `true`             | Show legend below chart                        |
+| `showTooltip`       | `boolean`                                                                                      | `true`             | Enable tooltip on hover                        |
+| `activeIndex`       | `number`                                                                                       | -                  | Controlled active segment index                |
+| `centerLabel`       | `ReactNode`                                                                                    | -                  | Custom center label (donut-text variant)       |
+| `centerValue`       | `ReactNode`                                                                                    | -                  | Custom center value (donut-text variant)       |
+| `showTotal`         | `boolean`                                                                                      | `true`             | Show total in center when idle                 |
+| `valueFormatter`    | `(value: number, total: number) => string`                                                     | percentage         | Custom value formatter                         |
+| `onSegmentClick`    | `(data: PieChartDataPoint, index: number) => void`                                             | -                  | Callback when segment is clicked               |
+| `selectionOptions`  | `Array<{ key: string; label: string }>`                                                        | -                  | Dropdown options (interactive variant)         |
+| `selectedKey`       | `string`                                                                                       | -                  | Currently selected key (interactive variant)   |
+| `onSelectionChange` | `(key: string) => void`                                                                        | -                  | Selection change callback                      |
 
 ## Data Types
 
 ```tsx showLineNumbers
 interface PieChartDataPoint {
-  label: string    // Segment label displayed in tooltip/legend
-  value: number    // Numeric value determining segment size
-  color?: string   // Optional: override default color for this segment
+  label: string // Segment label displayed in tooltip/legend
+  value: number // Numeric value determining segment size
+  color?: string // Optional: override default color for this segment
 }
 ```
 

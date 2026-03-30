@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="heatmap-chart-demo" description="A matrix heatmap displaying data intensity with color gradients across rows and columns." />
+<ComponentPreview
+  name="heatmap-chart-demo"
+  description="A matrix heatmap displaying data intensity with color gradients across rows and columns."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/heatmap-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="heatmap-chart" title="components/ui/charts/heatmap-chart.tsx" />
+<ComponentSource
+  name="heatmap-chart"
+  title="components/ui/charts/heatmap-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -87,12 +93,7 @@ const data = [
 
 export function MatrixExample() {
   return (
-    <HeatmapChart
-      data={data}
-      variant="matrix"
-      colorTheme="blue"
-      showValues
-    />
+    <HeatmapChart data={data} variant="matrix" colorTheme="blue" showValues />
   )
 }
 ```
@@ -127,7 +128,7 @@ export function CalendarExample() {
 import { HeatmapChart } from "@/components/ui/charts"
 
 const activityData = [
-  { day: 0, hour: 9, value: 45 },  // Sunday 9am
+  { day: 0, hour: 9, value: 45 }, // Sunday 9am
   { day: 1, hour: 14, value: 80 }, // Monday 2pm
   { day: "Tuesday", hour: "3pm", value: 65 }, // String formats work too
 ]
@@ -147,21 +148,21 @@ export function RadialExample() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | `DataPoint[]` | required | Data points for the heatmap |
-| variant | `"matrix"` `"calendar"` `"radial"` `"compact"` | `"matrix"` | Display variant |
-| colorTheme | `string` | `"green"` | Color theme preset |
-| colorScale | `string[]` | - | Custom color array (overrides theme) |
-| showValues | `boolean` | `false` | Show values in cells (matrix only) |
-| cellRadius | `number` | `2` | Cell corner radius |
-| cellGap | `number` | `3` | Gap between cells |
-| cellSize | `number` | `12` | Cell size (calendar/radial) |
-| showMonthLabels | `boolean` | `true` | Show month labels (calendar) |
-| showWeekdayLabels | `boolean` | `true` | Show weekday labels (calendar) |
-| weekStartsOn | `0` or `1` | `0` | Week start (0=Sunday, 1=Monday) |
-| legend | `object` | see below | Legend configuration |
-| onCellClick | `function` | - | Cell click handler |
+| Prop              | Type                                           | Default    | Description                          |
+| ----------------- | ---------------------------------------------- | ---------- | ------------------------------------ |
+| data              | `DataPoint[]`                                  | required   | Data points for the heatmap          |
+| variant           | `"matrix"` `"calendar"` `"radial"` `"compact"` | `"matrix"` | Display variant                      |
+| colorTheme        | `string`                                       | `"green"`  | Color theme preset                   |
+| colorScale        | `string[]`                                     | -          | Custom color array (overrides theme) |
+| showValues        | `boolean`                                      | `false`    | Show values in cells (matrix only)   |
+| cellRadius        | `number`                                       | `2`        | Cell corner radius                   |
+| cellGap           | `number`                                       | `3`        | Gap between cells                    |
+| cellSize          | `number`                                       | `12`       | Cell size (calendar/radial)          |
+| showMonthLabels   | `boolean`                                      | `true`     | Show month labels (calendar)         |
+| showWeekdayLabels | `boolean`                                      | `true`     | Show weekday labels (calendar)       |
+| weekStartsOn      | `0` or `1`                                     | `0`        | Week start (0=Sunday, 1=Monday)      |
+| legend            | `object`                                       | see below  | Legend configuration                 |
+| onCellClick       | `function`                                     | -          | Cell click handler                   |
 
 ## Data Types
 
@@ -188,8 +189,8 @@ interface CalendarDataPoint {
 
 ```tsx showLineNumbers
 interface RadialHeatmapDataPoint {
-  day: number | string   // 0-6 or day name
-  hour: number | string  // 0-23 or "12am", "1pm", etc.
+  day: number | string // 0-6 or day name
+  hour: number | string // 0-23 or "12am", "1pm", etc.
   value: number
 }
 ```

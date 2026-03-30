@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="dendrogram-demo" description="A tree diagram showing hierarchical relationships and clustering." />
+<ComponentPreview
+  name="dendrogram-demo"
+  description="A tree diagram showing hierarchical relationships and clustering."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/dendrogram.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="dendrogram" title="components/ui/charts/dendrogram.tsx" />
+<ComponentSource
+  name="dendrogram"
+  title="components/ui/charts/dendrogram.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -77,15 +83,15 @@ Display the tree from top to bottom.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | DendrogramNode | required | Root node of the tree |
-| orientation | "horizontal" \| "vertical" | "horizontal" | Tree orientation |
-| nodeRadius | number | 5 | Node circle radius |
-| showLabels | boolean | true | Show node labels |
-| showValues | boolean | false | Show node values |
-| linkColor | string | "#94a3b8" | Color for connecting lines |
-| colorScheme | string[] | blue palette | Colors by depth level |
+| Prop        | Type                       | Default      | Description                |
+| ----------- | -------------------------- | ------------ | -------------------------- |
+| data        | DendrogramNode             | required     | Root node of the tree      |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Tree orientation           |
+| nodeRadius  | number                     | 5            | Node circle radius         |
+| showLabels  | boolean                    | true         | Show node labels           |
+| showValues  | boolean                    | false        | Show node values           |
+| linkColor   | string                     | "#94a3b8"    | Color for connecting lines |
+| colorScheme | string[]                   | blue palette | Colors by depth level      |
 
 ## Notes
 

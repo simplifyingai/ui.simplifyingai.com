@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="splom-chart-demo" description="A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variables in a dataset, essential for exploratory data analysis." />
+<ComponentPreview
+  name="splom-chart-demo"
+  description="A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variables in a dataset, essential for exploratory data analysis."
+/>
 
 ## About
 
@@ -22,7 +25,7 @@ A SPLOM (Scatter Plot Matrix) displays all pairwise relationships between variab
 <TabsContent value="cli">
 
 ```bash
-npx shadcn@latest add https://ui.splifying.ai/r/splom-chart.json
+npx shadcn@latest add https://ui.simplifying.ai/r/splom-chart.json
 ```
 
 </TabsContent>
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.splifying.ai/r/splom-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="splom-chart" title="components/ui/charts/splom-chart.tsx" />
+<ComponentSource
+  name="splom-chart"
+  title="components/ui/charts/splom-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -62,52 +68,81 @@ export function Example() {
 
 ## Examples
 
-### Default
+### Default (Standard)
 
-The default SPLOM chart displays scatter plots for each variable pair with histograms on the diagonal showing distribution.
+Full matrix with scatter plots and diagonal histograms.
 
 <ComponentPreview name="splom-chart-demo" />
 
-## Variants
+### Compact
 
-### Compact View
-
-Smaller cells for dense data visualization.
+Smaller cells with custom color for dense data visualization.
 
 <ComponentPreview name="splom-chart-compact" />
 
-```tsx showLineNumbers
-<SplomChart data={data} dimensions={dimensions} cellSize={80} pointRadius={2} />
-```
+### Upper Triangle
+
+Only upper triangle to avoid redundant plots.
+
+<ComponentPreview name="splom-chart-upper" />
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | SplomDataPoint[] | required | Array of data points |
-| dimensions | string[] | required | Variable names to include |
-| cellSize | number | 100 | Size of each cell in pixels |
-| pointRadius | number | 2.5 | Radius of scatter points |
-| showLabels | boolean | true | Show dimension labels |
-| showHistograms | boolean | true | Show histograms on diagonal |
-| colorScheme | string[] | blue palette | Colors for groups |
+| Prop           | Type                                          | Default      | Description                 |
+| -------------- | --------------------------------------------- | ------------ | --------------------------- |
+| data           | SplomDataPoint[]                              | required     | Array of data points        |
+| dimensions     | string[]                                      | required     | Variable names to include   |
+| variant        | "standard" \| "upper" \| "lower" \| "scatter" | "standard"   | Matrix layout style         |
+| cellSize       | number                                        | 100          | Size of each cell in pixels |
+| pointRadius    | number                                        | 3            | Radius of scatter points    |
+| showLabels     | boolean                                       | true         | Show dimension labels       |
+| showHistograms | boolean                                       | true         | Show histograms on diagonal |
+| color          | string                                        | "#3b82f6"    | Single color for all points |
+| colorScheme    | string[]                                      | blue palette | Colors for groups           |
+| valueFormatter | function                                      | toFixed(1)   | Format tooltip values       |
 
-## Data Types
+## Data Format
 
-```tsx showLineNumbers
+```tsx
 interface SplomDataPoint {
-  id: string                      // Unique identifier for the data point
-  values: Record<string, number>  // Object with dimension names as keys
-  group?: string                  // Optional: group for color coding
+  id: string // Unique identifier
+  values: Record<string, number> // Dimension values
+  group?: string // Optional group for coloring
 }
 ```
 
+## Variants
+
+### Standard
+
+Full matrix with all pairwise scatter plots and diagonal histograms. Default and most comprehensive view.
+
+### Upper
+
+Only shows upper triangle of the matrix (above diagonal). Eliminates redundant plots since lower triangle is symmetric.
+
+### Lower
+
+Only shows lower triangle of the matrix (below diagonal). Alternative to upper triangle.
+
+### Scatter
+
+Scatter plots only, no diagonal histograms. Pure pairwise comparison view.
+
+## Features
+
+- **Pairwise visualization**: See relationships between all variable pairs at once
+- **Diagonal histograms**: Distribution of each variable shown on diagonal
+- **Hover interactions**: Points highlight across all cells on hover
+- **Group coloring**: Automatic color assignment based on groups
+- **Single color mode**: Use `color` prop for consistent appearance
+- **Interactive tooltips**: See all dimension values on hover
+- **Dark mode support**: Proper styling for both themes
+
 ## Notes
 
-- SPLOM charts are powerful for exploratory data analysis with multivariate datasets.
-- The matrix shows each variable plotted against every other variable, revealing correlations and patterns.
-- Diagonal cells typically show histograms or density plots of individual variable distributions.
-- For best results, use 3-6 dimensions. More than 6 can make the chart difficult to read.
-- The chart is symmetric around the diagonal - upper and lower triangles show the same relationships from different perspectives.
-- Color-coded groups help identify clusters and patterns across multiple dimensions.
-- Use the compact variant when you need to display more dimensions in limited space.
+- SPLOM charts are powerful for exploratory data analysis with multivariate datasets
+- The matrix shows each variable plotted against every other variable
+- For best results, use 3-6 dimensions (more can make the chart difficult to read)
+- Use upper/lower variants when space is limited
+- Color-coded groups help identify clusters and patterns across multiple dimensions

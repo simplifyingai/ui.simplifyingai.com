@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="network-graph-demo" description="Force-directed graph showing relationships between nodes" />
+<ComponentPreview
+  name="network-graph-demo"
+  description="Force-directed graph showing relationships between nodes"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/network-graph.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="network-graph" title="components/ui/charts/network-graph.tsx" />
+<ComponentSource
+  name="network-graph"
+  title="components/ui/charts/network-graph.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -74,17 +80,17 @@ Show directional relationships with arrows.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| nodes | NetworkNode[] | required | Array of nodes |
-| links | NetworkLink[] | required | Array of links |
-| nodeRadius | number | 8 | Default node radius |
-| linkWidth | number | 1.5 | Default link width |
-| showLabels | boolean | true | Show node labels |
-| showArrows | boolean | false | Show direction arrows |
-| charge | number | -300 | Force simulation charge |
-| linkDistance | number | 100 | Target link distance |
-| colorScheme | string[] | blue palette | Colors for groups |
+| Prop         | Type          | Default      | Description             |
+| ------------ | ------------- | ------------ | ----------------------- |
+| nodes        | NetworkNode[] | required     | Array of nodes          |
+| links        | NetworkLink[] | required     | Array of links          |
+| nodeRadius   | number        | 8            | Default node radius     |
+| linkWidth    | number        | 1.5          | Default link width      |
+| showLabels   | boolean       | true         | Show node labels        |
+| showArrows   | boolean       | false        | Show direction arrows   |
+| charge       | number        | -300         | Force simulation charge |
+| linkDistance | number        | 100          | Target link distance    |
+| colorScheme  | string[]      | blue palette | Colors for groups       |
 
 ## Notes
 

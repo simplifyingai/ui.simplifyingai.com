@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="polar-chart-demo" description="Rose chart for visualizing cyclic and directional data" />
+<ComponentPreview
+  name="polar-chart-demo"
+  description="Rose chart for visualizing cyclic and directional data"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/polar-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="polar-chart" title="components/ui/charts/polar-chart.tsx" />
+<ComponentSource
+  name="polar-chart"
+  title="components/ui/charts/polar-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -80,16 +86,16 @@ Add an inner radius to create a donut-style polar chart.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | `PolarDataPoint[]` | required | Array of data points |
-| variant | `"rose" \| "coxcomb"` | `"rose"` | Chart variant type |
-| innerRadius | `number` | `0` | Inner radius for donut style |
-| showLabels | `boolean` | `true` | Show category labels |
-| showValues | `boolean` | `false` | Show value labels |
-| showGrid | `boolean` | `true` | Show grid circles |
-| colorScheme | `string[]` | blue palette | Colors for segments |
-| valueFormatter | `function` | `toLocaleString` | Format values |
+| Prop           | Type                  | Default          | Description                  |
+| -------------- | --------------------- | ---------------- | ---------------------------- |
+| data           | `PolarDataPoint[]`    | required         | Array of data points         |
+| variant        | `"rose" \| "coxcomb"` | `"rose"`         | Chart variant type           |
+| innerRadius    | `number`              | `0`              | Inner radius for donut style |
+| showLabels     | `boolean`             | `true`           | Show category labels         |
+| showValues     | `boolean`             | `false`          | Show value labels            |
+| showGrid       | `boolean`             | `true`           | Show grid circles            |
+| colorScheme    | `string[]`            | blue palette     | Colors for segments          |
+| valueFormatter | `function`            | `toLocaleString` | Format values                |
 
 ## Notes
 

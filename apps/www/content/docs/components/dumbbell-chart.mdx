@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="dumbbell-chart-demo" description="A barbell-style chart showing the change or difference between two data points." />
+<ComponentPreview
+  name="dumbbell-chart-demo"
+  description="A barbell-style chart showing the change or difference between two data points."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/dumbbell-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="dumbbell-chart" title="components/ui/charts/dumbbell-chart.tsx" />
+<ComponentSource
+  name="dumbbell-chart"
+  title="components/ui/charts/dumbbell-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -55,37 +61,31 @@ const data = [
 ]
 
 export function Example() {
-  return (
-    <DumbbellChart
-      data={data}
-      startLabel="2023"
-      endLabel="2024"
-    />
-  )
+  return <DumbbellChart data={data} startLabel="2023" endLabel="2024" />
 }
 ```
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | DumbbellDataPoint[] | required | Array of data points |
-| dotSize | number | 8 | Size of dots in pixels |
-| showGrid | boolean | true | Show grid lines |
-| startColor | string | "#94a3b8" | Color for start dots |
-| endColor | string | "#3b82f6" | Color for end dots |
-| connectorColor | string | "#cbd5e1" | Color for connecting line |
-| startLabel | string | "Start" | Label for start values (legend) |
-| endLabel | string | "End" | Label for end values (legend) |
-| valueFormatter | function | toLocaleString | Format values in tooltip |
+| Prop           | Type                | Default        | Description                     |
+| -------------- | ------------------- | -------------- | ------------------------------- |
+| data           | DumbbellDataPoint[] | required       | Array of data points            |
+| dotSize        | number              | 8              | Size of dots in pixels          |
+| showGrid       | boolean             | true           | Show grid lines                 |
+| startColor     | string              | "#94a3b8"      | Color for start dots            |
+| endColor       | string              | "#3b82f6"      | Color for end dots              |
+| connectorColor | string              | "#cbd5e1"      | Color for connecting line       |
+| startLabel     | string              | "Start"        | Label for start values (legend) |
+| endLabel       | string              | "End"          | Label for end values (legend)   |
+| valueFormatter | function            | toLocaleString | Format values in tooltip        |
 
 ## Data Format
 
 ```tsx
 interface DumbbellDataPoint {
-  category: string  // Label for the row
-  start: number     // Starting value
-  end: number       // Ending value
+  category: string // Label for the row
+  start: number // Starting value
+  end: number // Ending value
 }
 ```
 

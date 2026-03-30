@@ -5,13 +5,17 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="donut-chart-demo" description="An interactive ring chart with proportional segments and smooth animations." />
+<ComponentPreview
+  name="donut-chart-demo"
+  description="An interactive ring chart with proportional segments and smooth animations."
+/>
 
 ## About
 
 The Donut Chart displays data as proportional segments in a ring, with a hollow center for key metrics. Features smooth animations, interactive hover states, and multiple style variants.
 
 Features:
+
 - **Animated entrance** - Smooth animation on mount
 - **Interactive segments** - Hover to highlight and see details
 - **Proper tooltips** - Detailed tooltips following cursor
@@ -41,7 +45,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/donut-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="donut-chart" title="components/ui/charts/donut-chart.tsx" />
+<ComponentSource
+  name="donut-chart"
+  title="components/ui/charts/donut-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -65,14 +72,7 @@ const data = [
 ]
 
 export function Example() {
-  return (
-    <DonutChart
-      data={data}
-      innerRadius={0.65}
-      showLabels
-      animate
-    />
-  )
+  return <DonutChart data={data} innerRadius={0.65} showLabels animate />
 }
 ```
 
@@ -98,34 +98,34 @@ Semi-circle donut for gauge-style displays.
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `DonutChartDataPoint[]` | required | Array of data points |
-| `innerRadius` | `number` | `0.6` | Inner radius ratio (0-1). 0.6 = 60% hollow |
-| `variant` | `"default" \| "gradient" \| "separated"` | `"default"` | Visual style |
-| `showLabels` | `boolean` | `false` | Show percentage labels on segments |
-| `showLabelLines` | `boolean` | `true` | Show label lines for small segments |
-| `centerLabel` | `ReactNode` | - | Label text in center |
-| `centerValue` | `ReactNode` | - | Value text in center |
-| `showTotal` | `boolean` | `true` | Show total in center when nothing hovered |
-| `animate` | `boolean` | `true` | Animate on mount |
-| `animationDuration` | `number` | `750` | Animation duration in ms |
-| `padAngle` | `number` | `0.02` | Gap between segments (radians) |
-| `cornerRadius` | `number` | `4` | Rounded corners on segments |
-| `startAngle` | `number` | `-π/2` | Starting angle (top) |
-| `endAngle` | `number` | `1.5π` | Ending angle |
-| `sortValues` | `boolean` | `false` | Sort segments by value |
-| `valueFormatter` | `function` | - | Custom value formatter |
-| `onSegmentClick` | `function` | - | Click handler for segments |
-| `activeIndex` | `number` | - | Controlled active segment |
+| Prop                | Type                                     | Default     | Description                                |
+| ------------------- | ---------------------------------------- | ----------- | ------------------------------------------ |
+| `data`              | `DonutChartDataPoint[]`                  | required    | Array of data points                       |
+| `innerRadius`       | `number`                                 | `0.6`       | Inner radius ratio (0-1). 0.6 = 60% hollow |
+| `variant`           | `"default" \| "gradient" \| "separated"` | `"default"` | Visual style                               |
+| `showLabels`        | `boolean`                                | `false`     | Show percentage labels on segments         |
+| `showLabelLines`    | `boolean`                                | `true`      | Show label lines for small segments        |
+| `centerLabel`       | `ReactNode`                              | -           | Label text in center                       |
+| `centerValue`       | `ReactNode`                              | -           | Value text in center                       |
+| `showTotal`         | `boolean`                                | `true`      | Show total in center when nothing hovered  |
+| `animate`           | `boolean`                                | `true`      | Animate on mount                           |
+| `animationDuration` | `number`                                 | `750`       | Animation duration in ms                   |
+| `padAngle`          | `number`                                 | `0.02`      | Gap between segments (radians)             |
+| `cornerRadius`      | `number`                                 | `4`         | Rounded corners on segments                |
+| `startAngle`        | `number`                                 | `-π/2`      | Starting angle (top)                       |
+| `endAngle`          | `number`                                 | `1.5π`      | Ending angle                               |
+| `sortValues`        | `boolean`                                | `false`     | Sort segments by value                     |
+| `valueFormatter`    | `function`                               | -           | Custom value formatter                     |
+| `onSegmentClick`    | `function`                               | -           | Click handler for segments                 |
+| `activeIndex`       | `number`                                 | -           | Controlled active segment                  |
 
 ## Data Format
 
 ```tsx showLineNumbers
 interface DonutChartDataPoint {
-  label: string    // Segment label
-  value: number    // Segment value
-  color?: string   // Optional custom color
+  label: string // Segment label
+  value: number // Segment value
+  color?: string // Optional custom color
 }
 ```
 

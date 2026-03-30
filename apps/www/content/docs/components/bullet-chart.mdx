@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="bullet-chart-demo" description="A compact performance indicator showing actual values against targets and qualitative ranges." />
+<ComponentPreview
+  name="bullet-chart-demo"
+  description="A compact performance indicator showing actual values against targets and qualitative ranges."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/bullet-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="bullet-chart" title="components/ui/charts/bullet-chart.tsx" />
+<ComponentSource
+  name="bullet-chart"
+  title="components/ui/charts/bullet-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -64,14 +70,14 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | BulletChartData[] | required | Array of bullet data |
-| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation |
-| showLabels | boolean | true | Show category labels |
-| showValues | boolean | true | Show value labels |
-| barColor | string | "#1e40af" | Color for value bar |
-| targetColor | string | "#1e293b" | Color for target marker |
+| Prop        | Type                       | Default      | Description             |
+| ----------- | -------------------------- | ------------ | ----------------------- |
+| data        | BulletChartData[]          | required     | Array of bullet data    |
+| orientation | "horizontal" \| "vertical" | "horizontal" | Chart orientation       |
+| showLabels  | boolean                    | true         | Show category labels    |
+| showValues  | boolean                    | true         | Show value labels       |
+| barColor    | string                     | "#1e40af"    | Color for value bar     |
+| targetColor | string                     | "#1e293b"    | Color for target marker |
 
 ## Notes
 

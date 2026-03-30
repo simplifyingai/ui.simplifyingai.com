@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="icicle-chart-demo" description="An icicle chart displaying hierarchical data as nested rectangles with labels." />
+<ComponentPreview
+  name="icicle-chart-demo"
+  description="An icicle chart displaying hierarchical data as nested rectangles with labels."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/icicle-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="icicle-chart" title="components/ui/charts/icicle-chart.tsx" />
+<ComponentSource
+  name="icicle-chart"
+  title="components/ui/charts/icicle-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -68,13 +74,13 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | IcicleNode | required | Hierarchical data structure |
-| orientation | "horizontal" \| "vertical" | "vertical" | Chart orientation |
-| showLabels | boolean | true | Show segment labels |
-| labelMinSize | number | 40 | Minimum size to show labels |
-| padding | number | 1 | Padding between segments |
+| Prop         | Type                       | Default    | Description                 |
+| ------------ | -------------------------- | ---------- | --------------------------- |
+| data         | IcicleNode                 | required   | Hierarchical data structure |
+| orientation  | "horizontal" \| "vertical" | "vertical" | Chart orientation           |
+| showLabels   | boolean                    | true       | Show segment labels         |
+| labelMinSize | number                     | 40         | Minimum size to show labels |
+| padding      | number                     | 1          | Padding between segments    |
 
 ## Notes
 

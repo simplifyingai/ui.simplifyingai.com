@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="dot-plot-chart-demo" description="A stacked dot plot showing the frequency distribution of values." />
+<ComponentPreview
+  name="dot-plot-chart-demo"
+  description="A stacked dot plot showing the frequency distribution of values."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/dot-plot-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="dot-plot-chart" title="components/ui/charts/dot-plot-chart.tsx" />
+<ComponentSource
+  name="dot-plot-chart"
+  title="components/ui/charts/dot-plot-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -75,17 +81,17 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | number[] \| DotPlotDataPoint[] | required | Array of values or data points |
-| dotSize | number | 8 | Diameter of dots in pixels |
-| dotSpacing | number | 2 | Space between stacked dots |
-| binCount | number | 20 | Number of bins for grouping values |
-| showGrid | boolean | true | Show vertical grid lines |
-| showXAxis | boolean | true | Show x-axis labels |
-| xAxisLabel | string | - | Label for the x-axis |
-| color | string | "#2563eb" | Default dot color |
-| valueFormatter | function | toLocaleString | Format axis values |
+| Prop           | Type                           | Default        | Description                        |
+| -------------- | ------------------------------ | -------------- | ---------------------------------- |
+| data           | number[] \| DotPlotDataPoint[] | required       | Array of values or data points     |
+| dotSize        | number                         | 8              | Diameter of dots in pixels         |
+| dotSpacing     | number                         | 2              | Space between stacked dots         |
+| binCount       | number                         | 20             | Number of bins for grouping values |
+| showGrid       | boolean                        | true           | Show vertical grid lines           |
+| showXAxis      | boolean                        | true           | Show x-axis labels                 |
+| xAxisLabel     | string                         | -              | Label for the x-axis               |
+| color          | string                         | "#2563eb"      | Default dot color                  |
+| valueFormatter | function                       | toLocaleString | Format axis values                 |
 
 ## Notes
 

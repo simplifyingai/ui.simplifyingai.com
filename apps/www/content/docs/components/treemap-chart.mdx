@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="treemap-chart-demo" description="A treemap chart displaying hierarchical data as nested rectangles" />
+<ComponentPreview
+  name="treemap-chart-demo"
+  description="A treemap chart displaying hierarchical data as nested rectangles"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/treemap-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="treemap-chart" title="components/ui/charts/treemap-chart.tsx" />
+<ComponentSource
+  name="treemap-chart"
+  title="components/ui/charts/treemap-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -70,12 +76,12 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | TreemapNode | required | Hierarchical data |
-| tile | "squarify" \| "binary" \| "slice" \| "dice" | "squarify" | Tiling algorithm |
-| padding | number | 1 | Cell padding |
-| showLabels | boolean | true | Show cell labels |
+| Prop       | Type                                        | Default    | Description       |
+| ---------- | ------------------------------------------- | ---------- | ----------------- |
+| data       | TreemapNode                                 | required   | Hierarchical data |
+| tile       | "squarify" \| "binary" \| "slice" \| "dice" | "squarify" | Tiling algorithm  |
+| padding    | number                                      | 1          | Cell padding      |
+| showLabels | boolean                                     | true       | Show cell labels  |
 
 ## Examples
 

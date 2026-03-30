@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="sankey-chart-demo" description="Flow diagrams displaying relationships between nodes with link widths proportional to flow values, built with D3-Sankey." />
+<ComponentPreview
+  name="sankey-chart-demo"
+  description="Flow diagrams displaying relationships between nodes with link widths proportional to flow values, built with D3-Sankey."
+/>
 
 ## About
 
@@ -39,7 +42,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/sankey-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="sankey-chart" title="components/ui/charts/sankey-chart.tsx" />
+<ComponentSource
+  name="sankey-chart"
+  title="components/ui/charts/sankey-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -158,35 +164,35 @@ Complex user journey tracking across four levels: traffic sources, entry pages, 
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `nodes` | `SankeyNode[]` | required | Array of node definitions |
-| `links` | `SankeyLink[]` | required | Array of link connections |
-| `width` | `number` | `800` | Chart width in pixels |
-| `height` | `number` | `500` | Chart height in pixels |
-| `margin` | `object` | `{ top: 20, right: 120, bottom: 20, left: 20 }` | Chart margins |
-| `nodeWidth` | `number` | `15` | Width of node rectangles |
-| `nodePadding` | `number` | `20` | Vertical spacing between nodes |
-| `nodeAlign` | `"left"` \| `"right"` \| `"center"` \| `"justify"` | `"justify"` | Node alignment algorithm |
-| `linkOpacity` | `number` | `0.5` | Opacity of link paths |
-| `showLabels` | `boolean` | `true` | Show node labels |
-| `showValues` | `boolean` | `true` | Show values in labels |
-| `showTooltip` | `boolean` | `true` | Enable hover tooltips |
+| Prop          | Type                                               | Default                                         | Description                    |
+| ------------- | -------------------------------------------------- | ----------------------------------------------- | ------------------------------ |
+| `nodes`       | `SankeyNode[]`                                     | required                                        | Array of node definitions      |
+| `links`       | `SankeyLink[]`                                     | required                                        | Array of link connections      |
+| `width`       | `number`                                           | `800`                                           | Chart width in pixels          |
+| `height`      | `number`                                           | `500`                                           | Chart height in pixels         |
+| `margin`      | `object`                                           | `{ top: 20, right: 120, bottom: 20, left: 20 }` | Chart margins                  |
+| `nodeWidth`   | `number`                                           | `15`                                            | Width of node rectangles       |
+| `nodePadding` | `number`                                           | `20`                                            | Vertical spacing between nodes |
+| `nodeAlign`   | `"left"` \| `"right"` \| `"center"` \| `"justify"` | `"justify"`                                     | Node alignment algorithm       |
+| `linkOpacity` | `number`                                           | `0.5`                                           | Opacity of link paths          |
+| `showLabels`  | `boolean`                                          | `true`                                          | Show node labels               |
+| `showValues`  | `boolean`                                          | `true`                                          | Show values in labels          |
+| `showTooltip` | `boolean`                                          | `true`                                          | Enable hover tooltips          |
 
 ## Data Types
 
 ```tsx showLineNumbers
 interface SankeyNode {
-  id: string       // Unique identifier for the node
-  name?: string    // Display name (defaults to id)
-  color?: string   // Node color (hex, e.g., "#2563eb")
+  id: string // Unique identifier for the node
+  name?: string // Display name (defaults to id)
+  color?: string // Node color (hex, e.g., "#2563eb")
 }
 
 interface SankeyLink {
-  source: string   // Source node id
-  target: string   // Target node id
-  value: number    // Flow value (determines link width)
-  color?: string   // Optional link color override
+  source: string // Source node id
+  target: string // Target node id
+  value: number // Flow value (determines link width)
+  color?: string // Optional link color override
 }
 ```
 

@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="sunburst-chart-demo" description="A sunburst chart displaying hierarchical data as concentric rings" />
+<ComponentPreview
+  name="sunburst-chart-demo"
+  description="A sunburst chart displaying hierarchical data as concentric rings"
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/sunburst-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="sunburst-chart" title="components/ui/charts/sunburst-chart.tsx" />
+<ComponentSource
+  name="sunburst-chart"
+  title="components/ui/charts/sunburst-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -69,12 +75,12 @@ export function Example() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | SunburstNode | required | Hierarchical data |
-| innerRadius | number | 50 | Center hole radius |
-| showLabels | boolean | true | Show segment labels |
-| padAngle | number | 0.01 | Gap between segments |
+| Prop        | Type         | Default  | Description          |
+| ----------- | ------------ | -------- | -------------------- |
+| data        | SunburstNode | required | Hierarchical data    |
+| innerRadius | number       | 50       | Center hole radius   |
+| showLabels  | boolean      | true     | Show segment labels  |
+| padAngle    | number       | 0.01     | Gap between segments |
 
 ## Examples
 

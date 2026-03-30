@@ -5,7 +5,10 @@ featured: true
 component: true
 ---
 
-<ComponentPreview name="histogram-chart-demo" description="A histogram chart displaying data distribution across bins with customizable bar styling." />
+<ComponentPreview
+  name="histogram-chart-demo"
+  description="A histogram chart displaying data distribution across bins with customizable bar styling."
+/>
 
 ## About
 
@@ -33,7 +36,10 @@ npx shadcn@latest add https://ui.simplifying.ai/r/histogram-chart.json
 
 <Step>Copy and paste the following code into your project.</Step>
 
-<ComponentSource name="histogram-chart" title="components/ui/charts/histogram-chart.tsx" />
+<ComponentSource
+  name="histogram-chart"
+  title="components/ui/charts/histogram-chart.tsx"
+/>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -77,14 +83,7 @@ import { HistogramChart } from "@/components/ui/charts"
 const data = [12, 15, 18, 22, 25, 28, 30, 32, 35, 38, 40, 42, 45]
 
 export function Example() {
-  return (
-    <HistogramChart
-      data={data}
-      bins={20}
-      color="#4285f4"
-      showBorder
-    />
-  )
+  return <HistogramChart data={data} bins={20} color="#4285f4" showBorder />
 }
 ```
 
@@ -99,13 +98,7 @@ const datasets = [
 ]
 
 export function OverlayExample() {
-  return (
-    <HistogramChart
-      data={datasets}
-      variant="overlay"
-      bins={30}
-    />
-  )
+  return <HistogramChart data={datasets} variant="overlay" bins={30} />
 }
 ```
 
@@ -128,21 +121,21 @@ export function GradientExample() {
 
 ## API Reference
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| data | `number[]` or `HistogramDataset[]` | required | Single or multiple datasets |
-| variant | `"default"` `"overlay"` `"gradient"` `"stepped"` | `"default"` | Display style |
-| bins | `number` | `30` | Number of histogram bins |
-| color | `string` | - | Bar color (single dataset) |
-| colorScale | `"viridis"` `"plasma"` `"warm"` `"cool"` `"rainbow"` | `"viridis"` | Color scale for gradient |
-| showBorder | `boolean` | `true` | Show bar border stroke |
-| borderColor | `string` | - | Border color (defaults to fill) |
-| cornerRadius | `number` | `0` | Bar corner radius |
-| fillOpacity | `number` | varies | Fill opacity (auto by variant) |
-| normalized | `boolean` | `false` | Show percentages |
-| showDensity | `boolean` | `false` | Show density values |
-| showLegend | `boolean` | `true` | Show legend for multi-dataset |
-| barPadding | `number` | `1` | Padding between bars |
+| Prop         | Type                                                 | Default     | Description                     |
+| ------------ | ---------------------------------------------------- | ----------- | ------------------------------- |
+| data         | `number[]` or `HistogramDataset[]`                   | required    | Single or multiple datasets     |
+| variant      | `"default"` `"overlay"` `"gradient"` `"stepped"`     | `"default"` | Display style                   |
+| bins         | `number`                                             | `30`        | Number of histogram bins        |
+| color        | `string`                                             | -           | Bar color (single dataset)      |
+| colorScale   | `"viridis"` `"plasma"` `"warm"` `"cool"` `"rainbow"` | `"viridis"` | Color scale for gradient        |
+| showBorder   | `boolean`                                            | `true`      | Show bar border stroke          |
+| borderColor  | `string`                                             | -           | Border color (defaults to fill) |
+| cornerRadius | `number`                                             | `0`         | Bar corner radius               |
+| fillOpacity  | `number`                                             | varies      | Fill opacity (auto by variant)  |
+| normalized   | `boolean`                                            | `false`     | Show percentages                |
+| showDensity  | `boolean`                                            | `false`     | Show density values             |
+| showLegend   | `boolean`                                            | `true`      | Show legend for multi-dataset   |
+| barPadding   | `number`                                             | `1`         | Padding between bars            |
 
 ## Data Types
 
