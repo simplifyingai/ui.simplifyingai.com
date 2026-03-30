@@ -289,7 +289,6 @@ export function ChoroplethChart({
       return proj.scale(scale).translate([innerWidth / 2, innerHeight / 2])
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return proj.fitSize([innerWidth, innerHeight], geoData as any)
   }, [projection, innerWidth, innerHeight, geoData])
 

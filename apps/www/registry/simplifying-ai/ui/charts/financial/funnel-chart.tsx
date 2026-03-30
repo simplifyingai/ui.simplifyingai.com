@@ -377,7 +377,7 @@ export function FunnelChart({
       config={config}
       className={cn("!aspect-auto flex-col", className)}
     >
-      <div className="relative mx-auto w-full max-w-[400px]">
+      <div className="relative w-full">
         <div
           ref={containerRef}
           className="relative w-full"
