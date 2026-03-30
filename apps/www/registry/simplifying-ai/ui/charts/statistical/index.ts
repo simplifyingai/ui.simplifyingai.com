@@ -2,13 +2,13 @@ export { HistogramChart, type HistogramChartProps } from "./histogram-chart"
 export {
   BoxPlotChart,
   type BoxPlotChartProps,
-  type BoxPlotData,
+  type BoxPlotDataPoint,
   type BoxPlotStats,
 } from "./box-plot-chart"
 export {
   ViolinChart,
   type ViolinChartProps,
-  type ViolinChartData,
+  type ViolinDataPoint,
 } from "./violin-chart"
 export {
   PolarChart,

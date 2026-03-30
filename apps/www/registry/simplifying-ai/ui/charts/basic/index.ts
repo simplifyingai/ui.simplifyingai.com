@@ -8,13 +8,11 @@ export {
   BarChart,
   type BarChartProps,
   type BarChartDataPoint,
-  type BarChartSeries,
 } from "./bar-chart"
 export {
   AreaChart,
   type AreaChartProps,
   type AreaChartDataPoint,
-  type AreaChartSeries,
 } from "./area-chart"
 export {
   ScatterChart,
