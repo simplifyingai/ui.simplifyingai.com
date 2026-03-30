@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/dumbbell-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { DumbbellChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Marketing\", start: 45, end: 72 },\n  { category: \"Sales\", start: 68, end: 85 },\n  { category: \"Engineering\", start: 82, end: 78 },\n  { category: \"Support\", start: 55, end: 88 },\n  { category: \"HR\", start: 40, end: 65 },\n  { category: \"Finance\", start: 72, end: 80 },\n]\n\nexport default function DumbbellChartDemo() {\n  return (\n    <DumbbellChart\n      data={data}\n      startLabel=\"2023\"\n      endLabel=\"2024\"\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { DumbbellChart } from \"@/components/ui/charts\"\n\nconst data = [\n  { category: \"Marketing\", start: 45, end: 72 },\n  { category: \"Sales\", start: 68, end: 85 },\n  { category: \"Engineering\", start: 82, end: 78 },\n  { category: \"Support\", start: 55, end: 88 },\n  { category: \"HR\", start: 40, end: 65 },\n  { category: \"Finance\", start: 72, end: 80 },\n]\n\nexport default function DumbbellChartDemo() {\n  return <DumbbellChart data={data} startLabel=\"2023\" endLabel=\"2024\" />\n}\n",
       "type": "registry:example"
     }
   ],

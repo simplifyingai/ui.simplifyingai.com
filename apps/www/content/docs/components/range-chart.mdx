@@ -9,7 +9,7 @@ component: true
 
 ## About
 
-Range Charts display data ranges using area bands or bar ranges. They're perfect for showing temperature ranges, confidence intervals, stock price ranges, or any data with low/high bounds.
+Range Charts display data ranges using various visual styles including area bands, bar ranges, error bars, and floating bars. Perfect for showing temperature ranges, confidence intervals, stock price ranges, salary bands, or any data with low/high bounds.
 
 ## Installation
 
@@ -70,7 +70,7 @@ export function Example() {
 
 ### Default (Area Band)
 
-The default range chart displays data ranges as a smooth filled area with a dashed mid-line.
+Smooth filled area between low and high values with a dashed mid-line.
 
 <ComponentPreview name="range-chart-demo" />
 
@@ -80,20 +80,34 @@ Vertical bar representation of ranges, ideal for categorical comparisons.
 
 <ComponentPreview name="range-chart-bars" />
 
-### Statistical Data
+### Error Bars
 
-Bar ranges work well for confidence intervals and statistical data.
+Statistical error bars with caps, perfect for scientific data and confidence intervals.
 
 <ComponentPreview name="range-chart-error-bars" />
+
+### Floating Bars
+
+Solid floating bars without stroke, great for salary ranges and price bands.
+
+<ComponentPreview name="range-chart-floating" />
+
+### Horizontal Orientation
+
+Horizontal layout for better label readability with many categories.
+
+<ComponentPreview name="range-chart-horizontal" />
 
 ## API Reference
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | data | RangeDataPoint[] | required | Array of data points |
-| variant | "area" \| "bars" | "area" | Visual style |
+| variant | "area" \| "bars" \| "errorBars" \| "floating" | "area" | Visual style |
+| orientation | "vertical" \| "horizontal" | "vertical" | Chart orientation |
 | showMidLine | boolean | true | Show middle value line/marker |
 | showGrid | boolean | true | Show grid lines |
+| showValues | boolean | false | Show value labels |
 | fillColor | string | "#3b82f6" | Range fill color |
 | strokeColor | string | "#1d4ed8" | Border stroke color |
 | midLineColor | string | "#1e40af" | Mid-line color |
@@ -110,13 +124,29 @@ interface RangeDataPoint {
   low: number       // Lower bound of range
   high: number      // Upper bound of range
   mid?: number      // Optional middle value (mean, median, etc.)
+  color?: string    // Optional custom color for this data point
 }
 ```
 
+## Variants
+
+### Area
+Smooth band connecting all data points. Best for time series data where you want to show continuous ranges like temperature bands or confidence intervals.
+
+### Bars
+Individual rectangular bars for each category. Ideal for comparing discrete ranges across categories like stock price ranges or salary bands.
+
+### Error Bars
+Statistical visualization with thin lines and caps. Perfect for scientific data, showing mean values with confidence intervals or standard deviations.
+
+### Floating
+Solid filled bars without borders. Great for cleaner visualizations of ranges like salary bands or price ranges where the focus is on the range itself.
+
 ## Notes
 
-- The `area` variant creates a smooth band between low and high values with a dashed mid-line
-- The `bars` variant shows individual range bars with a solid mid-line marker
+- All variants support both vertical and horizontal orientations
+- The `area` variant only works with vertical orientation (horizontal falls back to bars)
 - Hover over any data point to see detailed values in the tooltip
 - Legend automatically displays what the band and mid-line represent
 - Use custom labels (lowLabel, highLabel, midLabel) to match your data context
+- Each data point can have a custom color via the `color` property

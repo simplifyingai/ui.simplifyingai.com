@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/charts/polar-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { PolarChart } from \"@/components/ui/charts/statistical/polar-chart\"\n\nconst windData = [\n  { category: \"N\", value: 45 },\n  { category: \"NE\", value: 32 },\n  { category: \"E\", value: 28 },\n  { category: \"SE\", value: 15 },\n  { category: \"S\", value: 22 },\n  { category: \"SW\", value: 38 },\n  { category: \"W\", value: 52 },\n  { category: \"NW\", value: 48 },\n]\n\nexport default function PolarChartDemo() {\n  return (\n    <div className=\"w-full max-w-md mx-auto\">\n      <PolarChart\n        data={windData}\n        variant=\"rose\"\n        showLabels\n        showValues={false}\n        showGrid\n      />\n    </div>\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { PolarChart } from \"@/components/ui/charts/statistical/polar-chart\"\n\nconst windData = [\n  { category: \"N\", value: 45 },\n  { category: \"NE\", value: 32 },\n  { category: \"E\", value: 28 },\n  { category: \"SE\", value: 15 },\n  { category: \"S\", value: 22 },\n  { category: \"SW\", value: 38 },\n  { category: \"W\", value: 52 },\n  { category: \"NW\", value: 48 },\n]\n\nexport default function PolarChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-md\">\n      <PolarChart\n        data={windData}\n        variant=\"rose\"\n        showLabels\n        showValues={false}\n        showGrid\n      />\n    </div>\n  )\n}\n",
       "type": "registry:example"
     }
   ],

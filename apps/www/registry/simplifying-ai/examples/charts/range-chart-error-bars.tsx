@@ -14,7 +14,7 @@ export default function RangeChartErrorBars() {
   return (
     <RangeChart
       data={experimentData}
-      variant="bars"
+      variant="errorBars"
       lowLabel="Lower CI"
       highLabel="Upper CI"
       midLabel="Mean"

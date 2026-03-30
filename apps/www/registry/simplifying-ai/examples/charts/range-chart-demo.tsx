@@ -21,6 +21,7 @@ export default function RangeChartDemo() {
   return (
     <RangeChart
       data={temperatureData}
+      variant="area"
       lowLabel="Min"
       highLabel="Max"
       midLabel="Avg"

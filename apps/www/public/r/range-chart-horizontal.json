@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "range-chart-horizontal",
+  "registryDependencies": [
+    "range-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/range-chart-horizontal.tsx",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst performanceData = [\n  { category: \"Response Time\", low: 120, high: 280, mid: 180 },\n  { category: \"Throughput\", low: 450, high: 720, mid: 580 },\n  { category: \"CPU Usage\", low: 35, high: 85, mid: 55 },\n  { category: \"Memory\", low: 2.1, high: 4.8, mid: 3.2 },\n  { category: \"Latency\", low: 15, high: 65, mid: 32 },\n]\n\nexport default function RangeChartHorizontal() {\n  return (\n    <RangeChart\n      data={performanceData}\n      variant=\"bars\"\n      orientation=\"horizontal\"\n      lowLabel=\"Min\"\n      highLabel=\"Max\"\n      midLabel=\"Avg\"\n      fillColor=\"#f59e0b\"\n      strokeColor=\"#d97706\"\n      midLineColor=\"#b45309\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

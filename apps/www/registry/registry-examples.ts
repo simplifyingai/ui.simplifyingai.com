@@ -1498,4 +1498,26 @@ export const examples: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "range-chart-floating",
+    type: "registry:example",
+    registryDependencies: ["range-chart"],
+    files: [
+      {
+        path: "examples/charts/range-chart-floating.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "range-chart-horizontal",
+    type: "registry:example",
+    registryDependencies: ["range-chart"],
+    files: [
+      {
+        path: "examples/charts/range-chart-horizontal.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
 ]

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "range-chart-floating",
+  "registryDependencies": [
+    "range-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/range-chart-floating.tsx",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst salaryData = [\n  { category: \"Junior\", low: 45000, high: 65000, mid: 55000 },\n  { category: \"Mid-Level\", low: 65000, high: 95000, mid: 80000 },\n  { category: \"Senior\", low: 95000, high: 140000, mid: 115000 },\n  { category: \"Lead\", low: 120000, high: 170000, mid: 145000 },\n  { category: \"Principal\", low: 150000, high: 220000, mid: 185000 },\n]\n\nexport default function RangeChartFloating() {\n  return (\n    <RangeChart\n      data={salaryData}\n      variant=\"floating\"\n      lowLabel=\"Min Salary\"\n      highLabel=\"Max Salary\"\n      midLabel=\"Median\"\n      fillColor=\"#8b5cf6\"\n      midLineColor=\"#6d28d9\"\n      valueFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

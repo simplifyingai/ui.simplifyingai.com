@@ -1959,6 +1959,28 @@
           "type": "registry:example"
         }
       ]
+    },
+    {
+      "name": "range-chart-floating",
+      "type": "registry:example",
+      "registryDependencies": ["range-chart"],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/charts/range-chart-floating.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "range-chart-horizontal",
+      "type": "registry:example",
+      "registryDependencies": ["range-chart"],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/charts/range-chart-horizontal.tsx",
+          "type": "registry:example"
+        }
+      ]
     }
   ]
 }

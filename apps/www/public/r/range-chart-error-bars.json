@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/charts/range-chart-error-bars.tsx",
-      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst experimentData = [\n  { category: \"Control\", low: 42, high: 58, mid: 50 },\n  { category: \"Group A\", low: 55, high: 75, mid: 65 },\n  { category: \"Group B\", low: 48, high: 68, mid: 58 },\n  { category: \"Group C\", low: 70, high: 90, mid: 80 },\n  { category: \"Group D\", low: 35, high: 55, mid: 45 },\n]\n\nexport default function RangeChartErrorBars() {\n  return (\n    <RangeChart\n      data={experimentData}\n      variant=\"bars\"\n      lowLabel=\"Lower CI\"\n      highLabel=\"Upper CI\"\n      midLabel=\"Mean\"\n      fillColor=\"#dc2626\"\n      strokeColor=\"#b91c1c\"\n      midLineColor=\"#7f1d1d\"\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst experimentData = [\n  { category: \"Control\", low: 42, high: 58, mid: 50 },\n  { category: \"Group A\", low: 55, high: 75, mid: 65 },\n  { category: \"Group B\", low: 48, high: 68, mid: 58 },\n  { category: \"Group C\", low: 70, high: 90, mid: 80 },\n  { category: \"Group D\", low: 35, high: 55, mid: 45 },\n]\n\nexport default function RangeChartErrorBars() {\n  return (\n    <RangeChart\n      data={experimentData}\n      variant=\"errorBars\"\n      lowLabel=\"Lower CI\"\n      highLabel=\"Upper CI\"\n      midLabel=\"Mean\"\n      fillColor=\"#dc2626\"\n      strokeColor=\"#b91c1c\"\n      midLineColor=\"#7f1d1d\"\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],
