@@ -1162,6 +1162,19 @@
       ]
     },
     {
+      "name": "violin-chart-boxplot-demo",
+      "type": "registry:example",
+      "registryDependencies": [
+        "violin-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/violin-chart-boxplot-demo.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
       "name": "candlestick-chart-demo",
       "type": "registry:example",
       "registryDependencies": [
@@ -2137,14 +2150,14 @@
       ]
     },
     {
-      "name": "parallel-coordinates-iris",
+      "name": "parallel-coordinates-curved",
       "type": "registry:example",
       "registryDependencies": [
         "parallel-coordinates"
       ],
       "files": [
         {
-          "path": "registry/simplifying-ai/examples/charts/parallel-coordinates-iris.tsx",
+          "path": "registry/simplifying-ai/examples/charts/parallel-coordinates-curved.tsx",
           "type": "registry:example"
         }
       ]
@@ -2228,6 +2241,19 @@
       ]
     },
     {
+      "name": "splom-chart-upper",
+      "type": "registry:example",
+      "registryDependencies": [
+        "splom-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/charts/splom-chart-upper.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
       "name": "parcats-chart-demo",
       "type": "registry:example",
       "registryDependencies": [
@@ -2249,6 +2275,19 @@
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parcats-chart-flow.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
+      "name": "parcats-chart-ribbon",
+      "type": "registry:example",
+      "registryDependencies": [
+        "parcats-chart"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/charts/parcats-chart-ribbon.tsx",
           "type": "registry:example"
         }
       ]

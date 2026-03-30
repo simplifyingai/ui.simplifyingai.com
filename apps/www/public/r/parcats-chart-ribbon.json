@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "parcats-chart-ribbon",
+  "registryDependencies": [
+    "parcats-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/parcats-chart-ribbon.tsx",
+      "content": "\"use client\"\n\nimport { ParcatsChart } from \"@/components/ui/charts/statistical/parcats-chart\"\n\n// Customer segmentation data\nconst customerData = [\n  { id: \"1\", categories: { Segment: \"Premium\", Channel: \"Online\", Outcome: \"Retained\" } },\n  { id: \"2\", categories: { Segment: \"Premium\", Channel: \"Store\", Outcome: \"Retained\" } },\n  { id: \"3\", categories: { Segment: \"Standard\", Channel: \"Online\", Outcome: \"Churned\" } },\n  { id: \"4\", categories: { Segment: \"Standard\", Channel: \"Store\", Outcome: \"Retained\" } },\n  { id: \"5\", categories: { Segment: \"Budget\", Channel: \"Online\", Outcome: \"Churned\" } },\n  { id: \"6\", categories: { Segment: \"Premium\", Channel: \"Online\", Outcome: \"Retained\" } },\n  { id: \"7\", categories: { Segment: \"Budget\", Channel: \"Store\", Outcome: \"Retained\" } },\n  { id: \"8\", categories: { Segment: \"Standard\", Channel: \"Online\", Outcome: \"Retained\" } },\n  { id: \"9\", categories: { Segment: \"Premium\", Channel: \"Store\", Outcome: \"Churned\" } },\n  { id: \"10\", categories: { Segment: \"Budget\", Channel: \"Online\", Outcome: \"Churned\" } },\n]\n\nconst dimensions = [\"Segment\", \"Channel\", \"Outcome\"]\n\nexport default function ParcatsChartRibbon() {\n  return (\n    <ParcatsChart\n      data={customerData}\n      dimensions={dimensions}\n      variant=\"ribbon\"\n      showCounts\n      color=\"#8b5cf6\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

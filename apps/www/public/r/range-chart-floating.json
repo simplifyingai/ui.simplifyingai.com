@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/charts/range-chart-floating.tsx",
-      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst salaryData = [\n  { category: \"Junior\", low: 45000, high: 65000, mid: 55000 },\n  { category: \"Mid-Level\", low: 65000, high: 95000, mid: 80000 },\n  { category: \"Senior\", low: 95000, high: 140000, mid: 115000 },\n  { category: \"Lead\", low: 120000, high: 170000, mid: 145000 },\n  { category: \"Principal\", low: 150000, high: 220000, mid: 185000 },\n]\n\nexport default function RangeChartFloating() {\n  return (\n    <RangeChart\n      data={salaryData}\n      variant=\"floating\"\n      lowLabel=\"Min Salary\"\n      highLabel=\"Max Salary\"\n      midLabel=\"Median\"\n      fillColor=\"#8b5cf6\"\n      midLineColor=\"#6d28d9\"\n      valueFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst salaryData = [\n  { category: \"Junior\", low: 45, high: 65, mid: 55 },\n  { category: \"Mid-Level\", low: 65, high: 95, mid: 80 },\n  { category: \"Senior\", low: 95, high: 140, mid: 115 },\n  { category: \"Lead\", low: 120, high: 170, mid: 145 },\n  { category: \"Principal\", low: 150, high: 220, mid: 185 },\n]\n\nexport default function RangeChartFloating() {\n  return (\n    <RangeChart\n      data={salaryData}\n      lowLabel=\"Min Salary\"\n      highLabel=\"Max Salary\"\n      midLabel=\"Median\"\n      color=\"#8b5cf6\"\n      fillOpacity={0.4}\n      valueFormatter={(v) => `$${v}K`}\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],

@@ -509,6 +509,17 @@ export const examples: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "violin-chart-boxplot-demo",
+    type: "registry:example",
+    registryDependencies: ["violin-chart"],
+    files: [
+      {
+        path: "examples/violin-chart-boxplot-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
   // Financial Charts
   {
     name: "candlestick-chart-demo",
@@ -1343,12 +1354,12 @@ export const examples: Registry["items"] = [
     ],
   },
   {
-    name: "parallel-coordinates-iris",
+    name: "parallel-coordinates-curved",
     type: "registry:example",
     registryDependencies: ["parallel-coordinates"],
     files: [
       {
-        path: "examples/charts/parallel-coordinates-iris.tsx",
+        path: "examples/charts/parallel-coordinates-curved.tsx",
         type: "registry:example",
       },
     ],
@@ -1422,6 +1433,17 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "splom-chart-upper",
+    type: "registry:example",
+    registryDependencies: ["splom-chart"],
+    files: [
+      {
+        path: "examples/charts/splom-chart-upper.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "parcats-chart-demo",
     type: "registry:example",
     registryDependencies: ["parcats-chart"],
@@ -1444,6 +1466,17 @@ export const examples: Registry["items"] = [
     ],
   },
   {
+    name: "parcats-chart-ribbon",
+    type: "registry:example",
+    registryDependencies: ["parcats-chart"],
+    files: [
+      {
+        path: "examples/charts/parcats-chart-ribbon.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
     name: "ternary-chart-demo",
     type: "registry:example",
     registryDependencies: ["ternary-chart"],
@@ -1461,6 +1494,17 @@ export const examples: Registry["items"] = [
     files: [
       {
         path: "examples/charts/ternary-chart-composition.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "ternary-chart-filled",
+    type: "registry:example",
+    registryDependencies: ["ternary-chart"],
+    files: [
+      {
+        path: "examples/charts/ternary-chart-filled.tsx",
         type: "registry:example",
       },
     ],

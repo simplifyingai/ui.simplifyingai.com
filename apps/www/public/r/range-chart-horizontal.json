@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "examples/charts/range-chart-horizontal.tsx",
-      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst performanceData = [\n  { category: \"Response Time\", low: 120, high: 280, mid: 180 },\n  { category: \"Throughput\", low: 450, high: 720, mid: 580 },\n  { category: \"CPU Usage\", low: 35, high: 85, mid: 55 },\n  { category: \"Memory\", low: 2.1, high: 4.8, mid: 3.2 },\n  { category: \"Latency\", low: 15, high: 65, mid: 32 },\n]\n\nexport default function RangeChartHorizontal() {\n  return (\n    <RangeChart\n      data={performanceData}\n      variant=\"bars\"\n      orientation=\"horizontal\"\n      lowLabel=\"Min\"\n      highLabel=\"Max\"\n      midLabel=\"Avg\"\n      fillColor=\"#f59e0b\"\n      strokeColor=\"#d97706\"\n      midLineColor=\"#b45309\"\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst stockData = [\n  { category: \"Q1\", low: 100, high: 145, mid: 120 },\n  { category: \"Q2\", low: 130, high: 180, mid: 155 },\n  { category: \"Q3\", low: 155, high: 210, mid: 180 },\n  { category: \"Q4\", low: 175, high: 240, mid: 210 },\n]\n\nexport default function RangeChartHorizontal() {\n  return (\n    <RangeChart\n      data={stockData}\n      variant=\"band\"\n      showMidLine={true}\n      showMarkers={true}\n      lowLabel=\"Low\"\n      highLabel=\"High\"\n      midLabel=\"Close\"\n      color=\"#10b981\"\n      fillOpacity={0.35}\n      valueFormatter={(v) => `$${v}`}\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],

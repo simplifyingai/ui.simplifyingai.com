@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "parallel-coordinates-curved",
+  "registryDependencies": [
+    "parallel-coordinates"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/parallel-coordinates-curved.tsx",
+      "content": "\"use client\"\n\nimport { ParallelCoordinates } from \"@/components/ui/charts/statistical/parallel-coordinates\"\n\n// Iris dataset style - measurements of flowers\nconst flowerData = [\n  {\n    id: \"Sample 1\",\n    values: {\n      sepalLength: 5.1,\n      sepalWidth: 3.5,\n      petalLength: 1.4,\n      petalWidth: 0.2,\n    },\n  },\n  {\n    id: \"Sample 2\",\n    values: {\n      sepalLength: 4.9,\n      sepalWidth: 3.0,\n      petalLength: 1.4,\n      petalWidth: 0.2,\n    },\n  },\n  {\n    id: \"Sample 3\",\n    values: {\n      sepalLength: 7.0,\n      sepalWidth: 3.2,\n      petalLength: 4.7,\n      petalWidth: 1.4,\n    },\n  },\n  {\n    id: \"Sample 4\",\n    values: {\n      sepalLength: 6.4,\n      sepalWidth: 3.2,\n      petalLength: 4.5,\n      petalWidth: 1.5,\n    },\n  },\n  {\n    id: \"Sample 5\",\n    values: {\n      sepalLength: 6.3,\n      sepalWidth: 3.3,\n      petalLength: 6.0,\n      petalWidth: 2.5,\n    },\n  },\n  {\n    id: \"Sample 6\",\n    values: {\n      sepalLength: 5.8,\n      sepalWidth: 2.7,\n      petalLength: 5.1,\n      petalWidth: 1.9,\n    },\n  },\n  {\n    id: \"Sample 7\",\n    values: {\n      sepalLength: 5.0,\n      sepalWidth: 3.4,\n      petalLength: 1.5,\n      petalWidth: 0.2,\n    },\n  },\n  {\n    id: \"Sample 8\",\n    values: {\n      sepalLength: 6.9,\n      sepalWidth: 3.1,\n      petalLength: 4.9,\n      petalWidth: 1.5,\n    },\n  },\n]\n\nconst dimensions = [\"sepalLength\", \"sepalWidth\", \"petalLength\", \"petalWidth\"]\n\nexport default function ParallelCoordinatesCurved() {\n  return (\n    <ParallelCoordinates\n      data={flowerData}\n      dimensions={dimensions}\n      variant=\"curved\"\n      showLabels\n      showValues\n      color=\"#8b5cf6\"\n      lineOpacity={0.5}\n      valueFormatter={(v) => v.toFixed(1)}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

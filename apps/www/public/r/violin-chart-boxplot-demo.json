@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "violin-chart-boxplot-demo",
+  "registryDependencies": [
+    "violin-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/violin-chart-boxplot-demo.tsx",
+      "content": "\"use client\"\n\nimport { ViolinChart } from \"@/components/ui/charts\"\n\n// Generate sample data\nconst generateData = (mean: number, std: number, n: number, seed: number) => {\n  const values: number[] = []\n  let s = seed\n  for (let i = 0; i < n; i++) {\n    s = (s * 9301 + 49297) % 233280\n    const u1 = s / 233280\n    s = (s * 9301 + 49297) % 233280\n    const u2 = s / 233280\n    const z = Math.sqrt(-2 * Math.log(u1 || 0.001)) * Math.cos(2 * Math.PI * u2)\n    values.push(mean + std * z)\n  }\n  return values\n}\n\n// Box plot only variant - no violin shape\nconst data = [\n  { category: \"Q1\", values: generateData(82, 8, 50, 1) },\n  { category: \"Q2\", values: generateData(78, 12, 50, 2) },\n  { category: \"Q3\", values: generateData(85, 10, 50, 3) },\n  { category: \"Q4\", values: generateData(90, 6, 50, 4) },\n]\n\nexport default function ViolinChartBoxplotDemo() {\n  return (\n    <ViolinChart data={data} variant=\"boxplot\" showMedian color=\"#8b5cf6\" />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

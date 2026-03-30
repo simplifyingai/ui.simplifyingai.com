@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "violin-chart-bean",
+  "registryDependencies": [
+    "violin-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/violin-chart-bean.tsx",
+      "content": "\"use client\"\n\nimport { ViolinChart } from \"@/components/ui/charts\"\n\n// Generate sample data\nconst generateData = (mean: number, std: number, n: number, seed: number) => {\n  const values: number[] = []\n  let s = seed\n  for (let i = 0; i < n; i++) {\n    s = (s * 9301 + 49297) % 233280\n    const u1 = s / 233280\n    s = (s * 9301 + 49297) % 233280\n    const u2 = s / 233280\n    const z = Math.sqrt(-2 * Math.log(u1 || 0.001)) * Math.cos(2 * Math.PI * u2)\n    values.push(mean + std * z)\n  }\n  return values\n}\n\n// Small sample data for bean plot (showing individual points)\nconst data = [\n  { category: \"Control\", values: generateData(50, 8, 30, 100), color: \"#6366f1\" },\n  { category: \"Treatment A\", values: generateData(62, 10, 30, 200), color: \"#8b5cf6\" },\n  { category: \"Treatment B\", values: generateData(58, 12, 30, 300), color: \"#a855f7\" },\n]\n\nexport default function ViolinChartBean() {\n  return (\n    <ViolinChart\n      data={data}\n      variant=\"bean\"\n      showBoxPlot={false}\n      showMedian\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

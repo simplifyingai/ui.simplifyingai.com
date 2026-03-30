@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "splom-chart-upper",
+  "registryDependencies": [
+    "splom-chart"
+  ],
+  "files": [
+    {
+      "path": "examples/charts/splom-chart-upper.tsx",
+      "content": "\"use client\"\n\nimport { SplomChart } from \"@/components/ui/charts/statistical/splom-chart\"\n\n// Performance metrics across different systems\nconst performanceData = [\n  { id: \"System A\", values: { cpu: 45, memory: 62, io: 38, network: 55 } },\n  { id: \"System B\", values: { cpu: 72, memory: 48, io: 65, network: 42 } },\n  { id: \"System C\", values: { cpu: 58, memory: 75, io: 52, network: 68 } },\n  { id: \"System D\", values: { cpu: 35, memory: 40, io: 28, network: 35 } },\n  { id: \"System E\", values: { cpu: 88, memory: 82, io: 78, network: 85 } },\n  { id: \"System F\", values: { cpu: 65, memory: 58, io: 60, network: 62 } },\n]\n\nconst dimensions = [\"cpu\", \"memory\", \"io\", \"network\"]\n\nexport default function SplomChartUpper() {\n  return (\n    <SplomChart\n      data={performanceData}\n      dimensions={dimensions}\n      variant=\"upper\"\n      showLabels\n      showHistograms\n      color=\"#10b981\"\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}
