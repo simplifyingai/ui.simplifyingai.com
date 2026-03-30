@@ -2,7 +2,7 @@
 
 import { ViolinChart } from "@/registry/simplifying-ai/ui/charts"
 
-// Generate sample data with seeded random
+// Generate sample data
 const generateData = (mean: number, std: number, n: number, seed: number) => {
   const values: number[] = []
   let s = seed
@@ -17,24 +17,12 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
   return values
 }
 
-// Before/After treatment comparison
+// Simple before/after comparison
 const data = [
-  { label: "Before", values: generateData(45, 15, 100, 10), color: "#1e40af" },
-  { label: "After", values: generateData(68, 12, 100, 20), color: "#3b82f6" },
+  { category: "Before", values: generateData(45, 15, 100, 10) },
+  { category: "After", values: generateData(68, 12, 100, 20) },
 ]
 
 export default function ViolinChartComparisonDemo() {
-  return (
-    <div className="mx-auto w-full max-w-sm">
-      <ViolinChart
-        data={data}
-        width={320}
-        height={350}
-        showBoxPlot
-        showMedian
-        xAxisLabel="Treatment Phase"
-        yAxisLabel="Response Score"
-      />
-    </div>
-  )
+  return <ViolinChart data={data} showBoxPlot showMedian color="#22c55e" />
 }

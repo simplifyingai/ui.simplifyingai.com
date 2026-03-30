@@ -17,13 +17,16 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
   return values
 }
 
-// Simple age distribution - minimal style without box plot
+// Box plot only variant - no violin shape
 const data = [
-  { category: "Group A", values: generateData(35, 10, 60, 1) },
-  { category: "Group B", values: generateData(42, 12, 60, 2) },
-  { category: "Group C", values: generateData(38, 8, 60, 3) },
+  { category: "Q1", values: generateData(82, 8, 50, 1) },
+  { category: "Q2", values: generateData(78, 12, 50, 2) },
+  { category: "Q3", values: generateData(85, 10, 50, 3) },
+  { category: "Q4", values: generateData(90, 6, 50, 4) },
 ]
 
-export default function ViolinChartMinimalDemo() {
-  return <ViolinChart data={data} showBoxPlot={false} showMedian />
+export default function ViolinChartBoxplotDemo() {
+  return (
+    <ViolinChart data={data} variant="boxplot" showMedian color="#8b5cf6" />
+  )
 }

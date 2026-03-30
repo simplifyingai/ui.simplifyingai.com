@@ -2,7 +2,7 @@
 
 import { ViolinChart } from "@/registry/simplifying-ai/ui/charts"
 
-// Generate sample data with seeded random
+// Generate sample data
 const generateData = (mean: number, std: number, n: number, seed: number) => {
   const values: number[] = []
   let s = seed
@@ -19,41 +19,20 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
 
 // API response time distribution
 const data = [
-  {
-    label: "GET /users",
-    values: generateData(45, 20, 100, 1),
-    color: "#1e40af",
-  },
-  {
-    label: "POST /orders",
-    values: generateData(120, 40, 100, 2),
-    color: "#2563eb",
-  },
-  {
-    label: "GET /products",
-    values: generateData(35, 15, 100, 3),
-    color: "#3b82f6",
-  },
-  {
-    label: "PUT /cart",
-    values: generateData(85, 25, 100, 4),
-    color: "#60a5fa",
-  },
+  { category: "GET /users", values: generateData(45, 20, 100, 1) },
+  { category: "POST /orders", values: generateData(120, 40, 100, 2) },
+  { category: "GET /products", values: generateData(35, 15, 100, 3) },
+  { category: "PUT /cart", values: generateData(85, 25, 100, 4) },
 ]
 
 export default function ViolinChartHorizontalDemo() {
   return (
-    <div className="mx-auto w-full max-w-lg">
-      <ViolinChart
-        data={data}
-        width={480}
-        height={350}
-        orientation="horizontal"
-        showBoxPlot
-        showMedian
-        xAxisLabel="Response Time (ms)"
-        yAxisLabel="Endpoint"
-      />
-    </div>
+    <ViolinChart
+      data={data}
+      showBoxPlot
+      showMedian
+      color="#06b6d4"
+      valueFormatter={(v) => `${v.toFixed(0)}ms`}
+    />
   )
 }

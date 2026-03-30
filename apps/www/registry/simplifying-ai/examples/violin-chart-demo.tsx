@@ -17,31 +17,13 @@ const generateData = (mean: number, std: number, n: number, seed: number) => {
   return values
 }
 
-// Performance scores by department
 const data = [
-  {
-    label: "Engineering",
-    values: generateData(78, 12, 80, 1),
-    color: "#1e40af",
-  },
-  { label: "Sales", values: generateData(72, 15, 80, 2), color: "#2563eb" },
-  { label: "Marketing", values: generateData(75, 10, 80, 3), color: "#3b82f6" },
-  { label: "Support", values: generateData(70, 18, 80, 4), color: "#60a5fa" },
-  { label: "Finance", values: generateData(82, 8, 80, 5), color: "#93c5fd" },
+  { category: "Engineering", values: generateData(78, 12, 80, 1) },
+  { category: "Sales", values: generateData(72, 15, 80, 2) },
+  { category: "Marketing", values: generateData(75, 10, 80, 3) },
+  { category: "Support", values: generateData(70, 18, 80, 4) },
 ]
 
 export default function ViolinChartDemo() {
-  return (
-    <div className="mx-auto w-full max-w-lg">
-      <ViolinChart
-        data={data}
-        width={480}
-        height={380}
-        showBoxPlot
-        showMedian
-        xAxisLabel="Department"
-        yAxisLabel="Performance Score"
-      />
-    </div>
-  )
+  return <ViolinChart data={data} showBoxPlot showMedian />
 }
