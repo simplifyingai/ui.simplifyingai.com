@@ -9,7 +9,6 @@ import { MainNav } from "@/components/main-nav"
 import { MobileNav } from "@/components/mobile-nav"
 import { ModeSwitcher } from "@/components/mode-switcher"
 import blocks from "@/registry/__blocks__.json"
-import { Button } from "@/registry/simplifying-ai/ui/button"
 import { Separator } from "@/registry/simplifying-ai/ui/separator"
 
 export function SiteHeader() {
@@ -24,23 +23,19 @@ export function SiteHeader() {
             items={siteConfig.navItems}
             className="flex lg:hidden"
           />
-          <Button
-            asChild
-            variant="ghost"
-            size="icon"
-            className="hidden size-8 lg:flex"
+          <Link
+            href="/"
+            className="hidden items-center gap-2 lg:flex"
           >
-            <Link href="/">
-              <Image
-                src="/images/logo.png"
-                alt={siteConfig.name}
-                width={32}
-                height={32}
-                className="size-7 dark:invert"
-              />
-              <span className="sr-only">{siteConfig.name}</span>
-            </Link>
-          </Button>
+            <Image
+              src="/images/logo.png"
+              alt={siteConfig.name}
+              width={32}
+              height={32}
+              className="size-6 dark:invert"
+            />
+            <span className="font-medium">Simplify Charts</span>
+          </Link>
           <MainNav items={siteConfig.navItems} className="hidden lg:flex" />
           <div className="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
             <div className="hidden w-full flex-1 md:flex md:w-auto md:flex-none">

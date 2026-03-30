@@ -10,10 +10,10 @@ import {
 export function Announcement() {
   return (
     <AnnouncementBase asChild>
-      <Link href="/docs/components/funnel-chart">
-        <AnnouncementTag>New</AnnouncementTag>
+      <Link href="/docs/components" className="inline-flex items-center">
+        <AnnouncementTag>Introducing</AnnouncementTag>
         <AnnouncementTitle>
-          40+ Chart Components <ArrowRightIcon className="size-3" />
+          40+ Chart Components <ArrowRightIcon className="size-3.5" />
         </AnnouncementTitle>
       </Link>
     </AnnouncementBase>

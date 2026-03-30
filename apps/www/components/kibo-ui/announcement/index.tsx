@@ -15,9 +15,10 @@ export const Announcement = ({
 }: AnnouncementProps) => (
   <Badge
     className={cn(
-      "group bg-background max-w-full gap-2 rounded-full px-3 py-0.5 font-medium shadow-sm transition-all",
-      "hover:shadow-md",
-      themed && "announcement-themed border-foreground/5",
+      "group inline-flex max-w-full flex-row items-center gap-0 rounded-full border-transparent py-1 pl-1 pr-4 font-medium transition-all",
+      "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+      "dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800",
+      themed && "announcement-themed",
       className
     )}
     variant={variant}
@@ -33,8 +34,9 @@ export const AnnouncementTag = ({
 }: AnnouncementTagProps) => (
   <div
     className={cn(
-      "bg-foreground/5 -ml-2.5 shrink-0 truncate rounded-full px-2.5 py-1 text-xs",
-      "group-[.announcement-themed]:bg-background/60",
+      "shrink-0 rounded-full px-3 py-1 text-xs",
+      "bg-gray-200 text-muted-foreground",
+      "dark:bg-neutral-700 dark:text-white",
       className
     )}
     {...props}
@@ -48,7 +50,7 @@ export const AnnouncementTitle = ({
   ...props
 }: AnnouncementTitleProps) => (
   <div
-    className={cn("flex items-center gap-1 truncate py-1", className)}
+    className={cn("inline-flex items-center gap-1.5 whitespace-nowrap pl-3 text-sm", className)}
     {...props}
   />
 )

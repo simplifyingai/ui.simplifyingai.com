@@ -73,8 +73,8 @@ export default function IndexPage() {
             <Button asChild size="sm">
               <Link href="/docs">Get Started</Link>
             </Button>
-            <Button asChild size="sm" variant="ghost">
-              <Link href="/docs/charts">Browse Charts</Link>
+            <Button asChild size="md" variant="ghost">
+              <Link href="/docs/components">Browse Charts</Link>
             </Button>
           </PageActions>
         </PageHeader>
