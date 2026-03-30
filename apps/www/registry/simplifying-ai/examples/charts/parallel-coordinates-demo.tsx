@@ -97,14 +97,12 @@ const dimensions = ["mpg", "cylinders", "horsepower", "weight", "acceleration"]
 
 export default function ParallelCoordinatesDemo() {
   return (
-    <div className="mx-auto w-full max-w-2xl">
-      <ParallelCoordinates
-        data={carData}
-        dimensions={dimensions}
-        showLabels
-        showValues
-        lineOpacity={0.6}
-      />
-    </div>
+    <ParallelCoordinates
+      data={carData}
+      dimensions={dimensions}
+      showLabels
+      showValues
+      lineOpacity={0.6}
+    />
   )
 }
