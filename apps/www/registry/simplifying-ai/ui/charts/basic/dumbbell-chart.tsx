@@ -9,43 +9,38 @@ export interface DumbbellDataPoint {
   category: string
   start: number
   end: number
-  startLabel?: string
-  endLabel?: string
 }
 
 export interface DumbbellChartProps {
   data: DumbbellDataPoint[]
   className?: string
-  orientation?: "horizontal" | "vertical"
   dotSize?: number
   showGrid?: boolean
-  showValues?: boolean
   valueFormatter?: (value: number) => string
   startColor?: string
   endColor?: string
   connectorColor?: string
+  startLabel?: string
+  endLabel?: string
 }
 
 export function DumbbellChart({
   data,
   className,
-  orientation = "horizontal",
-  dotSize = 10,
+  dotSize = 8,
   showGrid = true,
-  showValues = true,
   valueFormatter = (value) => value.toLocaleString(),
-  startColor = "#93c5fd",
-  endColor = "#1e40af",
-  connectorColor = "#60a5fa",
+  startColor = "#94a3b8",
+  endColor = "#3b82f6",
+  connectorColor = "#cbd5e1",
+  startLabel = "Start",
+  endLabel = "End",
 }: DumbbellChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
 
-  const isHorizontal = orientation === "horizontal"
   const width = 500
-  const height = isHorizontal ? data.length * 50 + 80 : 400
-  const margin = isHorizontal
-    ? { top: 40, right: 40, bottom: 40, left: 120 }
-    : { top: 20, right: 20, bottom: 80, left: 50 }
+  const height = data.length * 45 + 70
+  const margin = { top: 40, right: 40, bottom: 35, left: 90 }
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
@@ -53,86 +48,100 @@ export function DumbbellChart({
   const categoryScale = React.useMemo(() => {
     return scaleBand()
       .domain(data.map((d) => d.category))
-      .range(isHorizontal ? [0, innerHeight] : [0, innerWidth])
-      .padding(0.5)
-  }, [data, innerWidth, innerHeight, isHorizontal])
+      .range([0, innerHeight])
+      .padding(0.4)
+  }, [data, innerHeight])
 
   const valueScale = React.useMemo(() => {
     const allValues = data.flatMap((d) => [d.start, d.end])
     const minVal = Math.min(...allValues)
     const maxVal = Math.max(...allValues)
-    const padding = (maxVal - minVal) * 0.15
+    const range = maxVal - minVal || 1
+    const padding = range * 0.15
     return scaleLinear()
       .domain([Math.max(0, minVal - padding), maxVal + padding])
-      .range(isHorizontal ? [0, innerWidth] : [innerHeight, 0])
+      .range([0, innerWidth])
       .nice()
-  }, [data, innerWidth, innerHeight, isHorizontal])
+  }, [data, innerWidth])
 
   const ticks = valueScale.ticks(5)
 
-  // Get legend labels
-  const startLabel = data[0]?.startLabel ?? "Start"
-  const endLabel = data[0]?.endLabel ?? "End"
-
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
+      {/* Legend */}
+      <div className="mb-3 flex items-center justify-center gap-6">
+        <div className="flex items-center gap-2">
+          <div
+            className="h-3 w-3 rounded-full"
+            style={{ backgroundColor: startColor }}
+          />
+          <span className="text-muted-foreground text-sm">{startLabel}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div
+            className="h-3 w-3 rounded-full"
+            style={{ backgroundColor: endColor }}
+          />
+          <span className="text-muted-foreground text-sm">{endLabel}</span>
+        </div>
+      </div>
+
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="h-auto w-full overflow-visible"
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Legend */}
-          <g transform={`translate(${innerWidth / 2 - 80}, -25)`}>
-            <circle cx={0} cy={0} r={6} fill={startColor} />
-            <text x={12} y={0} dominantBaseline="middle" className="fill-muted-foreground text-xs">
-              {startLabel}
-            </text>
-            <circle cx={80} cy={0} r={6} fill={endColor} />
-            <text x={92} y={0} dominantBaseline="middle" className="fill-muted-foreground text-xs">
-              {endLabel}
-            </text>
-          </g>
-
           {/* Grid lines */}
-          {showGrid && ticks.map((tick) => (
-            <line
-              key={tick}
-              x1={isHorizontal ? valueScale(tick) : 0}
-              x2={isHorizontal ? valueScale(tick) : innerWidth}
-              y1={isHorizontal ? 0 : valueScale(tick)}
-              y2={isHorizontal ? innerHeight : valueScale(tick)}
-              stroke="hsl(var(--border))"
-              strokeDasharray="3 3"
-              strokeOpacity={0.5}
-            />
-          ))}
+          {showGrid &&
+            ticks.map((tick) => (
+              <line
+                key={tick}
+                x1={valueScale(tick)}
+                x2={valueScale(tick)}
+                y1={0}
+                y2={innerHeight}
+                stroke="#e5e7eb"
+                strokeWidth={1}
+              />
+            ))}
+
+          {/* Baseline */}
+          <line
+            x1={0}
+            x2={innerWidth}
+            y1={innerHeight}
+            y2={innerHeight}
+            stroke="#e5e7eb"
+            strokeWidth={1}
+          />
 
           {/* Dumbbells */}
           {data.map((d, index) => {
             const isHovered = hoveredIndex === index
-            const categoryPos = (categoryScale(d.category) ?? 0) + categoryScale.bandwidth() / 2
+            const categoryPos =
+              (categoryScale(d.category) ?? 0) + categoryScale.bandwidth() / 2
 
-            const x1 = isHorizontal ? valueScale(d.start) : categoryPos
-            const y1 = isHorizontal ? categoryPos : valueScale(d.start)
-            const x2 = isHorizontal ? valueScale(d.end) : categoryPos
-            const y2 = isHorizontal ? categoryPos : valueScale(d.end)
+            const x1 = valueScale(d.start)
+            const x2 = valueScale(d.end)
+            const y = categoryPos
 
             return (
               <g
                 key={d.category}
-                className={cn(
-                  "cursor-pointer transition-opacity duration-200",
-                  hoveredIndex !== null && !isHovered && "opacity-50"
-                )}
+                className="cursor-pointer"
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                style={{
+                  opacity: hoveredIndex !== null && !isHovered ? 0.4 : 1,
+                  transition: "opacity 150ms",
+                }}
               >
                 {/* Connector line */}
                 <line
                   x1={x1}
-                  y1={y1}
+                  y1={y}
                   x2={x2}
-                  y2={y2}
+                  y2={y}
                   stroke={connectorColor}
                   strokeWidth={3}
                   strokeLinecap="round"
@@ -141,61 +150,37 @@ export function DumbbellChart({
                 {/* Start dot */}
                 <circle
                   cx={x1}
-                  cy={y1}
-                  r={isHovered ? dotSize * 1.3 : dotSize}
+                  cy={y}
+                  r={isHovered ? dotSize + 2 : dotSize}
                   fill={startColor}
-                  stroke="#fff"
-                  strokeWidth={2}
-                  className="transition-all duration-200"
+                  style={{ transition: "r 150ms" }}
                 />
 
                 {/* End dot */}
                 <circle
                   cx={x2}
-                  cy={y2}
-                  r={isHovered ? dotSize * 1.3 : dotSize}
+                  cy={y}
+                  r={isHovered ? dotSize + 2 : dotSize}
                   fill={endColor}
-                  stroke="#fff"
-                  strokeWidth={2}
-                  className="transition-all duration-200"
+                  style={{ transition: "r 150ms" }}
                 />
-
-                {/* Value labels */}
-                {showValues && isHovered && (
-                  <>
-                    <text
-                      x={x1}
-                      y={y1 - dotSize - 6}
-                      textAnchor="middle"
-                      className="fill-muted-foreground text-xs"
-                    >
-                      {valueFormatter(d.start)}
-                    </text>
-                    <text
-                      x={x2}
-                      y={y2 - dotSize - 6}
-                      textAnchor="middle"
-                      className="fill-muted-foreground text-xs"
-                    >
-                      {valueFormatter(d.end)}
-                    </text>
-                  </>
-                )}
               </g>
             )
           })}
 
           {/* Category labels */}
           {data.map((d) => {
-            const pos = (categoryScale(d.category) ?? 0) + categoryScale.bandwidth() / 2
+            const pos =
+              (categoryScale(d.category) ?? 0) + categoryScale.bandwidth() / 2
             return (
               <text
                 key={`label-${d.category}`}
-                x={isHorizontal ? -10 : pos}
-                y={isHorizontal ? pos : innerHeight + 20}
-                textAnchor={isHorizontal ? "end" : "middle"}
-                dominantBaseline={isHorizontal ? "middle" : "auto"}
-                className="fill-foreground text-sm"
+                x={-12}
+                y={pos}
+                textAnchor="end"
+                dominantBaseline="middle"
+                fontSize={12}
+                className="fill-foreground"
               >
                 {d.category}
               </text>
@@ -206,11 +191,11 @@ export function DumbbellChart({
           {ticks.map((tick) => (
             <text
               key={`tick-${tick}`}
-              x={isHorizontal ? valueScale(tick) : -10}
-              y={isHorizontal ? innerHeight + 20 : valueScale(tick)}
-              textAnchor={isHorizontal ? "middle" : "end"}
-              dominantBaseline={isHorizontal ? "auto" : "middle"}
-              className="fill-muted-foreground text-xs"
+              x={valueScale(tick)}
+              y={innerHeight + 20}
+              textAnchor="middle"
+              fontSize={11}
+              className="fill-muted-foreground"
             >
               {valueFormatter(tick)}
             </text>
@@ -220,11 +205,14 @@ export function DumbbellChart({
 
       {/* Tooltip */}
       {hoveredIndex !== null && (
-        <div className="mt-2 text-center text-sm">
-          <span className="font-medium">{data[hoveredIndex].category}</span>
-          <span className="text-muted-foreground">
-            : {valueFormatter(data[hoveredIndex].start)} → {valueFormatter(data[hoveredIndex].end)}
-            {" "}({data[hoveredIndex].end >= data[hoveredIndex].start ? "+" : ""}
+        <div className="bg-foreground text-background pointer-events-none absolute left-1/2 top-12 z-50 -translate-x-1/2 rounded-md px-3 py-1.5 text-xs font-medium shadow-lg">
+          <span className="font-semibold">{data[hoveredIndex].category}</span>
+          <span className="mx-2">·</span>
+          <span>{startLabel}: {valueFormatter(data[hoveredIndex].start)}</span>
+          <span className="mx-1">→</span>
+          <span>{endLabel}: {valueFormatter(data[hoveredIndex].end)}</span>
+          <span className="ml-2 opacity-70">
+            ({data[hoveredIndex].end >= data[hoveredIndex].start ? "+" : ""}
             {valueFormatter(data[hoveredIndex].end - data[hoveredIndex].start)})
           </span>
         </div>

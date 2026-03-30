@@ -64,7 +64,11 @@ export {
 export { ScatterChart, type ScatterChartProps } from "./basic/scatter-chart"
 export { PieChart, type PieChartProps } from "./basic/pie-chart"
 export { DonutChart, type DonutChartProps } from "./basic/donut-chart"
-export { DotPlotChart, type DotPlotChartProps } from "./basic/dot-plot-chart"
+export {
+  DotPlotChart,
+  type DotPlotChartProps,
+  type DotPlotDataPoint,
+} from "./basic/dot-plot-chart"
 export { LollipopChart, type LollipopChartProps } from "./basic/lollipop-chart"
 export { DumbbellChart, type DumbbellChartProps } from "./basic/dumbbell-chart"
 export { SlopeChart, type SlopeChartProps } from "./basic/slope-chart"

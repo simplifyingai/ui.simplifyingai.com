@@ -1,31 +1,30 @@
 "use client"
 
 import * as React from "react"
-import { scaleLinear, scaleTime, scaleBand } from "d3-scale"
+import { scaleBand, scaleLinear } from "d3-scale"
 import { area, line, curveMonotoneX } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
 export interface RangeDataPoint {
-  x: number | Date | string
+  category: string
   low: number
   high: number
   mid?: number
-  label?: string
 }
 
 export interface RangeChartProps {
   data: RangeDataPoint[]
   className?: string
-  variant?: "area" | "bars" | "errorBars"
-  xAxisType?: "linear" | "time" | "category"
+  variant?: "area" | "bars"
   showMidLine?: boolean
-  showPoints?: boolean
+  showGrid?: boolean
   fillColor?: string
   strokeColor?: string
   midLineColor?: string
-  xAxisLabel?: string
-  yAxisLabel?: string
+  lowLabel?: string
+  highLabel?: string
+  midLabel?: string
   valueFormatter?: (value: number) => string
 }
 
@@ -33,316 +32,308 @@ export function RangeChart({
   data,
   className,
   variant = "area",
-  xAxisType = "category",
   showMidLine = true,
-  showPoints = false,
+  showGrid = true,
   fillColor = "#3b82f6",
-  strokeColor = "#1e40af",
+  strokeColor = "#1d4ed8",
   midLineColor = "#1e40af",
-  xAxisLabel,
-  yAxisLabel,
+  lowLabel = "Low",
+  highLabel = "High",
+  midLabel = "Average",
   valueFormatter = (v) => v.toLocaleString(),
 }: RangeChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
 
   const width = 500
-  const height = 350
-  const margin = { top: 20, right: 30, bottom: 50, left: 60 }
+  const height = 280
+  const margin = { top: 20, right: 30, bottom: 40, left: 50 }
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  // X Scale
+  // X Scale - category based
   const xScale = React.useMemo(() => {
-    if (xAxisType === "time") {
-      const dates = data.map((d) => d.x as Date)
-      return scaleTime()
-        .domain([Math.min(...dates.map(d => d.getTime())), Math.max(...dates.map(d => d.getTime()))])
-        .range([0, innerWidth])
-    } else if (xAxisType === "linear") {
-      const values = data.map((d) => d.x as number)
-      return scaleLinear()
-        .domain([Math.min(...values), Math.max(...values)])
-        .range([0, innerWidth])
-        .nice()
-    } else {
-      return scaleBand<string>()
-        .domain(data.map((d) => String(d.x)))
-        .range([0, innerWidth])
-        .padding(0.2)
-    }
-  }, [data, xAxisType, innerWidth])
+    return scaleBand<string>()
+      .domain(data.map((d) => d.category))
+      .range([0, innerWidth])
+      .padding(variant === "bars" ? 0.3 : 0.1)
+  }, [data, innerWidth, variant])
 
   // Y Scale
   const yScale = React.useMemo(() => {
-    const allValues = data.flatMap((d) => [d.low, d.high, d.mid ?? 0])
+    const allValues = data.flatMap((d) => [d.low, d.high])
+    if (showMidLine) {
+      data.forEach((d) => {
+        if (d.mid !== undefined) allValues.push(d.mid)
+      })
+    }
     const min = Math.min(...allValues)
     const max = Math.max(...allValues)
-    const padding = (max - min) * 0.1
+    const padding = (max - min) * 0.15
 
     return scaleLinear()
-      .domain([min - padding, max + padding])
+      .domain([Math.min(0, min - padding), max + padding])
       .range([innerHeight, 0])
       .nice()
-  }, [data, innerHeight])
+  }, [data, innerHeight, showMidLine])
 
-  // Get X position
-  const getX = (d: RangeDataPoint, i: number) => {
-    if (xAxisType === "category") {
-      const scale = xScale as ReturnType<typeof scaleBand<string>>
-      return (scale(String(d.x)) ?? 0) + scale.bandwidth() / 2
-    }
-    return (xScale as ReturnType<typeof scaleLinear>)(d.x as number)
-  }
+  const yTicks = yScale.ticks(5)
 
-  // Area generator
-  const areaGenerator = area<RangeDataPoint>()
-    .x((d, i) => getX(d, i))
-    .y0((d) => yScale(d.low))
-    .y1((d) => yScale(d.high))
-    .curve(curveMonotoneX)
+  // Area generator for the band
+  const areaPath = React.useMemo(() => {
+    if (variant !== "area") return ""
+
+    const areaGenerator = area<RangeDataPoint>()
+      .x((d) => (xScale(d.category) ?? 0) + xScale.bandwidth() / 2)
+      .y0((d) => yScale(d.low))
+      .y1((d) => yScale(d.high))
+      .curve(curveMonotoneX)
+
+    return areaGenerator(data) ?? ""
+  }, [data, xScale, yScale, variant])
 
   // Mid line generator
-  const midLineGenerator = line<RangeDataPoint>()
-    .x((d, i) => getX(d, i))
-    .y((d) => yScale(d.mid ?? (d.low + d.high) / 2))
-    .curve(curveMonotoneX)
+  const midLinePath = React.useMemo(() => {
+    if (!showMidLine || variant !== "area") return ""
 
-  // Axis ticks
-  const xTicks = xAxisType === "category"
-    ? data.map((d) => String(d.x))
-    : (xScale as ReturnType<typeof scaleLinear>).ticks(6)
-  const yTicks = yScale.ticks(6)
+    const lineGenerator = line<RangeDataPoint>()
+      .x((d) => (xScale(d.category) ?? 0) + xScale.bandwidth() / 2)
+      .y((d) => yScale(d.mid ?? (d.low + d.high) / 2))
+      .curve(curveMonotoneX)
+
+    return lineGenerator(data) ?? ""
+  }, [data, xScale, yScale, showMidLine, variant])
+
+  // Get tooltip position
+  const getTooltipStyle = (index: number): React.CSSProperties => {
+    const d = data[index]
+    const x = (xScale(d.category) ?? 0) + xScale.bandwidth() / 2
+    const y = yScale(d.mid ?? (d.low + d.high) / 2)
+
+    return {
+      left: `${((margin.left + x) / width) * 100}%`,
+      top: `${((margin.top + y) / height) * 100}%`,
+    }
+  }
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
+      {/* Legend */}
+      <div className="mb-3 flex items-center justify-center gap-6">
+        <div className="flex items-center gap-2">
+          <div
+            className="h-3 w-6 rounded-sm opacity-40"
+            style={{ backgroundColor: fillColor }}
+          />
+          <span className="text-muted-foreground text-sm">{lowLabel} - {highLabel}</span>
+        </div>
+        {showMidLine && (
+          <div className="flex items-center gap-2">
+            <div
+              className="h-0.5 w-6"
+              style={{ backgroundColor: midLineColor }}
+            />
+            <span className="text-muted-foreground text-sm">{midLabel}</span>
+          </div>
+        )}
+      </div>
+
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="h-auto w-full overflow-visible"
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Grid */}
-          {yTicks.map((tick) => (
-            <line
-              key={`grid-${tick}`}
-              x1={0}
-              x2={innerWidth}
-              y1={yScale(tick)}
-              y2={yScale(tick)}
-              stroke="hsl(var(--border))"
-              strokeDasharray="3 3"
-              strokeOpacity={0.5}
-            />
-          ))}
+          {/* Grid lines */}
+          {showGrid &&
+            yTicks.map((tick) => (
+              <line
+                key={tick}
+                x1={0}
+                x2={innerWidth}
+                y1={yScale(tick)}
+                y2={yScale(tick)}
+                stroke="#e5e7eb"
+                strokeDasharray="3 3"
+              />
+            ))}
 
-          {/* Range visualization */}
+          {/* Baseline */}
+          <line
+            x1={0}
+            x2={innerWidth}
+            y1={innerHeight}
+            y2={innerHeight}
+            stroke="#e5e7eb"
+          />
+
+          {/* Area band variant */}
           {variant === "area" && (
             <>
               <path
-                d={areaGenerator(data) ?? ""}
+                d={areaPath}
                 fill={fillColor}
                 fillOpacity={0.3}
                 stroke={strokeColor}
-                strokeWidth={1}
+                strokeWidth={1.5}
               />
               {showMidLine && (
                 <path
-                  d={midLineGenerator(data) ?? ""}
+                  d={midLinePath}
                   fill="none"
                   stroke={midLineColor}
                   strokeWidth={2}
+                  strokeDasharray="4 2"
                 />
               )}
+              {/* Hover points */}
+              {data.map((d, i) => {
+                const x = (xScale(d.category) ?? 0) + xScale.bandwidth() / 2
+                const midY = yScale(d.mid ?? (d.low + d.high) / 2)
+                const isHovered = hoveredIndex === i
+
+                return (
+                  <g
+                    key={d.category}
+                    className="cursor-pointer"
+                    onMouseEnter={() => setHoveredIndex(i)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
+                    {/* Invisible hit area */}
+                    <rect
+                      x={x - xScale.bandwidth() / 2}
+                      y={yScale(d.high)}
+                      width={xScale.bandwidth()}
+                      height={yScale(d.low) - yScale(d.high)}
+                      fill="transparent"
+                    />
+                    {/* Mid point dot */}
+                    {showMidLine && (
+                      <circle
+                        cx={x}
+                        cy={midY}
+                        r={isHovered ? 5 : 4}
+                        fill={midLineColor}
+                        stroke="white"
+                        strokeWidth={2}
+                        style={{ transition: "r 150ms" }}
+                      />
+                    )}
+                    {/* High/Low markers on hover */}
+                    {isHovered && (
+                      <>
+                        <circle
+                          cx={x}
+                          cy={yScale(d.high)}
+                          r={3}
+                          fill={strokeColor}
+                        />
+                        <circle
+                          cx={x}
+                          cy={yScale(d.low)}
+                          r={3}
+                          fill={strokeColor}
+                        />
+                      </>
+                    )}
+                  </g>
+                )
+              })}
             </>
           )}
 
-          {variant === "bars" && data.map((d, i) => {
-            const x = getX(d, i)
-            const barWidth = xAxisType === "category"
-              ? (xScale as ReturnType<typeof scaleBand<string>>).bandwidth()
-              : 20
-
-            return (
-              <g key={i}>
-                <rect
-                  x={x - barWidth / 2}
-                  y={yScale(d.high)}
-                  width={barWidth}
-                  height={yScale(d.low) - yScale(d.high)}
-                  fill={fillColor}
-                  fillOpacity={hoveredIndex === i ? 0.6 : 0.4}
-                  stroke={strokeColor}
-                  strokeWidth={1}
-                  className="cursor-pointer transition-all duration-150"
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                />
-                {showMidLine && d.mid !== undefined && (
-                  <line
-                    x1={x - barWidth / 2}
-                    x2={x + barWidth / 2}
-                    y1={yScale(d.mid)}
-                    y2={yScale(d.mid)}
-                    stroke={midLineColor}
-                    strokeWidth={2}
-                  />
-                )}
-              </g>
-            )
-          })}
-
-          {variant === "errorBars" && data.map((d, i) => {
-            const x = getX(d, i)
-            const mid = d.mid ?? (d.low + d.high) / 2
-            const capWidth = 8
-
-            return (
-              <g
-                key={i}
-                className="cursor-pointer"
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {/* Vertical line */}
-                <line
-                  x1={x}
-                  x2={x}
-                  y1={yScale(d.low)}
-                  y2={yScale(d.high)}
-                  stroke={strokeColor}
-                  strokeWidth={hoveredIndex === i ? 2.5 : 1.5}
-                  className="transition-all duration-150"
-                />
-                {/* Top cap */}
-                <line
-                  x1={x - capWidth}
-                  x2={x + capWidth}
-                  y1={yScale(d.high)}
-                  y2={yScale(d.high)}
-                  stroke={strokeColor}
-                  strokeWidth={hoveredIndex === i ? 2.5 : 1.5}
-                />
-                {/* Bottom cap */}
-                <line
-                  x1={x - capWidth}
-                  x2={x + capWidth}
-                  y1={yScale(d.low)}
-                  y2={yScale(d.low)}
-                  stroke={strokeColor}
-                  strokeWidth={hoveredIndex === i ? 2.5 : 1.5}
-                />
-                {/* Mid point */}
-                <circle
-                  cx={x}
-                  cy={yScale(mid)}
-                  r={hoveredIndex === i ? 5 : 4}
-                  fill={midLineColor}
-                  stroke="#fff"
-                  strokeWidth={1.5}
-                  className="transition-all duration-150"
-                />
-              </g>
-            )
-          })}
-
-          {/* Points for area variant */}
-          {variant === "area" && showPoints && data.map((d, i) => {
-            const x = getX(d, i)
-            const mid = d.mid ?? (d.low + d.high) / 2
-
-            return (
-              <circle
-                key={i}
-                cx={x}
-                cy={yScale(mid)}
-                r={hoveredIndex === i ? 5 : 4}
-                fill={midLineColor}
-                stroke="#fff"
-                strokeWidth={1.5}
-                className="cursor-pointer transition-all duration-150"
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              />
-            )
-          })}
-
-          {/* X Axis */}
-          <g transform={`translate(0, ${innerHeight})`}>
-            <line x1={0} x2={innerWidth} stroke="hsl(var(--border))" />
-            {xTicks.map((tick, i) => {
-              const x = xAxisType === "category"
-                ? ((xScale as ReturnType<typeof scaleBand<string>>)(String(tick)) ?? 0) +
-                  (xScale as ReturnType<typeof scaleBand<string>>).bandwidth() / 2
-                : (xScale as ReturnType<typeof scaleLinear>)(tick as number)
+          {/* Bars variant */}
+          {variant === "bars" &&
+            data.map((d, i) => {
+              const x = xScale(d.category) ?? 0
+              const barWidth = xScale.bandwidth()
+              const isHovered = hoveredIndex === i
+              const mid = d.mid ?? (d.low + d.high) / 2
 
               return (
-                <g key={i} transform={`translate(${x}, 0)`}>
-                  <line y2={5} stroke="hsl(var(--border))" />
-                  <text
-                    y={18}
-                    textAnchor="middle"
-                    className="fill-muted-foreground text-[10px]"
-                  >
-                    {xAxisType === "time"
-                      ? new Date(tick as number).toLocaleDateString()
-                      : String(tick)}
-                  </text>
+                <g
+                  key={d.category}
+                  className="cursor-pointer"
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  style={{
+                    opacity: hoveredIndex !== null && !isHovered ? 0.4 : 1,
+                    transition: "opacity 150ms",
+                  }}
+                >
+                  <rect
+                    x={x}
+                    y={yScale(d.high)}
+                    width={barWidth}
+                    height={yScale(d.low) - yScale(d.high)}
+                    fill={fillColor}
+                    fillOpacity={isHovered ? 0.5 : 0.35}
+                    stroke={strokeColor}
+                    strokeWidth={1.5}
+                    rx={2}
+                    style={{ transition: "fill-opacity 150ms" }}
+                  />
+                  {/* Mid line marker */}
+                  {showMidLine && (
+                    <line
+                      x1={x}
+                      x2={x + barWidth}
+                      y1={yScale(mid)}
+                      y2={yScale(mid)}
+                      stroke={midLineColor}
+                      strokeWidth={2}
+                    />
+                  )}
                 </g>
               )
             })}
-            {xAxisLabel && (
-              <text
-                x={innerWidth / 2}
-                y={40}
-                textAnchor="middle"
-                className="fill-foreground text-xs font-medium"
-              >
-                {xAxisLabel}
-              </text>
-            )}
-          </g>
 
-          {/* Y Axis */}
-          <g>
-            <line y1={0} y2={innerHeight} stroke="hsl(var(--border))" />
-            {yTicks.map((tick) => (
-              <g key={tick} transform={`translate(0, ${yScale(tick)})`}>
-                <line x2={-5} stroke="hsl(var(--border))" />
-                <text
-                  x={-10}
-                  textAnchor="end"
-                  dominantBaseline="middle"
-                  className="fill-muted-foreground text-[10px]"
-                >
-                  {valueFormatter(tick)}
-                </text>
-              </g>
-            ))}
-            {yAxisLabel && (
+          {/* X-axis labels */}
+          {data.map((d) => {
+            const x = (xScale(d.category) ?? 0) + xScale.bandwidth() / 2
+            return (
               <text
-                transform={`translate(-45, ${innerHeight / 2}) rotate(-90)`}
+                key={`label-${d.category}`}
+                x={x}
+                y={innerHeight + 20}
                 textAnchor="middle"
-                className="fill-foreground text-xs font-medium"
+                fontSize={11}
+                className="fill-foreground"
               >
-                {yAxisLabel}
+                {d.category}
               </text>
-            )}
-          </g>
+            )
+          })}
+
+          {/* Y-axis labels */}
+          {yTicks.map((tick) => (
+            <text
+              key={`tick-${tick}`}
+              x={-10}
+              y={yScale(tick)}
+              textAnchor="end"
+              dominantBaseline="middle"
+              fontSize={11}
+              className="fill-muted-foreground"
+            >
+              {valueFormatter(tick)}
+            </text>
+          ))}
         </g>
       </svg>
 
       {/* Tooltip */}
       {hoveredIndex !== null && (
-        <div className="mt-2 text-center">
-          <div className="border-border/50 bg-background mx-auto inline-block rounded-lg border px-3 py-2 text-sm shadow-lg">
-            <div className="font-medium">
-              {data[hoveredIndex].label ?? String(data[hoveredIndex].x)}
-            </div>
-            <div className="text-muted-foreground text-xs">
-              <div>High: {valueFormatter(data[hoveredIndex].high)}</div>
+        <div
+          className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full"
+          style={getTooltipStyle(hoveredIndex)}
+        >
+          <div className="bg-foreground text-background mb-2 rounded-md px-3 py-2 text-xs font-medium shadow-lg">
+            <div className="mb-1 font-semibold">{data[hoveredIndex].category}</div>
+            <div className="space-y-0.5 opacity-90">
+              <div>{highLabel}: {valueFormatter(data[hoveredIndex].high)}</div>
               {data[hoveredIndex].mid !== undefined && (
-                <div>Mid: {valueFormatter(data[hoveredIndex].mid!)}</div>
+                <div>{midLabel}: {valueFormatter(data[hoveredIndex].mid!)}</div>
               )}
-              <div>Low: {valueFormatter(data[hoveredIndex].low)}</div>
+              <div>{lowLabel}: {valueFormatter(data[hoveredIndex].low)}</div>
             </div>
           </div>
         </div>
