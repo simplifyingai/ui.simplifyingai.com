@@ -29,7 +29,7 @@ export function SiteHeader() {
               alt={siteConfig.name}
               width={32}
               height={32}
-              className="size-6 dark:invert"
+              className="size-6"
             />
             <span className="font-medium">Simplify Charts</span>
           </Link>
