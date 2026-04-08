@@ -12,8 +12,14 @@ const data = [
 
 export default function PieChartDemo() {
   return (
-    <div className="w-full max-w-xs">
-      <PieChart data={data} width={280} height={280} showLegend={false} />
+    <div className="w-full max-w-[200px]">
+      <PieChart
+        data={data}
+        width={200}
+        height={200}
+        margin={{ top: 5, right: 5, bottom: 5, left: 5 }}
+        showLegend={false}
+      />
     </div>
   )
 }

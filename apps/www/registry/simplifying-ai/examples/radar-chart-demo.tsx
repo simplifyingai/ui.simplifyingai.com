@@ -30,8 +30,8 @@ const data = [
 
 export default function RadarChartDemo() {
   return (
-    <div className="w-full max-w-md">
-      <RadarChart data={data} showLegend fillOpacity={0.3} />
+    <div className="w-full max-w-sm">
+      <RadarChart data={data} showLegend={false} fillOpacity={0.3} />
     </div>
   )
 }

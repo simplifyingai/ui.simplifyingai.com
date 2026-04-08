@@ -79,7 +79,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
       href={href}
       className="group bg-card text-card-foreground relative flex flex-col overflow-hidden rounded-xl border transition-all duration-200 hover:shadow-md"
     >
-      <div className="flex h-[240px] items-end justify-center overflow-hidden px-3 pt-3">
+      <div className="flex h-[220px] items-center justify-center overflow-hidden p-4">
         {Component ? (
           <React.Suspense
             fallback={
@@ -88,7 +88,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
               </div>
             }
           >
-            <div className="pointer-events-none flex h-full w-full origin-bottom scale-90 items-end justify-center overflow-hidden">
+            <div className="pointer-events-none flex w-full items-center justify-center">
               <Component />
             </div>
           </React.Suspense>
