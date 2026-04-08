@@ -18,7 +18,7 @@ export default function BarChartDemo() {
       showGrid
       showTooltip
       barRadius={0}
-      aspectRatio={2.5}
+      aspectRatio={2}
     />
   )
 }

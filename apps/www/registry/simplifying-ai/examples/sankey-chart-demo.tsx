@@ -37,15 +37,15 @@ const links = [
 
 export default function SankeyChartDemo() {
   return (
-    <div className="mx-auto w-full max-w-2xl">
+    <div className="w-full">
       <SankeyChart
         nodes={nodes}
         links={links}
-        nodeWidth={16}
-        nodePadding={16}
-        width={600}
-        height={340}
-        margin={{ top: 20, right: 80, bottom: 20, left: 70 }}
+        nodeWidth={14}
+        nodePadding={14}
+        width={500}
+        height={320}
+        margin={{ top: 10, right: 70, bottom: 10, left: 60 }}
       />
     </div>
   )

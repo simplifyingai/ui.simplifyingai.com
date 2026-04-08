@@ -59,13 +59,13 @@ const data = {
 
 export default function TreemapChartDemo() {
   return (
-    <div className="mx-auto w-full max-w-lg">
+    <div className="w-full">
       <TreemapChart
         data={data}
-        width={500}
-        height={400}
+        width={400}
+        height={320}
         showLabels
-        labelMinSize={35}
+        labelMinSize={30}
         paddingInner={2}
       />
     </div>

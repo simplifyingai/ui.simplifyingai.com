@@ -5,13 +5,13 @@ import {
   generateAreaChartData,
 } from "@/registry/simplifying-ai/ui/charts"
 
-// Organic stock-like data with natural fluctuations, peak, and valley
-const months = Array.from({ length: 30 }, (_, i) => `${i + 1}`)
-
-const values = [
-  42, 40, 38, 41, 36, 38, 45, 52, 58, 65, 72, 80, 88, 92, 86, 78, 70, 60, 52,
-  48, 52, 45, 42, 45, 48, 44, 46, 42, 44, 45,
+// Monthly data with natural fluctuations
+const months = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ]
+
+const values = [42, 38, 45, 58, 72, 88, 86, 70, 52, 45, 48, 44]
 
 const chartData = generateAreaChartData(months, values)
 
