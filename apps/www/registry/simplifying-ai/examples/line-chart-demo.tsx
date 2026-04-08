@@ -42,8 +42,8 @@ const data = [
 
 export default function LineChartDemo() {
   return (
-    <div className="w-full max-w-3xl">
-      <LineChart data={data} variant="stock" xType="time" />
+    <div className="w-full">
+      <LineChart data={data} variant="stock" xType="time" aspectRatio={1.8} />
     </div>
   )
 }
