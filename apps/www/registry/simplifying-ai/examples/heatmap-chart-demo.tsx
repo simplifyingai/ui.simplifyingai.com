@@ -30,7 +30,7 @@ export default function HeatmapChartDemo() {
         variant="matrix"
         xAxisLabel="Hour"
         yAxisLabel="Day"
-        colorTheme="auto"
+        colorTheme="blue"
         showValues
         cellRadius={4}
         height={300}

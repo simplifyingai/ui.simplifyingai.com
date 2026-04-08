@@ -96,7 +96,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
   return (
     <Link
       href={href}
-      className="group bg-card text-card-foreground hover:border-primary/50 relative flex flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:shadow-md"
+      className="group bg-card text-card-foreground relative flex flex-col overflow-hidden rounded-xl transition-all duration-200 hover:shadow-md"
     >
       <div className="flex h-[220px] items-center justify-center overflow-hidden">
         {Component ? (

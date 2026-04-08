@@ -54,7 +54,7 @@ export interface HeatmapChartProps extends BaseChartProps {
   yLabels?: string[]
   /** Color scale - array of colors from low to high */
   colorScale?: string[]
-  /** Color theme preset. Use "auto" to derive colors from active CSS theme. */
+  /** Color theme preset */
   colorTheme?:
     | "green"
     | "blue"
@@ -65,7 +65,6 @@ export interface HeatmapChartProps extends BaseChartProps {
     | "pink"
     | "heat"
     | "thermal"
-    | "auto"
   /** Show values in cells */
   showValues?: boolean
   /** Cell border radius */
@@ -282,8 +281,6 @@ export function HeatmapChart({
     y: number
     data: HeatmapDataPoint | CalendarDataPoint | RadialHeatmapDataPoint
   } | null>(null)
-  const chartRef = React.useRef<HTMLDivElement>(null)
-
   // Detect dark mode
   const [isDark, setIsDark] = React.useState(false)
   React.useEffect(() => {
@@ -299,59 +296,12 @@ export function HeatmapChart({
     return () => observer.disconnect()
   }, [])
 
-  // Convert any CSS color (including oklch) to rgb format that d3 understands
-  const toRgb = React.useCallback((cssColor: string): string => {
-    const tmp = document.createElement("div")
-    tmp.style.color = cssColor
-    tmp.style.display = "none"
-    document.body.appendChild(tmp)
-    const rgb = getComputedStyle(tmp).color
-    document.body.removeChild(tmp)
-    return rgb
-  }, [])
-
-  // Resolve CSS variable colors for "auto" theme
-  const [resolvedAutoColors, setResolvedAutoColors] = React.useState<
-    string[] | null
-  >(null)
-  React.useEffect(() => {
-    if (colorTheme !== "auto") return
-    const resolve = () => {
-      const el = chartRef.current || document.documentElement
-      const style = getComputedStyle(el)
-      const bg = isDark ? "#161b22" : "#ebedf0"
-      const c1 = style.getPropertyValue("--chart-1").trim()
-      const c3 = style.getPropertyValue("--chart-3").trim()
-      const c4 = style.getPropertyValue("--chart-4").trim()
-      const c5 = style.getPropertyValue("--chart-5").trim()
-      if (c1 && c3 && c5) {
-        setResolvedAutoColors([bg, toRgb(c1), toRgb(c3), toRgb(c4), toRgb(c5)])
-      }
-    }
-    // Delay initial resolve to ensure DOM is ready and theme classes applied
-    const timer = setTimeout(resolve, 50)
-    const observer = new MutationObserver(resolve)
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-    return () => {
-      clearTimeout(timer)
-      observer.disconnect()
-    }
-  }, [colorTheme, isDark, toRgb])
-
   // Get colors based on theme
   const colors = React.useMemo(() => {
     if (colorScale) return colorScale
-    if (colorTheme === "auto" && resolvedAutoColors) return resolvedAutoColors
-    const theme = COLOR_THEMES[colorTheme === "auto" ? "blue" : colorTheme]
+    const theme = COLOR_THEMES[colorTheme]
     return isDark ? theme.dark : theme.light
-  }, [colorScale, colorTheme, isDark, resolvedAutoColors])
+  }, [colorScale, colorTheme, isDark])
 
   const emptyColorFinal = emptyColor || colors[0]
 
@@ -491,7 +441,6 @@ export function HeatmapChart({
 
   return (
     <ChartContainer config={config} className={cn("relative", className)}>
-      <div ref={chartRef} className="contents">
       <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Cells */}
@@ -642,7 +591,6 @@ export function HeatmapChart({
             </div>
           </div>
         )}
-      </div>
     </ChartContainer>
   )
 }
