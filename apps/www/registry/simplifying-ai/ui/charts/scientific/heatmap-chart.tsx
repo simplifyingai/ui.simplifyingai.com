@@ -299,6 +299,17 @@ export function HeatmapChart({
     return () => observer.disconnect()
   }, [])
 
+  // Convert any CSS color (including oklch) to rgb format that d3 understands
+  const toRgb = React.useCallback((cssColor: string): string => {
+    const tmp = document.createElement("div")
+    tmp.style.color = cssColor
+    tmp.style.display = "none"
+    document.body.appendChild(tmp)
+    const rgb = getComputedStyle(tmp).color
+    document.body.removeChild(tmp)
+    return rgb
+  }, [])
+
   // Resolve CSS variable colors for "auto" theme
   const [resolvedAutoColors, setResolvedAutoColors] = React.useState<
     string[] | null
@@ -314,7 +325,7 @@ export function HeatmapChart({
       const c4 = style.getPropertyValue("--chart-4").trim()
       const c5 = style.getPropertyValue("--chart-5").trim()
       if (c1 && c3 && c5) {
-        setResolvedAutoColors([bg, c1, c3, c4, c5])
+        setResolvedAutoColors([bg, toRgb(c1), toRgb(c3), toRgb(c4), toRgb(c5)])
       }
     }
     resolve()
@@ -324,7 +335,7 @@ export function HeatmapChart({
       attributeFilter: ["class"],
     })
     return () => observer.disconnect()
-  }, [colorTheme, isDark])
+  }, [colorTheme, isDark, toRgb])
 
   // Get colors based on theme
   const colors = React.useMemo(() => {
@@ -472,6 +483,7 @@ export function HeatmapChart({
 
   return (
     <ChartContainer config={config} className={cn("relative", className)}>
+      <div ref={chartRef} className="contents">
       <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Cells */}
@@ -622,6 +634,7 @@ export function HeatmapChart({
             </div>
           </div>
         )}
+      </div>
     </ChartContainer>
   )
 }

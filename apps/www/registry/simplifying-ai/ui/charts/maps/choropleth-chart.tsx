@@ -106,6 +106,17 @@ export function ChoroplethChart({
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
   const gradientId = React.useId().replace(/:/g, "")
 
+  // Convert any CSS color (including oklch) to rgb format that d3 understands
+  const toRgb = React.useCallback((cssColor: string): string => {
+    const tmp = document.createElement("div")
+    tmp.style.color = cssColor
+    tmp.style.display = "none"
+    document.body.appendChild(tmp)
+    const rgb = getComputedStyle(tmp).color
+    document.body.removeChild(tmp)
+    return rgb
+  }, [])
+
   // Resolve CSS variable colors for d3 interpolation
   const [resolvedColorScale, setResolvedColorScale] = React.useState<string[]>(
     colorScaleProp || ["#bfdbfe", "#60a5fa", "#1e40af"]
@@ -123,7 +134,7 @@ export function ChoroplethChart({
       const c3 = style.getPropertyValue("--chart-3").trim()
       const c5 = style.getPropertyValue("--chart-5").trim()
       if (c1 && c3 && c5) {
-        setResolvedColorScale([c1, c3, c5])
+        setResolvedColorScale([toRgb(c1), toRgb(c3), toRgb(c5)])
       }
     }
     // Resolve on mount and observe theme class changes on body
@@ -138,7 +149,7 @@ export function ChoroplethChart({
       attributeFilter: ["class"],
     })
     return () => observer.disconnect()
-  }, [colorScaleProp])
+  }, [colorScaleProp, toRgb])
 
   // Responsive sizing
   React.useEffect(() => {
