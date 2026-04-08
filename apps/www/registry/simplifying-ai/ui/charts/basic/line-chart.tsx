@@ -97,14 +97,14 @@ const curveMap = {
 
 // Default colors for multi-line variant (CSS variables for theme support)
 const MULTI_LINE_COLORS = [
-  "var(--chart-1)",
-  "var(--chart-2)",
   "var(--chart-3)",
-  "var(--chart-4)",
+  "var(--chart-1)",
   "var(--chart-5)",
-  "var(--chart-1)",
   "var(--chart-2)",
+  "var(--chart-4)",
   "var(--chart-3)",
+  "var(--chart-1)",
+  "var(--chart-5)",
 ]
 
 // ============================================================================
@@ -347,7 +347,7 @@ export function LineChart({
     if (color && data.length === 1) return color
     const configColor = config?.[series.name]?.color
     if (configColor) return configColor
-    if (variant === "smooth") return "var(--chart-1)"
+    if (variant === "smooth") return "var(--chart-3)"
     return MULTI_LINE_COLORS[index % MULTI_LINE_COLORS.length]
   }
 

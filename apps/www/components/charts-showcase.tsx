@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { cn } from "@/lib/utils"
 import { Index } from "@/registry/__index__"
 import { Button } from "@/registry/simplifying-ai/ui/button"
 
@@ -12,86 +11,67 @@ interface ChartPreview {
   title: string
   description: string
   href: string
-  /** Card height — tall for square charts, short for wide charts */
-  height: "tall" | "medium" | "short"
 }
 
 // Curated selection — visually diverse, 3 per row
-// Heights tuned per chart: square charts (pie, radar, gauge) get tall cards,
-// wide charts (line, bar, candlestick, area) get short cards
 const FEATURED_CHARTS: ChartPreview[] = [
   {
     name: "line-chart-demo",
     title: "Line Chart",
     description: "Trends over time",
     href: "/docs/components/line-chart",
-    height: "medium",
   },
   {
     name: "bar-chart-demo",
     title: "Bar Chart",
     description: "Compare categories",
     href: "/docs/components/bar-chart",
-    height: "medium",
   },
   {
     name: "pie-chart-demo",
     title: "Pie Chart",
     description: "Part-to-whole",
     href: "/docs/components/pie-chart",
-    height: "tall",
   },
   {
     name: "candlestick-chart-demo",
     title: "Candlestick",
     description: "Financial OHLC",
     href: "/docs/components/candlestick-chart",
-    height: "medium",
   },
   {
     name: "radar-chart-demo",
     title: "Radar Chart",
     description: "Multi-variable",
     href: "/docs/components/radar-chart",
-    height: "tall",
   },
   {
     name: "area-chart-demo",
     title: "Area Chart",
     description: "Volume & trends",
     href: "/docs/components/area-chart",
-    height: "medium",
   },
   {
     name: "treemap-chart-demo",
     title: "Treemap",
     description: "Hierarchical data",
     href: "/docs/components/treemap-chart",
-    height: "tall",
   },
   {
     name: "sankey-chart-demo",
     title: "Sankey",
     description: "Flow visualization",
     href: "/docs/components/sankey-chart",
-    height: "tall",
   },
   {
     name: "gauge-chart-demo",
     title: "Gauge",
     description: "KPI indicators",
     href: "/docs/components/gauge-chart",
-    height: "tall",
   },
 ]
 
-const HEIGHT_MAP = {
-  tall: "h-[280px]",
-  medium: "h-[200px]",
-  short: "h-[160px]",
-}
-
-function ChartCard({ name, title, description, href, height }: ChartPreview) {
+function ChartCard({ name, title, description, href }: ChartPreview) {
   const Component = Index[name]?.component
 
   return (
@@ -99,12 +79,7 @@ function ChartCard({ name, title, description, href, height }: ChartPreview) {
       href={href}
       className="group bg-card text-card-foreground relative flex flex-col overflow-hidden rounded-xl border transition-all duration-200 hover:shadow-md"
     >
-      <div
-        className={cn(
-          "flex items-center justify-center overflow-hidden",
-          HEIGHT_MAP[height]
-        )}
-      >
+      <div className="flex h-[240px] items-end justify-center overflow-hidden px-3 pt-3">
         {Component ? (
           <React.Suspense
             fallback={
@@ -113,7 +88,7 @@ function ChartCard({ name, title, description, href, height }: ChartPreview) {
               </div>
             }
           >
-            <div className="pointer-events-none flex h-full w-full items-center justify-center overflow-hidden p-2">
+            <div className="pointer-events-none flex h-full w-full origin-bottom scale-90 items-end justify-center overflow-hidden">
               <Component />
             </div>
           </React.Suspense>
@@ -121,7 +96,7 @@ function ChartCard({ name, title, description, href, height }: ChartPreview) {
           <div className="text-muted-foreground text-sm">Loading...</div>
         )}
       </div>
-      <div className="px-4 py-2.5">
+      <div className="mt-auto px-4 py-2.5">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="group-hover:text-primary text-sm font-medium transition-colors">

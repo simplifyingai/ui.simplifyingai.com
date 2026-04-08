@@ -5,13 +5,10 @@ import {
   generateAreaChartData,
 } from "@/registry/simplifying-ai/ui/charts"
 
-// Monthly data with natural fluctuations
-const months = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-]
+// Quarterly data
+const months = ["Q1", "Q2", "Q3", "Q4", "Q1", "Q2", "Q3", "Q4"]
 
-const values = [42, 38, 45, 58, 72, 88, 86, 70, 52, 45, 48, 44]
+const values = [42, 58, 88, 70, 45, 72, 86, 64]
 
 const chartData = generateAreaChartData(months, values)
 

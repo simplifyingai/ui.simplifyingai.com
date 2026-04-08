@@ -45,7 +45,7 @@ export interface BarChartProps {
 export function BarChart({
   data,
   className,
-  color = "var(--chart-1)",
+  color = "var(--chart-3)",
   showGrid = true,
   showTooltip = true,
   showLabel = false,
