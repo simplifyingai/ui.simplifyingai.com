@@ -12,8 +12,8 @@ const data = [
 
 export default function PieChartDemo() {
   return (
-    <div className="w-full max-w-md">
-      <PieChart data={data} />
+    <div className="w-full max-w-xs">
+      <PieChart data={data} width={280} height={280} showLegend={false} />
     </div>
   )
 }
