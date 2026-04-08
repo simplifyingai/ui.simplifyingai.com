@@ -14,7 +14,7 @@ interface ChartPreview {
   href: string
 }
 
-// Curated selection of charts — one per category, visually diverse
+// Curated selection — visually diverse, 3 per row
 const FEATURED_CHARTS: ChartPreview[] = [
   {
     name: "line-chart-demo",
@@ -29,28 +29,10 @@ const FEATURED_CHARTS: ChartPreview[] = [
     href: "/docs/components/bar-chart",
   },
   {
-    name: "area-chart-demo",
-    title: "Area Chart",
-    description: "Volume & trends",
-    href: "/docs/components/area-chart",
-  },
-  {
     name: "pie-chart-demo",
     title: "Pie Chart",
     description: "Part-to-whole",
     href: "/docs/components/pie-chart",
-  },
-  {
-    name: "donut-chart-demo",
-    title: "Donut Chart",
-    description: "Proportions",
-    href: "/docs/components/donut-chart",
-  },
-  {
-    name: "scatter-chart-demo",
-    title: "Scatter Plot",
-    description: "Correlations",
-    href: "/docs/components/scatter-chart",
   },
   {
     name: "candlestick-chart-demo",
@@ -65,10 +47,10 @@ const FEATURED_CHARTS: ChartPreview[] = [
     href: "/docs/components/radar-chart",
   },
   {
-    name: "heatmap-chart-demo",
-    title: "Heatmap",
-    description: "2D intensity",
-    href: "/docs/components/heatmap-chart",
+    name: "area-chart-demo",
+    title: "Area Chart",
+    description: "Volume & trends",
+    href: "/docs/components/area-chart",
   },
   {
     name: "treemap-chart-demo",
@@ -96,7 +78,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
   return (
     <Link
       href={href}
-      className="group bg-card text-card-foreground relative flex flex-col overflow-hidden rounded-xl transition-all duration-200 hover:shadow-md"
+      className="group bg-card border text-card-foreground relative flex flex-col overflow-hidden rounded-xl transition-all duration-200 hover:shadow-md"
     >
       <div className="flex h-[220px] items-center justify-center overflow-hidden">
         {Component ? (
@@ -145,7 +127,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
 export function ChartsShowcase() {
   return (
     <div className="flex flex-col gap-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURED_CHARTS.map((chart) => (
           <ChartCard key={chart.name} {...chart} />
         ))}
