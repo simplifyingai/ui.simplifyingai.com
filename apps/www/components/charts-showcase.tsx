@@ -145,17 +145,17 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
 export function ChartsShowcase() {
   return (
     <div className="flex flex-col gap-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {FEATURED_CHARTS.map((chart) => (
           <ChartCard key={chart.name} {...chart} />
         ))}
       </div>
       <div className="flex justify-center">
-        <Button asChild variant="outline" size="lg">
+        <Button asChild variant="ghost" size="sm">
           <Link href="/docs/components">
             Explore All Charts
             <svg
-              className="ml-2 h-4 w-4"
+              className="ml-1.5 h-3.5 w-3.5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
