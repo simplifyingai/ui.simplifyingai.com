@@ -31,8 +31,8 @@ export function Dendrogram({
   nodeRadius = 5,
   showLabels = true,
   showValues = false,
-  linkColor = "#94a3b8",
-  colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd"],
+  linkColor = "var(--muted)",
+  colorScheme = ["var(--chart-5)", "var(--chart-4)", "var(--chart-3)", "var(--chart-2)", "var(--chart-1)"],
 }: DendrogramProps) {
   const [hoveredNode, setHoveredNode] = React.useState<string | null>(null)
 

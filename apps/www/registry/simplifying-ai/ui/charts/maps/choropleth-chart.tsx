@@ -83,7 +83,7 @@ export const GEO_URLS = {
 export function ChoroplethChart({
   data,
   className,
-  colorScale = ["#bfdbfe", "#60a5fa", "#1e40af"],
+  colorScale: colorScaleProp,
   showTooltip = true,
   showLegend = true,
   projection = "naturalEarth",
@@ -105,6 +105,40 @@ export function ChoroplethChart({
   )
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
   const gradientId = React.useId().replace(/:/g, "")
+
+  // Resolve CSS variable colors for d3 interpolation
+  const [resolvedColorScale, setResolvedColorScale] = React.useState<string[]>(
+    colorScaleProp || ["#bfdbfe", "#60a5fa", "#1e40af"]
+  )
+  React.useEffect(() => {
+    if (colorScaleProp) {
+      setResolvedColorScale(colorScaleProp)
+      return
+    }
+    const resolve = () => {
+      const el = containerRef.current
+      if (!el) return
+      const style = getComputedStyle(el)
+      const c1 = style.getPropertyValue("--chart-1").trim()
+      const c3 = style.getPropertyValue("--chart-3").trim()
+      const c5 = style.getPropertyValue("--chart-5").trim()
+      if (c1 && c3 && c5) {
+        setResolvedColorScale([c1, c3, c5])
+      }
+    }
+    // Resolve on mount and observe theme class changes on body
+    resolve()
+    const observer = new MutationObserver(resolve)
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+    return () => observer.disconnect()
+  }, [colorScaleProp])
 
   // Responsive sizing
   React.useEffect(() => {
@@ -212,6 +246,7 @@ export function ChoroplethChart({
   }, [data])
 
   // Color scale function
+  const colorScale = resolvedColorScale
   const getColor = React.useCallback(
     (value: number | undefined) => {
       if (value === undefined) return noDataColor

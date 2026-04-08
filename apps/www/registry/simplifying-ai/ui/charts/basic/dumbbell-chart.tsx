@@ -30,9 +30,9 @@ export function DumbbellChart({
   dotSize = 8,
   showGrid = true,
   valueFormatter = (value) => value.toLocaleString(),
-  startColor = "#94a3b8",
-  endColor = "#3b82f6",
-  connectorColor = "#cbd5e1",
+  startColor = "var(--chart-3)",
+  endColor = "var(--chart-1)",
+  connectorColor = "var(--muted)",
   startLabel = "Start",
   endLabel = "End",
 }: DumbbellChartProps) {

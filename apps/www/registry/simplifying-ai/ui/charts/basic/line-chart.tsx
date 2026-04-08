@@ -95,16 +95,16 @@ const curveMap = {
   basis: curveBasis,
 }
 
-// Default colors for multi-line variant
+// Default colors for multi-line variant (CSS variables for theme support)
 const MULTI_LINE_COLORS = [
-  "#2563eb", // blue
-  "#06b6d4", // cyan
-  "#f97316", // orange
-  "#8b5cf6", // violet
-  "#eab308", // yellow
-  "#ec4899", // pink
-  "#22c55e", // green
-  "#64748b", // slate
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
 ]
 
 // ============================================================================
@@ -347,7 +347,7 @@ export function LineChart({
     if (color && data.length === 1) return color
     const configColor = config?.[series.name]?.color
     if (configColor) return configColor
-    if (variant === "smooth") return "#93c5fd"
+    if (variant === "smooth") return "var(--chart-1)"
     return MULTI_LINE_COLORS[index % MULTI_LINE_COLORS.length]
   }
 

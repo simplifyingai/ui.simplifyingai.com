@@ -35,14 +35,14 @@ export interface SplomChartProps {
   valueFormatter?: (value: number) => string
 }
 
-const DEFAULT_COLOR = "#3b82f6"
+const DEFAULT_COLOR = "var(--chart-1)"
 
 const DEFAULT_COLOR_SCHEME = [
-  "#3b82f6",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ]
 
 export function SplomChart({

@@ -34,12 +34,12 @@ export function PolarChart({
   showGrid = true,
   valueFormatter = (value) => value.toLocaleString(),
   colorScheme = [
-    "#1e40af",
-    "#2563eb",
-    "#3b82f6",
-    "#60a5fa",
-    "#93c5fd",
-    "#bfdbfe",
+    "var(--chart-5)",
+    "var(--chart-4)",
+    "var(--chart-3)",
+    "var(--chart-2)",
+    "var(--chart-1)",
+    "var(--chart-1)",
   ],
 }: PolarChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)

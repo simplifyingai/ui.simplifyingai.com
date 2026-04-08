@@ -135,12 +135,12 @@ function interpolateColor(c1: string, c2: string, t: number): string {
 
 // Default colors for multiple datasets (overlay variant)
 const DEFAULT_COLORS = [
-  "#3b82f6", // blue
-  "#8b5cf6", // violet
-  "#06b6d4", // cyan
-  "#f59e0b", // amber
-  "#ec4899", // pink
-  "#10b981", // emerald
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-1)",
 ]
 
 // ============================================================================

@@ -21,7 +21,14 @@ export interface FunnelChartProps extends BaseChartProps {
   /** Data series - each series flows through all stages */
   series: FunnelSeries[]
   /** Color scheme */
-  colorScheme?: "orange" | "blue" | "purple" | "green" | "pink" | "custom"
+  colorScheme?:
+    | "orange"
+    | "blue"
+    | "purple"
+    | "green"
+    | "pink"
+    | "theme"
+    | "custom"
   /** Show stage markers (vertical lines) */
   showStageMarkers?: boolean
   /** Show value pills at each stage */
@@ -159,10 +166,25 @@ export function FunnelChart({
   const stageCount = stages.length
   const seriesCount = series.length
 
+  // CSS variable colors for theme-aware rendering
+  const THEME_COLORS = [
+    "var(--chart-5)",
+    "var(--chart-4)",
+    "var(--chart-3)",
+    "var(--chart-2)",
+    "var(--chart-1)",
+  ]
+
   // Get color for series - innermost is lightest, outermost is darkest
   const getColor = (index: number): string => {
     if (colorScheme === "custom" && series[index]?.color) {
       return series[index].color!
+    }
+    if (colorScheme === "theme") {
+      const colorIndex = Math.floor(
+        (index / Math.max(seriesCount - 1, 1)) * (THEME_COLORS.length - 1)
+      )
+      return THEME_COLORS[Math.min(colorIndex, THEME_COLORS.length - 1)]
     }
     const scheme = COLOR_SCHEMES[colorScheme] || COLOR_SCHEMES.orange
     // Map series index to color - distribute evenly across scheme
@@ -506,8 +528,7 @@ export function FunnelChart({
                           <text
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            className="text-sm font-semibold"
-                            fill="#374151"
+                            className="fill-foreground text-sm font-semibold"
                           >
                             {valueFormatter(topValue)}
                           </text>
@@ -530,8 +551,7 @@ export function FunnelChart({
                           <text
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            className="text-sm font-semibold"
-                            fill="#374151"
+                            className="fill-foreground text-sm font-semibold"
                           >
                             {valueFormatter(bottomValue)}
                           </text>
@@ -553,8 +573,7 @@ export function FunnelChart({
                         <text
                           textAnchor="middle"
                           dominantBaseline="middle"
-                          className="text-sm font-semibold"
-                          fill="#374151"
+                          className="fill-foreground text-sm font-semibold"
                         >
                           {valueFormatter(totalValue)}
                         </text>

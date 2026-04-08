@@ -2,10 +2,10 @@
 
 import { RadarChart } from "@/registry/simplifying-ai/ui/charts"
 
+// Colors are derived from CSS variables (--chart-1 through --chart-5)
 const data = [
   {
     name: "Product A",
-    color: "#2563eb",
     data: [
       { axis: "Performance", value: 85 },
       { axis: "Reliability", value: 90 },
@@ -17,7 +17,6 @@ const data = [
   },
   {
     name: "Product B",
-    color: "#93c5fd",
     data: [
       { axis: "Performance", value: 72 },
       { axis: "Reliability", value: 85 },

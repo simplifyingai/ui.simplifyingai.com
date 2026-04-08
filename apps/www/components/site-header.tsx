@@ -25,7 +25,7 @@ export function SiteHeader() {
           />
           <Link href="/" className="hidden items-center gap-2 lg:flex">
             <Image
-              src="/images/logo.png"
+              src="/simplifyingai.png"
               alt={siteConfig.name}
               width={32}
               height={32}

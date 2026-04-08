@@ -3,16 +3,17 @@
 import { SankeyChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Website traffic flow - Sources to Destinations
+// Colors are derived from CSS variables (--chart-1 through --chart-5)
 const nodes = [
   // Sources (left)
-  { id: "organic", name: "Organic", color: "#1e40af" },
-  { id: "paid", name: "Paid Ads", color: "#2563eb" },
-  { id: "social", name: "Social", color: "#3b82f6" },
-  { id: "referral", name: "Referral", color: "#60a5fa" },
+  { id: "organic", name: "Organic" },
+  { id: "paid", name: "Paid Ads" },
+  { id: "social", name: "Social" },
+  { id: "referral", name: "Referral" },
   // Destinations (right)
-  { id: "signup", name: "Sign Up", color: "#1e40af" },
-  { id: "purchase", name: "Purchase", color: "#2563eb" },
-  { id: "bounce", name: "Bounce", color: "#93c5fd" },
+  { id: "signup", name: "Sign Up" },
+  { id: "purchase", name: "Purchase" },
+  { id: "bounce", name: "Bounce" },
 ]
 
 const links = [

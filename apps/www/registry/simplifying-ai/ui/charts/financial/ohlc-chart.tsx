@@ -28,8 +28,8 @@ export interface OHLCChartProps {
 export function OHLCChart({
   data,
   className,
-  upColor = "#22c55e",
-  downColor = "#ef4444",
+  upColor = "var(--chart-2)",
+  downColor = "var(--chart-4)",
   showGrid = true,
   showTooltip = true,
   aspectRatio = 2.5,

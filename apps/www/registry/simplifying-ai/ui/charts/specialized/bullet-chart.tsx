@@ -34,8 +34,8 @@ export interface BulletChartProps {
   targetColor?: string
 }
 
-const DEFAULT_COLOR = "#3b82f6"
-const DEFAULT_TARGET_COLOR = "#1e293b"
+const DEFAULT_COLOR = "var(--chart-1)"
+const DEFAULT_TARGET_COLOR = "var(--foreground)"
 
 // Parse hex color to RGB values
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {

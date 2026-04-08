@@ -32,14 +32,14 @@ export interface ParallelCoordinatesProps {
   valueFormatter?: (value: number, dimension: string) => string
 }
 
-const DEFAULT_COLOR = "#3b82f6"
+const DEFAULT_COLOR = "var(--chart-1)"
 
 const DEFAULT_COLOR_SCHEME = [
-  "#3b82f6",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ]
 
 // Default value formatter with smart number formatting
@@ -206,9 +206,8 @@ export function ParallelCoordinates({
                 <line
                   y1={0}
                   y2={innerHeight}
-                  stroke="#d1d5db"
                   strokeWidth={1}
-                  className="dark:stroke-zinc-600"
+                  className="stroke-border"
                 />
 
                 {/* Ticks */}
@@ -218,8 +217,7 @@ export function ParallelCoordinates({
                       <line
                         x1={-4}
                         x2={0}
-                        stroke="#d1d5db"
-                        className="dark:stroke-zinc-600"
+                        className="stroke-border"
                       />
                       <text
                         x={-8}

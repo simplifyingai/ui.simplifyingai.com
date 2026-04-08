@@ -54,7 +54,7 @@ export interface HeatmapChartProps extends BaseChartProps {
   yLabels?: string[]
   /** Color scale - array of colors from low to high */
   colorScale?: string[]
-  /** Color theme preset */
+  /** Color theme preset. Use "auto" to derive colors from active CSS theme. */
   colorTheme?:
     | "green"
     | "blue"
@@ -65,6 +65,7 @@ export interface HeatmapChartProps extends BaseChartProps {
     | "pink"
     | "heat"
     | "thermal"
+    | "auto"
   /** Show values in cells */
   showValues?: boolean
   /** Cell border radius */
@@ -281,6 +282,7 @@ export function HeatmapChart({
     y: number
     data: HeatmapDataPoint | CalendarDataPoint | RadialHeatmapDataPoint
   } | null>(null)
+  const chartRef = React.useRef<HTMLDivElement>(null)
 
   // Detect dark mode
   const [isDark, setIsDark] = React.useState(false)
@@ -297,12 +299,40 @@ export function HeatmapChart({
     return () => observer.disconnect()
   }, [])
 
+  // Resolve CSS variable colors for "auto" theme
+  const [resolvedAutoColors, setResolvedAutoColors] = React.useState<
+    string[] | null
+  >(null)
+  React.useEffect(() => {
+    if (colorTheme !== "auto") return
+    const resolve = () => {
+      const el = chartRef.current || document.documentElement
+      const style = getComputedStyle(el)
+      const bg = isDark ? "#161b22" : "#ebedf0"
+      const c1 = style.getPropertyValue("--chart-1").trim()
+      const c3 = style.getPropertyValue("--chart-3").trim()
+      const c4 = style.getPropertyValue("--chart-4").trim()
+      const c5 = style.getPropertyValue("--chart-5").trim()
+      if (c1 && c3 && c5) {
+        setResolvedAutoColors([bg, c1, c3, c4, c5])
+      }
+    }
+    resolve()
+    const observer = new MutationObserver(resolve)
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+    return () => observer.disconnect()
+  }, [colorTheme, isDark])
+
   // Get colors based on theme
   const colors = React.useMemo(() => {
     if (colorScale) return colorScale
-    const theme = COLOR_THEMES[colorTheme]
+    if (colorTheme === "auto" && resolvedAutoColors) return resolvedAutoColors
+    const theme = COLOR_THEMES[colorTheme === "auto" ? "blue" : colorTheme]
     return isDark ? theme.dark : theme.light
-  }, [colorScale, colorTheme, isDark])
+  }, [colorScale, colorTheme, isDark, resolvedAutoColors])
 
   const emptyColorFinal = emptyColor || colors[0]
 

@@ -3,10 +3,10 @@
 import { ScatterChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Rich dataset with many scattered points and varied sizes
+// Colors are derived from CSS variables (--chart-1 through --chart-5)
 const data = [
   {
     name: "Category A",
-    color: "#1e40af",
     symbol: "circle" as const,
     data: [
       { x: 12, y: 85, size: 45 },
@@ -29,7 +29,6 @@ const data = [
   },
   {
     name: "Category B",
-    color: "#2563eb",
     symbol: "circle" as const,
     data: [
       { x: 15, y: 52, size: 38 },
@@ -52,7 +51,6 @@ const data = [
   },
   {
     name: "Category C",
-    color: "#3b82f6",
     symbol: "circle" as const,
     data: [
       { x: 18, y: 38, size: 42 },
@@ -75,7 +73,6 @@ const data = [
   },
   {
     name: "Category D",
-    color: "#60a5fa",
     symbol: "circle" as const,
     data: [
       { x: 22, y: 48, size: 35 },
@@ -98,7 +95,6 @@ const data = [
   },
   {
     name: "Category E",
-    color: "#93c5fd",
     symbol: "circle" as const,
     data: [
       { x: 10, y: 32, size: 28 },

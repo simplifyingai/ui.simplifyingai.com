@@ -58,8 +58,6 @@ export default function CandlestickChartDemo() {
   return (
     <CandlestickChart
       data={chartData}
-      upColor="#22c55e"
-      downColor="#ef4444"
       showGrid
       aspectRatio={2.5}
     />

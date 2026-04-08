@@ -51,7 +51,7 @@ export function NetworkGraph({
   showArrows = false,
   charge = -300,
   linkDistance = 100,
-  colorScheme = ["#1e40af", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd"],
+  colorScheme = ["var(--chart-5)", "var(--chart-4)", "var(--chart-3)", "var(--chart-2)", "var(--chart-1)"],
 }: NetworkGraphProps) {
   const svgRef = React.useRef<SVGSVGElement>(null)
   const [nodes, setNodes] = React.useState<NetworkNode[]>([])
@@ -126,7 +126,7 @@ export function NetworkGraph({
               markerHeight={6}
               orient="auto"
             >
-              <path d="M0,-5L10,0L0,5" fill="#94a3b8" />
+              <path d="M0,-5L10,0L0,5" fill="var(--muted)" />
             </marker>
           </defs>
         )}
@@ -154,7 +154,7 @@ export function NetworkGraph({
                 y1={sourceNode.y}
                 x2={targetNode.x}
                 y2={targetNode.y}
-                stroke={link.color ?? "#94a3b8"}
+                stroke={link.color ?? "var(--muted)"}
                 strokeWidth={link.value ? linkWidth * link.value : linkWidth}
                 strokeOpacity={
                   hoveredNode ? (isConnectedToHovered ? 1 : 0.2) : 0.6

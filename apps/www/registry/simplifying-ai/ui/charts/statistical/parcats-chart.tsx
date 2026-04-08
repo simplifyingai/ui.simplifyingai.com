@@ -29,14 +29,14 @@ export interface ParcatsChartProps {
   colorScheme?: string[]
 }
 
-const DEFAULT_COLOR = "#3b82f6"
+const DEFAULT_COLOR = "var(--chart-1)"
 
 const DEFAULT_COLOR_SCHEME = [
-  "#3b82f6",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
 ]
 
 export function ParcatsChart({
@@ -288,7 +288,7 @@ export function ParcatsChart({
                   const boxColor =
                     colorByCategory && dim === dimensions[0]
                       ? getCategoryColor(cat)
-                      : "#e2e8f0"
+                      : "var(--muted)"
 
                   return (
                     <g
@@ -304,7 +304,7 @@ export function ParcatsChart({
                         height={h}
                         fill={boxColor}
                         fillOpacity={isHovered ? 1 : 0.85}
-                        stroke={isHovered ? "#94a3b8" : "#d1d5db"}
+                        stroke={isHovered ? "var(--muted-foreground)" : "var(--border)"}
                         strokeWidth={isHovered ? 2 : 1}
                         rx={4}
                         className="transition-all duration-150 dark:fill-zinc-800 dark:stroke-zinc-600"

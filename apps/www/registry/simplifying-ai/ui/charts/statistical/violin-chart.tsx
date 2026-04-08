@@ -84,12 +84,12 @@ function calculateStats(values: number[]) {
 }
 
 const DEFAULT_COLORS = [
-  "#3b82f6", // blue
-  "#10b981", // green
-  "#f59e0b", // amber
-  "#ef4444", // red
-  "#8b5cf6", // purple
-  "#ec4899", // pink
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-1)",
 ]
 
 export function ViolinChart({
@@ -126,7 +126,7 @@ export function ViolinChart({
   // Split variant colors
   const splitColors = splitGroups
     ? [colors[0], colors[1]]
-    : ["#3b82f6", "#ef4444"]
+    : ["var(--chart-1)", "var(--chart-4)"]
 
   // Process data
   const processedData = React.useMemo(() => {
@@ -359,9 +359,8 @@ export function ViolinChart({
                 x2={innerWidth}
                 y1={valueScale(tick)}
                 y2={valueScale(tick)}
-                stroke="#e5e7eb"
                 strokeWidth={1}
-                className="dark:stroke-zinc-700"
+                className="stroke-zinc-200 dark:stroke-zinc-700"
               />
             ))}
 
@@ -371,9 +370,8 @@ export function ViolinChart({
             x2={innerWidth}
             y1={innerHeight}
             y2={innerHeight}
-            stroke="#d1d5db"
             strokeWidth={1}
-            className="dark:stroke-zinc-600"
+            className="stroke-zinc-300 dark:stroke-zinc-600"
           />
 
           {/* Render violins */}

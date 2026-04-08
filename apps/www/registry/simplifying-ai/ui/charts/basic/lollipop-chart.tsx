@@ -33,8 +33,8 @@ export function LollipopChart({
   showGrid = true,
   showLegend = true,
   valueFormatter = (value) => value.toFixed(1),
-  color = "#2563eb",
-  stemColor = "#d1d5db",
+  color = "var(--chart-1)",
+  stemColor = "var(--muted)",
   yAxisLabel,
 }: LollipopChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)

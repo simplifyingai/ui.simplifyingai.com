@@ -3,74 +3,66 @@
 import { SunburstChart } from "@/registry/simplifying-ai/ui/charts"
 
 // Company revenue breakdown by region and product
+// Colors are derived from CSS variables (--chart-1 through --chart-5) based on depth
 const data = {
   name: "Revenue",
   children: [
     {
       name: "Americas",
-      color: "#1e40af",
       children: [
         {
           name: "North",
-          color: "#2563eb",
           children: [
-            { name: "Software", value: 120, color: "#3b82f6" },
-            { name: "Services", value: 80, color: "#60a5fa" },
-            { name: "Hardware", value: 45, color: "#93c5fd" },
+            { name: "Software", value: 120 },
+            { name: "Services", value: 80 },
+            { name: "Hardware", value: 45 },
           ],
         },
         {
           name: "South",
-          color: "#3b82f6",
           children: [
-            { name: "Software", value: 65, color: "#60a5fa" },
-            { name: "Services", value: 40, color: "#93c5fd" },
+            { name: "Software", value: 65 },
+            { name: "Services", value: 40 },
           ],
         },
       ],
     },
     {
       name: "EMEA",
-      color: "#1e40af",
       children: [
         {
           name: "Western",
-          color: "#2563eb",
           children: [
-            { name: "Software", value: 95, color: "#3b82f6" },
-            { name: "Services", value: 70, color: "#60a5fa" },
-            { name: "Hardware", value: 35, color: "#93c5fd" },
+            { name: "Software", value: 95 },
+            { name: "Services", value: 70 },
+            { name: "Hardware", value: 35 },
           ],
         },
         {
           name: "Eastern",
-          color: "#3b82f6",
           children: [
-            { name: "Software", value: 45, color: "#60a5fa" },
-            { name: "Services", value: 25, color: "#93c5fd" },
+            { name: "Software", value: 45 },
+            { name: "Services", value: 25 },
           ],
         },
       ],
     },
     {
       name: "APAC",
-      color: "#1e40af",
       children: [
         {
           name: "East Asia",
-          color: "#2563eb",
           children: [
-            { name: "Software", value: 110, color: "#3b82f6" },
-            { name: "Services", value: 85, color: "#60a5fa" },
-            { name: "Hardware", value: 55, color: "#93c5fd" },
+            { name: "Software", value: 110 },
+            { name: "Services", value: 85 },
+            { name: "Hardware", value: 55 },
           ],
         },
         {
           name: "Southeast",
-          color: "#3b82f6",
           children: [
-            { name: "Software", value: 50, color: "#60a5fa" },
-            { name: "Services", value: 30, color: "#93c5fd" },
+            { name: "Software", value: 50 },
+            { name: "Services", value: 30 },
           ],
         },
       ],

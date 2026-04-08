@@ -52,16 +52,13 @@ export async function GET(request: Request) {
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] top-16" />
       <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] bottom-16" />
       <div tw="flex absolute flex-row bottom-24 right-24 text-white">
-        <svg
-          viewBox="0 0 876 876"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${process.env.NEXT_PUBLIC_APP_URL || "https://ui.simplifyingai.com"}/simplifyingai.png`}
+          alt="Simplify Charts"
           width={80}
           height={80}
-        >
-          <path d="M468 292H528V584H468V292Z" fill="currentColor" />
-          <path d="M348 292H408V584H348V292Z" fill="currentColor" />
-        </svg>
+        />
       </div>
       <div tw="flex flex-col absolute w-[896px] justify-center inset-32">
         <div

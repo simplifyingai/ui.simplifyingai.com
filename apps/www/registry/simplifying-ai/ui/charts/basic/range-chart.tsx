@@ -55,14 +55,14 @@ export interface RangeChartProps {
 }
 
 const DEFAULT_COLORS = [
-  "#3b82f6", // blue
-  "#ef4444", // red
-  "#10b981", // green
-  "#f59e0b", // amber
-  "#8b5cf6", // purple
-  "#ec4899", // pink
-  "#06b6d4", // cyan
-  "#f97316", // orange
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
 ]
 
 export function RangeChart({
@@ -76,7 +76,7 @@ export function RangeChart({
   showMarkers = true,
   showErrorBars = false,
   fillOpacity = 0.25,
-  color = "#3b82f6",
+  color = "var(--chart-1)",
   colors = DEFAULT_COLORS,
   lowLabel = "Low",
   highLabel = "High",

@@ -40,6 +40,15 @@ export interface ScatterChartProps extends Omit<BaseChartProps, "config"> {
 }
 
 // SVG path generators for different symbols
+// Default colors using CSS variables
+const DEFAULT_COLORS = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+]
+
 const symbolPaths: Record<string, (size: number) => string> = {
   circle: (s) => {
     const r = s / 2
@@ -151,9 +160,9 @@ export function ScatterChart({
   }, [allPoints, showTrendLine, xScale])
 
   // Legend items
-  const legendItems: LegendItem[] = data.map((series) => ({
+  const legendItems: LegendItem[] = data.map((series, index) => ({
     name: series.name,
-    color: series.color ?? "hsl(var(--foreground))",
+    color: series.color ?? DEFAULT_COLORS[index % DEFAULT_COLORS.length],
   }))
 
   return (
@@ -192,7 +201,7 @@ export function ScatterChart({
 
           {/* Points */}
           {data.map((series, seriesIndex) => {
-            const seriesColor = series.color ?? "hsl(var(--foreground))"
+            const seriesColor = series.color ?? DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
             const seriesSymbol = series.symbol ?? symbol
             const isSeriesHovered =
               hoveredSeries === null || hoveredSeries === series.name

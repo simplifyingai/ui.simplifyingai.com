@@ -29,8 +29,8 @@ export interface CandlestickChartProps {
 export function CandlestickChart({
   data,
   className,
-  upColor = "#22c55e",
-  downColor = "#ef4444",
+  upColor = "var(--chart-2)",
+  downColor = "var(--chart-4)",
   showGrid = true,
   showTooltip = true,
   hollowCandles = false,

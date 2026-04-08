@@ -47,9 +47,9 @@ export interface AreaChartProps {
 export function AreaChart({
   data,
   className,
-  color = "#2563eb",
-  gradientFrom = "#2563eb",
-  gradientTo = "#93c5fd",
+  color = "var(--chart-1)",
+  gradientFrom = "var(--chart-1)",
+  gradientTo = "var(--chart-2)",
   gradientOpacity = [0.8, 0.1],
   showDots = false,
   showGrid = true,

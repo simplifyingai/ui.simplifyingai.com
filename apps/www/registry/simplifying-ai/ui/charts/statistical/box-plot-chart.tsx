@@ -74,7 +74,7 @@ function calculateStats(
 export function BoxPlotChart({
   data,
   className,
-  color = "#2563eb",
+  color = "var(--chart-1)",
   showGrid = true,
   showTooltip = true,
   orientation = "vertical",

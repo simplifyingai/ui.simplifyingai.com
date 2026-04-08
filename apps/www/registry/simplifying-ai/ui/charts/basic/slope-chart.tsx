@@ -62,9 +62,9 @@ export function SlopeChart({
   showGrid = true,
   showValues = true,
   showRankChange = false,
-  increaseColor = "#22c55e",
-  decreaseColor = "#ef4444",
-  neutralColor = "#94a3b8",
+  increaseColor = "var(--chart-2)",
+  decreaseColor = "var(--chart-4)",
+  neutralColor = "var(--chart-3)",
   valueFormatter = (value) => value.toLocaleString(),
 }: SlopeChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)

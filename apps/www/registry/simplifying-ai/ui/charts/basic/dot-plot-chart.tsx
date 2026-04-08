@@ -33,7 +33,7 @@ export function DotPlotChart({
   showXAxis = true,
   xAxisLabel,
   binCount = 20,
-  color = "#2563eb",
+  color = "var(--chart-1)",
   valueFormatter = (value) => value.toLocaleString(),
 }: DotPlotChartProps) {
   const [hoveredBin, setHoveredBin] = React.useState<number | null>(null)

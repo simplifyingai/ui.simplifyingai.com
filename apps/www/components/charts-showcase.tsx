@@ -14,9 +14,17 @@ interface PremiumChart {
   description: string
   href: string
   size: ChartSize
+  /** Explicit grid placement class for bento layout */
+  gridClass?: string
 }
 
-// Premium charts to showcase - visually impressive ones
+// Premium charts with explicit bento grid placement
+// Layout on 4-col grid (xl):
+//   Row 1-2: [Sankey 2x2]       [Sunburst 1x2] [Treemap 1x2]
+//   Row 3:   [Radar 1x1]        [Gauge 1x1]    (Sunburst/Treemap continue)
+//   Row 4-5: [Choropleth 2x2]   [Candlestick 1x2] [Violin 1x2]
+//   Row 6:   (Choropleth cont)  [Funnel 1x1]    [Donut 1x1]
+//   Row 7-8: [Heatmap 1x2]      [Scatter 1x2]  (empty or balanced)
 const PREMIUM_CHARTS: PremiumChart[] = [
   {
     name: "sankey-chart-demo",
@@ -24,6 +32,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Flow visualization",
     href: "/docs/components/sankey-chart",
     size: "large",
+    gridClass: "xl:col-span-2 xl:row-span-2 lg:col-span-2 lg:row-span-2",
   },
   {
     name: "sunburst-chart-demo",
@@ -31,6 +40,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Hierarchical data",
     href: "/docs/components/sunburst-chart",
     size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2",
   },
   {
     name: "treemap-chart-demo",
@@ -38,6 +48,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Nested rectangles",
     href: "/docs/components/treemap-chart",
     size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2",
   },
   {
     name: "radar-chart-demo",
@@ -59,6 +70,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Geographic data",
     href: "/docs/components/choropleth-chart",
     size: "large",
+    gridClass: "xl:col-span-2 xl:row-span-2 lg:col-span-2 lg:row-span-2",
   },
   {
     name: "candlestick-chart-demo",
@@ -66,6 +78,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Financial OHLC",
     href: "/docs/components/candlestick-chart",
     size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2",
   },
   {
     name: "violin-chart-demo",
@@ -73,13 +86,7 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     description: "Distribution density",
     href: "/docs/components/violin-chart",
     size: "medium",
-  },
-  {
-    name: "heatmap-chart-demo",
-    title: "Heatmap Chart",
-    description: "2D intensity",
-    href: "/docs/components/heatmap-chart",
-    size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2",
   },
   {
     name: "funnel-chart-demo",
@@ -96,15 +103,31 @@ const PREMIUM_CHARTS: PremiumChart[] = [
     size: "small",
   },
   {
+    name: "heatmap-chart-demo",
+    title: "Heatmap Chart",
+    description: "2D intensity",
+    href: "/docs/components/heatmap-chart",
+    size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2",
+  },
+  {
     name: "scatter-chart-demo",
     title: "Scatter Chart",
     description: "Point distribution",
     href: "/docs/components/scatter-chart",
     size: "medium",
+    gridClass: "xl:row-span-2 lg:row-span-2 xl:col-span-2 lg:col-span-1",
   },
 ]
 
-function ChartCard({ name, title, description, href, size }: PremiumChart) {
+function ChartCard({
+  name,
+  title,
+  description,
+  href,
+  size,
+  gridClass,
+}: PremiumChart) {
   const Component = Index[name]?.component
 
   return (
@@ -112,16 +135,14 @@ function ChartCard({ name, title, description, href, size }: PremiumChart) {
       href={href}
       className={cn(
         "group bg-card text-card-foreground hover:border-primary/50 relative flex flex-col overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-lg",
-        size === "large" && "md:col-span-2 md:row-span-2",
-        size === "medium" && "md:row-span-2",
-        size === "small" && ""
+        gridClass
       )}
     >
       <div
         className={cn(
           "flex flex-1 items-center justify-center overflow-hidden p-4",
-          size === "large" && "min-h-[320px]",
-          size === "medium" && "min-h-[280px]",
+          size === "large" && "min-h-[300px]",
+          size === "medium" && "min-h-[260px]",
           size === "small" && "min-h-[200px]"
         )}
       >
@@ -170,7 +191,7 @@ function ChartCard({ name, title, description, href, size }: PremiumChart) {
 
 export function ChartsShowcase() {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {PREMIUM_CHARTS.map((chart) => (
         <ChartCard key={chart.name} {...chart} />
       ))}

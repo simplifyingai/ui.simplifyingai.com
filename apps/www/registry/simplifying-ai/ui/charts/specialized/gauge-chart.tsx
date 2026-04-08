@@ -54,15 +54,15 @@ export interface GaugeChartProps extends BaseChartProps {
   showPercentage?: boolean
 }
 
-// Default colors
+// Default colors using CSS variables for theme support
 const COLORS = {
-  primary: "#3b82f6",
-  success: "#22c55e",
-  warning: "#f59e0b",
-  danger: "#ef4444",
-  muted: "#e5e7eb",
-  purple: "#8b5cf6",
-  pink: "#ec4899",
+  primary: "var(--chart-1)",
+  success: "var(--chart-2)",
+  warning: "var(--chart-3)",
+  danger: "var(--chart-4)",
+  muted: "var(--muted)",
+  purple: "var(--chart-5)",
+  pink: "var(--chart-3)",
 }
 
 export function GaugeChart({
