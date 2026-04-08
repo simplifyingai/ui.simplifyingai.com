@@ -19,7 +19,6 @@ export default function DotPlotChartDemo() {
         dotSize={8}
         binCount={25}
         xAxisLabel="Score Distribution"
-        color="#2563eb"
       />
     </div>
   )

@@ -48,18 +48,9 @@ export default function ContourChartDemo() {
         xAxisLabel="X"
         yAxisLabel="Y"
         levels={12}
-        colorScale={[
-          "#1e40af",
-          "#2563eb",
-          "#3b82f6",
-          "#60a5fa",
-          "#93c5fd",
-          "#bfdbfe",
-        ]}
         showMarkers={true}
         markerSymbol="x"
         markerSize={6}
-        markerColor="#1e40af"
         showGrid={true}
         lineWidth={0.5}
       />

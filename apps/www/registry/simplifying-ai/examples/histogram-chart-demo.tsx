@@ -25,9 +25,7 @@ export default function HistogramChartDemo() {
       <HistogramChart
         data={normalData}
         bins={40}
-        color="#4285f4"
         showBorder
-        borderColor="#3367d6"
         xAxisLabel="Value"
         yAxisLabel="Frequency"
       />

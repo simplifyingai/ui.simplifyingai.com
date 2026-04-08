@@ -98,7 +98,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
       href={href}
       className="group bg-card text-card-foreground hover:border-primary/50 relative flex flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:shadow-md"
     >
-      <div className="flex h-[220px] items-center justify-center overflow-hidden p-3">
+      <div className="flex h-[220px] items-center justify-center overflow-hidden">
         {Component ? (
           <React.Suspense
             fallback={
@@ -115,7 +115,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
           <div className="text-muted-foreground text-sm">Loading...</div>
         )}
       </div>
-      <div className="border-t px-4 py-2.5">
+      <div className="px-4 py-2.5">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="group-hover:text-primary text-sm font-medium transition-colors">
@@ -145,7 +145,7 @@ function ChartCard({ name, title, description, href }: ChartPreview) {
 export function ChartsShowcase() {
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {FEATURED_CHARTS.map((chart) => (
           <ChartCard key={chart.name} {...chart} />
         ))}

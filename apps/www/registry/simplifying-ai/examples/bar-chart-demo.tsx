@@ -15,7 +15,6 @@ export default function BarChartDemo() {
   return (
     <BarChart
       data={chartData}
-      color="#2563eb"
       showGrid
       showTooltip
       barRadius={0}

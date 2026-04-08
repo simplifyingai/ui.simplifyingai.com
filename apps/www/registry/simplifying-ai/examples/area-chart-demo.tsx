@@ -19,9 +19,6 @@ export default function AreaChartDemo() {
   return (
     <AreaChart
       data={chartData}
-      color="#2563eb"
-      gradientFrom="#2563eb"
-      gradientTo="#60a5fa"
       showDots={false}
       showGrid
       showTooltip

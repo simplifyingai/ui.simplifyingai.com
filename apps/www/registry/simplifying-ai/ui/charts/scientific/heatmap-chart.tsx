@@ -328,13 +328,21 @@ export function HeatmapChart({
         setResolvedAutoColors([bg, toRgb(c1), toRgb(c3), toRgb(c4), toRgb(c5)])
       }
     }
-    resolve()
+    // Delay initial resolve to ensure DOM is ready and theme classes applied
+    const timer = setTimeout(resolve, 50)
     const observer = new MutationObserver(resolve)
     observer.observe(document.body, {
       attributes: true,
       attributeFilter: ["class"],
     })
-    return () => observer.disconnect()
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+    return () => {
+      clearTimeout(timer)
+      observer.disconnect()
+    }
   }, [colorTheme, isDark, toRgb])
 
   // Get colors based on theme

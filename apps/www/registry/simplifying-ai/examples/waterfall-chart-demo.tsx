@@ -28,9 +28,6 @@ export default function WaterfallChartDemo() {
         height={380}
         xAxisLabel="Category"
         yAxisLabel="Amount ($K)"
-        positiveColor="#2563eb"
-        negativeColor="#60a5fa"
-        totalColor="#1e40af"
       />
     </div>
   )

@@ -19,7 +19,6 @@ const data = [
       { x: "Nov", y: 276 },
       { x: "Dec", y: 301 },
     ],
-    color: "#93c5fd",
   },
 ]
 
