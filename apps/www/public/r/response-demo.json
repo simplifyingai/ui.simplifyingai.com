@@ -3,7 +3,7 @@
   "name": "response-demo",
   "type": "registry:example",
   "registryDependencies": [
-    "https://ui.simplifying.ai/r/response.json"
+    "https://ui.simplifyingai.com/r/response.json"
   ],
   "files": [
     {

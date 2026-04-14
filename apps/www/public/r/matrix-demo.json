@@ -3,7 +3,7 @@
   "name": "matrix-demo",
   "type": "registry:example",
   "registryDependencies": [
-    "https://ui.simplifying.ai/r/matrix.json"
+    "https://ui.simplifyingai.com/r/matrix.json"
   ],
   "files": [
     {

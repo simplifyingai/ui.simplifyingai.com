@@ -3,7 +3,7 @@
   "name": "scrub-bar-demo",
   "type": "registry:example",
   "registryDependencies": [
-    "https://ui.simplifying.ai/r/scrub-bar.json"
+    "https://ui.simplifyingai.com/r/scrub-bar.json"
   ],
   "files": [
     {
