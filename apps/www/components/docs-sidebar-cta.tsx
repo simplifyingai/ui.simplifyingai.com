@@ -15,22 +15,22 @@ export function DocsSidebarCta({ className }: React.ComponentProps<"div">) {
       <div className="bg-surface/80 absolute inset-0" />
 
       <div className="relative z-10 text-base leading-tight font-semibold text-balance group-hover:underline">
-        Deploy and Scale Agents with Simplifying AI
+        Ask Your Database Anything with ChatPlotDB
       </div>
       <div className="text-muted-foreground relative z-10">
-        Simplifying AI delivers the infrastructure and developer experience you
-        need to ship reliable audio & agent applications at scale.
+        Connect your database, ask questions in plain English, and get answers
+        as charts, tables, and dashboards. No SQL required.
       </div>
       <Button size="sm" className="relative z-10 mt-2 w-fit">
-        Deploy Now
+        Join the Waitlist
       </Button>
       <Link
-        href={siteConfig.utm.agents}
+        href={siteConfig.utm.chatplotdb}
         target="_blank"
         rel="noreferrer"
         className="absolute inset-0 z-20"
       >
-        <span className="sr-only">Talk to an expert</span>
+        <span className="sr-only">Join the ChatPlotDB waitlist</span>
       </Link>
     </div>
   )

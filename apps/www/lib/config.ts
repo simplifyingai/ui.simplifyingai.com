@@ -26,8 +26,8 @@ export const siteConfig = {
     main: "https://simplifyingai.com?utm_source=simplify_charts&utm_medium=web&utm_campaign=charts_to_platform",
     platform:
       "https://simplifyingai.com/platform?utm_source=simplify_charts&utm_medium=web&utm_campaign=charts_to_platform",
-    agents:
-      "https://simplifyingai.com/agents?utm_source=simplify_charts&utm_medium=web&utm_campaign=charts_to_platform",
+    chatplotdb:
+      "https://simplifyingai.com/chatplotdb?utm_source=simplify_charts&utm_medium=web&utm_campaign=charts_to_platform",
     sales:
       "https://simplifyingai.com/contact-sales?utm_source=simplify_charts&utm_medium=web&utm_campaign=charts_to_platform",
   },
