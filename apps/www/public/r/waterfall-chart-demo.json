@@ -2,12 +2,12 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "waterfall-chart-demo",
   "registryDependencies": [
-    "waterfall-chart"
+    "https://ui.simplifyingai.com/r/waterfall-chart.json"
   ],
   "files": [
     {
       "path": "examples/waterfall-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\n// P&L Statement breakdown\nconst data = [\n  { label: \"Revenue\", value: 5200, isTotal: true },\n  { label: \"Product Sales\", value: 1800 },\n  { label: \"Services\", value: 1200 },\n  { label: \"Licensing\", value: 650 },\n  { label: \"Gross Profit\", value: 8850, isSubtotal: true },\n  { label: \"Salaries\", value: -2400 },\n  { label: \"Marketing\", value: -850 },\n  { label: \"Operations\", value: -1200 },\n  { label: \"R&D\", value: -950 },\n  { label: \"Operating Income\", value: 3450, isSubtotal: true },\n  { label: \"Interest\", value: -180 },\n  { label: \"Taxes\", value: -720 },\n  { label: \"Net Income\", value: 2550, isTotal: true },\n]\n\nexport default function WaterfallChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-xl\">\n      <WaterfallChart\n        data={data}\n        width={560}\n        height={380}\n        xAxisLabel=\"Category\"\n        yAxisLabel=\"Amount ($K)\"\n        positiveColor=\"#2563eb\"\n        negativeColor=\"#60a5fa\"\n        totalColor=\"#1e40af\"\n      />\n    </div>\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { WaterfallChart } from \"@/components/ui/charts\"\n\n// P&L Statement breakdown\nconst data = [\n  { label: \"Revenue\", value: 5200, isTotal: true },\n  { label: \"Product Sales\", value: 1800 },\n  { label: \"Services\", value: 1200 },\n  { label: \"Licensing\", value: 650 },\n  { label: \"Gross Profit\", value: 8850, isSubtotal: true },\n  { label: \"Salaries\", value: -2400 },\n  { label: \"Marketing\", value: -850 },\n  { label: \"Operations\", value: -1200 },\n  { label: \"R&D\", value: -950 },\n  { label: \"Operating Income\", value: 3450, isSubtotal: true },\n  { label: \"Interest\", value: -180 },\n  { label: \"Taxes\", value: -720 },\n  { label: \"Net Income\", value: 2550, isTotal: true },\n]\n\nexport default function WaterfallChartDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-xl\">\n      <WaterfallChart\n        data={data}\n        width={560}\n        height={380}\n        xAxisLabel=\"Category\"\n        yAxisLabel=\"Amount ($K)\"\n      />\n    </div>\n  )\n}\n",
       "type": "registry:example"
     }
   ],

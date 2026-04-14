@@ -5,7 +5,7 @@ export const examples: Registry["items"] = [
   {
     name: "area-chart-demo",
     type: "registry:example",
-    registryDependencies: ["area-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
     files: [
       {
         path: "examples/area-chart-demo.tsx",
@@ -16,7 +16,7 @@ export const examples: Registry["items"] = [
   {
     name: "area-chart-smooth-demo",
     type: "registry:example",
-    registryDependencies: ["area-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
     files: [
       {
         path: "examples/area-chart-smooth-demo.tsx",
@@ -27,7 +27,7 @@ export const examples: Registry["items"] = [
   {
     name: "area-chart-step-demo",
     type: "registry:example",
-    registryDependencies: ["area-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
     files: [
       {
         path: "examples/area-chart-step-demo.tsx",
@@ -38,7 +38,7 @@ export const examples: Registry["items"] = [
   {
     name: "area-chart-multi-demo",
     type: "registry:example",
-    registryDependencies: ["area-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
     files: [
       {
         path: "examples/area-chart-multi-demo.tsx",
@@ -49,7 +49,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-demo.tsx",
@@ -60,7 +60,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-label-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-label-demo.tsx",
@@ -71,7 +71,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-horizontal-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-horizontal-demo.tsx",
@@ -82,7 +82,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-multiple-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-multiple-demo.tsx",
@@ -93,7 +93,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-stacked-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-stacked-demo.tsx",
@@ -104,7 +104,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-negative-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-negative-demo.tsx",
@@ -115,7 +115,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-interactive-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-interactive-demo.tsx",
@@ -126,7 +126,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-mixed-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-mixed-demo.tsx",
@@ -137,7 +137,7 @@ export const examples: Registry["items"] = [
   {
     name: "bar-chart-active-demo",
     type: "registry:example",
-    registryDependencies: ["bar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
     files: [
       {
         path: "examples/bar-chart-active-demo.tsx",
@@ -148,7 +148,7 @@ export const examples: Registry["items"] = [
   {
     name: "line-chart-demo",
     type: "registry:example",
-    registryDependencies: ["line-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/line-chart.json"],
     files: [
       {
         path: "examples/line-chart-demo.tsx",
@@ -159,7 +159,7 @@ export const examples: Registry["items"] = [
   {
     name: "line-chart-smooth-demo",
     type: "registry:example",
-    registryDependencies: ["line-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/line-chart.json"],
     files: [
       {
         path: "examples/line-chart-smooth-demo.tsx",
@@ -170,7 +170,7 @@ export const examples: Registry["items"] = [
   {
     name: "line-chart-multi-demo",
     type: "registry:example",
-    registryDependencies: ["line-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/line-chart.json"],
     files: [
       {
         path: "examples/line-chart-multi-demo.tsx",
@@ -181,7 +181,7 @@ export const examples: Registry["items"] = [
   {
     name: "line-chart-stock-demo",
     type: "registry:example",
-    registryDependencies: ["line-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/line-chart.json"],
     files: [
       {
         path: "examples/line-chart-stock-demo.tsx",
@@ -192,7 +192,7 @@ export const examples: Registry["items"] = [
   {
     name: "scatter-chart-demo",
     type: "registry:example",
-    registryDependencies: ["scatter-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/scatter-chart.json"],
     files: [
       {
         path: "examples/scatter-chart-demo.tsx",
@@ -203,7 +203,7 @@ export const examples: Registry["items"] = [
   {
     name: "scatter-chart-bubble-demo",
     type: "registry:example",
-    registryDependencies: ["scatter-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/scatter-chart.json"],
     files: [
       {
         path: "examples/scatter-chart-bubble-demo.tsx",
@@ -214,7 +214,7 @@ export const examples: Registry["items"] = [
   {
     name: "scatter-chart-trendline-demo",
     type: "registry:example",
-    registryDependencies: ["scatter-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/scatter-chart.json"],
     files: [
       {
         path: "examples/scatter-chart-trendline-demo.tsx",
@@ -225,7 +225,7 @@ export const examples: Registry["items"] = [
   {
     name: "scatter-chart-symbols-demo",
     type: "registry:example",
-    registryDependencies: ["scatter-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/scatter-chart.json"],
     files: [
       {
         path: "examples/scatter-chart-symbols-demo.tsx",
@@ -236,7 +236,7 @@ export const examples: Registry["items"] = [
   {
     name: "scatter-chart-correlation-demo",
     type: "registry:example",
-    registryDependencies: ["scatter-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/scatter-chart.json"],
     files: [
       {
         path: "examples/scatter-chart-correlation-demo.tsx",
@@ -247,7 +247,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-demo.tsx",
@@ -258,7 +258,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-donut-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-donut-demo.tsx",
@@ -269,7 +269,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-donut-active-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-donut-active-demo.tsx",
@@ -280,7 +280,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-donut-text-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-donut-text-demo.tsx",
@@ -291,7 +291,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-label-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-label-demo.tsx",
@@ -302,7 +302,7 @@ export const examples: Registry["items"] = [
   {
     name: "pie-chart-interactive-demo",
     type: "registry:example",
-    registryDependencies: ["pie-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/pie-chart.json"],
     files: [
       {
         path: "examples/pie-chart-interactive-demo.tsx",
@@ -313,7 +313,7 @@ export const examples: Registry["items"] = [
   {
     name: "donut-chart-demo",
     type: "registry:example",
-    registryDependencies: ["donut-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/donut-chart.json"],
     files: [
       {
         path: "examples/donut-chart-demo.tsx",
@@ -324,7 +324,7 @@ export const examples: Registry["items"] = [
   {
     name: "donut-chart-gradient-demo",
     type: "registry:example",
-    registryDependencies: ["donut-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/donut-chart.json"],
     files: [
       {
         path: "examples/donut-chart-gradient-demo.tsx",
@@ -335,7 +335,7 @@ export const examples: Registry["items"] = [
   {
     name: "donut-chart-separated-demo",
     type: "registry:example",
-    registryDependencies: ["donut-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/donut-chart.json"],
     files: [
       {
         path: "examples/donut-chart-separated-demo.tsx",
@@ -346,7 +346,7 @@ export const examples: Registry["items"] = [
   {
     name: "donut-chart-half-demo",
     type: "registry:example",
-    registryDependencies: ["donut-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/donut-chart.json"],
     files: [
       {
         path: "examples/donut-chart-half-demo.tsx",
@@ -358,7 +358,9 @@ export const examples: Registry["items"] = [
   {
     name: "histogram-chart-demo",
     type: "registry:example",
-    registryDependencies: ["histogram-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/histogram-chart.json",
+    ],
     files: [
       {
         path: "examples/histogram-chart-demo.tsx",
@@ -369,7 +371,9 @@ export const examples: Registry["items"] = [
   {
     name: "histogram-chart-overlay-demo",
     type: "registry:example",
-    registryDependencies: ["histogram-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/histogram-chart.json",
+    ],
     files: [
       {
         path: "examples/histogram-chart-overlay-demo.tsx",
@@ -380,7 +384,9 @@ export const examples: Registry["items"] = [
   {
     name: "histogram-chart-gradient-demo",
     type: "registry:example",
-    registryDependencies: ["histogram-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/histogram-chart.json",
+    ],
     files: [
       {
         path: "examples/histogram-chart-gradient-demo.tsx",
@@ -391,7 +397,9 @@ export const examples: Registry["items"] = [
   {
     name: "histogram-chart-stepped-demo",
     type: "registry:example",
-    registryDependencies: ["histogram-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/histogram-chart.json",
+    ],
     files: [
       {
         path: "examples/histogram-chart-stepped-demo.tsx",
@@ -402,7 +410,9 @@ export const examples: Registry["items"] = [
   {
     name: "box-plot-chart-demo",
     type: "registry:example",
-    registryDependencies: ["box-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/box-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/box-plot-chart-demo.tsx",
@@ -413,7 +423,9 @@ export const examples: Registry["items"] = [
   {
     name: "box-plot-chart-horizontal-demo",
     type: "registry:example",
-    registryDependencies: ["box-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/box-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/box-plot-chart-horizontal-demo.tsx",
@@ -424,7 +436,9 @@ export const examples: Registry["items"] = [
   {
     name: "box-plot-chart-multi-demo",
     type: "registry:example",
-    registryDependencies: ["box-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/box-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/box-plot-chart-multi-demo.tsx",
@@ -435,7 +449,9 @@ export const examples: Registry["items"] = [
   {
     name: "box-plot-chart-comparison-demo",
     type: "registry:example",
-    registryDependencies: ["box-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/box-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/box-plot-chart-comparison-demo.tsx",
@@ -446,7 +462,9 @@ export const examples: Registry["items"] = [
   {
     name: "box-plot-chart-outliers-demo",
     type: "registry:example",
-    registryDependencies: ["box-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/box-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/box-plot-chart-outliers-demo.tsx",
@@ -457,7 +475,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-demo.tsx",
@@ -468,7 +486,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-comparison-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-comparison-demo.tsx",
@@ -479,7 +497,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-horizontal-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-horizontal-demo.tsx",
@@ -490,7 +508,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-grouped-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-grouped-demo.tsx",
@@ -501,7 +519,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-minimal-demo.tsx",
@@ -512,7 +530,7 @@ export const examples: Registry["items"] = [
   {
     name: "violin-chart-boxplot-demo",
     type: "registry:example",
-    registryDependencies: ["violin-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/violin-chart.json"],
     files: [
       {
         path: "examples/violin-chart-boxplot-demo.tsx",
@@ -524,7 +542,9 @@ export const examples: Registry["items"] = [
   {
     name: "candlestick-chart-demo",
     type: "registry:example",
-    registryDependencies: ["candlestick-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/candlestick-chart.json",
+    ],
     files: [
       {
         path: "examples/candlestick-chart-demo.tsx",
@@ -535,7 +555,9 @@ export const examples: Registry["items"] = [
   {
     name: "candlestick-chart-hollow-demo",
     type: "registry:example",
-    registryDependencies: ["candlestick-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/candlestick-chart.json",
+    ],
     files: [
       {
         path: "examples/candlestick-chart-hollow-demo.tsx",
@@ -546,7 +568,9 @@ export const examples: Registry["items"] = [
   {
     name: "candlestick-chart-scrollable-demo",
     type: "registry:example",
-    registryDependencies: ["candlestick-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/candlestick-chart.json",
+    ],
     files: [
       {
         path: "examples/candlestick-chart-scrollable-demo.tsx",
@@ -557,7 +581,9 @@ export const examples: Registry["items"] = [
   {
     name: "waterfall-chart-demo",
     type: "registry:example",
-    registryDependencies: ["waterfall-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/waterfall-chart.json",
+    ],
     files: [
       {
         path: "examples/waterfall-chart-demo.tsx",
@@ -568,7 +594,9 @@ export const examples: Registry["items"] = [
   {
     name: "waterfall-chart-quarterly-demo",
     type: "registry:example",
-    registryDependencies: ["waterfall-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/waterfall-chart.json",
+    ],
     files: [
       {
         path: "examples/waterfall-chart-quarterly-demo.tsx",
@@ -579,7 +607,9 @@ export const examples: Registry["items"] = [
   {
     name: "waterfall-chart-budget-demo",
     type: "registry:example",
-    registryDependencies: ["waterfall-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/waterfall-chart.json",
+    ],
     files: [
       {
         path: "examples/waterfall-chart-budget-demo.tsx",
@@ -590,7 +620,9 @@ export const examples: Registry["items"] = [
   {
     name: "waterfall-chart-inventory-demo",
     type: "registry:example",
-    registryDependencies: ["waterfall-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/waterfall-chart.json",
+    ],
     files: [
       {
         path: "examples/waterfall-chart-inventory-demo.tsx",
@@ -601,7 +633,9 @@ export const examples: Registry["items"] = [
   {
     name: "waterfall-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["waterfall-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/waterfall-chart.json",
+    ],
     files: [
       {
         path: "examples/waterfall-chart-minimal-demo.tsx",
@@ -612,7 +646,7 @@ export const examples: Registry["items"] = [
   {
     name: "funnel-chart-demo",
     type: "registry:example",
-    registryDependencies: ["funnel-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/funnel-chart.json"],
     files: [
       {
         path: "examples/funnel-chart-demo.tsx",
@@ -623,7 +657,7 @@ export const examples: Registry["items"] = [
   {
     name: "funnel-chart-gradient-demo",
     type: "registry:example",
-    registryDependencies: ["funnel-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/funnel-chart.json"],
     files: [
       {
         path: "examples/funnel-chart-gradient-demo.tsx",
@@ -634,7 +668,7 @@ export const examples: Registry["items"] = [
   {
     name: "funnel-chart-flat-demo",
     type: "registry:example",
-    registryDependencies: ["funnel-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/funnel-chart.json"],
     files: [
       {
         path: "examples/funnel-chart-flat-demo.tsx",
@@ -645,7 +679,7 @@ export const examples: Registry["items"] = [
   {
     name: "funnel-chart-pyramid-demo",
     type: "registry:example",
-    registryDependencies: ["funnel-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/funnel-chart.json"],
     files: [
       {
         path: "examples/funnel-chart-pyramid-demo.tsx",
@@ -656,7 +690,7 @@ export const examples: Registry["items"] = [
   {
     name: "funnel-chart-horizontal-demo",
     type: "registry:example",
-    registryDependencies: ["funnel-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/funnel-chart.json"],
     files: [
       {
         path: "examples/funnel-chart-horizontal-demo.tsx",
@@ -668,7 +702,7 @@ export const examples: Registry["items"] = [
   {
     name: "heatmap-chart-demo",
     type: "registry:example",
-    registryDependencies: ["heatmap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/heatmap-chart.json"],
     files: [
       {
         path: "examples/heatmap-chart-demo.tsx",
@@ -679,7 +713,7 @@ export const examples: Registry["items"] = [
   {
     name: "heatmap-chart-calendar-demo",
     type: "registry:example",
-    registryDependencies: ["heatmap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/heatmap-chart.json"],
     files: [
       {
         path: "examples/heatmap-chart-calendar-demo.tsx",
@@ -690,7 +724,7 @@ export const examples: Registry["items"] = [
   {
     name: "heatmap-chart-matrix-demo",
     type: "registry:example",
-    registryDependencies: ["heatmap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/heatmap-chart.json"],
     files: [
       {
         path: "examples/heatmap-chart-matrix-demo.tsx",
@@ -701,7 +735,7 @@ export const examples: Registry["items"] = [
   {
     name: "heatmap-chart-themes-demo",
     type: "registry:example",
-    registryDependencies: ["heatmap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/heatmap-chart.json"],
     files: [
       {
         path: "examples/heatmap-chart-themes-demo.tsx",
@@ -712,7 +746,7 @@ export const examples: Registry["items"] = [
   {
     name: "heatmap-chart-radial-demo",
     type: "registry:example",
-    registryDependencies: ["heatmap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/heatmap-chart.json"],
     files: [
       {
         path: "examples/heatmap-chart-radial-demo.tsx",
@@ -723,7 +757,7 @@ export const examples: Registry["items"] = [
   {
     name: "contour-chart-demo",
     type: "registry:example",
-    registryDependencies: ["contour-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/contour-chart.json"],
     files: [
       {
         path: "examples/contour-chart-demo.tsx",
@@ -734,7 +768,7 @@ export const examples: Registry["items"] = [
   {
     name: "contour-chart-lines-demo",
     type: "registry:example",
-    registryDependencies: ["contour-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/contour-chart.json"],
     files: [
       {
         path: "examples/contour-chart-lines-demo.tsx",
@@ -745,7 +779,7 @@ export const examples: Registry["items"] = [
   {
     name: "contour-chart-thermal-demo",
     type: "registry:example",
-    registryDependencies: ["contour-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/contour-chart.json"],
     files: [
       {
         path: "examples/contour-chart-thermal-demo.tsx",
@@ -756,7 +790,7 @@ export const examples: Registry["items"] = [
   {
     name: "contour-chart-scatter-demo",
     type: "registry:example",
-    registryDependencies: ["contour-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/contour-chart.json"],
     files: [
       {
         path: "examples/contour-chart-scatter-demo.tsx",
@@ -768,7 +802,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-demo.tsx",
@@ -779,7 +813,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-comparison-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-comparison-demo.tsx",
@@ -790,7 +824,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-legend-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-legend-demo.tsx",
@@ -801,7 +835,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-filled-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-filled-demo.tsx",
@@ -812,7 +846,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-circle-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-circle-demo.tsx",
@@ -823,7 +857,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-minimal-demo.tsx",
@@ -834,7 +868,7 @@ export const examples: Registry["items"] = [
   {
     name: "radar-chart-labels-demo",
     type: "registry:example",
-    registryDependencies: ["radar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/radar-chart.json"],
     files: [
       {
         path: "examples/radar-chart-labels-demo.tsx",
@@ -845,7 +879,7 @@ export const examples: Registry["items"] = [
   {
     name: "treemap-chart-demo",
     type: "registry:example",
-    registryDependencies: ["treemap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/treemap-chart.json"],
     files: [
       {
         path: "examples/treemap-chart-demo.tsx",
@@ -856,7 +890,7 @@ export const examples: Registry["items"] = [
   {
     name: "treemap-chart-portfolio-demo",
     type: "registry:example",
-    registryDependencies: ["treemap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/treemap-chart.json"],
     files: [
       {
         path: "examples/treemap-chart-portfolio-demo.tsx",
@@ -867,7 +901,7 @@ export const examples: Registry["items"] = [
   {
     name: "treemap-chart-filesize-demo",
     type: "registry:example",
-    registryDependencies: ["treemap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/treemap-chart.json"],
     files: [
       {
         path: "examples/treemap-chart-filesize-demo.tsx",
@@ -878,7 +912,7 @@ export const examples: Registry["items"] = [
   {
     name: "treemap-chart-nested-demo",
     type: "registry:example",
-    registryDependencies: ["treemap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/treemap-chart.json"],
     files: [
       {
         path: "examples/treemap-chart-nested-demo.tsx",
@@ -889,7 +923,7 @@ export const examples: Registry["items"] = [
   {
     name: "treemap-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["treemap-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/treemap-chart.json"],
     files: [
       {
         path: "examples/treemap-chart-minimal-demo.tsx",
@@ -900,7 +934,9 @@ export const examples: Registry["items"] = [
   {
     name: "sunburst-chart-demo",
     type: "registry:example",
-    registryDependencies: ["sunburst-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/sunburst-chart.json",
+    ],
     files: [
       {
         path: "examples/sunburst-chart-demo.tsx",
@@ -911,7 +947,9 @@ export const examples: Registry["items"] = [
   {
     name: "sunburst-chart-organizational-demo",
     type: "registry:example",
-    registryDependencies: ["sunburst-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/sunburst-chart.json",
+    ],
     files: [
       {
         path: "examples/sunburst-chart-organizational-demo.tsx",
@@ -922,7 +960,9 @@ export const examples: Registry["items"] = [
   {
     name: "sunburst-chart-budget-demo",
     type: "registry:example",
-    registryDependencies: ["sunburst-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/sunburst-chart.json",
+    ],
     files: [
       {
         path: "examples/sunburst-chart-budget-demo.tsx",
@@ -933,7 +973,9 @@ export const examples: Registry["items"] = [
   {
     name: "sunburst-chart-filesize-demo",
     type: "registry:example",
-    registryDependencies: ["sunburst-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/sunburst-chart.json",
+    ],
     files: [
       {
         path: "examples/sunburst-chart-filesize-demo.tsx",
@@ -944,7 +986,9 @@ export const examples: Registry["items"] = [
   {
     name: "sunburst-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["sunburst-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/sunburst-chart.json",
+    ],
     files: [
       {
         path: "examples/sunburst-chart-minimal-demo.tsx",
@@ -955,7 +999,7 @@ export const examples: Registry["items"] = [
   {
     name: "sankey-chart-demo",
     type: "registry:example",
-    registryDependencies: ["sankey-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/sankey-chart.json"],
     files: [
       {
         path: "examples/sankey-chart-demo.tsx",
@@ -966,7 +1010,7 @@ export const examples: Registry["items"] = [
   {
     name: "sankey-chart-energy-demo",
     type: "registry:example",
-    registryDependencies: ["sankey-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/sankey-chart.json"],
     files: [
       {
         path: "examples/sankey-chart-energy-demo.tsx",
@@ -977,7 +1021,7 @@ export const examples: Registry["items"] = [
   {
     name: "sankey-chart-gradient-demo",
     type: "registry:example",
-    registryDependencies: ["sankey-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/sankey-chart.json"],
     files: [
       {
         path: "examples/sankey-chart-gradient-demo.tsx",
@@ -988,7 +1032,7 @@ export const examples: Registry["items"] = [
   {
     name: "sankey-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["sankey-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/sankey-chart.json"],
     files: [
       {
         path: "examples/sankey-chart-minimal-demo.tsx",
@@ -999,7 +1043,7 @@ export const examples: Registry["items"] = [
   {
     name: "sankey-chart-multilevel-demo",
     type: "registry:example",
-    registryDependencies: ["sankey-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/sankey-chart.json"],
     files: [
       {
         path: "examples/sankey-chart-multilevel-demo.tsx",
@@ -1010,7 +1054,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-demo.tsx",
@@ -1021,7 +1065,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-speedometer-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-speedometer-demo.tsx",
@@ -1032,7 +1076,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-segmented-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-segmented-demo.tsx",
@@ -1043,7 +1087,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-radial-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-radial-demo.tsx",
@@ -1054,7 +1098,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-minimal-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-minimal-demo.tsx",
@@ -1065,7 +1109,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-gradient-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-gradient-demo.tsx",
@@ -1076,7 +1120,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-meter-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-meter-demo.tsx",
@@ -1087,7 +1131,7 @@ export const examples: Registry["items"] = [
   {
     name: "gauge-chart-dashboard-demo",
     type: "registry:example",
-    registryDependencies: ["gauge-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
     files: [
       {
         path: "examples/gauge-chart-dashboard-demo.tsx",
@@ -1099,7 +1143,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-demo.tsx",
@@ -1110,7 +1156,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-usa-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-usa-demo.tsx",
@@ -1121,7 +1169,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-china-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-china-demo.tsx",
@@ -1132,7 +1182,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-uk-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-uk-demo.tsx",
@@ -1143,7 +1195,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-germany-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-germany-demo.tsx",
@@ -1154,7 +1208,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-france-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-france-demo.tsx",
@@ -1165,7 +1221,9 @@ export const examples: Registry["items"] = [
   {
     name: "choropleth-chart-brazil-demo",
     type: "registry:example",
-    registryDependencies: ["choropleth-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/choropleth-chart.json",
+    ],
     files: [
       {
         path: "examples/choropleth-chart-brazil-demo.tsx",
@@ -1178,7 +1236,7 @@ export const examples: Registry["items"] = [
   {
     name: "ohlc-chart-demo",
     type: "registry:example",
-    registryDependencies: ["ohlc-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/ohlc-chart.json"],
     files: [
       {
         path: "examples/ohlc-chart-demo.tsx",
@@ -1189,7 +1247,7 @@ export const examples: Registry["items"] = [
   {
     name: "bullet-chart-demo",
     type: "registry:example",
-    registryDependencies: ["bullet-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/bullet-chart.json"],
     files: [
       {
         path: "examples/bullet-chart-demo.tsx",
@@ -1200,7 +1258,9 @@ export const examples: Registry["items"] = [
   {
     name: "dot-plot-chart-demo",
     type: "registry:example",
-    registryDependencies: ["dot-plot-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/dot-plot-chart.json",
+    ],
     files: [
       {
         path: "examples/dot-plot-chart-demo.tsx",
@@ -1211,7 +1271,9 @@ export const examples: Registry["items"] = [
   {
     name: "lollipop-chart-demo",
     type: "registry:example",
-    registryDependencies: ["lollipop-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/lollipop-chart.json",
+    ],
     files: [
       {
         path: "examples/lollipop-chart-demo.tsx",
@@ -1222,7 +1284,9 @@ export const examples: Registry["items"] = [
   {
     name: "dumbbell-chart-demo",
     type: "registry:example",
-    registryDependencies: ["dumbbell-chart"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/dumbbell-chart.json",
+    ],
     files: [
       {
         path: "examples/dumbbell-chart-demo.tsx",
@@ -1233,7 +1297,7 @@ export const examples: Registry["items"] = [
   {
     name: "icicle-chart-demo",
     type: "registry:example",
-    registryDependencies: ["icicle-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/icicle-chart.json"],
     files: [
       {
         path: "examples/icicle-chart-demo.tsx",
@@ -1244,7 +1308,7 @@ export const examples: Registry["items"] = [
   {
     name: "slope-chart-demo",
     type: "registry:example",
-    registryDependencies: ["slope-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/slope-chart.json"],
     files: [
       {
         path: "examples/slope-chart-demo.tsx",
@@ -1255,7 +1319,7 @@ export const examples: Registry["items"] = [
   {
     name: "slope-chart-bumps",
     type: "registry:example",
-    registryDependencies: ["slope-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/slope-chart.json"],
     files: [
       {
         path: "examples/charts/slope-chart-bumps.tsx",
@@ -1266,7 +1330,7 @@ export const examples: Registry["items"] = [
   {
     name: "slope-chart-multi",
     type: "registry:example",
-    registryDependencies: ["slope-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/slope-chart.json"],
     files: [
       {
         path: "examples/charts/slope-chart-multi.tsx",
@@ -1277,7 +1341,7 @@ export const examples: Registry["items"] = [
   {
     name: "slope-chart-parallel",
     type: "registry:example",
-    registryDependencies: ["slope-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/slope-chart.json"],
     files: [
       {
         path: "examples/charts/slope-chart-parallel.tsx",
@@ -1290,7 +1354,7 @@ export const examples: Registry["items"] = [
   {
     name: "polar-chart-demo",
     type: "registry:example",
-    registryDependencies: ["polar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/polar-chart.json"],
     files: [
       {
         path: "examples/charts/polar-chart-demo.tsx",
@@ -1301,7 +1365,7 @@ export const examples: Registry["items"] = [
   {
     name: "polar-chart-coxcomb",
     type: "registry:example",
-    registryDependencies: ["polar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/polar-chart.json"],
     files: [
       {
         path: "examples/charts/polar-chart-coxcomb.tsx",
@@ -1312,7 +1376,7 @@ export const examples: Registry["items"] = [
   {
     name: "polar-chart-donut",
     type: "registry:example",
-    registryDependencies: ["polar-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/polar-chart.json"],
     files: [
       {
         path: "examples/charts/polar-chart-donut.tsx",
@@ -1323,7 +1387,7 @@ export const examples: Registry["items"] = [
   {
     name: "network-graph-demo",
     type: "registry:example",
-    registryDependencies: ["network-graph"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/network-graph.json"],
     files: [
       {
         path: "examples/charts/network-graph-demo.tsx",
@@ -1334,7 +1398,7 @@ export const examples: Registry["items"] = [
   {
     name: "network-graph-directed",
     type: "registry:example",
-    registryDependencies: ["network-graph"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/network-graph.json"],
     files: [
       {
         path: "examples/charts/network-graph-directed.tsx",
@@ -1345,7 +1409,9 @@ export const examples: Registry["items"] = [
   {
     name: "parallel-coordinates-demo",
     type: "registry:example",
-    registryDependencies: ["parallel-coordinates"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/parallel-coordinates.json",
+    ],
     files: [
       {
         path: "examples/charts/parallel-coordinates-demo.tsx",
@@ -1356,7 +1422,9 @@ export const examples: Registry["items"] = [
   {
     name: "parallel-coordinates-curved",
     type: "registry:example",
-    registryDependencies: ["parallel-coordinates"],
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/parallel-coordinates.json",
+    ],
     files: [
       {
         path: "examples/charts/parallel-coordinates-curved.tsx",
@@ -1367,7 +1435,7 @@ export const examples: Registry["items"] = [
   {
     name: "dendrogram-demo",
     type: "registry:example",
-    registryDependencies: ["dendrogram"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/dendrogram.json"],
     files: [
       {
         path: "examples/charts/dendrogram-demo.tsx",
@@ -1378,7 +1446,7 @@ export const examples: Registry["items"] = [
   {
     name: "dendrogram-vertical",
     type: "registry:example",
-    registryDependencies: ["dendrogram"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/dendrogram.json"],
     files: [
       {
         path: "examples/charts/dendrogram-vertical.tsx",
@@ -1389,7 +1457,7 @@ export const examples: Registry["items"] = [
   {
     name: "density-chart-demo",
     type: "registry:example",
-    registryDependencies: ["density-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/density-chart.json"],
     files: [
       {
         path: "examples/charts/density-chart-demo.tsx",
@@ -1400,7 +1468,7 @@ export const examples: Registry["items"] = [
   {
     name: "density-chart-contours-only",
     type: "registry:example",
-    registryDependencies: ["density-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/density-chart.json"],
     files: [
       {
         path: "examples/charts/density-chart-contours-only.tsx",
@@ -1413,7 +1481,7 @@ export const examples: Registry["items"] = [
   {
     name: "splom-chart-demo",
     type: "registry:example",
-    registryDependencies: ["splom-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/splom-chart.json"],
     files: [
       {
         path: "examples/charts/splom-chart-demo.tsx",
@@ -1424,7 +1492,7 @@ export const examples: Registry["items"] = [
   {
     name: "splom-chart-compact",
     type: "registry:example",
-    registryDependencies: ["splom-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/splom-chart.json"],
     files: [
       {
         path: "examples/charts/splom-chart-compact.tsx",
@@ -1435,7 +1503,7 @@ export const examples: Registry["items"] = [
   {
     name: "splom-chart-upper",
     type: "registry:example",
-    registryDependencies: ["splom-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/splom-chart.json"],
     files: [
       {
         path: "examples/charts/splom-chart-upper.tsx",
@@ -1446,7 +1514,7 @@ export const examples: Registry["items"] = [
   {
     name: "parcats-chart-demo",
     type: "registry:example",
-    registryDependencies: ["parcats-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/parcats-chart.json"],
     files: [
       {
         path: "examples/charts/parcats-chart-demo.tsx",
@@ -1457,7 +1525,7 @@ export const examples: Registry["items"] = [
   {
     name: "parcats-chart-flow",
     type: "registry:example",
-    registryDependencies: ["parcats-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/parcats-chart.json"],
     files: [
       {
         path: "examples/charts/parcats-chart-flow.tsx",
@@ -1468,7 +1536,7 @@ export const examples: Registry["items"] = [
   {
     name: "parcats-chart-ribbon",
     type: "registry:example",
-    registryDependencies: ["parcats-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/parcats-chart.json"],
     files: [
       {
         path: "examples/charts/parcats-chart-ribbon.tsx",
@@ -1479,7 +1547,7 @@ export const examples: Registry["items"] = [
   {
     name: "ternary-chart-demo",
     type: "registry:example",
-    registryDependencies: ["ternary-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/ternary-chart.json"],
     files: [
       {
         path: "examples/charts/ternary-chart-demo.tsx",
@@ -1490,7 +1558,7 @@ export const examples: Registry["items"] = [
   {
     name: "ternary-chart-composition",
     type: "registry:example",
-    registryDependencies: ["ternary-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/ternary-chart.json"],
     files: [
       {
         path: "examples/charts/ternary-chart-composition.tsx",
@@ -1501,7 +1569,7 @@ export const examples: Registry["items"] = [
   {
     name: "ternary-chart-filled",
     type: "registry:example",
-    registryDependencies: ["ternary-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/ternary-chart.json"],
     files: [
       {
         path: "examples/charts/ternary-chart-filled.tsx",
@@ -1512,7 +1580,7 @@ export const examples: Registry["items"] = [
   {
     name: "range-chart-demo",
     type: "registry:example",
-    registryDependencies: ["range-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/range-chart.json"],
     files: [
       {
         path: "examples/charts/range-chart-demo.tsx",
@@ -1523,7 +1591,7 @@ export const examples: Registry["items"] = [
   {
     name: "range-chart-error-bars",
     type: "registry:example",
-    registryDependencies: ["range-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/range-chart.json"],
     files: [
       {
         path: "examples/charts/range-chart-error-bars.tsx",
@@ -1534,7 +1602,7 @@ export const examples: Registry["items"] = [
   {
     name: "range-chart-bars",
     type: "registry:example",
-    registryDependencies: ["range-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/range-chart.json"],
     files: [
       {
         path: "examples/charts/range-chart-bars.tsx",
@@ -1545,7 +1613,7 @@ export const examples: Registry["items"] = [
   {
     name: "range-chart-floating",
     type: "registry:example",
-    registryDependencies: ["range-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/range-chart.json"],
     files: [
       {
         path: "examples/charts/range-chart-floating.tsx",
@@ -1556,7 +1624,7 @@ export const examples: Registry["items"] = [
   {
     name: "range-chart-horizontal",
     type: "registry:example",
-    registryDependencies: ["range-chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/range-chart.json"],
     files: [
       {
         path: "examples/charts/range-chart-horizontal.tsx",

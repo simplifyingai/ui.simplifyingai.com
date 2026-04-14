@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "contour-chart-scatter-demo",
   "registryDependencies": [
-    "contour-chart"
+    "https://ui.simplifyingai.com/r/contour-chart.json"
   ],
   "files": [
     {

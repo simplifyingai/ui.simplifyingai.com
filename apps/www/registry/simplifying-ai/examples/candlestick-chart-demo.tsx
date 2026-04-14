@@ -26,11 +26,5 @@ const chartData = [
 ]
 
 export default function CandlestickChartDemo() {
-  return (
-    <CandlestickChart
-      data={chartData}
-      showGrid
-      aspectRatio={2}
-    />
-  )
+  return <CandlestickChart data={chartData} showGrid aspectRatio={2} />
 }

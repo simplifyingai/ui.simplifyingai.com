@@ -2,12 +2,12 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "line-chart-demo",
   "registryDependencies": [
-    "line-chart"
+    "https://ui.simplifyingai.com/r/line-chart.json"
   ],
   "files": [
     {
       "path": "examples/line-chart-demo.tsx",
-      "content": "\"use client\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    name: \"Views\",\n    data: [\n      { x: \"Jan\", y: 186 },\n      { x: \"Feb\", y: 305 },\n      { x: \"Mar\", y: 237 },\n      { x: \"Apr\", y: 73 },\n      { x: \"May\", y: 209 },\n      { x: \"Jun\", y: 214 },\n      { x: \"Jul\", y: 251 },\n      { x: \"Aug\", y: 298 },\n      { x: \"Sep\", y: 187 },\n      { x: \"Oct\", y: 342 },\n      { x: \"Nov\", y: 276 },\n      { x: \"Dec\", y: 301 },\n    ],\n    color: \"#93c5fd\",\n  },\n]\n\nexport default function LineChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <LineChart data={data} />\n    </div>\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { LineChart } from \"@/components/ui/charts\"\n\nconst data = [\n  {\n    name: \"AAPL\",\n    data: [\n      { x: \"2024-01-02\", y: 185.2 },\n      { x: \"2024-01-08\", y: 181.4 },\n      { x: \"2024-01-16\", y: 189.7 },\n      { x: \"2024-01-22\", y: 194.3 },\n      { x: \"2024-01-29\", y: 191.6 },\n      { x: \"2024-02-05\", y: 187.1 },\n      { x: \"2024-02-12\", y: 182.5 },\n      { x: \"2024-02-20\", y: 178.9 },\n      { x: \"2024-02-26\", y: 174.2 },\n      { x: \"2024-03-04\", y: 170.8 },\n      { x: \"2024-03-11\", y: 165.3 },\n      { x: \"2024-03-18\", y: 171.6 },\n      { x: \"2024-03-25\", y: 168.4 },\n      { x: \"2024-04-01\", y: 172.9 },\n      { x: \"2024-04-08\", y: 178.5 },\n      { x: \"2024-04-15\", y: 183.1 },\n      { x: \"2024-04-22\", y: 176.8 },\n      { x: \"2024-04-29\", y: 180.4 },\n      { x: \"2024-05-06\", y: 186.7 },\n      { x: \"2024-05-13\", y: 192.3 },\n      { x: \"2024-05-20\", y: 189.1 },\n      { x: \"2024-05-28\", y: 195.8 },\n      { x: \"2024-06-03\", y: 201.4 },\n      { x: \"2024-06-10\", y: 198.2 },\n      { x: \"2024-06-17\", y: 207.6 },\n      { x: \"2024-06-24\", y: 213.9 },\n      { x: \"2024-07-01\", y: 210.3 },\n      { x: \"2024-07-08\", y: 218.5 },\n      { x: \"2024-07-15\", y: 224.1 },\n      { x: \"2024-07-22\", y: 219.7 },\n    ],\n  },\n]\n\nexport default function LineChartDemo() {\n  return (\n    <div className=\"w-full\">\n      <LineChart data={data} variant=\"stock\" xType=\"time\" />\n    </div>\n  )\n}\n",
       "type": "registry:example"
     }
   ],

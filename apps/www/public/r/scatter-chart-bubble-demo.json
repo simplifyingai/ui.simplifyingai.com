@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scatter-chart-bubble-demo",
   "registryDependencies": [
-    "scatter-chart"
+    "https://ui.simplifyingai.com/r/scatter-chart.json"
   ],
   "files": [
     {

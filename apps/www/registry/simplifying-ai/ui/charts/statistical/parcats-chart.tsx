@@ -304,7 +304,11 @@ export function ParcatsChart({
                         height={h}
                         fill={boxColor}
                         fillOpacity={isHovered ? 1 : 0.85}
-                        stroke={isHovered ? "var(--muted-foreground)" : "var(--border)"}
+                        stroke={
+                          isHovered
+                            ? "var(--muted-foreground)"
+                            : "var(--border)"
+                        }
                         strokeWidth={isHovered ? 2 : 1}
                         rx={4}
                         className="transition-all duration-150 dark:fill-zinc-800 dark:stroke-zinc-600"

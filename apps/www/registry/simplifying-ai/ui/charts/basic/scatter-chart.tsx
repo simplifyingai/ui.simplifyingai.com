@@ -201,7 +201,9 @@ export function ScatterChart({
 
           {/* Points */}
           {data.map((series, seriesIndex) => {
-            const seriesColor = series.color ?? DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
+            const seriesColor =
+              series.color ??
+              DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
             const seriesSymbol = series.symbol ?? symbol
             const isSeriesHovered =
               hoveredSeries === null || hoveredSeries === series.name

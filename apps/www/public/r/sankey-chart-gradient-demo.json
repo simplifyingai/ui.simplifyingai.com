@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sankey-chart-gradient-demo",
   "registryDependencies": [
-    "sankey-chart"
+    "https://ui.simplifyingai.com/r/sankey-chart.json"
   ],
   "files": [
     {

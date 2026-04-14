@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "bullet-chart-demo",
   "registryDependencies": [
-    "bullet-chart"
+    "https://ui.simplifyingai.com/r/bullet-chart.json"
   ],
   "files": [
     {

@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "violin-chart-horizontal-demo",
   "registryDependencies": [
-    "violin-chart"
+    "https://ui.simplifyingai.com/r/violin-chart.json"
   ],
   "files": [
     {

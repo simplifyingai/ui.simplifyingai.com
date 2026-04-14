@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "choropleth-chart-brazil-demo",
   "registryDependencies": [
-    "choropleth-chart"
+    "https://ui.simplifyingai.com/r/choropleth-chart.json"
   ],
   "files": [
     {

@@ -71,7 +71,7 @@
     {
       "name": "line-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/line-chart.tsx",
@@ -82,7 +82,7 @@
     {
       "name": "bar-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/bar-chart.tsx",
@@ -93,7 +93,7 @@
     {
       "name": "area-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/area-chart.tsx",
@@ -104,7 +104,7 @@
     {
       "name": "scatter-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/scatter-chart.tsx",
@@ -115,7 +115,7 @@
     {
       "name": "pie-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/pie-chart.tsx",
@@ -126,7 +126,7 @@
     {
       "name": "donut-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/donut-chart.tsx",
@@ -137,7 +137,7 @@
     {
       "name": "histogram-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/histogram-chart.tsx",
@@ -148,7 +148,7 @@
     {
       "name": "box-plot-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/box-plot-chart.tsx",
@@ -159,7 +159,7 @@
     {
       "name": "violin-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/violin-chart.tsx",
@@ -170,7 +170,7 @@
     {
       "name": "candlestick-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/financial/candlestick-chart.tsx",
@@ -181,7 +181,7 @@
     {
       "name": "waterfall-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/financial/waterfall-chart.tsx",
@@ -192,7 +192,7 @@
     {
       "name": "funnel-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/financial/funnel-chart.tsx",
@@ -203,7 +203,7 @@
     {
       "name": "heatmap-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/scientific/heatmap-chart.tsx",
@@ -214,7 +214,7 @@
     {
       "name": "contour-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/scientific/contour-chart.tsx",
@@ -225,7 +225,7 @@
     {
       "name": "radar-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/radar-chart.tsx",
@@ -236,7 +236,7 @@
     {
       "name": "treemap-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/treemap-chart.tsx",
@@ -247,7 +247,7 @@
     {
       "name": "sunburst-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/sunburst-chart.tsx",
@@ -258,7 +258,7 @@
     {
       "name": "sankey-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/sankey-chart.tsx",
@@ -269,7 +269,7 @@
     {
       "name": "gauge-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/gauge-chart.tsx",
@@ -280,7 +280,7 @@
     {
       "name": "bullet-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/bullet-chart.tsx",
@@ -291,7 +291,7 @@
     {
       "name": "icicle-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/icicle-chart.tsx",
@@ -302,7 +302,7 @@
     {
       "name": "dot-plot-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/dot-plot-chart.tsx",
@@ -313,7 +313,7 @@
     {
       "name": "lollipop-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/lollipop-chart.tsx",
@@ -324,7 +324,7 @@
     {
       "name": "dumbbell-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/dumbbell-chart.tsx",
@@ -335,7 +335,7 @@
     {
       "name": "slope-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/slope-chart.tsx",
@@ -346,7 +346,7 @@
     {
       "name": "ohlc-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/financial/ohlc-chart.tsx",
@@ -357,7 +357,7 @@
     {
       "name": "choropleth-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/maps/choropleth-chart.tsx",
@@ -368,7 +368,7 @@
     {
       "name": "polar-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/polar-chart.tsx",
@@ -379,7 +379,7 @@
     {
       "name": "parallel-coordinates",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/parallel-coordinates.tsx",
@@ -391,7 +391,7 @@
       "name": "density-chart",
       "type": "registry:ui",
       "dependencies": ["d3-contour"],
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/scientific/density-chart.tsx",
@@ -402,7 +402,7 @@
     {
       "name": "network-graph",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/network-graph.tsx",
@@ -413,7 +413,7 @@
     {
       "name": "dendrogram",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/specialized/dendrogram.tsx",
@@ -424,7 +424,7 @@
     {
       "name": "splom-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/splom-chart.tsx",
@@ -435,7 +435,7 @@
     {
       "name": "parcats-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/statistical/parcats-chart.tsx",
@@ -446,7 +446,7 @@
     {
       "name": "ternary-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/scientific/ternary-chart.tsx",
@@ -457,7 +457,7 @@
     {
       "name": "range-chart",
       "type": "registry:ui",
-      "registryDependencies": ["chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/ui/charts/basic/range-chart.tsx",
@@ -478,7 +478,9 @@
     {
       "name": "area-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["area-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/area-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/area-chart-demo.tsx",
@@ -489,7 +491,9 @@
     {
       "name": "area-chart-smooth-demo",
       "type": "registry:example",
-      "registryDependencies": ["area-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/area-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/area-chart-smooth-demo.tsx",
@@ -500,7 +504,9 @@
     {
       "name": "area-chart-step-demo",
       "type": "registry:example",
-      "registryDependencies": ["area-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/area-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/area-chart-step-demo.tsx",
@@ -511,7 +517,9 @@
     {
       "name": "area-chart-multi-demo",
       "type": "registry:example",
-      "registryDependencies": ["area-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/area-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/area-chart-multi-demo.tsx",
@@ -522,7 +530,7 @@
     {
       "name": "bar-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-demo.tsx",
@@ -533,7 +541,7 @@
     {
       "name": "bar-chart-label-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-label-demo.tsx",
@@ -544,7 +552,7 @@
     {
       "name": "bar-chart-horizontal-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-horizontal-demo.tsx",
@@ -555,7 +563,7 @@
     {
       "name": "bar-chart-multiple-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-multiple-demo.tsx",
@@ -566,7 +574,7 @@
     {
       "name": "bar-chart-stacked-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-stacked-demo.tsx",
@@ -577,7 +585,7 @@
     {
       "name": "bar-chart-negative-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-negative-demo.tsx",
@@ -588,7 +596,7 @@
     {
       "name": "bar-chart-interactive-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-interactive-demo.tsx",
@@ -599,7 +607,7 @@
     {
       "name": "bar-chart-mixed-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-mixed-demo.tsx",
@@ -610,7 +618,7 @@
     {
       "name": "bar-chart-active-demo",
       "type": "registry:example",
-      "registryDependencies": ["bar-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/bar-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bar-chart-active-demo.tsx",
@@ -621,7 +629,9 @@
     {
       "name": "line-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["line-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/line-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/line-chart-demo.tsx",
@@ -632,7 +642,9 @@
     {
       "name": "line-chart-smooth-demo",
       "type": "registry:example",
-      "registryDependencies": ["line-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/line-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/line-chart-smooth-demo.tsx",
@@ -643,7 +655,9 @@
     {
       "name": "line-chart-multi-demo",
       "type": "registry:example",
-      "registryDependencies": ["line-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/line-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/line-chart-multi-demo.tsx",
@@ -654,7 +668,9 @@
     {
       "name": "line-chart-stock-demo",
       "type": "registry:example",
-      "registryDependencies": ["line-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/line-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/line-chart-stock-demo.tsx",
@@ -665,7 +681,9 @@
     {
       "name": "scatter-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["scatter-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/scatter-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/scatter-chart-demo.tsx",
@@ -676,7 +694,9 @@
     {
       "name": "scatter-chart-bubble-demo",
       "type": "registry:example",
-      "registryDependencies": ["scatter-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/scatter-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/scatter-chart-bubble-demo.tsx",
@@ -687,7 +707,9 @@
     {
       "name": "scatter-chart-trendline-demo",
       "type": "registry:example",
-      "registryDependencies": ["scatter-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/scatter-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/scatter-chart-trendline-demo.tsx",
@@ -698,7 +720,9 @@
     {
       "name": "scatter-chart-symbols-demo",
       "type": "registry:example",
-      "registryDependencies": ["scatter-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/scatter-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/scatter-chart-symbols-demo.tsx",
@@ -709,7 +733,9 @@
     {
       "name": "scatter-chart-correlation-demo",
       "type": "registry:example",
-      "registryDependencies": ["scatter-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/scatter-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/scatter-chart-correlation-demo.tsx",
@@ -720,7 +746,7 @@
     {
       "name": "pie-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-demo.tsx",
@@ -731,7 +757,7 @@
     {
       "name": "pie-chart-donut-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-donut-demo.tsx",
@@ -742,7 +768,7 @@
     {
       "name": "pie-chart-donut-active-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-donut-active-demo.tsx",
@@ -753,7 +779,7 @@
     {
       "name": "pie-chart-donut-text-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-donut-text-demo.tsx",
@@ -764,7 +790,7 @@
     {
       "name": "pie-chart-label-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-label-demo.tsx",
@@ -775,7 +801,7 @@
     {
       "name": "pie-chart-interactive-demo",
       "type": "registry:example",
-      "registryDependencies": ["pie-chart"],
+      "registryDependencies": ["https://ui.simplifyingai.com/r/pie-chart.json"],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/pie-chart-interactive-demo.tsx",
@@ -786,7 +812,9 @@
     {
       "name": "donut-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["donut-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/donut-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/donut-chart-demo.tsx",
@@ -797,7 +825,9 @@
     {
       "name": "donut-chart-gradient-demo",
       "type": "registry:example",
-      "registryDependencies": ["donut-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/donut-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/donut-chart-gradient-demo.tsx",
@@ -808,7 +838,9 @@
     {
       "name": "donut-chart-separated-demo",
       "type": "registry:example",
-      "registryDependencies": ["donut-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/donut-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/donut-chart-separated-demo.tsx",
@@ -819,7 +851,9 @@
     {
       "name": "donut-chart-half-demo",
       "type": "registry:example",
-      "registryDependencies": ["donut-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/donut-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/donut-chart-half-demo.tsx",
@@ -830,7 +864,9 @@
     {
       "name": "histogram-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["histogram-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/histogram-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/histogram-chart-demo.tsx",
@@ -841,7 +877,9 @@
     {
       "name": "histogram-chart-overlay-demo",
       "type": "registry:example",
-      "registryDependencies": ["histogram-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/histogram-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/histogram-chart-overlay-demo.tsx",
@@ -852,7 +890,9 @@
     {
       "name": "histogram-chart-gradient-demo",
       "type": "registry:example",
-      "registryDependencies": ["histogram-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/histogram-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/histogram-chart-gradient-demo.tsx",
@@ -863,7 +903,9 @@
     {
       "name": "histogram-chart-stepped-demo",
       "type": "registry:example",
-      "registryDependencies": ["histogram-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/histogram-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/histogram-chart-stepped-demo.tsx",
@@ -874,7 +916,9 @@
     {
       "name": "box-plot-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["box-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/box-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/box-plot-chart-demo.tsx",
@@ -885,7 +929,9 @@
     {
       "name": "box-plot-chart-horizontal-demo",
       "type": "registry:example",
-      "registryDependencies": ["box-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/box-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/box-plot-chart-horizontal-demo.tsx",
@@ -896,7 +942,9 @@
     {
       "name": "box-plot-chart-multi-demo",
       "type": "registry:example",
-      "registryDependencies": ["box-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/box-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/box-plot-chart-multi-demo.tsx",
@@ -907,7 +955,9 @@
     {
       "name": "box-plot-chart-comparison-demo",
       "type": "registry:example",
-      "registryDependencies": ["box-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/box-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/box-plot-chart-comparison-demo.tsx",
@@ -918,7 +968,9 @@
     {
       "name": "box-plot-chart-outliers-demo",
       "type": "registry:example",
-      "registryDependencies": ["box-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/box-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/box-plot-chart-outliers-demo.tsx",
@@ -929,7 +981,9 @@
     {
       "name": "violin-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-demo.tsx",
@@ -940,7 +994,9 @@
     {
       "name": "violin-chart-comparison-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-comparison-demo.tsx",
@@ -951,7 +1007,9 @@
     {
       "name": "violin-chart-horizontal-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-horizontal-demo.tsx",
@@ -962,7 +1020,9 @@
     {
       "name": "violin-chart-grouped-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-grouped-demo.tsx",
@@ -973,7 +1033,9 @@
     {
       "name": "violin-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-minimal-demo.tsx",
@@ -984,7 +1046,9 @@
     {
       "name": "violin-chart-boxplot-demo",
       "type": "registry:example",
-      "registryDependencies": ["violin-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/violin-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/violin-chart-boxplot-demo.tsx",
@@ -995,7 +1059,9 @@
     {
       "name": "candlestick-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["candlestick-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/candlestick-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/candlestick-chart-demo.tsx",
@@ -1006,7 +1072,9 @@
     {
       "name": "candlestick-chart-hollow-demo",
       "type": "registry:example",
-      "registryDependencies": ["candlestick-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/candlestick-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/candlestick-chart-hollow-demo.tsx",
@@ -1017,7 +1085,9 @@
     {
       "name": "candlestick-chart-scrollable-demo",
       "type": "registry:example",
-      "registryDependencies": ["candlestick-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/candlestick-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/candlestick-chart-scrollable-demo.tsx",
@@ -1028,7 +1098,9 @@
     {
       "name": "waterfall-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["waterfall-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/waterfall-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/waterfall-chart-demo.tsx",
@@ -1039,7 +1111,9 @@
     {
       "name": "waterfall-chart-quarterly-demo",
       "type": "registry:example",
-      "registryDependencies": ["waterfall-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/waterfall-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/waterfall-chart-quarterly-demo.tsx",
@@ -1050,7 +1124,9 @@
     {
       "name": "waterfall-chart-budget-demo",
       "type": "registry:example",
-      "registryDependencies": ["waterfall-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/waterfall-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/waterfall-chart-budget-demo.tsx",
@@ -1061,7 +1137,9 @@
     {
       "name": "waterfall-chart-inventory-demo",
       "type": "registry:example",
-      "registryDependencies": ["waterfall-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/waterfall-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/waterfall-chart-inventory-demo.tsx",
@@ -1072,7 +1150,9 @@
     {
       "name": "waterfall-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["waterfall-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/waterfall-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/waterfall-chart-minimal-demo.tsx",
@@ -1083,7 +1163,9 @@
     {
       "name": "funnel-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["funnel-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/funnel-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/funnel-chart-demo.tsx",
@@ -1094,7 +1176,9 @@
     {
       "name": "funnel-chart-gradient-demo",
       "type": "registry:example",
-      "registryDependencies": ["funnel-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/funnel-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/funnel-chart-gradient-demo.tsx",
@@ -1105,7 +1189,9 @@
     {
       "name": "funnel-chart-flat-demo",
       "type": "registry:example",
-      "registryDependencies": ["funnel-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/funnel-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/funnel-chart-flat-demo.tsx",
@@ -1116,7 +1202,9 @@
     {
       "name": "funnel-chart-pyramid-demo",
       "type": "registry:example",
-      "registryDependencies": ["funnel-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/funnel-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/funnel-chart-pyramid-demo.tsx",
@@ -1127,7 +1215,9 @@
     {
       "name": "funnel-chart-horizontal-demo",
       "type": "registry:example",
-      "registryDependencies": ["funnel-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/funnel-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/funnel-chart-horizontal-demo.tsx",
@@ -1138,7 +1228,9 @@
     {
       "name": "heatmap-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["heatmap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/heatmap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/heatmap-chart-demo.tsx",
@@ -1149,7 +1241,9 @@
     {
       "name": "heatmap-chart-calendar-demo",
       "type": "registry:example",
-      "registryDependencies": ["heatmap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/heatmap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/heatmap-chart-calendar-demo.tsx",
@@ -1160,7 +1254,9 @@
     {
       "name": "heatmap-chart-matrix-demo",
       "type": "registry:example",
-      "registryDependencies": ["heatmap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/heatmap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/heatmap-chart-matrix-demo.tsx",
@@ -1171,7 +1267,9 @@
     {
       "name": "heatmap-chart-themes-demo",
       "type": "registry:example",
-      "registryDependencies": ["heatmap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/heatmap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/heatmap-chart-themes-demo.tsx",
@@ -1182,7 +1280,9 @@
     {
       "name": "heatmap-chart-radial-demo",
       "type": "registry:example",
-      "registryDependencies": ["heatmap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/heatmap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/heatmap-chart-radial-demo.tsx",
@@ -1193,7 +1293,9 @@
     {
       "name": "contour-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["contour-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/contour-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/contour-chart-demo.tsx",
@@ -1204,7 +1306,9 @@
     {
       "name": "contour-chart-lines-demo",
       "type": "registry:example",
-      "registryDependencies": ["contour-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/contour-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/contour-chart-lines-demo.tsx",
@@ -1215,7 +1319,9 @@
     {
       "name": "contour-chart-thermal-demo",
       "type": "registry:example",
-      "registryDependencies": ["contour-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/contour-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/contour-chart-thermal-demo.tsx",
@@ -1226,7 +1332,9 @@
     {
       "name": "contour-chart-scatter-demo",
       "type": "registry:example",
-      "registryDependencies": ["contour-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/contour-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/contour-chart-scatter-demo.tsx",
@@ -1237,7 +1345,9 @@
     {
       "name": "radar-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-demo.tsx",
@@ -1248,7 +1358,9 @@
     {
       "name": "radar-chart-comparison-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-comparison-demo.tsx",
@@ -1259,7 +1371,9 @@
     {
       "name": "radar-chart-legend-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-legend-demo.tsx",
@@ -1270,7 +1384,9 @@
     {
       "name": "radar-chart-filled-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-filled-demo.tsx",
@@ -1281,7 +1397,9 @@
     {
       "name": "radar-chart-circle-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-circle-demo.tsx",
@@ -1292,7 +1410,9 @@
     {
       "name": "radar-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-minimal-demo.tsx",
@@ -1303,7 +1423,9 @@
     {
       "name": "radar-chart-labels-demo",
       "type": "registry:example",
-      "registryDependencies": ["radar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/radar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/radar-chart-labels-demo.tsx",
@@ -1314,7 +1436,9 @@
     {
       "name": "treemap-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["treemap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/treemap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/treemap-chart-demo.tsx",
@@ -1325,7 +1449,9 @@
     {
       "name": "treemap-chart-portfolio-demo",
       "type": "registry:example",
-      "registryDependencies": ["treemap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/treemap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/treemap-chart-portfolio-demo.tsx",
@@ -1336,7 +1462,9 @@
     {
       "name": "treemap-chart-filesize-demo",
       "type": "registry:example",
-      "registryDependencies": ["treemap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/treemap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/treemap-chart-filesize-demo.tsx",
@@ -1347,7 +1475,9 @@
     {
       "name": "treemap-chart-nested-demo",
       "type": "registry:example",
-      "registryDependencies": ["treemap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/treemap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/treemap-chart-nested-demo.tsx",
@@ -1358,7 +1488,9 @@
     {
       "name": "treemap-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["treemap-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/treemap-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/treemap-chart-minimal-demo.tsx",
@@ -1369,7 +1501,9 @@
     {
       "name": "sunburst-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["sunburst-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sunburst-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sunburst-chart-demo.tsx",
@@ -1380,7 +1514,9 @@
     {
       "name": "sunburst-chart-organizational-demo",
       "type": "registry:example",
-      "registryDependencies": ["sunburst-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sunburst-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sunburst-chart-organizational-demo.tsx",
@@ -1391,7 +1527,9 @@
     {
       "name": "sunburst-chart-budget-demo",
       "type": "registry:example",
-      "registryDependencies": ["sunburst-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sunburst-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sunburst-chart-budget-demo.tsx",
@@ -1402,7 +1540,9 @@
     {
       "name": "sunburst-chart-filesize-demo",
       "type": "registry:example",
-      "registryDependencies": ["sunburst-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sunburst-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sunburst-chart-filesize-demo.tsx",
@@ -1413,7 +1553,9 @@
     {
       "name": "sunburst-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["sunburst-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sunburst-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sunburst-chart-minimal-demo.tsx",
@@ -1424,7 +1566,9 @@
     {
       "name": "sankey-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["sankey-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sankey-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sankey-chart-demo.tsx",
@@ -1435,7 +1579,9 @@
     {
       "name": "sankey-chart-energy-demo",
       "type": "registry:example",
-      "registryDependencies": ["sankey-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sankey-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sankey-chart-energy-demo.tsx",
@@ -1446,7 +1592,9 @@
     {
       "name": "sankey-chart-gradient-demo",
       "type": "registry:example",
-      "registryDependencies": ["sankey-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sankey-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sankey-chart-gradient-demo.tsx",
@@ -1457,7 +1605,9 @@
     {
       "name": "sankey-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["sankey-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sankey-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sankey-chart-minimal-demo.tsx",
@@ -1468,7 +1618,9 @@
     {
       "name": "sankey-chart-multilevel-demo",
       "type": "registry:example",
-      "registryDependencies": ["sankey-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/sankey-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/sankey-chart-multilevel-demo.tsx",
@@ -1479,7 +1631,9 @@
     {
       "name": "gauge-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-demo.tsx",
@@ -1490,7 +1644,9 @@
     {
       "name": "gauge-chart-speedometer-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-speedometer-demo.tsx",
@@ -1501,7 +1657,9 @@
     {
       "name": "gauge-chart-segmented-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-segmented-demo.tsx",
@@ -1512,7 +1670,9 @@
     {
       "name": "gauge-chart-radial-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-radial-demo.tsx",
@@ -1523,7 +1683,9 @@
     {
       "name": "gauge-chart-minimal-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-minimal-demo.tsx",
@@ -1534,7 +1696,9 @@
     {
       "name": "gauge-chart-gradient-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-gradient-demo.tsx",
@@ -1545,7 +1709,9 @@
     {
       "name": "gauge-chart-meter-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-meter-demo.tsx",
@@ -1556,7 +1722,9 @@
     {
       "name": "gauge-chart-dashboard-demo",
       "type": "registry:example",
-      "registryDependencies": ["gauge-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/gauge-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/gauge-chart-dashboard-demo.tsx",
@@ -1567,7 +1735,9 @@
     {
       "name": "choropleth-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-demo.tsx",
@@ -1578,7 +1748,9 @@
     {
       "name": "choropleth-chart-usa-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-usa-demo.tsx",
@@ -1589,7 +1761,9 @@
     {
       "name": "choropleth-chart-china-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-china-demo.tsx",
@@ -1600,7 +1774,9 @@
     {
       "name": "choropleth-chart-uk-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-uk-demo.tsx",
@@ -1611,7 +1787,9 @@
     {
       "name": "choropleth-chart-germany-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-germany-demo.tsx",
@@ -1622,7 +1800,9 @@
     {
       "name": "choropleth-chart-france-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-france-demo.tsx",
@@ -1633,7 +1813,9 @@
     {
       "name": "choropleth-chart-brazil-demo",
       "type": "registry:example",
-      "registryDependencies": ["choropleth-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/choropleth-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/choropleth-chart-brazil-demo.tsx",
@@ -1644,7 +1826,9 @@
     {
       "name": "ohlc-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["ohlc-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/ohlc-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/ohlc-chart-demo.tsx",
@@ -1655,7 +1839,9 @@
     {
       "name": "bullet-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["bullet-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/bullet-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/bullet-chart-demo.tsx",
@@ -1666,7 +1852,9 @@
     {
       "name": "dot-plot-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["dot-plot-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/dot-plot-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/dot-plot-chart-demo.tsx",
@@ -1677,7 +1865,9 @@
     {
       "name": "lollipop-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["lollipop-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/lollipop-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/lollipop-chart-demo.tsx",
@@ -1688,7 +1878,9 @@
     {
       "name": "dumbbell-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["dumbbell-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/dumbbell-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/dumbbell-chart-demo.tsx",
@@ -1699,7 +1891,9 @@
     {
       "name": "icicle-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["icicle-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/icicle-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/icicle-chart-demo.tsx",
@@ -1710,7 +1904,9 @@
     {
       "name": "slope-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["slope-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/slope-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/slope-chart-demo.tsx",
@@ -1721,7 +1917,9 @@
     {
       "name": "slope-chart-bumps",
       "type": "registry:example",
-      "registryDependencies": ["slope-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/slope-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/slope-chart-bumps.tsx",
@@ -1732,7 +1930,9 @@
     {
       "name": "slope-chart-multi",
       "type": "registry:example",
-      "registryDependencies": ["slope-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/slope-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/slope-chart-multi.tsx",
@@ -1743,7 +1943,9 @@
     {
       "name": "slope-chart-parallel",
       "type": "registry:example",
-      "registryDependencies": ["slope-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/slope-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/slope-chart-parallel.tsx",
@@ -1754,7 +1956,9 @@
     {
       "name": "polar-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["polar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/polar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/polar-chart-demo.tsx",
@@ -1765,7 +1969,9 @@
     {
       "name": "polar-chart-coxcomb",
       "type": "registry:example",
-      "registryDependencies": ["polar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/polar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/polar-chart-coxcomb.tsx",
@@ -1776,7 +1982,9 @@
     {
       "name": "polar-chart-donut",
       "type": "registry:example",
-      "registryDependencies": ["polar-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/polar-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/polar-chart-donut.tsx",
@@ -1787,7 +1995,9 @@
     {
       "name": "network-graph-demo",
       "type": "registry:example",
-      "registryDependencies": ["network-graph"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/network-graph.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/network-graph-demo.tsx",
@@ -1798,7 +2008,9 @@
     {
       "name": "network-graph-directed",
       "type": "registry:example",
-      "registryDependencies": ["network-graph"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/network-graph.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/network-graph-directed.tsx",
@@ -1809,7 +2021,9 @@
     {
       "name": "parallel-coordinates-demo",
       "type": "registry:example",
-      "registryDependencies": ["parallel-coordinates"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/parallel-coordinates.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parallel-coordinates-demo.tsx",
@@ -1820,7 +2034,9 @@
     {
       "name": "parallel-coordinates-curved",
       "type": "registry:example",
-      "registryDependencies": ["parallel-coordinates"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/parallel-coordinates.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parallel-coordinates-curved.tsx",
@@ -1831,7 +2047,9 @@
     {
       "name": "dendrogram-demo",
       "type": "registry:example",
-      "registryDependencies": ["dendrogram"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/dendrogram.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/dendrogram-demo.tsx",
@@ -1842,7 +2060,9 @@
     {
       "name": "dendrogram-vertical",
       "type": "registry:example",
-      "registryDependencies": ["dendrogram"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/dendrogram.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/dendrogram-vertical.tsx",
@@ -1853,7 +2073,9 @@
     {
       "name": "density-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["density-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/density-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/density-chart-demo.tsx",
@@ -1864,7 +2086,9 @@
     {
       "name": "density-chart-contours-only",
       "type": "registry:example",
-      "registryDependencies": ["density-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/density-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/density-chart-contours-only.tsx",
@@ -1875,7 +2099,9 @@
     {
       "name": "splom-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["splom-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/splom-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/splom-chart-demo.tsx",
@@ -1886,7 +2112,9 @@
     {
       "name": "splom-chart-compact",
       "type": "registry:example",
-      "registryDependencies": ["splom-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/splom-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/splom-chart-compact.tsx",
@@ -1897,7 +2125,9 @@
     {
       "name": "splom-chart-upper",
       "type": "registry:example",
-      "registryDependencies": ["splom-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/splom-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/splom-chart-upper.tsx",
@@ -1908,7 +2138,9 @@
     {
       "name": "parcats-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["parcats-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/parcats-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parcats-chart-demo.tsx",
@@ -1919,7 +2151,9 @@
     {
       "name": "parcats-chart-flow",
       "type": "registry:example",
-      "registryDependencies": ["parcats-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/parcats-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parcats-chart-flow.tsx",
@@ -1930,7 +2164,9 @@
     {
       "name": "parcats-chart-ribbon",
       "type": "registry:example",
-      "registryDependencies": ["parcats-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/parcats-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/parcats-chart-ribbon.tsx",
@@ -1941,7 +2177,9 @@
     {
       "name": "ternary-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["ternary-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/ternary-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/ternary-chart-demo.tsx",
@@ -1952,7 +2190,9 @@
     {
       "name": "ternary-chart-composition",
       "type": "registry:example",
-      "registryDependencies": ["ternary-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/ternary-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/ternary-chart-composition.tsx",
@@ -1961,9 +2201,24 @@
       ]
     },
     {
+      "name": "ternary-chart-filled",
+      "type": "registry:example",
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/ternary-chart.json"
+      ],
+      "files": [
+        {
+          "path": "registry/simplifying-ai/examples/charts/ternary-chart-filled.tsx",
+          "type": "registry:example"
+        }
+      ]
+    },
+    {
       "name": "range-chart-demo",
       "type": "registry:example",
-      "registryDependencies": ["range-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/range-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/range-chart-demo.tsx",
@@ -1974,7 +2229,9 @@
     {
       "name": "range-chart-error-bars",
       "type": "registry:example",
-      "registryDependencies": ["range-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/range-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/range-chart-error-bars.tsx",
@@ -1985,7 +2242,9 @@
     {
       "name": "range-chart-bars",
       "type": "registry:example",
-      "registryDependencies": ["range-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/range-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/range-chart-bars.tsx",
@@ -1996,7 +2255,9 @@
     {
       "name": "range-chart-floating",
       "type": "registry:example",
-      "registryDependencies": ["range-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/range-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/range-chart-floating.tsx",
@@ -2007,7 +2268,9 @@
     {
       "name": "range-chart-horizontal",
       "type": "registry:example",
-      "registryDependencies": ["range-chart"],
+      "registryDependencies": [
+        "https://ui.simplifyingai.com/r/range-chart.json"
+      ],
       "files": [
         {
           "path": "registry/simplifying-ai/examples/charts/range-chart-horizontal.tsx",

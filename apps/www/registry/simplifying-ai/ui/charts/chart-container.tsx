@@ -83,7 +83,10 @@ export function ResponsiveChartContainer({
   ...props
 }: ResponsiveChartContainerProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
-  const [dimensions, setDimensions] = React.useState<{ width: number; height: number }>({
+  const [dimensions, setDimensions] = React.useState<{
+    width: number
+    height: number
+  }>({
     width: DEFAULT_CHART_DIMENSIONS.width,
     height: DEFAULT_CHART_DIMENSIONS.height,
   })
@@ -109,7 +112,9 @@ export function ResponsiveChartContainer({
     <div ref={containerRef} className="w-full">
       <ChartContainer {...props}>
         {React.Children.map(children, (child) => {
-          if (React.isValidElement<{ width?: number; height?: number }>(child)) {
+          if (
+            React.isValidElement<{ width?: number; height?: number }>(child)
+          ) {
             return React.cloneElement(child, {
               width: dimensions.width,
               height: dimensions.height,

@@ -2,12 +2,12 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "range-chart-horizontal",
   "registryDependencies": [
-    "range-chart"
+    "https://ui.simplifyingai.com/r/range-chart.json"
   ],
   "files": [
     {
       "path": "examples/charts/range-chart-horizontal.tsx",
-      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst stockData = [\n  { category: \"Q1\", low: 100, high: 145, mid: 120 },\n  { category: \"Q2\", low: 130, high: 180, mid: 155 },\n  { category: \"Q3\", low: 155, high: 210, mid: 180 },\n  { category: \"Q4\", low: 175, high: 240, mid: 210 },\n]\n\nexport default function RangeChartHorizontal() {\n  return (\n    <RangeChart\n      data={stockData}\n      variant=\"band\"\n      showMidLine={true}\n      showMarkers={true}\n      lowLabel=\"Low\"\n      highLabel=\"High\"\n      midLabel=\"Close\"\n      color=\"#10b981\"\n      fillOpacity={0.35}\n      valueFormatter={(v) => `$${v}`}\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst performanceData = [\n  { category: \"Engineering\", low: 72, high: 95, mid: 85 },\n  { category: \"Design\", low: 68, high: 92, mid: 80 },\n  { category: \"Marketing\", low: 75, high: 98, mid: 88 },\n  { category: \"Sales\", low: 65, high: 90, mid: 78 },\n  { category: \"Support\", low: 70, high: 88, mid: 82 },\n]\n\nexport default function RangeChartHorizontal() {\n  return (\n    <RangeChart\n      data={performanceData}\n      variant=\"horizontal\"\n      showMarkers={true}\n      lowLabel=\"Min\"\n      highLabel=\"Max\"\n      midLabel=\"Avg\"\n      color=\"#10b981\"\n      fillOpacity={0.4}\n      valueFormatter={(v) => `${v}%`}\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],

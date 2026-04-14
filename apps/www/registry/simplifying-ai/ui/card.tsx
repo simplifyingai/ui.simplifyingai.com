@@ -88,4 +88,12 @@ const CardAction = React.forwardRef<
 ))
 CardAction.displayName = "CardAction"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardAction }
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardAction,
+}

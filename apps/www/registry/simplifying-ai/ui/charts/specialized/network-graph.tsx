@@ -51,7 +51,13 @@ export function NetworkGraph({
   showArrows = false,
   charge = -300,
   linkDistance = 100,
-  colorScheme = ["var(--chart-5)", "var(--chart-4)", "var(--chart-3)", "var(--chart-2)", "var(--chart-1)"],
+  colorScheme = [
+    "var(--chart-5)",
+    "var(--chart-4)",
+    "var(--chart-3)",
+    "var(--chart-2)",
+    "var(--chart-1)",
+  ],
 }: NetworkGraphProps) {
   const svgRef = React.useRef<SVGSVGElement>(null)
   const [nodes, setNodes] = React.useState<NetworkNode[]>([])

@@ -5,7 +5,7 @@
     "d3-contour"
   ],
   "registryDependencies": [
-    "chart"
+    "https://ui.simplifyingai.com/r/chart.json"
   ],
   "files": [
     {

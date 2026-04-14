@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sunburst-chart-filesize-demo",
   "registryDependencies": [
-    "sunburst-chart"
+    "https://ui.simplifyingai.com/r/sunburst-chart.json"
   ],
   "files": [
     {

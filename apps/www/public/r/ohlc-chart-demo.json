@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ohlc-chart-demo",
   "registryDependencies": [
-    "ohlc-chart"
+    "https://ui.simplifyingai.com/r/ohlc-chart.json"
   ],
   "files": [
     {

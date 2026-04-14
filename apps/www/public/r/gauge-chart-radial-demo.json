@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "gauge-chart-radial-demo",
   "registryDependencies": [
-    "gauge-chart"
+    "https://ui.simplifyingai.com/r/gauge-chart.json"
   ],
   "files": [
     {

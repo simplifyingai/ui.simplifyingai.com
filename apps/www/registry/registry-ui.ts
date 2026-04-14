@@ -31,37 +31,37 @@ export const ui: Registry["items"] = [
   {
     name: "line-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/line-chart.tsx", type: "registry:ui" }],
   },
   {
     name: "bar-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/bar-chart.tsx", type: "registry:ui" }],
   },
   {
     name: "area-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/area-chart.tsx", type: "registry:ui" }],
   },
   {
     name: "scatter-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/scatter-chart.tsx", type: "registry:ui" }],
   },
   {
     name: "pie-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/pie-chart.tsx", type: "registry:ui" }],
   },
   {
     name: "donut-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/donut-chart.tsx", type: "registry:ui" }],
   },
 
@@ -69,7 +69,7 @@ export const ui: Registry["items"] = [
   {
     name: "histogram-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       {
         path: "ui/charts/statistical/histogram-chart.tsx",
@@ -80,7 +80,7 @@ export const ui: Registry["items"] = [
   {
     name: "box-plot-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/statistical/box-plot-chart.tsx", type: "registry:ui" },
     ],
@@ -88,7 +88,7 @@ export const ui: Registry["items"] = [
   {
     name: "violin-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/statistical/violin-chart.tsx", type: "registry:ui" },
     ],
@@ -98,7 +98,7 @@ export const ui: Registry["items"] = [
   {
     name: "candlestick-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       {
         path: "ui/charts/financial/candlestick-chart.tsx",
@@ -109,7 +109,7 @@ export const ui: Registry["items"] = [
   {
     name: "waterfall-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/financial/waterfall-chart.tsx", type: "registry:ui" },
     ],
@@ -117,7 +117,7 @@ export const ui: Registry["items"] = [
   {
     name: "funnel-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/financial/funnel-chart.tsx", type: "registry:ui" },
     ],
@@ -127,7 +127,7 @@ export const ui: Registry["items"] = [
   {
     name: "heatmap-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/scientific/heatmap-chart.tsx", type: "registry:ui" },
     ],
@@ -135,7 +135,7 @@ export const ui: Registry["items"] = [
   {
     name: "contour-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/scientific/contour-chart.tsx", type: "registry:ui" },
     ],
@@ -145,7 +145,7 @@ export const ui: Registry["items"] = [
   {
     name: "radar-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/radar-chart.tsx", type: "registry:ui" },
     ],
@@ -153,7 +153,7 @@ export const ui: Registry["items"] = [
   {
     name: "treemap-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/treemap-chart.tsx", type: "registry:ui" },
     ],
@@ -161,7 +161,7 @@ export const ui: Registry["items"] = [
   {
     name: "sunburst-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/sunburst-chart.tsx", type: "registry:ui" },
     ],
@@ -169,7 +169,7 @@ export const ui: Registry["items"] = [
   {
     name: "sankey-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/sankey-chart.tsx", type: "registry:ui" },
     ],
@@ -177,7 +177,7 @@ export const ui: Registry["items"] = [
   {
     name: "gauge-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/gauge-chart.tsx", type: "registry:ui" },
     ],
@@ -185,7 +185,7 @@ export const ui: Registry["items"] = [
   {
     name: "bullet-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/bullet-chart.tsx", type: "registry:ui" },
     ],
@@ -193,7 +193,7 @@ export const ui: Registry["items"] = [
   {
     name: "icicle-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/icicle-chart.tsx", type: "registry:ui" },
     ],
@@ -203,7 +203,7 @@ export const ui: Registry["items"] = [
   {
     name: "dot-plot-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/basic/dot-plot-chart.tsx", type: "registry:ui" },
     ],
@@ -211,7 +211,7 @@ export const ui: Registry["items"] = [
   {
     name: "lollipop-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/basic/lollipop-chart.tsx", type: "registry:ui" },
     ],
@@ -219,7 +219,7 @@ export const ui: Registry["items"] = [
   {
     name: "dumbbell-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/basic/dumbbell-chart.tsx", type: "registry:ui" },
     ],
@@ -227,7 +227,7 @@ export const ui: Registry["items"] = [
   {
     name: "slope-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/slope-chart.tsx", type: "registry:ui" }],
   },
 
@@ -235,7 +235,7 @@ export const ui: Registry["items"] = [
   {
     name: "ohlc-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/financial/ohlc-chart.tsx", type: "registry:ui" },
     ],
@@ -245,7 +245,7 @@ export const ui: Registry["items"] = [
   {
     name: "choropleth-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/maps/choropleth-chart.tsx", type: "registry:ui" },
     ],
@@ -255,7 +255,7 @@ export const ui: Registry["items"] = [
   {
     name: "polar-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/statistical/polar-chart.tsx", type: "registry:ui" },
     ],
@@ -263,7 +263,7 @@ export const ui: Registry["items"] = [
   {
     name: "parallel-coordinates",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       {
         path: "ui/charts/statistical/parallel-coordinates.tsx",
@@ -276,7 +276,7 @@ export const ui: Registry["items"] = [
   {
     name: "density-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     dependencies: ["d3-contour"],
     files: [
       { path: "ui/charts/scientific/density-chart.tsx", type: "registry:ui" },
@@ -287,7 +287,7 @@ export const ui: Registry["items"] = [
   {
     name: "network-graph",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/network-graph.tsx", type: "registry:ui" },
     ],
@@ -295,7 +295,7 @@ export const ui: Registry["items"] = [
   {
     name: "dendrogram",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/dendrogram.tsx", type: "registry:ui" },
     ],
@@ -305,7 +305,7 @@ export const ui: Registry["items"] = [
   {
     name: "splom-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/statistical/splom-chart.tsx", type: "registry:ui" },
     ],
@@ -313,7 +313,7 @@ export const ui: Registry["items"] = [
   {
     name: "parcats-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/statistical/parcats-chart.tsx", type: "registry:ui" },
     ],
@@ -323,7 +323,7 @@ export const ui: Registry["items"] = [
   {
     name: "ternary-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/scientific/ternary-chart.tsx", type: "registry:ui" },
     ],
@@ -333,7 +333,7 @@ export const ui: Registry["items"] = [
   {
     name: "range-chart",
     type: "registry:ui",
-    registryDependencies: ["chart"],
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/range-chart.tsx", type: "registry:ui" }],
   },
 ]

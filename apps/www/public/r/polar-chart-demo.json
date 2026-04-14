@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "polar-chart-demo",
   "registryDependencies": [
-    "polar-chart"
+    "https://ui.simplifyingai.com/r/polar-chart.json"
   ],
   "files": [
     {

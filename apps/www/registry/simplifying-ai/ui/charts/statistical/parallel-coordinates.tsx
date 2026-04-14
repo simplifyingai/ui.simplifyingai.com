@@ -214,11 +214,7 @@ export function ParallelCoordinates({
                 {showValues &&
                   ticks.map((tick, i) => (
                     <g key={i} transform={`translate(0, ${scale(tick)})`}>
-                      <line
-                        x1={-4}
-                        x2={0}
-                        className="stroke-border"
-                      />
+                      <line x1={-4} x2={0} className="stroke-border" />
                       <text
                         x={-8}
                         textAnchor="end"

@@ -2,12 +2,12 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "range-chart-error-bars",
   "registryDependencies": [
-    "range-chart"
+    "https://ui.simplifyingai.com/r/range-chart.json"
   ],
   "files": [
     {
       "path": "examples/charts/range-chart-error-bars.tsx",
-      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst teamAData = [\n  { category: \"Jan\", low: 3000, high: 3500, mid: 3200 },\n  { category: \"Feb\", low: 4500, high: 5200, mid: 4800 },\n  { category: \"Mar\", low: 4000, high: 4800, mid: 4400 },\n  { category: \"Apr\", low: 3300, high: 4000, mid: 3600 },\n  { category: \"May\", low: 5000, high: 6200, mid: 5800 },\n  { category: \"Jun\", low: 5500, high: 6500, mid: 5900 },\n  { category: \"Jul\", low: 2000, high: 2800, mid: 2400 },\n  { category: \"Aug\", low: 900, high: 1500, mid: 1200, forecast: true },\n  { category: \"Sep\", low: 1800, high: 2600, mid: 2200, forecast: true },\n  { category: \"Oct\", low: 1200, high: 2000, mid: 1600, forecast: true },\n]\n\nconst teamBData = [\n  { category: \"Jan\", low: 1000, high: 1800, mid: 1400 },\n  { category: \"Feb\", low: 1200, high: 2000, mid: 1600 },\n  { category: \"Mar\", low: 1800, high: 2600, mid: 2200 },\n  { category: \"Apr\", low: 2000, high: 2600, mid: 2300 },\n  { category: \"May\", low: 2200, high: 3200, mid: 2800 },\n  { category: \"Jun\", low: 800, high: 1400, mid: 1000 },\n  { category: \"Jul\", low: 1600, high: 2400, mid: 2000 },\n  { category: \"Aug\", low: 900, high: 1300, mid: 1100, forecast: true },\n  { category: \"Sep\", low: 1500, high: 2100, mid: 1800, forecast: true },\n  { category: \"Oct\", low: 1600, high: 2200, mid: 1900, forecast: true },\n]\n\nexport default function RangeChartErrorBars() {\n  return (\n    <RangeChart\n      series={[\n        { name: \"Team A\", data: teamAData, color: \"#22d3ee\" },\n        { name: \"Team B\", data: teamBData, color: \"#f87171\" },\n      ]}\n      lowLabel=\"Min\"\n      highLabel=\"Max\"\n      midLabel=\"Value\"\n    />\n  )\n}\n",
+      "content": "\"use client\"\n\nimport { RangeChart } from \"@/components/ui/charts\"\n\nconst experimentData = [\n  { category: \"Control\", low: 45, high: 55, mid: 50 },\n  { category: \"Treatment A\", low: 58, high: 72, mid: 65 },\n  { category: \"Treatment B\", low: 52, high: 68, mid: 60 },\n  { category: \"Treatment C\", low: 70, high: 85, mid: 78 },\n  { category: \"Treatment D\", low: 62, high: 75, mid: 68 },\n]\n\nexport default function RangeChartErrorBars() {\n  return (\n    <RangeChart\n      data={experimentData}\n      variant=\"bars\"\n      showErrorBars={true}\n      showMarkers={true}\n      lowLabel=\"Lower CI\"\n      highLabel=\"Upper CI\"\n      midLabel=\"Mean\"\n      color=\"#8b5cf6\"\n      fillOpacity={0.4}\n      valueFormatter={(v) => `${v}%`}\n    />\n  )\n}\n",
       "type": "registry:example"
     }
   ],
