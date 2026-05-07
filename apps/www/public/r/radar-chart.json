@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/radar-chart-1.0.0-e974535ca6.mjs",
+    "version": "1.0.0-e974535ca6",
+    "integrity": "sha384-rQ0McMo28keyFBxXhrLJjLGo55L79bFRZt0QVwrfBGLnxHwmMxtbjWFYNucFWmyu",
+    "bytes": 60598
+  }
 }

@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/bullet-chart-1.0.0-22fb48a048.mjs",
+    "version": "1.0.0-22fb48a048",
+    "integrity": "sha384-P/xxowHxYtzmkQh7gSKZB48lPPyLiyEbkejumGhBFnej9M5YdXU++Q4v5QjeH42A",
+    "bytes": 50922
+  }
 }

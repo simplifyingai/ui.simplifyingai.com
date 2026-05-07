@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/candlestick-chart-1.0.0-9f1f9875ce.mjs",
+    "version": "1.0.0-9f1f9875ce",
+    "integrity": "sha384-7TaDgmyapHddmDoUqVpJ+xEZpeQ5f03bIKU8Cgm83rFr7HMsSmxSGNDdQ4ZVZb9H",
+    "bytes": 52698
+  }
 }

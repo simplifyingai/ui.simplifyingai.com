@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/bar-chart-1.0.0-49fa8144a6.mjs",
+    "version": "1.0.0-49fa8144a6",
+    "integrity": "sha384-0YaEcgvoU4W7Gd4hdlEGFGUY7HulSumCL7/NgNHY73MR3HlJyBGik7w12QAu7zRR",
+    "bytes": 30451
+  }
 }

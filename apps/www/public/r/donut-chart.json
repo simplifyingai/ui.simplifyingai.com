@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/donut-chart-1.0.0-287380ead6.mjs",
+    "version": "1.0.0-287380ead6",
+    "integrity": "sha384-Q6XWZzfWGY5rbw8jGmrmaTXU8k4hy4RPylE+IG7UbV7IQapI2O9DvRXNFEFUBH9G",
+    "bytes": 50694
+  }
 }

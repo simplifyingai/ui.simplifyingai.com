@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/splom-chart-1.0.0-0d445ca9b3.mjs",
+    "version": "1.0.0-0d445ca9b3",
+    "integrity": "sha384-/NS3AadSS9KRPc5uBvQkfyHiIk/Vd10qgZQelva3eFSbYhhMCWmYKfYeOCuZKYmZ",
+    "bytes": 50921
+  }
 }

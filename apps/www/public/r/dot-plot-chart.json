@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/dot-plot-chart-1.0.0-20adf7ecbb.mjs",
+    "version": "1.0.0-20adf7ecbb",
+    "integrity": "sha384-QgmUXmh4GR1JmubVNAhlWdqHIMuy+QPWHTm37CkPK0i5SIN6008fzCUZYZHNdOsR",
+    "bytes": 50763
+  }
 }

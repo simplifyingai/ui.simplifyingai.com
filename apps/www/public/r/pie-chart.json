@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/pie-chart-1.0.0-74a3ffef4f.mjs",
+    "version": "1.0.0-74a3ffef4f",
+    "integrity": "sha384-ViZ1YYb/yalezoMO87MLIQoAx5un1ueHL13DywHNroChrfA1RZGbit2X06mCLXmb",
+    "bytes": 42198
+  }
 }

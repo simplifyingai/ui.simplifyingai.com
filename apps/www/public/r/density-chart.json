@@ -14,5 +14,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/density-chart-1.0.0-2061abe83e.mjs",
+    "version": "1.0.0-2061abe83e",
+    "integrity": "sha384-luizdp+SK2dK13KoiZOMoCIBnqBbxGmpfret24RuAtKAT/WJ9zifNexf2shvHE3s",
+    "bytes": 64143
+  }
 }

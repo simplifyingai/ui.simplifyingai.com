@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/violin-chart-1.0.0-c7109e4b1f.mjs",
+    "version": "1.0.0-c7109e4b1f",
+    "integrity": "sha384-L8U9j7tJEyKdKYscty2Go7JZ0bQlVIuUx148aYmZ0FMiHEbrGv1wVu0B8X7LjHcC",
+    "bytes": 61532
+  }
 }

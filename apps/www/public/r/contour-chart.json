@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/contour-chart-1.0.0-0fea1c9b7b.mjs",
+    "version": "1.0.0-0fea1c9b7b",
+    "integrity": "sha384-7yJC402J1xpyMPThNN4Szl5TDaFQ55QEBJBdR6H9wz2cnZRWI94sFJRXaYv+aZ8M",
+    "bytes": 64358
+  }
 }

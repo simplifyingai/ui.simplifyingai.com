@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/dendrogram-1.0.0-ab11ef3cda.mjs",
+    "version": "1.0.0-ab11ef3cda",
+    "integrity": "sha384-OyNMnaVC1VvCbeQnhg5ZzSFyZ+a7I6ZIJy23mP2phHQqb4i67ojAtCsW3Lg0BIdK",
+    "bytes": 36264
+  }
 }

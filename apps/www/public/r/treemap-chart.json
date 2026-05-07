@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/treemap-chart-1.0.0-e46fd6eb8b.mjs",
+    "version": "1.0.0-e46fd6eb8b",
+    "integrity": "sha384-sOvcVdXmMw0ExFUX5zUtYVH4i/qI0gv849Wuj/H0xJTGm6FiTtRgbAlQGdTaBeot",
+    "bytes": 35205
+  }
 }

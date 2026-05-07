@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/lollipop-chart-1.0.0-26d2a958aa.mjs",
+    "version": "1.0.0-26d2a958aa",
+    "integrity": "sha384-oSmyQzViumnzZ6L3h9Pf10hA9aPC4nATo+cxj9Owyc7hTw+QfA13oB903N8J+vfL",
+    "bytes": 51802
+  }
 }

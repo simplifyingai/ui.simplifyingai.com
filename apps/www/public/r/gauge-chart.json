@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/gauge-chart-1.0.0-dfb889a72d.mjs",
+    "version": "1.0.0-dfb889a72d",
+    "integrity": "sha384-42uvvK7MbYLxNxXKaNBH4GLUBJQt1pYT25hzZPUBJGhZZt/eVhslYr1eYuuB7DeI",
+    "bytes": 36859
+  }
 }

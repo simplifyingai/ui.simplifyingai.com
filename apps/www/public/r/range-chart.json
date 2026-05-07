@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/range-chart-1.0.0-9763601ba0.mjs",
+    "version": "1.0.0-9763601ba0",
+    "integrity": "sha384-ldF4lE55JshqJVFnRzuQuPAmInmuvqNypzQEmI3pniPZuzONvkEx+bzB+Sem+fTP",
+    "bytes": 63739
+  }
 }

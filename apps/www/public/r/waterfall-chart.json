@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/waterfall-chart-1.0.0-d9e8b2cbfc.mjs",
+    "version": "1.0.0-d9e8b2cbfc",
+    "integrity": "sha384-wCZfFTmKMfI2cNhLa/0UyS500P1M1O+NCnSKK4DMhRHYuUpkKEXqJyReaNzbreIC",
+    "bytes": 54403
+  }
 }
