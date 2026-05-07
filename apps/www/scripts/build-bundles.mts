@@ -28,6 +28,13 @@ const ROOT = path.resolve(__dirname, "..")
 
 const REGISTRY_DIR = path.join(ROOT, "registry/simplifying-ai/ui/charts")
 const OUT_DIR = path.join(ROOT, "public/dist/charts")
+/**
+ * Per-item shadcn manifest directory. The shadcn CLI generates
+ * `<kind>.json` files here from `registry.json` via
+ * `scripts/build-registry.mts`. We augment those files in-place with
+ * a `runtime` block (additive; shadcn CLI ignores unknown fields).
+ */
+const SHADCN_MANIFEST_DIR = path.join(ROOT, "public/r")
 
 const EXTERNALS = ["react", "react-dom", "react/jsx-runtime"]
 
@@ -139,11 +146,65 @@ async function buildOne(target: BuildTarget) {
   const latestPath = path.join(OUT_DIR, `${target.kind}-latest.json`)
   await fs.writeFile(latestPath, JSON.stringify(sidecar, null, 2) + "\n")
 
+  await augmentShadcnManifest(target.kind, sidecar)
+
   console.log(
     `  built ${target.kind} -> ${finalJsName} (${formatBytes(sidecar.bytes)})`
   )
 
   return { ...sidecar, metafile: result.metafile }
+}
+
+/**
+ * Merge a `runtime` block into the corresponding shadcn manifest
+ * (`public/r/<kind>.json`) so a single fetch returns both the
+ * shadcn-CLI payload (`files[].content`, `dependencies`, …) and the
+ * runtime-ESM pointer (`bundle_url`, `version`, `integrity`).
+ *
+ * Why a nested `runtime` key instead of top-level fields: shadcn may
+ * reserve top-level names in future schema versions. Namespacing
+ * under `runtime` keeps us forward-compatible and visually flags the
+ * fields as "not part of the shadcn contract."
+ *
+ * Idempotent: writes the same content for the same input. Re-running
+ * `bundles:build` after an unchanged source produces zero diff.
+ *
+ * Best-effort: if `public/r/<kind>.json` doesn't exist (the shadcn
+ * registry build hasn't been run yet, or this kind isn't registered),
+ * we skip with a warning rather than fail. The bundle and sidecar
+ * are still produced.
+ */
+async function augmentShadcnManifest(
+  kind: string,
+  sidecar: {
+    version: string
+    bundle_url: string
+    integrity: string
+    bytes: number
+    builtAt: string
+  }
+) {
+  const manifestPath = path.join(SHADCN_MANIFEST_DIR, `${kind}.json`)
+  if (!existsSync(manifestPath)) {
+    console.warn(
+      `  ! manifest not found: public/r/${kind}.json — run \`pnpm registry:build\` first to populate it. Skipping augment.`
+    )
+    return
+  }
+  const raw = await fs.readFile(manifestPath, "utf-8")
+  const manifest = JSON.parse(raw) as Record<string, unknown>
+  // Only stable, source-derived fields go into the committed
+  // manifest. Volatile metadata (`builtAt`) lives in the sidecar
+  // under `public/dist/charts/` (gitignored), not here — committing
+  // a fresh timestamp on every build would create constant diff
+  // churn for unchanged source.
+  manifest.runtime = {
+    bundle_url: sidecar.bundle_url,
+    version: sidecar.version,
+    integrity: sidecar.integrity,
+    bytes: sidecar.bytes,
+  }
+  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n")
 }
 
 function formatBytes(n: number): string {

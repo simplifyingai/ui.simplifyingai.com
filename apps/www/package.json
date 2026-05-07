@@ -17,6 +17,7 @@
     "registry:capture": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/capture-registry.mts",
     "validate:registries": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/validate-registries.mts",
     "bundles:build": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/build-bundles.mts",
+    "registry:build:full": "pnpm registry:build && pnpm bundles:build",
     "postinstall": "fumadocs-mdx && node scripts/generate-source-config.mjs"
   },
   "dependencies": {
