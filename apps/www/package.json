@@ -16,6 +16,7 @@
     "registry:build": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/build-registry.mts && prettier --log-level silent --write \"registry/**/*.{ts,tsx,json,mdx}\" --cache",
     "registry:capture": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/capture-registry.mts",
     "validate:registries": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/validate-registries.mts",
+    "bundles:build": "tsx --tsconfig ./tsconfig.scripts.json ./scripts/build-bundles.mts",
     "postinstall": "fumadocs-mdx && node scripts/generate-source-config.mjs"
   },
   "dependencies": {
@@ -139,6 +140,7 @@
     "@types/react-dom": "19.2.3",
     "@types/topojson-specification": "^1.0.5",
     "@typescript-eslint/parser": "^8.31.0",
+    "esbuild": "^0.25.12",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "eslint-plugin-react-hooks": "^7.0.1",
