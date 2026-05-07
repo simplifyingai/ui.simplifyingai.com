@@ -36,7 +36,29 @@ const OUT_DIR = path.join(ROOT, "public/dist/charts")
  */
 const SHADCN_MANIFEST_DIR = path.join(ROOT, "public/r")
 
-const EXTERNALS = ["react", "react-dom", "react/jsx-runtime"]
+/**
+ * Peer dependencies the host (e.g. chat-plot-db-frontend) is
+ * expected to provide. Anything listed here stays as an `import` in
+ * the bundle and is resolved at runtime against the host's module
+ * graph.
+ *
+ * Why recharts is here: several chart kinds (area-chart, bar-chart,
+ * …) wrap recharts. Inlining it adds ~300 KB per bundle, and any
+ * realistic consumer already has recharts in its tree, so treating
+ * it like React is the right call. Host must pin a compatible
+ * version (currently aligned at recharts ^2.15).
+ *
+ * d3 modules (d3-scale, d3-shape, …) are intentionally NOT
+ * externalised. They tree-shake well, are small per-bundle, and
+ * forcing every consumer to pin the same d3 versions would create
+ * unnecessary coupling.
+ */
+const EXTERNALS = [
+  "react",
+  "react-dom",
+  "react/jsx-runtime",
+  "recharts",
+]
 
 interface BuildTarget {
   /** Registry kind, e.g. `"line-chart"` — used for the URL slug. */
@@ -46,18 +68,37 @@ interface BuildTarget {
 }
 
 /**
- * Phase 1: ship one chart end-to-end so the pipeline is provably
- * working before we expand to all kinds. `line-chart` is a good
- * choice: non-trivial (uses d3-scale + d3-shape), depends on internal
- * helpers (ChartAxis, ChartContainer, …), so a successful bundle
- * exercises both externals and inlining.
+ * Discover every chart-kind .tsx under
+ * `registry/simplifying-ai/ui/charts/<category>/`. Files at the
+ * `ui/charts/` root (chart-axis, chart-container, chart-grid, …) are
+ * shared helpers, not standalone charts, so they're excluded by the
+ * directory-depth rule.
+ *
+ * The kind name is the file's basename without the `.tsx` suffix —
+ * matches the canonical name used in `registry/registry-ui.ts` and
+ * the public `/r/<kind>.json` manifest filename.
  */
-const PHASE_1_TARGETS: BuildTarget[] = [
-  {
-    kind: "line-chart",
-    entry: path.join(REGISTRY_DIR, "basic/line-chart.tsx"),
-  },
-]
+async function discoverTargets(): Promise<BuildTarget[]> {
+  const entries = await fs.readdir(REGISTRY_DIR, { withFileTypes: true })
+  const categories = entries.filter((e) => e.isDirectory()).map((e) => e.name)
+
+  const targets: BuildTarget[] = []
+  for (const category of categories) {
+    const categoryDir = path.join(REGISTRY_DIR, category)
+    const files = await fs.readdir(categoryDir)
+    for (const file of files) {
+      if (!file.endsWith(".tsx")) continue
+      if (file === "index.tsx") continue
+      const kind = file.replace(/\.tsx$/, "")
+      targets.push({ kind, entry: path.join(categoryDir, file) })
+    }
+  }
+  // Stable, alphabetical order so build logs and `index.json` are
+  // diffable across runs regardless of `readdir` order on the host
+  // filesystem.
+  targets.sort((a, b) => a.kind.localeCompare(b.kind))
+  return targets
+}
 
 function sha384Base64(buf: Buffer): string {
   return `sha384-${createHash("sha384").update(buf).digest("base64")}`
@@ -214,10 +255,22 @@ function formatBytes(n: number): string {
 }
 
 async function main() {
-  console.log(`Building ${PHASE_1_TARGETS.length} chart bundle(s)...`)
-  const results = []
-  for (const target of PHASE_1_TARGETS) {
-    results.push(await buildOne(target))
+  const targets = await discoverTargets()
+  console.log(`Building ${targets.length} chart bundle(s)...`)
+
+  // Per-chart fail-soft: a typo in one chart shouldn't lose the
+  // build for every other chart. We still exit non-zero at the end
+  // if anything failed, so CI catches it.
+  const results: Array<Awaited<ReturnType<typeof buildOne>>> = []
+  const failures: Array<{ kind: string; error: string }> = []
+  for (const target of targets) {
+    try {
+      results.push(await buildOne(target))
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err)
+      console.error(`  ✗ ${target.kind}: ${message}`)
+      failures.push({ kind: target.kind, error: message })
+    }
   }
 
   // Aggregate index — useful for the runtime loader's discovery
@@ -235,7 +288,14 @@ async function main() {
       "\n"
   )
 
-  console.log(`\nDone. Wrote ${results.length} bundle(s) to ${path.relative(ROOT, OUT_DIR)}/`)
+  console.log(
+    `\nDone. ${results.length} bundle(s) ok, ${failures.length} failed. Wrote to ${path.relative(ROOT, OUT_DIR)}/`
+  )
+  if (failures.length) {
+    console.error(`\nFailures:`)
+    failures.forEach((f) => console.error(`  - ${f.kind}: ${f.error}`))
+    process.exit(1)
+  }
 }
 
 main().catch((err) => {

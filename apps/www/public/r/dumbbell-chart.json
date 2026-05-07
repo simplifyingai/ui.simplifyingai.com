@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/dumbbell-chart-1.0.0-d48ecec9c2.mjs",
+    "version": "1.0.0-d48ecec9c2",
+    "integrity": "sha384-Z5NvibB5T3RZGmhlB+iYWU41GXA63JlH+oPImWaRsWu4SKCMbijPQOjOhDv3WB4H",
+    "bytes": 51569
+  }
 }

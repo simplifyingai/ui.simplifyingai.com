@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/box-plot-chart-1.0.0-f2d0c348fe.mjs",
+    "version": "1.0.0-f2d0c348fe",
+    "integrity": "sha384-z4X4f2Cq5kpyJAVJmRSP710M5c3TcI7JKLlb7Sjg7DOMpLbRSxq4MMZxfMJwXBKG",
+    "bytes": 56040
+  }
 }

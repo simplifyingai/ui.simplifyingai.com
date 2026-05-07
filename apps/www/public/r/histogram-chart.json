@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/histogram-chart-1.0.0-17ff8c10c6.mjs",
+    "version": "1.0.0-17ff8c10c6",
+    "integrity": "sha384-qU0Y80QD3gp1werE0XsJdVWpr8qbueSZH28pJAi/L1aGT7uu4mnjn4E3e9kRkvk/",
+    "bytes": 57024
+  }
 }

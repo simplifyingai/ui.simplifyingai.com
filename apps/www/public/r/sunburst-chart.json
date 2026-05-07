@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/sunburst-chart-1.0.0-0ed0d120ac.mjs",
+    "version": "1.0.0-0ed0d120ac",
+    "integrity": "sha384-OxwjchzZyQ/g71TB3kX5AwBHBdTisnRU6h/hE237NIFxzHF8PPpNZ1kNc8a/mdWN",
+    "bytes": 39910
+  }
 }

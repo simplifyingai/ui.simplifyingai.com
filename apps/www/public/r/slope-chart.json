@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/slope-chart-1.0.0-9a64a61a2a.mjs",
+    "version": "1.0.0-9a64a61a2a",
+    "integrity": "sha384-qNU0EBXKi/MCkUxhXb2DV7cgpqQJGqfpzKB1+EGrARrexDASGT6BIH9NySYCNT8H",
+    "bytes": 59481
+  }
 }

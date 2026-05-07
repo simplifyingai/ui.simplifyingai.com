@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/ternary-chart-1.0.0-5e7794be57.mjs",
+    "version": "1.0.0-5e7794be57",
+    "integrity": "sha384-2OpCsgBws/ok0UhNYmmyZrIQoM21YgANCIUOZYC0/ZNoaByz28r7gBp81KIf8Nl2",
+    "bytes": 31402
+  }
 }

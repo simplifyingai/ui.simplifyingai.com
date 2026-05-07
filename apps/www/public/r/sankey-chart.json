@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/sankey-chart-1.0.0-1e4d727dd2.mjs",
+    "version": "1.0.0-1e4d727dd2",
+    "integrity": "sha384-jttyWJyuM5y/RJ9rUNafqYW88jvCo2foK5RlNVpiez90oaZRLe/WOYxcZwTbLdaV",
+    "bytes": 39920
+  }
 }

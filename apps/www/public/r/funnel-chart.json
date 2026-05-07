@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/funnel-chart-1.0.0-17efebf679.mjs",
+    "version": "1.0.0-17efebf679",
+    "integrity": "sha384-ofNF8DR+xh24aPl1TyIVLZOEkwtoAsza1GEh+JuQlDT1J8Se+t7TDd0212T0rJJv",
+    "bytes": 59976
+  }
 }

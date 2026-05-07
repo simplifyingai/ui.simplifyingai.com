@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/icicle-chart-1.0.0-349c6cbe40.mjs",
+    "version": "1.0.0-349c6cbe40",
+    "integrity": "sha384-gj4lY5LEyvTKDROIaetCy9XPGKAOIZ1FgOHJA/a8eb6jdCCEDQ2c0wnvKPGQMCX1",
+    "bytes": 31790
+  }
 }

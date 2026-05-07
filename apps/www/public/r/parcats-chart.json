@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/parcats-chart-1.0.0-a598884c5a.mjs",
+    "version": "1.0.0-a598884c5a",
+    "integrity": "sha384-wLXX9Lmfs3t7esZM9kyQTTdjwfOxY730EnKgYy2f0mW1CHmn31KsB+vCU01EchYx",
+    "bytes": 33797
+  }
 }

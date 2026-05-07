@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/area-chart-1.0.0-55b6576497.mjs",
+    "version": "1.0.0-55b6576497",
+    "integrity": "sha384-v9cWEZRdBu7gHKjsjeTVzYksgk38mcjz1qiKlTY/U6QIivqmnOlp/6y8ur5RljOs",
+    "bytes": 33286
+  }
 }

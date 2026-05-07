@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/polar-chart-1.0.0-cbc500043d.mjs",
+    "version": "1.0.0-cbc500043d",
+    "integrity": "sha384-MBdvZeYwmiPqhZIFpE5qWcpkmAuI55RoVlmV8TaDMB49zjm6cuHhhDeYjaQ5Ne/m",
+    "bytes": 56914
+  }
 }

@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/heatmap-chart-1.0.0-2c8749f585.mjs",
+    "version": "1.0.0-2c8749f585",
+    "integrity": "sha384-yoCODnQFAWAaYLs6dDS2FbC/WEkpwICiD+fEJlt3kX5UNBrQvZEQZ+I+5+bv3bnL",
+    "bytes": 64615
+  }
 }

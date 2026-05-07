@@ -11,5 +11,11 @@
       "type": "registry:ui"
     }
   ],
-  "type": "registry:ui"
+  "type": "registry:ui",
+  "runtime": {
+    "bundle_url": "/dist/charts/choropleth-chart-1.0.0-8cb383ba28.mjs",
+    "version": "1.0.0-8cb383ba28",
+    "integrity": "sha384-Nvct33lTbDviKUBpKmdmRMDf1GkZye6Pc+Fu7oiNDC2NaBbgVMS2F0vdUFXu3dcz",
+    "bytes": 68456
+  }
 }
