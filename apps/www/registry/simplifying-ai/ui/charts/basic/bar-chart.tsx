@@ -154,19 +154,40 @@ export function BarChart({
             />
           )}
 
-          <Bar dataKey="value" fill={color} radius={barRadius} maxBarSize={50}>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.fill || color} />
-            ))}
-            {showLabel && (
-              <LabelList
-                dataKey="value"
-                position={labelPosition}
-                formatter={valueFormatter}
-                className="fill-foreground text-xs"
-              />
-            )}
-          </Bar>
+          {/* Per-row Cell children only when at least one data point
+              specifies its own `fill`. With Cells present unconditionally,
+              recharts' horizontal-bar mode (`layout="vertical"`)
+              collapses every bar's Y-position to row 0 — the second
+              prong of the long-running "1 bar visible" failure mode
+              (the first being the Fragment-wrapped axes). When all
+              bars share the Bar's `fill` prop (the common case),
+              omitting Cells lets recharts position each row correctly. */}
+          {data.some((d) => typeof d.fill === "string" && d.fill) ? (
+            <Bar dataKey="value" fill={color} radius={barRadius} maxBarSize={50}>
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill || color} />
+              ))}
+              {showLabel && (
+                <LabelList
+                  dataKey="value"
+                  position={labelPosition}
+                  formatter={valueFormatter}
+                  className="fill-foreground text-xs"
+                />
+              )}
+            </Bar>
+          ) : (
+            <Bar dataKey="value" fill={color} radius={barRadius} maxBarSize={50}>
+              {showLabel && (
+                <LabelList
+                  dataKey="value"
+                  position={labelPosition}
+                  formatter={valueFormatter}
+                  className="fill-foreground text-xs"
+                />
+              )}
+            </Bar>
+          )}
         </RechartsBarChart>
       </ResponsiveContainer>
     </div>
