@@ -82,44 +82,54 @@ export function BarChart({
             />
           )}
 
-          {isVertical ? (
-            <>
-              <YAxis
-                dataKey="label"
-                type="category"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={labelFormatter}
-                width={yAxisWidth}
-              />
-              <XAxis
-                type="number"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={valueFormatter}
-              />
-            </>
-          ) : (
-            <>
-              <XAxis
-                dataKey="label"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={labelFormatter}
-                tickMargin={8}
-                interval="preserveStartEnd"
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={valueFormatter}
-                width={yAxisWidth}
-              />
-            </>
+          {/* CRITICAL: render each axis as a SEPARATE conditional slot
+              instead of wrapping in a `<>...</>` fragment. Recharts
+              iterates BarChart's children via React.Children.forEach,
+              which does NOT recurse into fragments — wrapping the
+              axes in a fragment caused recharts to miss them entirely
+              and collapse all bars to a single Y-position (the long-
+              running "1 bar visible" failure mode for horizontal-bar
+              mode). Each `{cond && <Axis/>}` is one direct-child slot
+              React enumerates correctly. */}
+          {isVertical && (
+            <YAxis
+              dataKey="label"
+              type="category"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={labelFormatter}
+              width={yAxisWidth}
+            />
+          )}
+          {isVertical && (
+            <XAxis
+              type="number"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={valueFormatter}
+            />
+          )}
+          {!isVertical && (
+            <XAxis
+              dataKey="label"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={labelFormatter}
+              tickMargin={8}
+              interval="preserveStartEnd"
+            />
+          )}
+          {!isVertical && (
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={valueFormatter}
+              width={yAxisWidth}
+            />
           )}
 
           {showTooltip && (
@@ -233,44 +243,54 @@ export function MultiBarChart({
             />
           )}
 
-          {isVertical ? (
-            <>
-              <YAxis
-                dataKey="label"
-                type="category"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={labelFormatter}
-                width={yAxisWidth}
-              />
-              <XAxis
-                type="number"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={valueFormatter}
-              />
-            </>
-          ) : (
-            <>
-              <XAxis
-                dataKey="label"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={labelFormatter}
-                tickMargin={8}
-                interval="preserveStartEnd"
-              />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12 }}
-                tickFormatter={valueFormatter}
-                width={yAxisWidth}
-              />
-            </>
+          {/* CRITICAL: render each axis as a SEPARATE conditional slot
+              instead of wrapping in a `<>...</>` fragment. Recharts
+              iterates BarChart's children via React.Children.forEach,
+              which does NOT recurse into fragments — wrapping the
+              axes in a fragment caused recharts to miss them entirely
+              and collapse all bars to a single Y-position (the long-
+              running "1 bar visible" failure mode for horizontal-bar
+              mode). Each `{cond && <Axis/>}` is one direct-child slot
+              React enumerates correctly. */}
+          {isVertical && (
+            <YAxis
+              dataKey="label"
+              type="category"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={labelFormatter}
+              width={yAxisWidth}
+            />
+          )}
+          {isVertical && (
+            <XAxis
+              type="number"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={valueFormatter}
+            />
+          )}
+          {!isVertical && (
+            <XAxis
+              dataKey="label"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={labelFormatter}
+              tickMargin={8}
+              interval="preserveStartEnd"
+            />
+          )}
+          {!isVertical && (
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12 }}
+              tickFormatter={valueFormatter}
+              width={yAxisWidth}
+            />
           )}
 
           {showTooltip && (
