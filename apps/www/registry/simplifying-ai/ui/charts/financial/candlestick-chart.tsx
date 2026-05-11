@@ -4,6 +4,7 @@ import * as React from "react"
 import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
+import { ChartAxis } from "../chart-axis"
 
 export interface CandlestickDataPoint {
   date: string | Date
@@ -24,6 +25,12 @@ export interface CandlestickChartProps {
   aspectRatio?: number
   valueFormatter?: (value: number) => string
   dateFormatter?: (date: Date) => string
+  /**
+   * Axis title text. Renders centered along the axis edge, same
+   * convention as line-chart / area-chart.
+   */
+  xAxisLabel?: string
+  yAxisLabel?: string
 }
 
 export function CandlestickChart({
@@ -38,6 +45,8 @@ export function CandlestickChart({
   valueFormatter = (value) => `$${value.toFixed(0)}`,
   dateFormatter = (date) =>
     date.toLocaleDateString("en-US", { month: "short" }),
+  xAxisLabel,
+  yAxisLabel,
 }: CandlestickChartProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
@@ -213,39 +222,26 @@ export function CandlestickChart({
             )
           })}
 
-          {/* X Axis - Month labels */}
-          <g transform={`translate(0, ${innerHeight})`}>
-            {monthLabels.map((label, i) => {
-              const date = new Date(label.date)
-              return (
-                <text
-                  key={i}
-                  x={label.x}
-                  y={24}
-                  textAnchor="middle"
-                  className="fill-muted-foreground text-xs"
-                >
-                  {dateFormatter(date)}
-                </text>
-              )
-            })}
-          </g>
+          {/* X Axis — delegated to the shared ChartAxis primitive so
+              we get the axis line + axis title + band-scale tick
+              sampling for free (same code path as line-chart). */}
+          <ChartAxis
+            scale={xScale}
+            orientation="bottom"
+            transform={`translate(0, ${innerHeight})`}
+            label={xAxisLabel}
+            tickFormat={(d) => dateFormatter(new Date(d as string))}
+          />
 
-          {/* Y Axis */}
-          <g>
-            {ticks.map((tick) => (
-              <text
-                key={tick}
-                x={-12}
-                y={yScale(tick)}
-                dy="0.32em"
-                textAnchor="end"
-                className="fill-muted-foreground text-xs"
-              >
-                {valueFormatter(tick)}
-              </text>
-            ))}
-          </g>
+          {/* Y Axis — same primitive, with the existing $ formatter
+              for tick values. Pre-refactor this was bare <text>
+              labels with no axis line and no title support. */}
+          <ChartAxis
+            scale={yScale}
+            orientation="left"
+            label={yAxisLabel}
+            tickFormat={(d) => valueFormatter(d as number)}
+          />
         </g>
       </svg>
 
