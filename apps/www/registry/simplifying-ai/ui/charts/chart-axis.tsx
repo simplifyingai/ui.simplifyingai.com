@@ -45,7 +45,24 @@ export function ChartAxis({
       return scale.ticks(tickCount)
     }
     if ("domain" in scale && typeof scale.domain === "function") {
-      return scale.domain()
+      const domain = scale.domain()
+      if (domain.length <= tickCount) return domain
+      // Band scales used to return the full domain unconditionally —
+      // a 120-day price series rendered 120 X labels into an
+      // unreadable overlapping mass while `tickCount` was silently
+      // ignored. Evenly sample the categorical domain to `tickCount`
+      // labels so band-scale charts behave like linear/time-scale
+      // charts at high density (those already auto-thin via d3's
+      // `.ticks(tickCount)`).
+      const step = (domain.length - 1) / (tickCount - 1)
+      const selected = new Set<number>()
+      for (let i = 0; i < tickCount; i++) {
+        selected.add(Math.round(i * step))
+      }
+      // `filter` preserves the original element type union (no narrowing
+      // gymnastics with `as`), and the index-based selection guarantees
+      // first + last + evenly spaced middle.
+      return domain.filter((_, idx) => selected.has(idx))
     }
     return []
   }, [scale, tickCount])
