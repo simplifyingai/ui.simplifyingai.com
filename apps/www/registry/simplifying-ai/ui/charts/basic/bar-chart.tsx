@@ -33,7 +33,15 @@ export interface BarChartProps {
   showGrid?: boolean
   showTooltip?: boolean
   showLabel?: boolean
-  labelPosition?: "top" | "center" | "bottom" | "inside"
+  labelPosition?:
+    | "top"
+    | "center"
+    | "bottom"
+    | "inside"
+    | "left"
+    | "right"
+    | "insideLeft"
+    | "insideRight"
   valueFormatter?: (value: number) => string
   labelFormatter?: (label: string) => string
   layout?: "vertical" | "horizontal"
@@ -49,7 +57,7 @@ export function BarChart({
   showGrid = true,
   showTooltip = true,
   showLabel = false,
-  labelPosition = "top",
+  labelPosition,
   valueFormatter = (value) => `${value}`,
   labelFormatter = (label) => label,
   layout = "horizontal",
@@ -58,6 +66,13 @@ export function BarChart({
   yAxisWidth = 48,
 }: BarChartProps) {
   const isVertical = layout === "vertical"
+  // Layout-aware default. For horizontal bars (`layout="vertical"` per
+  // Recharts' convention) the natural label spot is to the RIGHT of the
+  // bar end — "top" places labels above each row, which overlaps the
+  // bar in the row above when bars are tightly packed. For vertical
+  // bars, "top" remains the sensible default.
+  const effectiveLabelPosition =
+    labelPosition ?? (isVertical ? "right" : "top")
 
   return (
     <div className={cn("w-full", className)}>
@@ -66,8 +81,12 @@ export function BarChart({
           data={data}
           layout={isVertical ? "vertical" : "horizontal"}
           margin={{
-            top: showLabel ? 20 : 10,
-            right: 10,
+            top: showLabel && !isVertical ? 20 : 10,
+            // Horizontal bars with end-of-bar labels need real space at
+            // the right edge — the default 10px clips multi-digit
+            // values. Bump only in the (showLabel ∧ horizontal-bars)
+            // case so vertical-bar charts aren't penalised.
+            right: showLabel && isVertical ? 80 : 10,
             left: 10,
             bottom: 40,
           }}
@@ -170,7 +189,13 @@ export function BarChart({
               {showLabel && (
                 <LabelList
                   dataKey="value"
-                  position={labelPosition}
+                  position={effectiveLabelPosition}
+                  offset={
+                    effectiveLabelPosition === "right" ||
+                    effectiveLabelPosition === "left"
+                      ? 6
+                      : undefined
+                  }
                   formatter={valueFormatter}
                   className="fill-foreground text-xs"
                 />
@@ -181,7 +206,13 @@ export function BarChart({
               {showLabel && (
                 <LabelList
                   dataKey="value"
-                  position={labelPosition}
+                  position={effectiveLabelPosition}
+                  offset={
+                    effectiveLabelPosition === "right" ||
+                    effectiveLabelPosition === "left"
+                      ? 6
+                      : undefined
+                  }
                   formatter={valueFormatter}
                   className="fill-foreground text-xs"
                 />
