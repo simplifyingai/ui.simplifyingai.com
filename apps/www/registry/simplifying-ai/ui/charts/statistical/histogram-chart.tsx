@@ -10,6 +10,11 @@ import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartHorizontalGrid } from "../chart-grid"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  useChartZoom,
+} from "../chart-zoom"
 
 // ============================================================================
 // Types & Interfaces
@@ -171,10 +176,23 @@ export function HistogramChart({
   colorScale = "viridis",
   showLegend = true,
 }: HistogramChartProps) {
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [hoveredBin, setHoveredBin] = React.useState<{
     datasetIdx: number
     binIdx: number
   } | null>(null)
+  const [activeDatasetIndex, setActiveDatasetIndex] = React.useState<
+    number | null
+  >(null)
+  const [zoomRange, setZoomRange] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomRange !== null
+
+  const isDatasetVisible = React.useCallback(
+    (idx: number) => activeDatasetIndex === null || activeDatasetIndex === idx,
+    [activeDatasetIndex]
+  )
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
@@ -199,12 +217,15 @@ export function HistogramChart({
     return []
   }, [data, color])
 
-  // Calculate global domain
+  // Calculate global domain — narrowed to the active drag-to-zoom range
+  // when set, so bins are recomputed (via d3's `bin().domain(...)`) across
+  // only the visible x-range.
   const globalDomain = React.useMemo(() => {
+    if (zoomRange) return zoomRange
     const allData = datasets.flatMap((d) => d.data)
     if (allData.length === 0) return [0, 1]
     return [Math.min(...allData), Math.max(...allData)]
-  }, [datasets])
+  }, [datasets, zoomRange])
 
   // Create histogram bins for each dataset
   const histograms = React.useMemo(() => {
@@ -243,6 +264,24 @@ export function HistogramChart({
       .range([innerHeight, 0])
       .nice()
   }, [histograms, innerHeight, showDensity, normalized])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-domain range
+  // (via `xScale.invert`) and narrows `globalDomain` — and therefore the
+  // bins — to it.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const lo = xScale.invert(x0)
+      const hi = xScale.invert(x1)
+      const hasDataInRange = datasets.some((dataset) =>
+        dataset.data.some((v) => v >= lo && v <= hi)
+      )
+      if (hasDataInRange) setZoomRange([lo, hi])
+    },
+    onReset: () => setZoomRange(null),
+  })
 
   // Get color function for gradient variant
   const getGradientColor = React.useCallback(
@@ -390,20 +429,37 @@ export function HistogramChart({
 
   return (
     <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${width} ${height}`}
+        className="h-full w-full select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
+      >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid */}
           {showGrid && (
             <ChartHorizontalGrid scale={yScale} width={innerWidth} />
           )}
 
-          {/* Render based on variant */}
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
+          {/* Render based on variant — datasets isolated via legend click
+              are skipped entirely (hidden, not just dimmed). */}
           {variant === "stepped"
-            ? datasets.map((dataset, idx) =>
-                renderStepped(histograms[idx], idx, dataset.color!)
+            ? datasets.map(
+                (dataset, idx) =>
+                  isDatasetVisible(idx) &&
+                  renderStepped(histograms[idx], idx, dataset.color!)
               )
-            : datasets.map((dataset, idx) =>
-                renderBars(histograms[idx], idx, dataset.color!)
+            : datasets.map(
+                (dataset, idx) =>
+                  isDatasetVisible(idx) &&
+                  renderBars(histograms[idx], idx, dataset.color!)
               )}
 
           {/* X Axis */}
@@ -441,7 +497,17 @@ export function HistogramChart({
               rx={4}
             />
             {datasets.map((dataset, idx) => (
-              <g key={idx} transform={`translate(0, ${idx * 22})`}>
+              <g
+                key={idx}
+                transform={`translate(0, ${idx * 22})`}
+                className={cn(
+                  "cursor-pointer transition-opacity duration-150",
+                  !isDatasetVisible(idx) && "opacity-40"
+                )}
+                onClick={() =>
+                  setActiveDatasetIndex((prev) => (prev === idx ? null : idx))
+                }
+              >
                 <rect
                   x={0}
                   y={0}
@@ -520,6 +586,11 @@ export function HistogramChart({
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomRange(null)}
+      />
     </ChartContainer>
   )
 }

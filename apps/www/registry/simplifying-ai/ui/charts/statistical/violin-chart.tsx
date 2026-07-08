@@ -7,6 +7,13 @@ import { area, curveCardinal } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
+
 export interface ViolinDataPoint {
   category: string
   values: number[]
@@ -109,8 +116,23 @@ export function ViolinChart({
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
   const svgRef = React.useRef<SVGSVGElement>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
-  // Dynamic sizing based on data
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
+
+  // Narrow the view to the zoomed index window — categories are
+  // independent of one another, so filtering the raw data is safe.
+  const plotData = zoomDomain ? data.slice(zoomDomain[0], zoomDomain[1] + 1) : data
+
+  // Dynamic sizing based on the full (unzoomed) data set — keeps the
+  // chart's overall footprint stable while zoomed in, letting the
+  // remaining violins widen to fill the same plot area.
   const width = Math.max(400, data.length * 80 + 100)
   const height = 320
   const margin = { top: 20, right: 30, bottom: 50, left: 55 }
@@ -130,15 +152,15 @@ export function ViolinChart({
 
   // Process data
   const processedData = React.useMemo(() => {
-    if (!data || data.length === 0) return []
+    if (!plotData || plotData.length === 0) return []
 
-    const allValues = data.flatMap((d) => d.values)
+    const allValues = plotData.flatMap((d) => d.values)
     const globalMin = min(allValues) ?? 0
     const globalMax = max(allValues) ?? 100
     const padding = (globalMax - globalMin) * 0.1
     const domain: [number, number] = [globalMin - padding, globalMax + padding]
 
-    return data.map((d) => {
+    return plotData.map((d) => {
       const stats = calculateStats(d.values)
       const bw = bandwidthProp ?? stats.autoBandwidth
 
@@ -149,19 +171,19 @@ export function ViolinChart({
         stats,
       }
     })
-  }, [data, bandwidthProp, resolution])
+  }, [plotData, bandwidthProp, resolution])
 
   // Category scale
   const categoryScale = React.useMemo(() => {
     return scaleBand<string>()
-      .domain(data.map((d) => d.category))
+      .domain(plotData.map((d) => d.category))
       .range([0, innerWidth])
       .padding(0.3)
-  }, [data, innerWidth])
+  }, [plotData, innerWidth])
 
   // Value scale (Y-axis)
   const valueScale = React.useMemo(() => {
-    const allValues = data.flatMap((d) => d.values)
+    const allValues = plotData.flatMap((d) => d.values)
     const minV = min(allValues) ?? 0
     const maxV = max(allValues) ?? 100
     const padding = (maxV - minV) * 0.15
@@ -170,7 +192,21 @@ export function ViolinChart({
       .domain([minV - padding, maxV + padding])
       .range([innerHeight, 0])
       .nice()
-  }, [data, innerHeight])
+  }, [plotData, innerHeight])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // (band scale) and narrows the view to it.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(categoryScale, x0, x1)
+      const currentOffset = zoomDomain ? zoomDomain[0] : 0
+      setZoomDomain([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   // Max density across all violins (for width scaling)
   const maxDensity = React.useMemo(() => {
@@ -308,7 +344,7 @@ export function ViolinChart({
 
     // Find which category is being hovered
     let hoveredIdx: number | null = null
-    data.forEach((d, i) => {
+    plotData.forEach((d, i) => {
       const catX = categoryScale(d.category) ?? 0
       if (x >= catX && x <= catX + categoryScale.bandwidth()) {
         hoveredIdx = i
@@ -318,13 +354,23 @@ export function ViolinChart({
     if (hoveredIdx !== null) {
       setTooltipPos({
         x:
-          (categoryScale(data[hoveredIdx].category) ?? 0) +
+          (categoryScale(plotData[hoveredIdx].category) ?? 0) +
           categoryScale.bandwidth() / 2 +
           margin.left,
         y: margin.top + 20,
       })
     }
     setHoveredIndex(hoveredIdx)
+  }
+
+  const handleSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseMove(e)
+    zoom.handlers.onMouseMove(e)
+  }
+
+  const handleSvgMouseLeave = (e: React.MouseEvent<SVGSVGElement>) => {
+    setHoveredIndex(null)
+    zoom.handlers.onMouseLeave(e)
   }
 
   if (!data || data.length === 0 || processedData.length === 0) {
@@ -345,11 +391,17 @@ export function ViolinChart({
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full overflow-visible"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHoveredIndex(null)}
+        className="h-auto w-full overflow-visible select-none"
+        onMouseMove={handleSvgMouseMove}
+        onMouseLeave={handleSvgMouseLeave}
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid lines */}
           {showGrid &&
             yTicks.map((tick) => (
@@ -444,7 +496,7 @@ export function ViolinChart({
           })}
 
           {/* Category labels */}
-          {data.map((d) => (
+          {plotData.map((d) => (
             <text
               key={d.category}
               x={
@@ -501,6 +553,11 @@ export function ViolinChart({
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }

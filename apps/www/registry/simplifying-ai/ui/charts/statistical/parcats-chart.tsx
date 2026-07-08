@@ -55,6 +55,12 @@ export function ParcatsChart({
     dim: string
     cat: string
   } | null>(null)
+  // Pinned category — set by clicking a category box (or legend swatch),
+  // keeps only ribbons passing through it highlighted until clicked again.
+  const [pinnedCategory, setPinnedCategory] = React.useState<{
+    dim: string
+    cat: string
+  } | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
   const containerRef = React.useRef<HTMLDivElement>(null)
 
@@ -182,8 +188,20 @@ export function ParcatsChart({
     })
   }, [data, dimensions, xScale, yScales, color, colorByCategory])
 
-  // Check if path matches hovered category
+  // Toggle the pinned category — clicking the same category again restores
+  // all ribbons.
+  const togglePinnedCategory = React.useCallback((dim: string, cat: string) => {
+    setPinnedCategory((prev) =>
+      prev?.dim === dim && prev?.cat === cat ? null : { dim, cat }
+    )
+  }, [])
+
+  // Check if path matches the pinned category (takes priority so hovering
+  // elsewhere doesn't clear the pin) or the hovered path/category.
   const isPathHighlighted = (path: (typeof paths)[0]) => {
+    if (pinnedCategory) {
+      return path.categories[pinnedCategory.dim] === pinnedCategory.cat
+    }
     if (hoveredPath === path.id) return true
     if (hoveredCategory) {
       return path.categories[hoveredCategory.dim] === hoveredCategory.cat
@@ -217,18 +235,36 @@ export function ParcatsChart({
 
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
-      {/* Legend - only show when colorByCategory is true */}
+      {/* Legend - only show when colorByCategory is true. Click a swatch to
+          pin/isolate that category's ribbons, click again to restore all. */}
       {colorByCategory && !color && (
         <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {firstDimCategories.map((cat) => (
-            <div key={cat} className="flex items-center gap-2">
-              <div
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: getCategoryColor(cat) }}
-              />
-              <span className="text-muted-foreground text-sm">{cat}</span>
-            </div>
-          ))}
+          {firstDimCategories.map((cat) => {
+            const isActive =
+              !pinnedCategory ||
+              (pinnedCategory.dim === dimensions[0] && pinnedCategory.cat === cat)
+            return (
+              <button
+                key={cat}
+                type="button"
+                aria-pressed={
+                  pinnedCategory?.dim === dimensions[0] &&
+                  pinnedCategory?.cat === cat
+                }
+                onClick={() => togglePinnedCategory(dimensions[0], cat)}
+                className={cn(
+                  "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+                  !isActive && "opacity-40"
+                )}
+              >
+                <div
+                  className="h-3 w-3 rounded-full"
+                  style={{ backgroundColor: getCategoryColor(cat) }}
+                />
+                <span className="text-muted-foreground text-sm">{cat}</span>
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -239,8 +275,11 @@ export function ParcatsChart({
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Flow paths - render first so they appear behind boxes */}
           {paths.map((path) => {
-            const hasHover = hoveredPath !== null || hoveredCategory !== null
-            const highlighted = hasHover ? isPathHighlighted(path) : true
+            const hasHighlight =
+              pinnedCategory !== null ||
+              hoveredPath !== null ||
+              hoveredCategory !== null
+            const highlighted = hasHighlight ? isPathHighlighted(path) : true
 
             return (
               <path
@@ -250,7 +289,7 @@ export function ParcatsChart({
                 stroke={path.color}
                 strokeWidth={getStrokeWidth(path.value, highlighted)}
                 strokeOpacity={
-                  hasHover ? (highlighted ? 0.85 : 0.08) : lineOpacity
+                  hasHighlight ? (highlighted ? 0.85 : 0.08) : lineOpacity
                 }
                 strokeLinecap="round"
                 className="cursor-pointer transition-all duration-150"
@@ -284,6 +323,9 @@ export function ParcatsChart({
                   const count = categoryCounts[dim][cat]
                   const isHovered =
                     hoveredCategory?.dim === dim && hoveredCategory?.cat === cat
+                  const isPinned =
+                    pinnedCategory?.dim === dim && pinnedCategory?.cat === cat
+                  const isActive = isHovered || isPinned
 
                   const boxColor =
                     colorByCategory && dim === dimensions[0]
@@ -296,6 +338,7 @@ export function ParcatsChart({
                       className="cursor-pointer"
                       onMouseEnter={() => setHoveredCategory({ dim, cat })}
                       onMouseLeave={() => setHoveredCategory(null)}
+                      onClick={() => togglePinnedCategory(dim, cat)}
                     >
                       <rect
                         x={x - 35}
@@ -303,13 +346,13 @@ export function ParcatsChart({
                         width={70}
                         height={h}
                         fill={boxColor}
-                        fillOpacity={isHovered ? 1 : 0.85}
+                        fillOpacity={isActive ? 1 : 0.85}
                         stroke={
-                          isHovered
+                          isActive
                             ? "var(--muted-foreground)"
                             : "var(--border)"
                         }
-                        strokeWidth={isHovered ? 2 : 1}
+                        strokeWidth={isActive ? 2 : 1}
                         rx={4}
                         className="transition-all duration-150 dark:fill-zinc-800 dark:stroke-zinc-600"
                       />

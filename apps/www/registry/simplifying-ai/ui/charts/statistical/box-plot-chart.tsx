@@ -6,6 +6,13 @@ import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
+
 export interface BoxPlotDataPoint {
   label: string
   values: number[]
@@ -85,9 +92,14 @@ export function BoxPlotChart({
   valueFormatter = (value) => value.toFixed(0),
 }: BoxPlotChartProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   // Responsive sizing
   React.useEffect(() => {
@@ -101,6 +113,11 @@ export function BoxPlotChart({
     window.addEventListener("resize", updateDimensions)
     return () => window.removeEventListener("resize", updateDimensions)
   }, [aspectRatio])
+
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
 
   const { width, height } = dimensions
   const margin = { top: 20, right: 20, bottom: 40, left: 50 }
@@ -118,17 +135,27 @@ export function BoxPlotChart({
     }))
   }, [data, whiskerType])
 
+  // Narrow the view to the zoomed index window — box plots per category
+  // are independent of one another, so slicing the computed stats is safe.
+  const plotStatsData = zoomDomain
+    ? statsData.slice(zoomDomain[0], zoomDomain[1] + 1)
+    : statsData
+
   // Category scale
   const categoryScale = React.useMemo(() => {
     return scaleBand()
-      .domain(statsData.map((d) => d.label))
+      .domain(plotStatsData.map((d) => d.label))
       .range(isVertical ? [0, innerWidth] : [0, innerHeight])
       .padding(0.3)
-  }, [statsData, innerWidth, innerHeight, isVertical])
+  }, [plotStatsData, innerWidth, innerHeight, isVertical])
 
   // Value scale
   const valueScale = React.useMemo(() => {
-    const allValues = statsData.flatMap((d) => [d.min, d.max, ...d.outliers])
+    const allValues = plotStatsData.flatMap((d) => [
+      d.min,
+      d.max,
+      ...d.outliers,
+    ])
     const minV = Math.min(...allValues)
     const maxV = Math.max(...allValues)
     const padding = (maxV - minV) * 0.1
@@ -136,7 +163,24 @@ export function BoxPlotChart({
       .domain([Math.floor(minV - padding), Math.ceil(maxV + padding)])
       .range(isVertical ? [innerHeight, 0] : [0, innerWidth])
       .nice()
-  }, [statsData, innerWidth, innerHeight, isVertical])
+  }, [plotStatsData, innerWidth, innerHeight, isVertical])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // (band scale) and narrows the view to it. Only meaningful when the
+  // categorical axis runs horizontally (vertical orientation) since the
+  // drag gesture is x-axis based.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    disabled: !isVertical,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(categoryScale, x0, x1)
+      const currentOffset = zoomDomain ? zoomDomain[0] : 0
+      setZoomDomain([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   const actualBoxWidth = categoryScale.bandwidth() * boxWidth
   const ticks = valueScale.ticks(5)
@@ -148,12 +192,21 @@ export function BoxPlotChart({
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
       <svg
+        ref={svgRef}
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
-        className="overflow-visible"
+        className="overflow-visible select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid */}
           {showGrid && (
             <>
@@ -171,7 +224,7 @@ export function BoxPlotChart({
                 />
               ))}
               {/* Vertical grid lines */}
-              {statsData.map((d) => {
+              {plotStatsData.map((d) => {
                 const x =
                   (categoryScale(d.label) ?? 0) + categoryScale.bandwidth() / 2
                 return (
@@ -191,7 +244,7 @@ export function BoxPlotChart({
           )}
 
           {/* Box plots */}
-          {statsData.map((d, index) => {
+          {plotStatsData.map((d, index) => {
             const boxColor = d.color ?? color
             const center =
               (categoryScale(d.label) ?? 0) + categoryScale.bandwidth() / 2
@@ -400,7 +453,7 @@ export function BoxPlotChart({
 
           {/* X Axis */}
           <g transform={`translate(0, ${innerHeight})`}>
-            {statsData.map((d) => {
+            {plotStatsData.map((d) => {
               const x =
                 (categoryScale(d.label) ?? 0) + categoryScale.bandwidth() / 2
               return (
@@ -447,43 +500,48 @@ export function BoxPlotChart({
         >
           <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
             <p className="text-foreground mb-1 text-sm font-medium">
-              {statsData[hoveredIndex].label}
+              {plotStatsData[hoveredIndex].label}
             </p>
             <div className="space-y-0.5 text-sm">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Max</span>
-                <span style={{ color: statsData[hoveredIndex].color ?? color }}>
-                  {valueFormatter(statsData[hoveredIndex].max)}
+                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                  {valueFormatter(plotStatsData[hoveredIndex].max)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Q3</span>
-                <span style={{ color: statsData[hoveredIndex].color ?? color }}>
-                  {valueFormatter(statsData[hoveredIndex].q3)}
+                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                  {valueFormatter(plotStatsData[hoveredIndex].q3)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Median</span>
-                <span style={{ color: statsData[hoveredIndex].color ?? color }}>
-                  {valueFormatter(statsData[hoveredIndex].median)}
+                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                  {valueFormatter(plotStatsData[hoveredIndex].median)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Q1</span>
-                <span style={{ color: statsData[hoveredIndex].color ?? color }}>
-                  {valueFormatter(statsData[hoveredIndex].q1)}
+                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                  {valueFormatter(plotStatsData[hoveredIndex].q1)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Min</span>
-                <span style={{ color: statsData[hoveredIndex].color ?? color }}>
-                  {valueFormatter(statsData[hoveredIndex].min)}
+                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                  {valueFormatter(plotStatsData[hoveredIndex].min)}
                 </span>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }
