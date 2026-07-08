@@ -141,6 +141,11 @@ export function FunnelChart({
     seriesIndex: number
     stageIndex: number
   } | null>(null)
+  // Slice click-to-isolate: null shows every flow, a name shows only that one
+  // (others heavily dimmed). Click the isolated flow again to restore all.
+  // There's no legend in this chart, so isolate is driven by clicking a flow
+  // band directly.
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
   const gradientId = React.useId().replace(/:/g, "")
 
@@ -192,6 +197,15 @@ export function FunnelChart({
       (index / Math.max(seriesCount - 1, 1)) * (scheme.length - 1)
     )
     return scheme[Math.min(colorIndex, scheme.length - 1)]
+  }
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
+
+  const handleIsolateClick = (name: string) => {
+    setActiveSeries((prev) => (prev === name ? null : name))
   }
 
   // Calculate max total at any stage for scaling
@@ -465,7 +479,8 @@ export function FunnelChart({
                     "cursor-pointer transition-opacity duration-200",
                     hoveredSeries !== null &&
                       hoveredSeries !== seriesIndex &&
-                      "opacity-30"
+                      "opacity-30",
+                    !isSeriesVisible(series[seriesIndex].name) && "opacity-10"
                   )}
                   onMouseEnter={() => setHoveredSeries(seriesIndex)}
                   onMouseMove={(e) => handleMouseMove(e, seriesIndex)}
@@ -480,6 +495,7 @@ export function FunnelChart({
                         tooltipData.stageIndex
                       )
                     }
+                    handleIsolateClick(series[seriesIndex].name)
                   }}
                 />
               ))}

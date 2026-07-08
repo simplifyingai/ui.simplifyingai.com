@@ -10,6 +10,12 @@ import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartHorizontalGrid } from "../chart-grid"
 import { ChartTooltipContent } from "../chart-tooltip"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
 
 export interface WaterfallDataPoint {
   label: string
@@ -49,11 +55,17 @@ export function WaterfallChart({
   yAxisLabel,
 }: WaterfallChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
+  const svgRef = React.useRef<SVGSVGElement>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  // Calculate cumulative values
+  // Calculate cumulative values against the full (unzoomed) data set so
+  // running totals stay correct regardless of the current zoom window.
   const processedData = React.useMemo(() => {
     let runningTotal = 0
     return data.map((d, i) => {
@@ -69,16 +81,27 @@ export function WaterfallChart({
     })
   }, [data])
 
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
+
+  // Narrow the view to the zoomed index window (slicing the already
+  // cumulative-processed data keeps each bar's true start/end position).
+  const plotData = zoomDomain
+    ? processedData.slice(zoomDomain[0], zoomDomain[1] + 1)
+    : processedData
+
   // Scales
   const xScale = React.useMemo(() => {
     return scaleBand()
-      .domain(data.map((d) => d.label))
+      .domain(plotData.map((d) => d.label))
       .range([0, innerWidth])
       .padding(0.3)
-  }, [data, innerWidth])
+  }, [plotData, innerWidth])
 
   const yScale = React.useMemo(() => {
-    const allValues = processedData.flatMap((d) => [d.start, d.end])
+    const allValues = plotData.flatMap((d) => [d.start, d.end])
     const minVal = Math.min(0, ...allValues)
     const maxVal = Math.max(0, ...allValues)
     const padding = (maxVal - minVal) * 0.1
@@ -86,12 +109,41 @@ export function WaterfallChart({
       .domain([minVal - padding, maxVal + padding])
       .range([innerHeight, 0])
       .nice()
-  }, [processedData, innerHeight])
+  }, [plotData, innerHeight])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // (band scale) and narrows the view to it.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(xScale, x0, x1)
+      const currentOffset = zoomDomain ? zoomDomain[0] : 0
+      setZoomDomain([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   return (
-    <ChartContainer config={config} className={cn("!aspect-auto", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+    <ChartContainer
+      config={config}
+      className={cn("relative !aspect-auto", className)}
+    >
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${width} ${height}`}
+        className="h-full w-full select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
+      >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid */}
           {showGrid && (
             <ChartHorizontalGrid scale={yScale} width={innerWidth} />
@@ -109,7 +161,7 @@ export function WaterfallChart({
           />
 
           {/* Bars and connectors */}
-          {processedData.map((d, index) => {
+          {plotData.map((d, index) => {
             const x = xScale(d.label) ?? 0
             const barWidth = xScale.bandwidth()
             const y1 = yScale(Math.max(d.start, d.end))
@@ -130,10 +182,10 @@ export function WaterfallChart({
                 {/* Connector line */}
                 {showConnector && index > 0 && !d.isTotal && (
                   <line
-                    x1={xScale(processedData[index - 1].label)! + barWidth}
+                    x1={xScale(plotData[index - 1].label)! + barWidth}
                     x2={x}
-                    y1={yScale(processedData[index - 1].end)}
-                    y2={yScale(processedData[index - 1].end)}
+                    y1={yScale(plotData[index - 1].end)}
+                    y2={yScale(plotData[index - 1].end)}
                     stroke={connectorColor}
                     strokeWidth={1}
                     strokeDasharray="3,3"
@@ -192,14 +244,14 @@ export function WaterfallChart({
           style={{
             left:
               margin.left +
-              (xScale(processedData[hoveredIndex].label) ?? 0) +
+              (xScale(plotData[hoveredIndex].label) ?? 0) +
               xScale.bandwidth() / 2,
             top:
               margin.top +
               yScale(
                 Math.max(
-                  processedData[hoveredIndex].start,
-                  processedData[hoveredIndex].end
+                  plotData[hoveredIndex].start,
+                  plotData[hoveredIndex].end
                 )
               ) -
               50,
@@ -207,18 +259,23 @@ export function WaterfallChart({
         >
           <div className="border-border/50 bg-background -translate-x-1/2 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
             <div className="font-medium">
-              {processedData[hoveredIndex].label}
+              {plotData[hoveredIndex].label}
             </div>
             <div className="text-muted-foreground">
-              Change: {processedData[hoveredIndex].value >= 0 ? "+" : ""}
-              {processedData[hoveredIndex].value.toLocaleString()}
+              Change: {plotData[hoveredIndex].value >= 0 ? "+" : ""}
+              {plotData[hoveredIndex].value.toLocaleString()}
             </div>
             <div className="text-muted-foreground">
-              Running Total: {processedData[hoveredIndex].end.toLocaleString()}
+              Running Total: {plotData[hoveredIndex].end.toLocaleString()}
             </div>
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </ChartContainer>
   )
 }
