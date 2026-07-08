@@ -6,6 +6,13 @@ import { area, curveLinear, curveMonotoneX, line } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
+
 export interface RangeDataPoint {
   category: string
   low: number
@@ -89,6 +96,16 @@ export function RangeChart({
   } | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
   const svgRef = React.useRef<SVGSVGElement>(null)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
 
   // Normalize data to series format
   const normalizedSeries: RangeSeries[] = React.useMemo(() => {
@@ -103,6 +120,11 @@ export function RangeChart({
     }
     return []
   }, [data, series, color, colors])
+
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data, series])
 
   // Determine if horizontal orientation
   const isHorizontal = variant === "horizontal"
@@ -125,8 +147,9 @@ export function RangeChart({
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  // Get all unique categories from all series
-  const categories = React.useMemo(() => {
+  // Full, unzoomed category order — establishes the stable index space
+  // that drag-to-zoom windows are computed against.
+  const fullCategories = React.useMemo(() => {
     const allCategories = new Set<string>()
     normalizedSeries.forEach((s) => {
       s.data.forEach((d) => allCategories.add(d.category))
@@ -138,10 +161,28 @@ export function RangeChart({
     return Array.from(allCategories)
   }, [normalizedSeries])
 
+  // Categories currently in view — narrowed to the active zoom window.
+  const categories = zoomDomain
+    ? fullCategories.slice(zoomDomain[0], zoomDomain[1] + 1)
+    : fullCategories
+
+  // Apply the active zoom window (if any) by filtering each series' data
+  // down to just the categories currently in view. Legend isolate is kept
+  // separate — it only affects which series are rendered, not this data.
+  const plotSeries = React.useMemo((): RangeSeries[] => {
+    if (!zoomDomain) return normalizedSeries
+    const selected = new Set(categories)
+    return normalizedSeries.map((s) => ({
+      ...s,
+      data: s.data.filter((d) => selected.has(d.category)),
+    }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [normalizedSeries, zoomDomain, categories])
+
   // Value extent calculation
   const valueExtent = React.useMemo(() => {
     const allValues: number[] = []
-    normalizedSeries.forEach((s) => {
+    plotSeries.forEach((s) => {
       s.data.forEach((d) => {
         allValues.push(d.low, d.high)
         if (d.mid !== undefined) allValues.push(d.mid)
@@ -153,7 +194,7 @@ export function RangeChart({
     const max = Math.max(...allValues)
     const padding = (max - min) * 0.1 || 10
     return { min: Math.min(0, min - padding), max: max + padding }
-  }, [normalizedSeries])
+  }, [plotSeries])
 
   // Band scale for bars/horizontal variants
   const bandScale = React.useMemo(() => {
@@ -208,7 +249,7 @@ export function RangeChart({
   const seriesPaths = React.useMemo(() => {
     if (isBarsVariant) return []
 
-    return normalizedSeries.map((s) => {
+    return plotSeries.map((s) => {
       // Split data into regular and forecast sections
       const regularData = s.data.filter((d) => !d.forecast)
       const forecastData = s.data.filter((d) => d.forecast)
@@ -252,7 +293,35 @@ export function RangeChart({
             : "",
       }
     })
-  }, [normalizedSeries, pointScale, valueScale, curveType, isBarsVariant])
+  }, [plotSeries, pointScale, valueScale, curveType, isBarsVariant])
+
+  // A band scale over the categories currently in view — used purely to
+  // translate a pixel drag range into a data-index window. Mirrors the
+  // padding of whichever scale (`bandScale` or `pointScale`) is actually
+  // driving the rendered layout for the current variant.
+  const zoomIndexScale = React.useMemo(() => {
+    return scaleBand<string>()
+      .domain(categories)
+      .range([0, innerWidth])
+      .padding(isBarsVariant ? 0.3 : 0.1)
+  }, [categories, innerWidth, isBarsVariant])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // and narrows the view to it. Disabled for the horizontal variant since
+  // its categorical axis runs vertically — a horizontal drag there
+  // wouldn't correspond to a category window.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    disabled: isHorizontal,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(zoomIndexScale, x0, x1)
+      const currentOffset = zoomDomain ? zoomDomain[0] : 0
+      setZoomDomain([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return
@@ -268,7 +337,8 @@ export function RangeChart({
     let closestDist = Infinity
 
     normalizedSeries.forEach((s, si) => {
-      s.data.forEach((d, pi) => {
+      if (!isSeriesVisible(s.name)) return
+      plotSeries[si].data.forEach((d, pi) => {
         let px: number, py: number
         const catPos = getCategoryPos(d.category)
         const bandwidth = getBandwidth()
@@ -300,7 +370,7 @@ export function RangeChart({
     })
 
     if (closestSeriesIndex >= 0 && closestPointIndex >= 0) {
-      const s = normalizedSeries[closestSeriesIndex]
+      const s = plotSeries[closestSeriesIndex]
       const d = s.data[closestPointIndex]
       let tooltipX: number, tooltipY: number
       const catPos = getCategoryPos(d.category)
@@ -331,6 +401,16 @@ export function RangeChart({
     setHoveredPoint(null)
   }
 
+  const handleSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseMove(e)
+    zoom.handlers.onMouseMove(e)
+  }
+
+  const handleSvgMouseLeave = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseLeave()
+    zoom.handlers.onMouseLeave(e)
+  }
+
   // Error bar cap size
   const errorBarCapSize = 6
 
@@ -349,25 +429,44 @@ export function RangeChart({
 
   return (
     <div className={cn("relative w-full", className)}>
-      {/* Legend */}
+      {/* Legend — click an item to isolate that series, click again to
+          restore all */}
       <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-        {normalizedSeries.map((s, i) => (
-          <div key={s.name} className="flex items-center gap-2">
-            <div
-              className="h-3 w-3 rounded-full"
-              style={{ backgroundColor: s.color }}
-            />
-            <span className="text-muted-foreground text-sm">{s.name}</span>
-          </div>
-        ))}
+        {normalizedSeries.map((s, i) => {
+          const isActive = isSeriesVisible(s.name)
+          return (
+            <button
+              key={s.name}
+              type="button"
+              aria-pressed={!isActive}
+              onClick={() =>
+                setActiveSeries((prev) => (prev === s.name ? null : s.name))
+              }
+              className={cn(
+                "flex items-center gap-2 text-sm transition-opacity",
+                normalizedSeries.length > 1 && "cursor-pointer hover:opacity-80",
+                !isActive && "opacity-40"
+              )}
+            >
+              <div
+                className="h-3 w-3 shrink-0 rounded-full"
+                style={{ backgroundColor: s.color }}
+              />
+              <span className="text-muted-foreground">{s.name}</span>
+            </button>
+          )
+        })}
       </div>
 
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full overflow-visible"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        className="h-auto w-full overflow-visible select-none"
+        onMouseMove={handleSvgMouseMove}
+        onMouseLeave={handleSvgMouseLeave}
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <defs>
           {/* Gradient definitions for each series */}
@@ -395,6 +494,9 @@ export function RangeChart({
         </defs>
 
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid lines */}
           {showGrid && isHorizontal
             ? valueTicks.map((tick) => (
@@ -448,6 +550,7 @@ export function RangeChart({
 
           {/* Render each series */}
           {normalizedSeries.map((s, seriesIndex) => {
+            if (!isSeriesVisible(s.name)) return null
             const paths = seriesPaths[seriesIndex]
             const isSeriesHovered = hoveredPoint?.seriesIndex === seriesIndex
             const opacity = hoveredPoint !== null && !isSeriesHovered ? 0.3 : 1
@@ -504,7 +607,7 @@ export function RangeChart({
 
                     {/* Data point markers for area */}
                     {showMarkers &&
-                      s.data.map((d, pointIndex) => {
+                      plotSeries[seriesIndex].data.map((d, pointIndex) => {
                         const x = pointScale(d.category) ?? 0
                         const y = valueScale(d.mid ?? (d.low + d.high) / 2)
                         const isPointHovered =
@@ -530,7 +633,7 @@ export function RangeChart({
 
                 {/* BARS/HORIZONTAL VARIANT: Render discrete bars */}
                 {isBarsVariant &&
-                  s.data.map((d, pointIndex) => {
+                  plotSeries[seriesIndex].data.map((d, pointIndex) => {
                     const catPos = getCategoryPos(d.category)
                     const isPointHovered =
                       hoveredPoint?.seriesIndex === seriesIndex &&
@@ -740,7 +843,7 @@ export function RangeChart({
           }}
         >
           {(() => {
-            const s = normalizedSeries[hoveredPoint.seriesIndex]
+            const s = plotSeries[hoveredPoint.seriesIndex]
             const d = s.data[hoveredPoint.pointIndex]
             const mid = d.mid ?? (d.low + d.high) / 2
             return (
@@ -771,6 +874,11 @@ export function RangeChart({
           })()}
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }

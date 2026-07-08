@@ -103,6 +103,9 @@ export function DonutChart({
     data: DonutChartDataPoint
     index: number
   } | null>(null)
+  // Legend/slice click-to-isolate: null shows all segments, a label shows
+  // only that one (others heavily dimmed). Click again to restore all.
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
 
   const containerRef = React.useRef<HTMLDivElement>(null)
   const gradientId = React.useId().replace(/:/g, "")
@@ -136,6 +139,15 @@ export function DonutChart({
 
   // Active index (controlled or hovered)
   const activeIndex = controlledActiveIndex ?? hoveredIndex
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
+
+  const handleIsolateClick = (label: string) => {
+    setActiveSeries((prev) => (prev === label ? null : label))
+  }
 
   // Create pie generator
   const pieGenerator = React.useMemo(() => {
@@ -274,6 +286,7 @@ export function DonutChart({
                 variant === "gradient"
                   ? `url(#gradient-${gradientId}-${index})`
                   : color
+              const isVisible = isSeriesVisible(d.label)
 
               return (
                 <g key={index}>
@@ -303,7 +316,8 @@ export function DonutChart({
                     strokeWidth={variant === "separated" ? 3 : 0}
                     className={cn(
                       "cursor-pointer transition-all duration-200",
-                      activeIndex !== null && !isActive && "opacity-50"
+                      activeIndex !== null && !isActive && "opacity-50",
+                      !isVisible && "opacity-15"
                     )}
                     style={{
                       filter: isActive ? "brightness(1.1)" : undefined,
@@ -314,11 +328,15 @@ export function DonutChart({
                       setHoveredIndex(null)
                       setTooltipData(null)
                     }}
-                    onClick={() => onSegmentClick?.(d, index)}
+                    onClick={() => {
+                      onSegmentClick?.(d, index)
+                      handleIsolateClick(d.label)
+                    }}
                   />
 
                   {/* Inline labels for large segments */}
-                  {showLabels &&
+                  {isVisible &&
+                    showLabels &&
                     arcData.endAngle - arcData.startAngle >= minLabelAngle && (
                       <text
                         transform={`translate(${arcGenerator.centroid(arcData)})`}
@@ -333,7 +351,7 @@ export function DonutChart({
                     )}
 
                   {/* Outside labels with lines for small segments */}
-                  {shouldShowOutsideLabel(arcData) && (
+                  {isVisible && shouldShowOutsideLabel(arcData) && (
                     <g className="pointer-events-none">
                       <polyline
                         points={(() => {
@@ -438,20 +456,27 @@ export function DonutChart({
           </div>
         )}
 
-        {/* Legend */}
+        {/* Legend — click an item to isolate that segment, click again to
+            restore all */}
         {showLegend && (
           <div className="mt-4 flex flex-wrap justify-center gap-4">
             {data.map((d, i) => (
               <button
                 key={i}
+                type="button"
+                aria-pressed={!isSeriesVisible(d.label)}
                 className={cn(
                   "flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-all",
                   "hover:bg-muted/50",
-                  activeIndex === i && "bg-muted"
+                  activeIndex === i && "bg-muted",
+                  !isSeriesVisible(d.label) && "opacity-40"
                 )}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                onClick={() => onSegmentClick?.(d, i)}
+                onClick={() => {
+                  onSegmentClick?.(d, i)
+                  handleIsolateClick(d.label)
+                }}
               >
                 <div
                   className="h-3 w-3 rounded-full"

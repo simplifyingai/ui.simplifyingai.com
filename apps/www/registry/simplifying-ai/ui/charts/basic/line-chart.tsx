@@ -20,6 +20,12 @@ import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartHorizontalGrid, ChartVerticalGrid } from "../chart-grid"
 import { ChartLegend, type LegendItem } from "../chart-legend"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
 
 // ============================================================================
 // Types & Interfaces
@@ -172,11 +178,17 @@ export function LineChart({
   const [hoveredPoint, setHoveredPoint] = React.useState<{
     seriesIndex: number
     pointIndex: number
+    point: LineChartDataPoint
     x: number
     y: number
   } | null>(null)
   const [hoveredSeries, setHoveredSeries] = React.useState<string | null>(null)
   const [crosshairX, setCrosshairX] = React.useState<number | null>(null)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   // Variant-specific defaults
   const getVariantDefaults = () => {
@@ -264,8 +276,42 @@ export function LineChart({
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  // Flatten all data points for scales
-  const allPoints = data.flatMap((series) => series.data)
+  // Full (unzoomed) points establish the stable category order and index
+  // range that drag-to-zoom windows are computed against.
+  const fullPoints = data.flatMap((series) => series.data)
+  const fullCategories = React.useMemo(
+    () => [...new Set(fullPoints.map((d) => String(d.x)))],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data]
+  )
+
+  // Apply the active zoom window (if any) by filtering each series down
+  // to the selected x-range — for xType="category" the range is a pair of
+  // indices into `fullCategories`, otherwise it's raw x values.
+  const plotData = React.useMemo((): LineChartSeries[] => {
+    if (!zoomDomain) return data
+    const [lo, hi] = zoomDomain
+    if (xType === "category") {
+      const selected = new Set(fullCategories.slice(lo, hi + 1))
+      return data.map((series) => ({
+        ...series,
+        data: series.data.filter((d) => selected.has(String(d.x))),
+      }))
+    }
+    return data.map((series) => ({
+      ...series,
+      data: series.data.filter((d) => {
+        const v =
+          xType === "time"
+            ? new Date(d.x as string | Date).getTime()
+            : (d.x as number)
+        return v >= lo && v <= hi
+      }),
+    }))
+  }, [data, zoomDomain, xType, fullCategories])
+
+  // Flatten currently-visible data points for scales
+  const allPoints = plotData.flatMap((series) => series.data)
 
   // X Scale
   const xScale = React.useMemo(() => {
@@ -287,9 +333,11 @@ export function LineChart({
         .range([0, innerWidth])
     }
     // Category
-    const categories = [...new Set(allPoints.map((d) => String(d.x)))]
+    const categories = zoomDomain
+      ? fullCategories.slice(zoomDomain[0], zoomDomain[1] + 1)
+      : fullCategories
     return scaleBand().domain(categories).range([0, innerWidth]).padding(0)
-  }, [allPoints, innerWidth, xType])
+  }, [allPoints, innerWidth, xType, zoomDomain, fullCategories])
 
   // Y Scale
   const yScale = React.useMemo(() => {
@@ -327,6 +375,49 @@ export function LineChart({
     const bandScale = xScale as ReturnType<typeof scaleBand<string>>
     return (bandScale(String(point.x)) ?? 0) + bandScale.bandwidth() / 2
   }
+
+  // Drag-to-zoom: converts the pixel drag range into a data-domain range
+  // and narrows the view to it. Re-zooming while already zoomed narrows
+  // further (inverted against the current, already-zoomed scale).
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    disabled: variant === "sparkline",
+    onZoom: ({ x0, x1 }) => {
+      if (xType === "category") {
+        const [start, end] = getBandScaleIndexRange(
+          xScale as ReturnType<typeof scaleBand<string>>,
+          x0,
+          x1
+        )
+        const currentOffset = zoomDomain ? zoomDomain[0] : 0
+        setZoomDomain([currentOffset + start, currentOffset + end])
+        return
+      }
+      const scale = xScale as ReturnType<
+        typeof scaleLinear<number, number> | typeof scaleTime<number, number>
+      >
+      const lo = scale.invert(x0)
+      const hi = scale.invert(x1)
+      const loVal = lo instanceof Date ? lo.getTime() : (lo as number)
+      const hiVal = hi instanceof Date ? hi.getTime() : (hi as number)
+      const hasPointsInRange = allPoints.some((d) => {
+        const v =
+          xType === "time"
+            ? new Date(d.x as string | Date).getTime()
+            : (d.x as number)
+        return v >= loVal && v <= hiVal
+      })
+      if (hasPointsInRange) setZoomDomain([loVal, hiVal])
+    },
+    onReset: () => setZoomDomain(null),
+  })
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
 
   // Generate line path
   const lineFn = line<LineChartDataPoint>()
@@ -385,16 +476,38 @@ export function LineChart({
     setHoveredPoint(null)
   }
 
-  // Find closest point to crosshair
+  const handleSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseMove(e)
+    zoom.handlers.onMouseMove(e)
+  }
+
+  const handleSvgMouseLeave = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseLeave()
+    zoom.handlers.onMouseLeave(e)
+  }
+
+  // Find closest point to crosshair (skips series that are empty in the
+  // current zoom window or hidden via legend isolate; keeps the array
+  // index-aligned with `data`/`plotData` so callers can index by
+  // seriesIndex directly)
   const getClosestPoints = React.useCallback(() => {
     if (crosshairX === null) return null
 
     return data.map((series, seriesIndex) => {
-      let closestPoint = series.data[0]
+      const plotSeries = plotData[seriesIndex]
+      if (
+        !plotSeries ||
+        plotSeries.data.length === 0 ||
+        !isSeriesVisible(series.name)
+      ) {
+        return null
+      }
+
+      let closestPoint = plotSeries.data[0]
       let closestDist = Infinity
       let closestIdx = 0
 
-      series.data.forEach((point, idx) => {
+      plotSeries.data.forEach((point, idx) => {
         const dist = Math.abs(getX(point) - crosshairX)
         if (dist < closestDist) {
           closestDist = dist
@@ -405,7 +518,7 @@ export function LineChart({
 
       return { point: closestPoint, index: closestIdx, seriesIndex }
     })
-  }, [crosshairX, data, getX])
+  }, [crosshairX, data, plotData, getX, isSeriesVisible])
 
   const closestPoints = getClosestPoints()
 
@@ -429,9 +542,12 @@ export function LineChart({
       <svg
         ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-full w-full flex-1"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        className="h-full w-full flex-1 select-none"
+        onMouseMove={handleSvgMouseMove}
+        onMouseLeave={handleSvgMouseLeave}
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         {/* Gradient definitions for area fill */}
         <defs>
@@ -464,6 +580,12 @@ export function LineChart({
             height={innerHeight}
             fill="transparent"
             className="cursor-crosshair"
+          />
+
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect
+            range={zoom.dragRange}
+            height={innerHeight}
           />
 
           {/* Grid */}
@@ -500,13 +622,15 @@ export function LineChart({
           {/* Areas */}
           {showArea &&
             data.map((series, seriesIndex) => {
+              if (!isSeriesVisible(series.name)) return null
+              const plotSeries = plotData[seriesIndex]
               const isHovered =
                 hoveredSeries === null || hoveredSeries === series.name
 
               return (
                 <path
                   key={`area-${series.name}`}
-                  d={areaFn(series.data) ?? ""}
+                  d={areaFn(plotSeries.data) ?? ""}
                   fill={`url(#area-gradient-${seriesIndex})`}
                   className={cn(
                     "transition-opacity duration-200",
@@ -518,6 +642,8 @@ export function LineChart({
 
           {/* Lines */}
           {data.map((series, seriesIndex) => {
+            if (!isSeriesVisible(series.name)) return null
+            const plotSeries = plotData[seriesIndex]
             const seriesColor = getSeriesColor(series, seriesIndex)
             const isHovered =
               hoveredSeries === null || hoveredSeries === series.name
@@ -526,7 +652,7 @@ export function LineChart({
               <g key={series.name}>
                 {/* Invisible hit area for better mouse interaction */}
                 <path
-                  d={lineFn(series.data) ?? ""}
+                  d={lineFn(plotSeries.data) ?? ""}
                   fill="none"
                   stroke="transparent"
                   strokeWidth={20}
@@ -535,7 +661,7 @@ export function LineChart({
                 />
                 {/* Visible Line */}
                 <path
-                  d={lineFn(series.data) ?? ""}
+                  d={lineFn(plotSeries.data) ?? ""}
                   fill="none"
                   stroke={seriesColor}
                   strokeWidth={series.strokeWidth ?? strokeWidth}
@@ -552,7 +678,7 @@ export function LineChart({
 
                 {/* Dots */}
                 {(series.showDots ?? showDots) &&
-                  series.data.map((point, pointIndex) => (
+                  plotSeries.data.map((point, pointIndex) => (
                     <circle
                       key={pointIndex}
                       cx={getX(point)}
@@ -572,6 +698,7 @@ export function LineChart({
                         setHoveredPoint({
                           seriesIndex,
                           pointIndex,
+                          point,
                           x: getX(point),
                           y: yScale(point.y),
                         })
@@ -582,15 +709,17 @@ export function LineChart({
 
                 {/* Data Labels */}
                 {showDataLabels &&
-                  series.data.map((point, pointIndex) => {
+                  plotSeries.data.map((point, pointIndex) => {
                     const x = getX(point)
                     const y = yScale(point.y)
                     // Position label above or below based on surrounding points
                     const prevY =
-                      pointIndex > 0 ? yScale(series.data[pointIndex - 1].y) : y
+                      pointIndex > 0
+                        ? yScale(plotSeries.data[pointIndex - 1].y)
+                        : y
                     const nextY =
-                      pointIndex < series.data.length - 1
-                        ? yScale(series.data[pointIndex + 1].y)
+                      pointIndex < plotSeries.data.length - 1
+                        ? yScale(plotSeries.data[pointIndex + 1].y)
                         : y
                     const isLocalMin = y > prevY && y > nextY
                     const labelY = isLocalMin ? y + 20 : y - 12
@@ -610,10 +739,10 @@ export function LineChart({
                   })}
 
                 {/* Crosshair dots */}
-                {showCrosshair && closestPoints && (
+                {showCrosshair && closestPoints?.[seriesIndex] && (
                   <circle
-                    cx={getX(closestPoints[seriesIndex].point)}
-                    cy={yScale(closestPoints[seriesIndex].point.y)}
+                    cx={getX(closestPoints[seriesIndex]!.point)}
+                    cy={yScale(closestPoints[seriesIndex]!.point.y)}
                     r={5}
                     fill="var(--background)"
                     stroke={seriesColor}
@@ -660,23 +789,36 @@ export function LineChart({
           }}
         >
           <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-xs shadow-xl">
-            <div className="text-muted-foreground mb-1.5 font-medium">
-              {xType === "time"
-                ? formatDateAxis(
-                    new Date(closestPoints[0].point.x as string | Date)
-                  )
-                : String(closestPoints[0].point.x)}
-            </div>
-            {closestPoints.map((cp, idx) => (
-              <div key={idx} className="flex items-center gap-2">
-                <div
-                  className="h-2.5 w-2.5 rounded-full"
-                  style={{ backgroundColor: getSeriesColor(data[idx], idx) }}
-                />
-                <span className="text-muted-foreground">{data[idx].name}:</span>
-                <span className="font-medium">{formatYValue(cp.point.y)}</span>
-              </div>
-            ))}
+            {(() => {
+              const headPoint = closestPoints.find((cp) => cp !== null)?.point
+              if (!headPoint) return null
+              return (
+                <div className="text-muted-foreground mb-1.5 font-medium">
+                  {xType === "time"
+                    ? formatDateAxis(new Date(headPoint.x as string | Date))
+                    : String(headPoint.x)}
+                </div>
+              )
+            })()}
+            {closestPoints.map(
+              (cp, idx) =>
+                cp && (
+                  <div key={idx} className="flex items-center gap-2">
+                    <div
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{
+                        backgroundColor: getSeriesColor(data[idx], idx),
+                      }}
+                    />
+                    <span className="text-muted-foreground">
+                      {data[idx].name}:
+                    </span>
+                    <span className="font-medium">
+                      {formatYValue(cp.point.y)}
+                    </span>
+                  </div>
+                )
+            )}
           </div>
         </div>
       )}
@@ -705,23 +847,32 @@ export function LineChart({
               </div>
             )}
             <div className="text-muted-foreground">
-              {String(
-                data[hoveredPoint.seriesIndex].data[hoveredPoint.pointIndex].x
-              )}
+              {String(hoveredPoint.point.x)}
             </div>
             <div className="font-medium">
-              {formatYValue(
-                data[hoveredPoint.seriesIndex].data[hoveredPoint.pointIndex].y
-              )}
+              {formatYValue(hoveredPoint.point.y)}
             </div>
           </div>
         </div>
       )}
 
-      {/* Legend */}
+      {/* Legend — click an item to isolate that series, click again to
+          restore all */}
       {showLegend && data.length > 1 && (
-        <ChartLegend items={legendItems} onItemHover={setHoveredSeries} />
+        <ChartLegend
+          items={legendItems}
+          onItemHover={setHoveredSeries}
+          onItemClick={(name) =>
+            setActiveSeries((prev) => (prev === name ? null : name))
+          }
+          isItemActive={isSeriesVisible}
+        />
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </ChartContainer>
   )
 }

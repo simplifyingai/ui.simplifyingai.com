@@ -119,6 +119,10 @@ export function PieChart({
   const [internalSelectedKey, setInternalSelectedKey] = React.useState(
     selectedKey ?? selectionOptions?.[0]?.key ?? ""
   )
+  // Legend/slice click-to-isolate: null shows all segments, a label shows
+  // only that one (others dimmed). Independent of the "interactive" variant's
+  // selectedKey mechanism, which is always-one-active with no "show all" state.
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
 
   // Variant-specific defaults
   const getVariantDefaults = () => {
@@ -216,6 +220,22 @@ export function PieChart({
       ? (activeIndexProp ?? internalActiveIndex)
       : hoveredIndex
 
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
+
+  // Index of the isolated segment, used as a fallback for center-text
+  // display when nothing is actively hovered. Doesn't apply to
+  // "donut-active"/"interactive" variants, which manage their own
+  // always-one-active index.
+  const isolatedIndex = React.useMemo(() => {
+    if (variant === "donut-active" || variant === "interactive") return null
+    if (activeSeries === null) return null
+    const idx = data.findIndex((d) => d.label === activeSeries)
+    return idx >= 0 ? idx : null
+  }, [variant, activeSeries, data])
+
   // Create pie generator
   const pieGenerator = React.useMemo(() => {
     const gen = pie<PieChartDataPoint>()
@@ -297,23 +317,25 @@ export function PieChart({
   // Center content for donut-text variant
   const displayedCenterValue = React.useMemo(() => {
     if (variant === "donut-text" || variant === "interactive") {
-      if (activeIndex !== null) {
-        return data[activeIndex]?.value.toLocaleString() ?? ""
+      const idx = activeIndex ?? isolatedIndex
+      if (idx !== null) {
+        return data[idx]?.value.toLocaleString() ?? ""
       }
       return centerValue ?? (showTotal ? total.toLocaleString() : null)
     }
     return null
-  }, [variant, activeIndex, data, centerValue, showTotal, total])
+  }, [variant, activeIndex, isolatedIndex, data, centerValue, showTotal, total])
 
   const displayedCenterLabel = React.useMemo(() => {
     if (variant === "donut-text" || variant === "interactive") {
-      if (activeIndex !== null) {
-        return data[activeIndex]?.label ?? ""
+      const idx = activeIndex ?? isolatedIndex
+      if (idx !== null) {
+        return data[idx]?.label ?? ""
       }
       return centerLabel ?? (showTotal ? "Total" : null)
     }
     return null
-  }, [variant, activeIndex, data, centerLabel, showTotal])
+  }, [variant, activeIndex, isolatedIndex, data, centerLabel, showTotal])
 
   // Handle segment interaction
   const handleSegmentEnter = (index: number) => {
@@ -327,16 +349,43 @@ export function PieChart({
     setHoveredIndex(null)
   }
 
-  const handleSegmentClick = (d: PieChartDataPoint, index: number) => {
-    onSegmentClick?.(d, index)
+  // Isolate a segment by label. The "interactive" variant already has its
+  // own always-one-active selection mechanism (selectionOptions/selectedKey)
+  // driven by a dropdown — reuse that state instead of introducing a second,
+  // parallel isolate mechanism. Every other variant uses the standard
+  // toggle-to-isolate/click-again-to-restore activeSeries pattern.
+  const applyIsolate = (label: string) => {
     if (variant === "interactive" && selectionOptions) {
       const option = selectionOptions.find(
-        (o) => o.label.toLowerCase() === d.label.toLowerCase()
+        (o) => o.label.toLowerCase() === label.toLowerCase()
       )
       if (option) {
         handleSelectionChange(option.key)
       }
+      return
     }
+    setActiveSeries((prev) => (prev === label ? null : label))
+  }
+
+  const handleSegmentClick = (d: PieChartDataPoint, index: number) => {
+    onSegmentClick?.(d, index)
+    applyIsolate(d.label)
+  }
+
+  // Drives the legend's onItemClick — shares the same isolate state as
+  // clicking a slice directly (via applyIsolate above).
+  const handleLegendClick = (name: string) => {
+    applyIsolate(name)
+  }
+
+  const isLegendItemActive = (name: string) => {
+    if (variant === "interactive" && selectionOptions) {
+      const option = selectionOptions.find(
+        (o) => o.label.toLowerCase() === name.toLowerCase()
+      )
+      return option ? option.key === effectiveSelectedKey : true
+    }
+    return isSeriesVisible(name)
   }
 
   return (
@@ -373,12 +422,20 @@ export function PieChart({
               const isActive = activeIndex === index
               const isHovered = hoveredIndex === index
               const color = getColor(data[index], index)
+              // The "interactive" variant renders every segment regardless
+              // of isolate state (it has its own always-one-active spotlight
+              // look); other variants heavily dim segments isolated out via
+              // the legend/slice click-to-isolate feature.
+              const isVisible =
+                variant === "interactive" ||
+                isSeriesVisible(data[index].label)
               const shouldExpand =
-                (variant === "donut-active" && isActive) ||
-                (variant === "interactive" && isActive) ||
-                (variant !== "donut-active" &&
-                  variant !== "interactive" &&
-                  isHovered)
+                isVisible &&
+                ((variant === "donut-active" && isActive) ||
+                  (variant === "interactive" && isActive) ||
+                  (variant !== "donut-active" &&
+                    variant !== "interactive" &&
+                    isHovered))
 
               return (
                 <g key={index}>
@@ -397,7 +454,8 @@ export function PieChart({
                       (activeIndex !== null || hoveredIndex !== null) &&
                         !isActive &&
                         !isHovered &&
-                        "opacity-50"
+                        "opacity-50",
+                      !isVisible && "opacity-15"
                     )}
                     onMouseEnter={() => handleSegmentEnter(index)}
                     onMouseLeave={handleSegmentLeave}
@@ -414,7 +472,7 @@ export function PieChart({
                   )}
 
                   {/* Internal labels (for label variant) */}
-                  {showLabels && variant === "label" && (
+                  {showLabels && variant === "label" && isVisible && (
                     <text
                       transform={`translate(${labelArcGenerator.centroid(arcData)})`}
                       textAnchor="middle"
@@ -426,7 +484,7 @@ export function PieChart({
                   )}
 
                   {/* External labels with lines (for label variant) */}
-                  {variant === "label" && (
+                  {variant === "label" && isVisible && (
                     <g className="pointer-events-none">
                       {/* Label line */}
                       <polyline
@@ -521,7 +579,9 @@ export function PieChart({
         )}
       </div>
 
-      {/* Legend */}
+      {/* Legend — click an item to isolate that segment, click again to
+          restore all (or, for the "interactive" variant, drives its own
+          selectedKey picker) */}
       {showLegend && (
         <ChartLegend
           items={legendItems}
@@ -533,6 +593,8 @@ export function PieChart({
               handleSegmentLeave()
             }
           }}
+          onItemClick={handleLegendClick}
+          isItemActive={isLegendItemActive}
         />
       )}
     </ChartContainer>
