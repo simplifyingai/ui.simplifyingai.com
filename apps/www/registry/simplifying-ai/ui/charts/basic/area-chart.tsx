@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   ComposedChart,
   Line,
+  ReferenceArea,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -14,6 +15,57 @@ import {
 } from "recharts"
 
 import { cn } from "@/lib/utils"
+import { ChartZoomResetButton } from "../chart-zoom"
+
+/** Shared drag-to-zoom state machine for Recharts category-axis charts:
+ * drag across categories to zoom into that range, "Reset zoom" to return. */
+function useCategoryZoom<T extends { label: string }>(data: T[]) {
+  const [refAreaLeft, setRefAreaLeft] = React.useState<string | null>(null)
+  const [refAreaRight, setRefAreaRight] = React.useState<string | null>(null)
+  const [zoomedData, setZoomedData] = React.useState<T[] | null>(null)
+
+  React.useEffect(() => {
+    setZoomedData(null)
+  }, [data])
+
+  const displayData = zoomedData ?? data
+
+  const onMouseDown = (state: { activeLabel?: string } | null) => {
+    if (state?.activeLabel) setRefAreaLeft(state.activeLabel)
+  }
+
+  const onMouseMove = (state: { activeLabel?: string } | null) => {
+    if (refAreaLeft && state?.activeLabel) setRefAreaRight(state.activeLabel)
+  }
+
+  const onMouseUp = () => {
+    if (!refAreaLeft || !refAreaRight || refAreaLeft === refAreaRight) {
+      setRefAreaLeft(null)
+      setRefAreaRight(null)
+      return
+    }
+    let leftIdx = displayData.findIndex((d) => d.label === refAreaLeft)
+    let rightIdx = displayData.findIndex((d) => d.label === refAreaRight)
+    if (leftIdx === -1 || rightIdx === -1) {
+      setRefAreaLeft(null)
+      setRefAreaRight(null)
+      return
+    }
+    if (leftIdx > rightIdx) [leftIdx, rightIdx] = [rightIdx, leftIdx]
+    setZoomedData(displayData.slice(leftIdx, rightIdx + 1))
+    setRefAreaLeft(null)
+    setRefAreaRight(null)
+  }
+
+  return {
+    displayData,
+    isZoomed: zoomedData !== null,
+    refAreaLeft,
+    refAreaRight,
+    reset: () => setZoomedData(null),
+    handlers: { onMouseDown, onMouseMove, onMouseUp },
+  }
+}
 
 export interface AreaChartDataPoint {
   label: string
@@ -68,11 +120,13 @@ export function AreaChart({
 }: AreaChartProps) {
   const gradientId = React.useId().replace(/:/g, "")
   const patternId = React.useId().replace(/:/g, "")
+  const zoom = useCategoryZoom(data)
 
-  // Calculate domain from data if not provided
+  // Calculate domain from the currently-visible (possibly zoomed) data if
+  // not provided, so zooming auto-fits the Y-axis to the selected range.
   const calculatedDomain = React.useMemo(() => {
     if (yAxisDomain) return yAxisDomain
-    const values = data.map((d) => d.value)
+    const values = zoom.displayData.map((d) => d.value)
     const min = Math.min(...values)
     const max = Math.max(...values)
     const padding = (max - min) * 0.1
@@ -80,7 +134,7 @@ export function AreaChart({
       Math.max(0, Math.floor((min - padding) / 10) * 10),
       Math.ceil((max + padding) / 10) * 10,
     ] as [number, number]
-  }, [data, yAxisDomain])
+  }, [zoom.displayData, yAxisDomain])
 
   // Calculate ticks if not provided
   const calculatedTicks = React.useMemo(() => {
@@ -91,16 +145,19 @@ export function AreaChart({
   }, [calculatedDomain, yAxisTicks])
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       <ResponsiveContainer width="100%" aspect={aspectRatio}>
         <ComposedChart
-          data={data}
+          data={zoom.displayData}
           margin={{
             top: 20,
             right: 30,
             left: 10,
             bottom: xAxisAngle === 0 ? 20 : 60,
           }}
+          onMouseDown={zoom.handlers.onMouseDown}
+          onMouseMove={zoom.handlers.onMouseMove}
+          onMouseUp={zoom.handlers.onMouseUp}
         >
           <defs>
             {/* Gradient fill - stronger fade */}
@@ -275,8 +332,20 @@ export function AreaChart({
             animationDuration={1800}
             animationEasing="ease-out"
           />
+
+          {/* Selection rectangle while dragging to zoom */}
+          {zoom.refAreaLeft && zoom.refAreaRight && (
+            <ReferenceArea
+              x1={zoom.refAreaLeft}
+              x2={zoom.refAreaRight}
+              strokeOpacity={0.3}
+              fill="var(--foreground)"
+              fillOpacity={0.08}
+            />
+          )}
         </ComposedChart>
       </ResponsiveContainer>
+      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
     </div>
   )
 }
@@ -351,12 +420,18 @@ export function MultiAreaChart({
   gradientOpacity = [0.6, 0.1],
 }: MultiAreaChartProps) {
   const baseId = React.useId().replace(/:/g, "")
+  const zoom = useCategoryZoom(data)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  const isSeriesVisible = (name: string) =>
+    activeSeries === null || activeSeries === name
+  const visibleSeries = series.filter((s) => isSeriesVisible(s.name))
 
-  // Calculate domain from all series data
+  // Calculate domain from the currently-visible (possibly zoomed,
+  // possibly isolated-to-one-series) data, so zoom/isolate auto-fit Y.
   const calculatedDomain = React.useMemo(() => {
     if (yAxisDomain) return yAxisDomain
-    const allValues = data.flatMap((d) =>
-      series.map((s) => (d[s.dataKey] as number) || 0)
+    const allValues = zoom.displayData.flatMap((d) =>
+      visibleSeries.map((s) => (d[s.dataKey] as number) || 0)
     )
     const min = Math.min(...allValues)
     const max = Math.max(...allValues)
@@ -365,7 +440,7 @@ export function MultiAreaChart({
       Math.max(0, Math.floor((min - padding) / 10) * 10),
       Math.ceil((max + padding) / 10) * 10,
     ] as [number, number]
-  }, [data, series, yAxisDomain])
+  }, [zoom.displayData, visibleSeries, yAxisDomain])
 
   const calculatedTicks = React.useMemo(() => {
     if (yAxisTicks) return yAxisTicks
@@ -375,16 +450,19 @@ export function MultiAreaChart({
   }, [calculatedDomain, yAxisTicks])
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       <ResponsiveContainer width="100%" aspect={aspectRatio}>
         <ComposedChart
-          data={data}
+          data={zoom.displayData}
           margin={{
             top: 20,
             right: 30,
             left: 10,
             bottom: xAxisAngle === 0 ? 20 : 60,
           }}
+          onMouseDown={zoom.handlers.onMouseDown}
+          onMouseMove={zoom.handlers.onMouseMove}
+          onMouseUp={zoom.handlers.onMouseUp}
         >
           <defs>
             {series.map((s, i) => (
@@ -516,8 +594,19 @@ export function MultiAreaChart({
             />
           )}
 
+          {/* Selection rectangle while dragging to zoom */}
+          {zoom.refAreaLeft && zoom.refAreaRight && (
+            <ReferenceArea
+              x1={zoom.refAreaLeft}
+              x2={zoom.refAreaRight}
+              strokeOpacity={0.3}
+              fill="var(--foreground)"
+              fillOpacity={0.08}
+            />
+          )}
+
           {/* Render areas in reverse order so first series is on top */}
-          {[...series].reverse().map((s, i) => (
+          {[...visibleSeries].reverse().map((s, i) => (
             <Area
               key={`${s.dataKey}-fill`}
               type={curveType}
@@ -525,7 +614,7 @@ export function MultiAreaChart({
               name={s.name}
               stroke={s.color}
               strokeWidth={strokeWidth}
-              fill={`url(#gradient-${baseId}-${series.length - 1 - i})`}
+              fill={`url(#gradient-${baseId}-${series.indexOf(s)})`}
               fillOpacity={1}
               stackId={stacked ? "stack" : undefined}
               isAnimationActive={animate}
@@ -542,7 +631,7 @@ export function MultiAreaChart({
           ))}
 
           {/* Dot pattern overlay for each series */}
-          {[...series].reverse().map((s, i) => (
+          {[...visibleSeries].reverse().map((s, i) => (
             <Area
               key={`${s.dataKey}-pattern`}
               type={curveType}
@@ -562,17 +651,30 @@ export function MultiAreaChart({
         </ComposedChart>
       </ResponsiveContainer>
 
-      {/* Legend */}
+      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
+
+      {/* Legend — click an entry to isolate that series, click again to
+          restore all */}
       {showLegend && (
         <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
           {series.map((s) => (
-            <div key={s.dataKey} className="flex items-center gap-2 text-sm">
+            <button
+              key={s.dataKey}
+              type="button"
+              onClick={() =>
+                setActiveSeries((prev) => (prev === s.name ? null : s.name))
+              }
+              className={cn(
+                "flex items-center gap-2 text-sm transition-opacity hover:opacity-80",
+                !isSeriesVisible(s.name) && "opacity-40"
+              )}
+            >
               <div
                 className="size-3 rounded-sm"
                 style={{ backgroundColor: s.color }}
               />
               <span className="text-muted-foreground">{s.name}</span>
-            </div>
+            </button>
           ))}
         </div>
       )}

@@ -61,6 +61,7 @@ export function SplomChart({
 }: SplomChartProps) {
   const [hoveredPoint, setHoveredPoint] = React.useState<string | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
+  const [activeGroup, setActiveGroup] = React.useState<string | null>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   // Variant-specific defaults
@@ -99,6 +100,9 @@ export function SplomChart({
     const index = groups.indexOf(group ?? "default")
     return colorScheme[index % colorScheme.length]
   }
+
+  const isGroupVisible = (group?: string) =>
+    activeGroup === null || activeGroup === (group ?? "default")
 
   // Create scales for each dimension
   const scales = React.useMemo(() => {
@@ -180,17 +184,29 @@ export function SplomChart({
 
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
-      {/* Legend */}
+      {/* Legend — click a group to isolate it (hides other groups' points
+          across every matrix cell), click again to restore all */}
       {groups.length > 1 && !color && (
         <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {groups.map((group) => (
-            <div key={group} className="flex items-center gap-2">
+            <button
+              key={group}
+              type="button"
+              aria-pressed={!isGroupVisible(group)}
+              onClick={() =>
+                setActiveGroup((prev) => (prev === group ? null : group))
+              }
+              className={cn(
+                "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+                !isGroupVisible(group) && "opacity-40"
+              )}
+            >
               <div
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: getColor(group) }}
               />
               <span className="text-muted-foreground text-sm">{group}</span>
-            </div>
+            </button>
           ))}
         </div>
       )}
@@ -306,11 +322,13 @@ export function SplomChart({
                     strokeWidth={1}
                     className="dark:fill-zinc-950 dark:stroke-zinc-700"
                   />
-                  {/* Points */}
+                  {/* Points — points belonging to a group hidden via legend
+                      isolate are fully skipped, not just dimmed */}
                   {data.map((d) => {
                     const xVal = d.values[xDim]
                     const yVal = d.values[yDim]
                     if (xVal === undefined || yVal === undefined) return null
+                    if (!isGroupVisible(d.group)) return null
 
                     const cx = scales[xDim](xVal)
                     const cy = cellSize - scales[yDim](yVal) + cellPadding

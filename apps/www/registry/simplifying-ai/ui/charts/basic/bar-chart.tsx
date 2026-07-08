@@ -7,6 +7,7 @@ import {
   Cell,
   LabelList,
   BarChart as RechartsBarChart,
+  ReferenceArea,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -14,6 +15,61 @@ import {
 } from "recharts"
 
 import { cn } from "@/lib/utils"
+
+import { ChartZoomResetButton } from "../chart-zoom"
+
+/** Shared drag-to-zoom state machine for Recharts category-axis charts:
+ * drag across categories to zoom into that range, "Reset zoom" to return.
+ * Only meaningful for `layout="horizontal"` (categorical X-axis) — Recharts
+ * ties `activeLabel` to the categorical axis regardless of bar orientation,
+ * so horizontal-bar mode (`layout="vertical"`) opts out. */
+function useCategoryZoom<T extends { label: string }>(data: T[]) {
+  const [refAreaLeft, setRefAreaLeft] = React.useState<string | null>(null)
+  const [refAreaRight, setRefAreaRight] = React.useState<string | null>(null)
+  const [zoomedData, setZoomedData] = React.useState<T[] | null>(null)
+
+  React.useEffect(() => {
+    setZoomedData(null)
+  }, [data])
+
+  const displayData = zoomedData ?? data
+
+  const onMouseDown = (state: { activeLabel?: string } | null) => {
+    if (state?.activeLabel) setRefAreaLeft(state.activeLabel)
+  }
+
+  const onMouseMove = (state: { activeLabel?: string } | null) => {
+    if (refAreaLeft && state?.activeLabel) setRefAreaRight(state.activeLabel)
+  }
+
+  const onMouseUp = () => {
+    if (!refAreaLeft || !refAreaRight || refAreaLeft === refAreaRight) {
+      setRefAreaLeft(null)
+      setRefAreaRight(null)
+      return
+    }
+    let leftIdx = displayData.findIndex((d) => d.label === refAreaLeft)
+    let rightIdx = displayData.findIndex((d) => d.label === refAreaRight)
+    if (leftIdx === -1 || rightIdx === -1) {
+      setRefAreaLeft(null)
+      setRefAreaRight(null)
+      return
+    }
+    if (leftIdx > rightIdx) [leftIdx, rightIdx] = [rightIdx, leftIdx]
+    setZoomedData(displayData.slice(leftIdx, rightIdx + 1))
+    setRefAreaLeft(null)
+    setRefAreaRight(null)
+  }
+
+  return {
+    displayData,
+    isZoomed: zoomedData !== null,
+    refAreaLeft,
+    refAreaRight,
+    reset: () => setZoomedData(null),
+    handlers: { onMouseDown, onMouseMove, onMouseUp },
+  }
+}
 
 // ============================================
 // Bar Chart
@@ -74,11 +130,15 @@ export function BarChart({
   const effectiveLabelPosition =
     labelPosition ?? (isVertical ? "right" : "top")
 
+  // Drag-to-zoom only applies to the categorical X-axis, i.e.
+  // layout="horizontal" (vertical bars) — see useCategoryZoom above.
+  const zoom = useCategoryZoom(data)
+
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       <ResponsiveContainer width="100%" aspect={aspectRatio}>
         <RechartsBarChart
-          data={data}
+          data={zoom.displayData}
           layout={isVertical ? "vertical" : "horizontal"}
           margin={{
             top: showLabel && !isVertical ? 20 : 10,
@@ -90,6 +150,9 @@ export function BarChart({
             left: 10,
             bottom: 40,
           }}
+          onMouseDown={!isVertical ? zoom.handlers.onMouseDown : undefined}
+          onMouseMove={!isVertical ? zoom.handlers.onMouseMove : undefined}
+          onMouseUp={!isVertical ? zoom.handlers.onMouseUp : undefined}
         >
           {showGrid && (
             <CartesianGrid
@@ -173,6 +236,18 @@ export function BarChart({
             />
           )}
 
+          {/* Selection rectangle while dragging to zoom (categorical
+              X-axis only — see useCategoryZoom) */}
+          {!isVertical && zoom.refAreaLeft && zoom.refAreaRight && (
+            <ReferenceArea
+              x1={zoom.refAreaLeft}
+              x2={zoom.refAreaRight}
+              strokeOpacity={0.3}
+              fill="var(--foreground)"
+              fillOpacity={0.08}
+            />
+          )}
+
           {/* Per-row Cell children only when at least one data point
               specifies its own `fill`. With Cells present unconditionally,
               recharts' horizontal-bar mode (`layout="vertical"`)
@@ -181,9 +256,9 @@ export function BarChart({
               (the first being the Fragment-wrapped axes). When all
               bars share the Bar's `fill` prop (the common case),
               omitting Cells lets recharts position each row correctly. */}
-          {data.some((d) => typeof d.fill === "string" && d.fill) ? (
+          {zoom.displayData.some((d) => typeof d.fill === "string" && d.fill) ? (
             <Bar dataKey="value" fill={color} radius={barRadius} maxBarSize={50}>
-              {data.map((entry, index) => (
+              {zoom.displayData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.fill || color} />
               ))}
               {showLabel && (
@@ -221,6 +296,7 @@ export function BarChart({
           )}
         </RechartsBarChart>
       </ResponsiveContainer>
+      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
     </div>
   )
 }
@@ -271,12 +347,16 @@ export function MultiBarChart({
   yAxisWidth = 48,
 }: MultiBarChartProps) {
   const isVertical = layout === "vertical"
+  const zoom = useCategoryZoom(data)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  const isSeriesVisible = (name: string) =>
+    activeSeries === null || activeSeries === name
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       <ResponsiveContainer width="100%" aspect={aspectRatio}>
         <RechartsBarChart
-          data={data}
+          data={zoom.displayData}
           layout={isVertical ? "vertical" : "horizontal"}
           margin={{
             top: 10,
@@ -284,6 +364,9 @@ export function MultiBarChart({
             left: 10,
             bottom: 40,
           }}
+          onMouseDown={!isVertical ? zoom.handlers.onMouseDown : undefined}
+          onMouseMove={!isVertical ? zoom.handlers.onMouseMove : undefined}
+          onMouseUp={!isVertical ? zoom.handlers.onMouseUp : undefined}
         >
           {showGrid && (
             <CartesianGrid
@@ -378,30 +461,58 @@ export function MultiBarChart({
             />
           )}
 
-          {series.map((s) => (
-            <Bar
-              key={s.dataKey}
-              dataKey={s.dataKey}
-              name={s.name}
-              fill={s.color}
-              radius={barRadius}
-              stackId={s.stackId}
-              maxBarSize={40}
+          {/* Selection rectangle while dragging to zoom (categorical
+              X-axis only — see useCategoryZoom) */}
+          {!isVertical && zoom.refAreaLeft && zoom.refAreaRight && (
+            <ReferenceArea
+              x1={zoom.refAreaLeft}
+              x2={zoom.refAreaRight}
+              strokeOpacity={0.3}
+              fill="var(--foreground)"
+              fillOpacity={0.08}
             />
-          ))}
+          )}
+
+          {series
+            .filter((s) => isSeriesVisible(s.name))
+            .map((s) => (
+              <Bar
+                key={s.dataKey}
+                dataKey={s.dataKey}
+                name={s.name}
+                fill={s.color}
+                radius={barRadius}
+                stackId={s.stackId}
+                maxBarSize={40}
+              />
+            ))}
         </RechartsBarChart>
       </ResponsiveContainer>
 
+      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
+
+      {/* Legend — click an entry to isolate that series, click again to
+          restore all */}
       {showLegend && (
         <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
           {series.map((s) => (
-            <div key={s.dataKey} className="flex items-center gap-2 text-sm">
+            <button
+              key={s.dataKey}
+              type="button"
+              onClick={() =>
+                setActiveSeries((prev) => (prev === s.name ? null : s.name))
+              }
+              className={cn(
+                "flex items-center gap-2 text-sm transition-opacity hover:opacity-80",
+                !isSeriesVisible(s.name) && "opacity-40"
+              )}
+            >
               <div
                 className="size-3 rounded-sm"
                 style={{ backgroundColor: s.color }}
               />
               <span className="text-muted-foreground">{s.name}</span>
-            </div>
+            </button>
           ))}
         </div>
       )}

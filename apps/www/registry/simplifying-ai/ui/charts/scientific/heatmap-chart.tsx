@@ -9,6 +9,12 @@ import { cn } from "@/lib/utils"
 import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps } from "../chart-config"
 import { ChartContainer } from "../chart-container"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
 
 // ============================================================================
 // Types & Interfaces
@@ -371,8 +377,19 @@ export function HeatmapChart({
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
+  const svgRef = React.useRef<SVGSVGElement>(null)
+  const [zoomColumnRange, setZoomColumnRange] = React.useState<
+    [number, number] | null
+  >(null)
+  const isZoomed = zoomColumnRange !== null
+
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomColumnRange(null)
+  }, [data])
+
   // Extract unique labels
-  const xLabelsUnique = React.useMemo(() => {
+  const fullXLabelsUnique = React.useMemo(() => {
     const labels = [...new Set(matrixData.map((d) => String(d.x)))]
     return labels.sort()
   }, [matrixData])
@@ -381,6 +398,20 @@ export function HeatmapChart({
     const labels = [...new Set(matrixData.map((d) => String(d.y)))]
     return labels.sort()
   }, [matrixData])
+
+  // Drag-to-zoom narrows the visible x-axis columns down to an index
+  // window over `fullXLabelsUnique` — rows (y-axis) are never filtered.
+  const xLabelsUnique = zoomColumnRange
+    ? fullXLabelsUnique.slice(zoomColumnRange[0], zoomColumnRange[1] + 1)
+    : fullXLabelsUnique
+
+  // Cells actually in view — used for the value/color domain so the
+  // legend rescales to the visible columns while zoomed.
+  const plotData = React.useMemo(() => {
+    if (!zoomColumnRange) return matrixData
+    const visible = new Set(xLabelsUnique)
+    return matrixData.filter((d) => visible.has(String(d.x)))
+  }, [matrixData, zoomColumnRange, xLabelsUnique])
 
   // Scales
   const xScale = scaleBand()
@@ -393,8 +424,22 @@ export function HeatmapChart({
     .range([0, innerHeight])
     .padding(cellGap / 100)
 
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // (band scale) over the x-axis columns and narrows the view to it.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(xScale, x0, x1)
+      const currentOffset = zoomColumnRange ? zoomColumnRange[0] : 0
+      setZoomColumnRange([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomColumnRange(null),
+  })
+
   // Value scale for colors
-  const values = matrixData.map((d) => d.value)
+  const values = plotData.map((d) => d.value)
   const minValue = Math.min(...values)
   const maxValue = Math.max(...values)
 
@@ -441,8 +486,20 @@ export function HeatmapChart({
 
   return (
     <ChartContainer config={config} className={cn("relative", className)}>
-      <svg viewBox={`0 0 ${width} ${height}`} className="h-full w-full">
+      <svg
+        ref={svgRef}
+        viewBox={`0 0 ${width} ${height}`}
+        className="h-full w-full select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
+      >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Cells */}
           {yLabelsUnique.map((yLabel) =>
             xLabelsUnique.map((xLabel) => {
@@ -591,6 +648,11 @@ export function HeatmapChart({
             </div>
           </div>
         )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomColumnRange(null)}
+      />
     </ChartContainer>
   )
 }

@@ -38,6 +38,16 @@ export function LollipopChart({
   yAxisLabel,
 }: LollipopChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
+  // Legend click-to-isolate: clicking a group in the legend shows only
+  // that group's lollipops (fully hidden, not just dimmed, for the
+  // others), clicking the same group again restores all. Points without
+  // a `group` are unaffected by isolation. Drag-to-zoom is intentionally
+  // skipped for this chart — see note near the categoryScale below.
+  const [activeGroup, setActiveGroup] = React.useState<string | null>(null)
+  const isGroupVisible = React.useCallback(
+    (group?: string) => !group || activeGroup === null || activeGroup === group,
+    [activeGroup]
+  )
 
   const isHorizontal = orientation === "horizontal"
 
@@ -66,6 +76,20 @@ export function LollipopChart({
     return Array.from(groupMap.entries())
   }, [data])
 
+  // Note on drag-to-zoom: the band/categorical scale lives on the Y-axis
+  // in "horizontal" orientation and on the X-axis in "vertical" (default)
+  // orientation — but the shared `useChartZoom` primitive only tracks
+  // horizontal (X) drags (it's hard-wired to `marginLeft`/`innerWidth`
+  // pixel math, with no vertical counterpart), and this component can't
+  // modify that primitive. Wiring zoom for one orientation only would
+  // make the same chart draggable in one mode and inert in the other —
+  // an inconsistent, surprising fit. On top of that, both the width
+  // (vertical) and height (horizontal) here already auto-grow with
+  // `data.length` and scroll via `overflow-x-auto` rather than cramming
+  // items into a fixed plot area, so zoom wouldn't relieve any crowding
+  // the way it does for fixed-size charts like the candlestick. Zoom is
+  // intentionally skipped; legend click-to-isolate (below) is applied
+  // instead since this chart already renders a real per-group legend.
   const categoryScale = React.useMemo(() => {
     return scaleBand()
       .domain(data.map((d) => d.category))
@@ -91,12 +115,23 @@ export function LollipopChart({
 
   return (
     <div className={cn("relative w-full", className)}>
-      {/* Legend */}
+      {/* Legend — click a group to isolate it, click again to restore all */}
       {showLegend && groups.length > 0 && (
         <div className="mb-4 flex items-center justify-center gap-6">
           <span className="text-muted-foreground text-sm">cyl</span>
           {groups.map(([group, groupColor]) => (
-            <div key={group} className="flex items-center gap-2">
+            <button
+              key={group}
+              type="button"
+              aria-pressed={!isGroupVisible(group)}
+              onClick={() =>
+                setActiveGroup((prev) => (prev === group ? null : group))
+              }
+              className={cn(
+                "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+                !isGroupVisible(group) && "opacity-40"
+              )}
+            >
               <div
                 className="h-3.5 w-3.5 rounded-full"
                 style={{ backgroundColor: groupColor }}
@@ -104,7 +139,7 @@ export function LollipopChart({
               <span className="text-foreground text-sm">
                 {group.replace(" cyl", "")}
               </span>
-            </div>
+            </button>
           ))}
         </div>
       )}
@@ -126,8 +161,10 @@ export function LollipopChart({
                 />
               ))}
 
-            {/* Lollipops */}
+            {/* Lollipops — fully skipped (not just dimmed) when a legend
+                group is isolated and this point belongs to another group */}
             {data.map((d, index) => {
+              if (!isGroupVisible(d.group)) return null
               const isHovered = hoveredIndex === index
               const dotColor = d.color ?? color
               const categoryPos =
@@ -173,6 +210,7 @@ export function LollipopChart({
 
             {/* Category labels */}
             {data.map((d, index) => {
+              if (!isGroupVisible(d.group)) return null
               const pos =
                 (categoryScale(d.category) ?? 0) + categoryScale.bandwidth() / 2
 

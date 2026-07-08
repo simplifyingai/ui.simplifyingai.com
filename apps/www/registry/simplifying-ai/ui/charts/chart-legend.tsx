@@ -20,6 +20,9 @@ export interface ChartLegendProps {
   hideIcon?: boolean
   onItemClick?: (name: string) => void
   onItemHover?: (name: string | null) => void
+  /** When provided, items for which this returns `false` render dimmed —
+   * used to show which series is isolated after a legend click. */
+  isItemActive?: (name: string) => boolean
 }
 
 export function ChartLegend({
@@ -29,6 +32,7 @@ export function ChartLegend({
   hideIcon = false,
   onItemClick,
   onItemHover,
+  isItemActive,
 }: ChartLegendProps) {
   const { config } = useChart()
 
@@ -62,10 +66,12 @@ export function ChartLegend({
         <button
           key={index}
           type="button"
+          aria-pressed={isItemActive ? !isItemActive(item.name) : undefined}
           className={cn(
             "flex items-center gap-2 text-sm",
             "transition-opacity hover:opacity-80",
-            onItemClick && "cursor-pointer"
+            onItemClick && "cursor-pointer",
+            isItemActive && !isItemActive(item.name) && "opacity-40"
           )}
           onClick={() => onItemClick?.(item.name)}
           onMouseEnter={() => onItemHover?.(item.name)}

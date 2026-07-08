@@ -12,6 +12,11 @@ import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartGrid } from "../chart-grid"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  useChartZoom,
+} from "../chart-zoom"
 
 export interface ContourPoint {
   x: number
@@ -110,27 +115,78 @@ export function ContourChart({
   yAxisLabel,
   bandwidth = 1,
 }: ContourChartProps) {
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [mousePos, setMousePos] = React.useState<{
     x: number
     y: number
     value: number
   } | null>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   const gradientId = React.useId().replace(/:/g, "")
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  const rows = data.length
-  const cols = data[0]?.length ?? 0
+  // Reset any active zoom if the underlying grid changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
 
-  // Calculate value range
-  const allValues = data.flat()
+  // Full (unzoomed) grid dimensions and x-domain — the drag-to-zoom column
+  // window is computed against these, since they define the fixed
+  // index<->domain mapping regardless of the current zoom state.
+  const fullRows = data.length
+  const fullCols = data[0]?.length ?? 0
+  const fullXDomain = xDomain ?? [0, fullCols - 1]
+  const fullYDomain = yDomain ?? [0, fullRows - 1]
+
+  // Translate the active x-zoom domain into a [startCol, endCol] window
+  // over the full grid's columns.
+  const colRange = React.useMemo((): [number, number] => {
+    if (!zoomDomain || fullCols < 2) return [0, fullCols - 1]
+    const [xMin, xMax] = fullXDomain
+    const span = xMax - xMin || 1
+    const toIndex = (v: number) =>
+      Math.round(((v - xMin) / span) * (fullCols - 1))
+    let start = toIndex(zoomDomain[0])
+    let end = toIndex(zoomDomain[1])
+    start = Math.max(0, Math.min(start, fullCols - 1))
+    end = Math.max(0, Math.min(end, fullCols - 1))
+    if (end <= start) end = Math.min(start + 1, fullCols - 1)
+    return [start, end]
+  }, [zoomDomain, fullXDomain, fullCols])
+
+  // Apply the active zoom window (if any) by slicing every row down to the
+  // selected column range before it reaches the scales/contour generator —
+  // same "filter data before the scales" pattern used elsewhere, just
+  // expressed as a column-index window instead of a data-point filter.
+  const plotData = React.useMemo(() => {
+    if (!zoomDomain) return data
+    const [start, end] = colRange
+    return data.map((row) => row.slice(start, end + 1))
+  }, [data, zoomDomain, colRange])
+
+  const rows = plotData.length
+  const cols = plotData[0]?.length ?? 0
+
+  // Calculate value range (from the currently visible window)
+  const allValues = plotData.flat()
   const minValue = Math.min(...allValues)
   const maxValue = Math.max(...allValues)
 
-  // Scales
-  const actualXDomain = xDomain ?? [0, cols - 1]
-  const actualYDomain = yDomain ?? [0, rows - 1]
+  // Scales — x narrows to the zoomed column window's domain range; y is
+  // unaffected since drag-to-zoom is a horizontal gesture.
+  const actualXDomain = React.useMemo((): [number, number] => {
+    if (!zoomDomain) return fullXDomain
+    const [xMin, xMax] = fullXDomain
+    const span = xMax - xMin || 1
+    const toValue = (i: number) => xMin + (span * i) / Math.max(1, fullCols - 1)
+    return [toValue(colRange[0]), toValue(colRange[1])]
+  }, [zoomDomain, fullXDomain, fullCols, colRange])
+  const actualYDomain = fullYDomain
 
   const xScale = scaleLinear().domain(actualXDomain).range([0, innerWidth])
   const yScale = scaleLinear().domain(actualYDomain).range([innerHeight, 0])
@@ -166,11 +222,11 @@ export function ContourChart({
     const result: number[] = []
     for (let j = rows - 1; j >= 0; j--) {
       for (let i = 0; i < cols; i++) {
-        result.push(data[j][i])
+        result.push(plotData[j][i])
       }
     }
     return result
-  }, [data, rows, cols])
+  }, [plotData, rows, cols])
 
   // Generate contour paths
   const contourPaths = React.useMemo(() => {
@@ -233,7 +289,7 @@ export function ContourChart({
       setMousePos({
         x: xScale.invert(x),
         y: yScale.invert(y),
-        value: data[dataY]?.[dataX] ?? 0,
+        value: plotData[dataY]?.[dataX] ?? 0,
       })
     }
   }
@@ -243,7 +299,13 @@ export function ContourChart({
     if (!showMarkers && !points) return []
 
     if (points) {
-      return points.map((p) => ({
+      // Filter explicit scatter-overlay points down to the current x-zoom
+      // window, same "filter before it reaches the scales" pattern as the
+      // grid itself.
+      const visiblePoints = zoomDomain
+        ? points.filter((p) => p.x >= zoomDomain[0] && p.x <= zoomDomain[1])
+        : points
+      return visiblePoints.map((p) => ({
         x: xScale(p.x),
         y: yScale(p.y),
         value: p.value,
@@ -263,7 +325,7 @@ export function ContourChart({
         result.push({
           x: xScale(gridX),
           y: yScale(gridY),
-          value: data[j][i],
+          value: plotData[j][i],
         })
       }
     }
@@ -271,26 +333,57 @@ export function ContourChart({
   }, [
     showMarkers,
     points,
-    data,
+    plotData,
     rows,
     cols,
     xScale,
     yScale,
     actualXDomain,
     actualYDomain,
+    zoomDomain,
   ])
+
+  // Drag-to-zoom: converts the pixel drag range into an x-domain range and
+  // narrows the visible column window to it. Re-zooming while already
+  // zoomed narrows further (inverted against the current, already-zoomed
+  // scale).
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const lo = xScale.invert(x0)
+      const hi = xScale.invert(x1)
+      setZoomDomain([Math.min(lo, hi), Math.max(lo, hi)])
+    },
+    onReset: () => setZoomDomain(null),
+  })
+
+  const handleSvgMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    handleMouseMove(e)
+    zoom.handlers.onMouseMove(e)
+  }
+
+  const handleSvgMouseLeave = (e: React.MouseEvent<SVGSVGElement>) => {
+    setMousePos(null)
+    zoom.handlers.onMouseLeave(e)
+  }
 
   return (
     <ChartContainer
       config={config}
-      className={cn("!aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto flex-col", className)}
     >
       <div className="w-full">
         <svg
+          ref={svgRef}
           viewBox={`0 0 ${width} ${height}`}
-          className="h-full w-full"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => setMousePos(null)}
+          className="h-full w-full select-none"
+          onMouseMove={handleSvgMouseMove}
+          onMouseLeave={handleSvgMouseLeave}
+          onMouseDown={zoom.handlers.onMouseDown}
+          onMouseUp={zoom.handlers.onMouseUp}
+          onDoubleClick={zoom.handlers.onDoubleClick}
         >
           <g transform={`translate(${margin.left}, ${margin.top})`}>
             {/* Clip path for contours */}
@@ -366,6 +459,14 @@ export function ContourChart({
                   />
                 )
               )}
+
+            {/* Drag-to-zoom selection rectangle — drawn above the (mostly
+                opaque) contour fill so the selection stays visible while
+                dragging. */}
+            <ChartZoomSelectionRect
+              range={zoom.dragRange}
+              height={innerHeight}
+            />
 
             {/* X Axis */}
             <ChartAxis
@@ -445,6 +546,11 @@ export function ContourChart({
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </ChartContainer>
   )
 }

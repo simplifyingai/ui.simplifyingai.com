@@ -11,6 +11,11 @@ import { ChartContainer } from "../chart-container"
 import { ChartGrid } from "../chart-grid"
 import { ChartLegend, type LegendItem } from "../chart-legend"
 import { ChartTooltipContent } from "../chart-tooltip"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  useChartZoom,
+} from "../chart-zoom"
 
 export interface ScatterChartDataPoint {
   x: number
@@ -90,19 +95,37 @@ export function ScatterChart({
   size = 8,
   showTrendLine = false,
 }: ScatterChartProps) {
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [hoveredPoint, setHoveredPoint] = React.useState<{
     seriesIndex: number
     pointIndex: number
+    point: ScatterChartDataPoint
     x: number
     y: number
   } | null>(null)
   const [hoveredSeries, setHoveredSeries] = React.useState<string | null>(null)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
-  // Flatten all data points for scales
-  const allPoints = data.flatMap((series) => series.data)
+  // Apply the active zoom window (if any) by filtering each series down to
+  // the selected x-range before it reaches the scales.
+  const plotData = React.useMemo((): ScatterChartSeries[] => {
+    if (!zoomDomain) return data
+    const [lo, hi] = zoomDomain
+    return data.map((series) => ({
+      ...series,
+      data: series.data.filter((d) => d.x >= lo && d.x <= hi),
+    }))
+  }, [data, zoomDomain])
+
+  // Flatten currently-visible data points for scales
+  const allPoints = plotData.flatMap((series) => series.data)
 
   // Scales
   const xScale = React.useMemo(() => {
@@ -159,6 +182,27 @@ export function ScatterChart({
     }
   }, [allPoints, showTrendLine, xScale])
 
+  // Drag-to-zoom: converts the pixel drag range into a data-domain range
+  // and narrows the view to it. Re-zooming while already zoomed narrows
+  // further (inverted against the current, already-zoomed scale).
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const lo = xScale.invert(x0)
+      const hi = xScale.invert(x1)
+      const hasPointsInRange = allPoints.some((d) => d.x >= lo && d.x <= hi)
+      if (hasPointsInRange) setZoomDomain([lo, hi])
+    },
+    onReset: () => setZoomDomain(null),
+  })
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
+
   // Legend items
   const legendItems: LegendItem[] = data.map((series, index) => ({
     name: series.name,
@@ -168,13 +212,30 @@ export function ScatterChart({
   return (
     <ChartContainer
       config={config}
-      className={cn("!aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto flex-col", className)}
     >
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full overflow-visible"
+        className="w-full overflow-visible select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Invisible background for mouse events */}
+          <rect
+            width={innerWidth}
+            height={innerHeight}
+            fill="transparent"
+            className="cursor-crosshair"
+          />
+
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid */}
           {showGrid && (
             <ChartGrid
@@ -201,14 +262,17 @@ export function ScatterChart({
 
           {/* Points */}
           {data.map((series, seriesIndex) => {
+            if (!isSeriesVisible(series.name)) return null
+
             const seriesColor =
               series.color ??
               DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
             const seriesSymbol = series.symbol ?? symbol
             const isSeriesHovered =
               hoveredSeries === null || hoveredSeries === series.name
+            const plotSeries = plotData[seriesIndex]
 
-            return series.data.map((point, pointIndex) => {
+            return plotSeries.data.map((point, pointIndex) => {
               const pointSize =
                 point.size !== undefined
                   ? sizeScale(point.size)
@@ -229,6 +293,7 @@ export function ScatterChart({
                     setHoveredPoint({
                       seriesIndex,
                       pointIndex,
+                      point,
                       x: xScale(point.x),
                       y: yScale(point.y),
                     })
@@ -272,29 +337,36 @@ export function ScatterChart({
         >
           <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
             <div className="mb-1 font-medium">
-              {data[hoveredPoint.seriesIndex].data[hoveredPoint.pointIndex]
-                .label ?? data[hoveredPoint.seriesIndex].name}
+              {hoveredPoint.point.label ??
+                data[hoveredPoint.seriesIndex].name}
             </div>
             <div className="text-muted-foreground">
-              x:{" "}
-              {data[hoveredPoint.seriesIndex].data[
-                hoveredPoint.pointIndex
-              ].x.toLocaleString()}
+              x: {hoveredPoint.point.x.toLocaleString()}
             </div>
             <div className="text-muted-foreground">
-              y:{" "}
-              {data[hoveredPoint.seriesIndex].data[
-                hoveredPoint.pointIndex
-              ].y.toLocaleString()}
+              y: {hoveredPoint.point.y.toLocaleString()}
             </div>
           </div>
         </div>
       )}
 
-      {/* Legend */}
+      {/* Legend — click an item to isolate that series, click again to
+          restore all */}
       {showLegend && data.length > 1 && (
-        <ChartLegend items={legendItems} onItemHover={setHoveredSeries} />
+        <ChartLegend
+          items={legendItems}
+          onItemHover={setHoveredSeries}
+          onItemClick={(name) =>
+            setActiveSeries((prev) => (prev === name ? null : name))
+          }
+          isItemActive={isSeriesVisible}
+        />
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </ChartContainer>
   )
 }

@@ -8,6 +8,12 @@ import { interpolateBlues } from "d3-scale-chromatic"
 
 import { cn } from "@/lib/utils"
 
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  useChartZoom,
+} from "../chart-zoom"
+
 export interface DensityDataPoint {
   x: number
   y: number
@@ -40,7 +46,12 @@ export function DensityChart({
   xAxisLabel,
   yAxisLabel,
 }: DensityChartProps) {
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [hoveredPoint, setHoveredPoint] = React.useState<number | null>(null)
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
 
   const width = 500
   const height = 400
@@ -48,25 +59,34 @@ export function DensityChart({
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
 
+  // Apply the active zoom window (if any) by filtering the point cloud
+  // down to the selected x-range before it reaches the scales/density
+  // generator.
+  const plotData = React.useMemo(() => {
+    if (!zoomDomain) return data
+    const [lo, hi] = zoomDomain
+    return data.filter((d) => d.x >= lo && d.x <= hi)
+  }, [data, zoomDomain])
+
   // X Scale
   const xExtent = React.useMemo(() => {
-    const xValues = data.map((d) => d.x)
+    const xValues = plotData.map((d) => d.x)
     const min = Math.min(...xValues)
     const max = Math.max(...xValues)
     const padding = (max - min) * 0.1
     return [min - padding, max + padding]
-  }, [data])
+  }, [plotData])
 
   const xScale = scaleLinear().domain(xExtent).range([0, innerWidth]).nice()
 
   // Y Scale
   const yExtent = React.useMemo(() => {
-    const yValues = data.map((d) => d.y)
+    const yValues = plotData.map((d) => d.y)
     const min = Math.min(...yValues)
     const max = Math.max(...yValues)
     const padding = (max - min) * 0.1
     return [min - padding, max + padding]
-  }, [data])
+  }, [plotData])
 
   const yScale = scaleLinear().domain(yExtent).range([innerHeight, 0]).nice()
 
@@ -81,9 +101,9 @@ export function DensityChart({
       .bandwidth(bandwidth)
       .thresholds(thresholds)
 
-    return densityGenerator(data)
+    return densityGenerator(plotData)
   }, [
-    data,
+    plotData,
     xScale,
     yScale,
     innerWidth,
@@ -106,11 +126,33 @@ export function DensityChart({
   const xTicks = xScale.ticks(6)
   const yTicks = yScale.ticks(6)
 
+  // Drag-to-zoom: converts the pixel drag range into a data-domain range
+  // and narrows the view to it. Re-zooming while already zoomed narrows
+  // further (inverted against the current, already-zoomed scale).
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const lo = xScale.invert(x0)
+      const hi = xScale.invert(x1)
+      const hasPointsInRange = plotData.some((d) => d.x >= lo && d.x <= hi)
+      if (hasPointsInRange) setZoomDomain([lo, hi])
+    },
+    onReset: () => setZoomDomain(null),
+  })
+
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full overflow-visible"
+        className="h-auto w-full overflow-visible select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {/* Grid */}
@@ -154,7 +196,7 @@ export function DensityChart({
 
           {/* Points */}
           {showPoints &&
-            data.map((d, i) => {
+            plotData.map((d, i) => {
               const isHovered = hoveredPoint === i
               return (
                 <circle
@@ -172,6 +214,10 @@ export function DensityChart({
                 />
               )
             })}
+
+          {/* Drag-to-zoom selection rectangle — drawn above the contours
+              and points so the selection stays visible while dragging. */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
 
           {/* X Axis */}
           <g transform={`translate(0, ${innerHeight})`}>
@@ -230,16 +276,21 @@ export function DensityChart({
       </svg>
 
       {/* Tooltip */}
-      {hoveredPoint !== null && (
+      {hoveredPoint !== null && plotData[hoveredPoint] && (
         <div className="mt-2 text-center">
           <div className="border-border/50 bg-background mx-auto inline-block rounded-lg border px-3 py-2 text-sm shadow-lg">
             <div className="text-muted-foreground">
-              x: {data[hoveredPoint].x.toFixed(2)}, y:{" "}
-              {data[hoveredPoint].y.toFixed(2)}
+              x: {plotData[hoveredPoint].x.toFixed(2)}, y:{" "}
+              {plotData[hoveredPoint].y.toFixed(2)}
             </div>
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }

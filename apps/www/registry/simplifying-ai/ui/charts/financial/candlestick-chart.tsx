@@ -5,6 +5,12 @@ import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 import { ChartAxis } from "../chart-axis"
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  getBandScaleIndexRange,
+  useChartZoom,
+} from "../chart-zoom"
 
 export interface CandlestickDataPoint {
   date: string | Date
@@ -49,9 +55,15 @@ export function CandlestickChart({
   yAxisLabel,
 }: CandlestickChartProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const svgRef = React.useRef<SVGSVGElement>(null)
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
+  const plotData = zoomDomain ? data.slice(zoomDomain[0], zoomDomain[1] + 1) : data
 
   // Responsive sizing
   React.useEffect(() => {
@@ -66,6 +78,11 @@ export function CandlestickChart({
     return () => window.removeEventListener("resize", updateDimensions)
   }, [aspectRatio])
 
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
+
   const { width, height } = dimensions
   const margin = { top: 20, right: 20, bottom: 40, left: 50 }
   const innerWidth = Math.max(0, width - margin.left - margin.right)
@@ -74,14 +91,14 @@ export function CandlestickChart({
   // X Scale
   const xScale = React.useMemo(() => {
     return scaleBand()
-      .domain(data.map((d) => String(d.date)))
+      .domain(plotData.map((d) => String(d.date)))
       .range([0, innerWidth])
       .padding(0.2)
-  }, [data, innerWidth])
+  }, [plotData, innerWidth])
 
   // Y Scale (price)
   const yScale = React.useMemo(() => {
-    const allPrices = data.flatMap((d) => [d.high, d.low])
+    const allPrices = plotData.flatMap((d) => [d.high, d.low])
     const minPrice = Math.min(...allPrices)
     const maxPrice = Math.max(...allPrices)
     const padding = (maxPrice - minPrice) * 0.1
@@ -89,7 +106,21 @@ export function CandlestickChart({
       .domain([Math.max(0, minPrice - padding), maxPrice + padding])
       .range([innerHeight, 0])
       .nice()
-  }, [data, innerHeight])
+  }, [plotData, innerHeight])
+
+  // Drag-to-zoom: converts the pixel drag range into a data-index range
+  // (band scale) and narrows the view to it.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const [start, end] = getBandScaleIndexRange(xScale, x0, x1)
+      const currentOffset = zoomDomain ? zoomDomain[0] : 0
+      setZoomDomain([currentOffset + start, currentOffset + end])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   const candleWidth = xScale.bandwidth() * 0.8
   const ticks = yScale.ticks(5)
@@ -98,7 +129,7 @@ export function CandlestickChart({
   const monthLabels = React.useMemo(() => {
     const labels: { date: string; x: number }[] = []
     let lastMonth = -1
-    data.forEach((d) => {
+    plotData.forEach((d) => {
       const date = new Date(d.date)
       const month = date.getMonth()
       if (month !== lastMonth) {
@@ -110,7 +141,7 @@ export function CandlestickChart({
       }
     })
     return labels
-  }, [data, xScale])
+  }, [plotData, xScale])
 
   if (width === 0) {
     return <div ref={containerRef} className={cn("w-full", className)} />
@@ -119,12 +150,24 @@ export function CandlestickChart({
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
       <svg
+        ref={svgRef}
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
-        className="overflow-visible"
+        className="overflow-visible select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect
+            range={zoom.dragRange}
+            height={innerHeight}
+          />
+
           {/* Grid - dashed lines like area chart */}
           {showGrid && (
             <>
@@ -158,7 +201,7 @@ export function CandlestickChart({
           )}
 
           {/* Candlesticks */}
-          {data.map((d, index) => {
+          {plotData.map((d, index) => {
             const isUp = d.close >= d.open
             const color = isUp ? upColor : downColor
             const bodyTop = isUp ? d.close : d.open
@@ -276,7 +319,7 @@ export function CandlestickChart({
             >
               <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
                 <p className="text-foreground mb-1 text-sm font-medium">
-                  {new Date(data[hoveredIndex].date).toLocaleDateString(
+                  {new Date(plotData[hoveredIndex].date).toLocaleDateString(
                     "en-US",
                     {
                       month: "short",
@@ -291,54 +334,59 @@ export function CandlestickChart({
                     className="font-mono"
                     style={{
                       color:
-                        data[hoveredIndex].close >= data[hoveredIndex].open
+                        plotData[hoveredIndex].close >= plotData[hoveredIndex].open
                           ? upColor
                           : downColor,
                     }}
                   >
-                    {valueFormatter(data[hoveredIndex].open)}
+                    {valueFormatter(plotData[hoveredIndex].open)}
                   </span>
                   <span className="text-muted-foreground">High</span>
                   <span
                     className="font-mono"
                     style={{
                       color:
-                        data[hoveredIndex].close >= data[hoveredIndex].open
+                        plotData[hoveredIndex].close >= plotData[hoveredIndex].open
                           ? upColor
                           : downColor,
                     }}
                   >
-                    {valueFormatter(data[hoveredIndex].high)}
+                    {valueFormatter(plotData[hoveredIndex].high)}
                   </span>
                   <span className="text-muted-foreground">Low</span>
                   <span
                     className="font-mono"
                     style={{
                       color:
-                        data[hoveredIndex].close >= data[hoveredIndex].open
+                        plotData[hoveredIndex].close >= plotData[hoveredIndex].open
                           ? upColor
                           : downColor,
                     }}
                   >
-                    {valueFormatter(data[hoveredIndex].low)}
+                    {valueFormatter(plotData[hoveredIndex].low)}
                   </span>
                   <span className="text-muted-foreground">Close</span>
                   <span
                     className="font-mono"
                     style={{
                       color:
-                        data[hoveredIndex].close >= data[hoveredIndex].open
+                        plotData[hoveredIndex].close >= plotData[hoveredIndex].open
                           ? upColor
                           : downColor,
                     }}
                   >
-                    {valueFormatter(data[hoveredIndex].close)}
+                    {valueFormatter(plotData[hoveredIndex].close)}
                   </span>
                 </div>
               </div>
             </div>
           )
         })()}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }

@@ -6,6 +6,12 @@ import { scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import {
+  ChartZoomResetButton,
+  ChartZoomSelectionRect,
+  useChartZoom,
+} from "../chart-zoom"
+
 export interface DotPlotDataPoint {
   value: number
   color?: string
@@ -37,6 +43,19 @@ export function DotPlotChart({
   valueFormatter = (value) => value.toLocaleString(),
 }: DotPlotChartProps) {
   const [hoveredBin, setHoveredBin] = React.useState<number | null>(null)
+  const svgRef = React.useRef<SVGSVGElement>(null)
+  // Drag-to-zoom range over the (continuous) value domain — unlike the
+  // band-scale charts, there's no fixed category count here, so the zoom
+  // window is a pair of raw values rather than data indices.
+  const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
+    null
+  )
+  const isZoomed = zoomDomain !== null
+
+  // Reset any active zoom if the underlying data set changes.
+  React.useEffect(() => {
+    setZoomDomain(null)
+  }, [data])
 
   // Normalize data to array of values
   const values = React.useMemo(() => {
@@ -48,6 +67,23 @@ export function DotPlotChart({
     return data.map((d) => (typeof d === "number" ? color : (d.color ?? color)))
   }, [data, color])
 
+  // Values/colors narrowed to the active zoom window, if any — filtered
+  // (not rescaled) so the bins below re-derive purely from what's visible.
+  const plotValues = React.useMemo(() => {
+    if (!zoomDomain) return values
+    const [lo, hi] = zoomDomain
+    return values.filter((v) => v >= lo && v <= hi)
+  }, [values, zoomDomain])
+
+  const plotColors = React.useMemo(() => {
+    if (!zoomDomain) return colors
+    const [lo, hi] = zoomDomain
+    return values.reduce<string[]>((acc, v, i) => {
+      if (v >= lo && v <= hi) acc.push(colors[i])
+      return acc
+    }, [])
+  }, [values, colors, zoomDomain])
+
   const width = 500
   const margin = { top: 20, right: 20, bottom: xAxisLabel ? 60 : 40, left: 20 }
 
@@ -55,10 +91,10 @@ export function DotPlotChart({
 
   // Create bins
   const binnedData = React.useMemo(() => {
-    const [minVal, maxVal] = extent(values) as [number, number]
+    const [minVal, maxVal] = extent(plotValues) as [number, number]
     const binGenerator = bin().domain([minVal, maxVal]).thresholds(binCount)
 
-    const bins = binGenerator(values)
+    const bins = binGenerator(plotValues)
 
     // For each bin, track individual dots with their colors
     return bins.map((b) => {
@@ -66,10 +102,10 @@ export function DotPlotChart({
       b.forEach((val) => {
         // Find the actual index considering duplicates
         let foundCount = 0
-        for (let i = 0; i < values.length; i++) {
-          if (values[i] === val) {
+        for (let i = 0; i < plotValues.length; i++) {
+          if (plotValues[i] === val) {
             if (foundCount === dots.filter((d) => d.value === val).length) {
-              dots.push({ value: val, color: colors[i] })
+              dots.push({ value: val, color: plotColors[i] })
               break
             }
             foundCount++
@@ -83,7 +119,7 @@ export function DotPlotChart({
         dots,
       }
     })
-  }, [values, colors, binCount])
+  }, [plotValues, plotColors, binCount])
 
   // Calculate max stack height
   const maxCount = max(binnedData, (d) => d.count) ?? 0
@@ -95,15 +131,33 @@ export function DotPlotChart({
 
   // Scales
   const xScale = React.useMemo(() => {
-    const [minVal, maxVal] = extent(values) as [number, number]
+    const [minVal, maxVal] = extent(plotValues) as [number, number]
     const padding = (maxVal - minVal) * 0.05
     return scaleLinear()
       .domain([minVal - padding, maxVal + padding])
       .range([0, innerWidth])
       .nice()
-  }, [values, innerWidth])
+  }, [plotValues, innerWidth])
 
   const xTicks = xScale.ticks(7)
+
+  // Drag-to-zoom: converts the pixel drag range into a value-domain range
+  // (continuous scale, so we invert directly rather than using
+  // getBandScaleIndexRange) and narrows the view to it. Re-zooming while
+  // already zoomed narrows further, since xScale is derived from the
+  // current (possibly already-zoomed) plotValues.
+  const zoom = useChartZoom({
+    svgRef,
+    marginLeft: margin.left,
+    innerWidth,
+    onZoom: ({ x0, x1 }) => {
+      const lo = xScale.invert(x0)
+      const hi = xScale.invert(x1)
+      const hasPointsInRange = values.some((v) => v >= lo && v <= hi)
+      if (hasPointsInRange) setZoomDomain([lo, hi])
+    },
+    onReset: () => setZoomDomain(null),
+  })
 
   // Calculate tooltip position as percentage
   const getTooltipPosition = (binIndex: number) => {
@@ -120,10 +174,19 @@ export function DotPlotChart({
   return (
     <div className={cn("relative w-full", className)}>
       <svg
+        ref={svgRef}
         viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full overflow-visible"
+        className="h-auto w-full overflow-visible select-none"
+        onMouseDown={zoom.handlers.onMouseDown}
+        onMouseMove={zoom.handlers.onMouseMove}
+        onMouseUp={zoom.handlers.onMouseUp}
+        onMouseLeave={zoom.handlers.onMouseLeave}
+        onDoubleClick={zoom.handlers.onDoubleClick}
       >
         <g transform={`translate(${margin.left}, ${margin.top})`}>
+          {/* Drag-to-zoom selection rectangle */}
+          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
+
           {/* Grid lines */}
           {showGrid &&
             xTicks.map((tick) => (
@@ -220,6 +283,11 @@ export function DotPlotChart({
           </div>
         </div>
       )}
+
+      <ChartZoomResetButton
+        visible={isZoomed}
+        onReset={() => setZoomDomain(null)}
+      />
     </div>
   )
 }

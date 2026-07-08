@@ -69,6 +69,9 @@ export function TernaryChart({
 }: TernaryChartProps) {
   const [hoveredPoint, setHoveredPoint] = React.useState<string | null>(null)
   const [tooltipPos, setTooltipPos] = React.useState({ x: 0, y: 0 })
+  // Isolated group — set by clicking a legend swatch, hides points outside
+  // that group until clicked again.
+  const [isolatedGroup, setIsolatedGroup] = React.useState<string | null>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
   const width = 500
@@ -105,6 +108,26 @@ export function TernaryChart({
       return colorScheme[index % colorScheme.length]
     },
     [color, colorByGroup, groups, colorScheme]
+  )
+
+  const isGroupVisible = React.useCallback(
+    (group?: string) =>
+      isolatedGroup === null || isolatedGroup === (group ?? "default"),
+    [isolatedGroup]
+  )
+
+  // Toggle the isolated group — clicking the same legend entry again
+  // restores all groups.
+  const toggleIsolatedGroup = React.useCallback((group: string) => {
+    setIsolatedGroup((prev) => (prev === group ? null : group))
+  }, [])
+
+  // Points currently visible under the active isolation (all points when
+  // nothing is isolated). Used for both rendering and the convex hull so
+  // the filled variant reflects the isolated subset.
+  const visibleData = React.useMemo(
+    () => data.filter((d) => isGroupVisible(d.group)),
+    [data, isGroupVisible]
   )
 
   // Convert ternary coordinates to Cartesian
@@ -196,9 +219,9 @@ export function TernaryChart({
 
   // Calculate convex hull for filled variant
   const convexHullPath = React.useMemo(() => {
-    if (variant !== "filled" || data.length < 3) return null
+    if (variant !== "filled" || visibleData.length < 3) return null
 
-    const points = data.map((d) => ternaryToCartesian(d.a, d.b, d.c))
+    const points = visibleData.map((d) => ternaryToCartesian(d.a, d.b, d.c))
 
     // Simple convex hull using gift wrapping algorithm
     const hull: typeof points = []
@@ -230,7 +253,7 @@ export function TernaryChart({
       hull.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") +
       " Z"
     )
-  }, [variant, data, ternaryToCartesian])
+  }, [variant, visibleData, ternaryToCartesian])
 
   // Cross product helper for convex hull
   function cross(
@@ -270,18 +293,31 @@ export function TernaryChart({
 
   return (
     <div ref={containerRef} className={cn("relative w-full", className)}>
-      {/* Legend - only show when colorByGroup is enabled */}
+      {/* Legend - only show when colorByGroup is enabled. Click a swatch to
+          isolate that group's points, click again to restore all. */}
       {colorByGroup && !color && groups.length > 1 && (
         <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {groups.map((group) => (
-            <div key={group} className="flex items-center gap-2">
-              <div
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: getGroupColor(group) }}
-              />
-              <span className="text-muted-foreground text-sm">{group}</span>
-            </div>
-          ))}
+          {groups.map((group) => {
+            const isActive = isGroupVisible(group)
+            return (
+              <button
+                key={group}
+                type="button"
+                aria-pressed={!isActive}
+                onClick={() => toggleIsolatedGroup(group)}
+                className={cn(
+                  "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+                  !isActive && "opacity-40"
+                )}
+              >
+                <div
+                  className="h-3 w-3 rounded-full"
+                  style={{ backgroundColor: getGroupColor(group) }}
+                />
+                <span className="text-muted-foreground text-sm">{group}</span>
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -370,7 +406,7 @@ export function TernaryChart({
           ))}
 
         {/* Data points */}
-        {data.map((d) => {
+        {visibleData.map((d) => {
           const pos = ternaryToCartesian(d.a, d.b, d.c)
           const pointColor = d.color ?? getGroupColor(d.group)
           const isHovered = hoveredPoint === d.id

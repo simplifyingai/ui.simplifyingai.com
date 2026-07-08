@@ -22,6 +22,16 @@ export {
 
 export { ChartAxis } from "./chart-axis"
 
+export {
+  useChartZoom,
+  getBandScaleIndexRange,
+  ChartZoomSelectionRect,
+  ChartZoomResetButton,
+  type ChartDragRange,
+  type UseChartZoomOptions,
+  type UseChartZoomResult,
+} from "./chart-zoom"
+
 export { ChartGrid, ChartHorizontalGrid, ChartVerticalGrid } from "./chart-grid"
 
 export {

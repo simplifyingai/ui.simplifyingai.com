@@ -37,6 +37,19 @@ export function DumbbellChart({
   endLabel = "End",
 }: DumbbellChartProps) {
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null)
+  // Legend click-to-isolate: clicking "Start" or "End" shows only that
+  // side of every dumbbell (dots + label), clicking the same one again
+  // restores both. There's no categorical/band axis here worth a
+  // drag-to-zoom window (see note near the JSX) — the two-series legend
+  // is the interactive feature that applies to this chart.
+  const [activeSeries, setActiveSeries] = React.useState<
+    "start" | "end" | null
+  >(null)
+  const isSeriesVisible = React.useCallback(
+    (series: "start" | "end") =>
+      activeSeries === null || activeSeries === series,
+    [activeSeries]
+  )
 
   const width = 500
   const height = data.length * 45 + 70
@@ -68,22 +81,42 @@ export function DumbbellChart({
 
   return (
     <div className={cn("relative w-full", className)}>
-      {/* Legend */}
+      {/* Legend — click a side to isolate it, click again to restore both */}
       <div className="mb-3 flex items-center justify-center gap-6">
-        <div className="flex items-center gap-2">
+        <button
+          type="button"
+          aria-pressed={!isSeriesVisible("start")}
+          onClick={() =>
+            setActiveSeries((prev) => (prev === "start" ? null : "start"))
+          }
+          className={cn(
+            "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+            !isSeriesVisible("start") && "opacity-40"
+          )}
+        >
           <div
             className="h-3 w-3 rounded-full"
             style={{ backgroundColor: startColor }}
           />
           <span className="text-muted-foreground text-sm">{startLabel}</span>
-        </div>
-        <div className="flex items-center gap-2">
+        </button>
+        <button
+          type="button"
+          aria-pressed={!isSeriesVisible("end")}
+          onClick={() =>
+            setActiveSeries((prev) => (prev === "end" ? null : "end"))
+          }
+          className={cn(
+            "flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-80",
+            !isSeriesVisible("end") && "opacity-40"
+          )}
+        >
           <div
             className="h-3 w-3 rounded-full"
             style={{ backgroundColor: endColor }}
           />
           <span className="text-muted-foreground text-sm">{endLabel}</span>
-        </div>
+        </button>
       </div>
 
       <svg
@@ -136,34 +169,42 @@ export function DumbbellChart({
                   transition: "opacity 150ms",
                 }}
               >
-                {/* Connector line */}
-                <line
-                  x1={x1}
-                  y1={y}
-                  x2={x2}
-                  y2={y}
-                  stroke={connectorColor}
-                  strokeWidth={3}
-                  strokeLinecap="round"
-                />
+                {/* Connector line — only makes sense when both ends are
+                    visible; hidden entirely (not just dimmed) while a
+                    single side is isolated via the legend */}
+                {activeSeries === null && (
+                  <line
+                    x1={x1}
+                    y1={y}
+                    x2={x2}
+                    y2={y}
+                    stroke={connectorColor}
+                    strokeWidth={3}
+                    strokeLinecap="round"
+                  />
+                )}
 
                 {/* Start dot */}
-                <circle
-                  cx={x1}
-                  cy={y}
-                  r={isHovered ? dotSize + 2 : dotSize}
-                  fill={startColor}
-                  style={{ transition: "r 150ms" }}
-                />
+                {isSeriesVisible("start") && (
+                  <circle
+                    cx={x1}
+                    cy={y}
+                    r={isHovered ? dotSize + 2 : dotSize}
+                    fill={startColor}
+                    style={{ transition: "r 150ms" }}
+                  />
+                )}
 
                 {/* End dot */}
-                <circle
-                  cx={x2}
-                  cy={y}
-                  r={isHovered ? dotSize + 2 : dotSize}
-                  fill={endColor}
-                  style={{ transition: "r 150ms" }}
-                />
+                {isSeriesVisible("end") && (
+                  <circle
+                    cx={x2}
+                    cy={y}
+                    r={isHovered ? dotSize + 2 : dotSize}
+                    fill={endColor}
+                    style={{ transition: "r 150ms" }}
+                  />
+                )}
               </g>
             )
           })}
@@ -203,22 +244,31 @@ export function DumbbellChart({
         </g>
       </svg>
 
-      {/* Tooltip */}
+      {/* Tooltip — mirrors whichever side(s) are currently isolated */}
       {hoveredIndex !== null && (
         <div className="bg-foreground text-background pointer-events-none absolute top-12 left-1/2 z-50 -translate-x-1/2 rounded-md px-3 py-1.5 text-xs font-medium shadow-lg">
           <span className="font-semibold">{data[hoveredIndex].category}</span>
           <span className="mx-2">·</span>
-          <span>
-            {startLabel}: {valueFormatter(data[hoveredIndex].start)}
-          </span>
-          <span className="mx-1">→</span>
-          <span>
-            {endLabel}: {valueFormatter(data[hoveredIndex].end)}
-          </span>
-          <span className="ml-2 opacity-70">
-            ({data[hoveredIndex].end >= data[hoveredIndex].start ? "+" : ""}
-            {valueFormatter(data[hoveredIndex].end - data[hoveredIndex].start)})
-          </span>
+          {isSeriesVisible("start") && (
+            <span>
+              {startLabel}: {valueFormatter(data[hoveredIndex].start)}
+            </span>
+          )}
+          {activeSeries === null && <span className="mx-1">→</span>}
+          {isSeriesVisible("end") && (
+            <span>
+              {endLabel}: {valueFormatter(data[hoveredIndex].end)}
+            </span>
+          )}
+          {activeSeries === null && (
+            <span className="ml-2 opacity-70">
+              ({data[hoveredIndex].end >= data[hoveredIndex].start ? "+" : ""}
+              {valueFormatter(
+                data[hoveredIndex].end - data[hoveredIndex].start
+              )}
+              )
+            </span>
+          )}
         </div>
       )}
     </div>
