@@ -237,6 +237,12 @@ export function RadarChart({
     x: number
     y: number
   } | null>(null)
+  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+
+  const isSeriesVisible = React.useCallback(
+    (name: string) => activeSeries === null || activeSeries === name,
+    [activeSeries]
+  )
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
@@ -495,8 +501,11 @@ export function RadarChart({
                 )
               })}
 
-            {/* Radar areas */}
+            {/* Radar areas — a series hidden via legend isolate is fully
+                skipped (not just dimmed) so the isolated shape is
+                unobstructed */}
             {data.map((series, seriesIndex) => {
+              if (!isSeriesVisible(series.name)) return null
               const color = getSeriesColor(series, seriesIndex)
               const isHovered =
                 hoveredSeries === null || hoveredSeries === series.name
@@ -649,9 +658,17 @@ export function RadarChart({
           )}
       </div>
 
-      {/* Legend */}
+      {/* Legend — click an item to isolate that series, click again to
+          restore all */}
       {showLegend && data.length > 1 && (
-        <ChartLegend items={legendItems} onItemHover={setHoveredSeries} />
+        <ChartLegend
+          items={legendItems}
+          onItemHover={setHoveredSeries}
+          onItemClick={(name) =>
+            setActiveSeries((prev) => (prev === name ? null : name))
+          }
+          isItemActive={isSeriesVisible}
+        />
       )}
     </ChartContainer>
   )
