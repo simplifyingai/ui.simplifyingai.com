@@ -196,7 +196,7 @@ export function DotPlotChart({
                 x2={xScale(tick)}
                 y1={0}
                 y2={innerHeight}
-                stroke="hsl(var(--border))"
+                stroke="var(--border)"
                 strokeDasharray="3 3"
                 strokeOpacity={0.3}
               />
@@ -208,7 +208,7 @@ export function DotPlotChart({
             x2={innerWidth}
             y1={innerHeight}
             y2={innerHeight}
-            stroke="hsl(var(--border))"
+            stroke="var(--border)"
           />
 
           {/* Dots stacked from bottom */}

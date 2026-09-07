@@ -9,8 +9,15 @@ import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartGrid } from "../chart-grid"
-import { ChartLegend, type LegendItem } from "../chart-legend"
-import { ChartTooltipContent } from "../chart-tooltip"
+import {
+  ChartLegend,
+  ChartLegendLayout,
+  useSeriesHighlight,
+  type LegendItem,
+} from "../chart-legend"
+import { ChartTooltipContent,
+  ChartTooltipSurface,
+} from "../chart-tooltip"
 import {
   ChartZoomResetButton,
   ChartZoomSelectionRect,
@@ -88,6 +95,7 @@ export function ScatterChart({
   showGrid = true,
   showTooltip = true,
   showLegend = true,
+  legendPosition = "right",
   xAxisLabel,
   yAxisLabel,
   sizeRange = [6, 20],
@@ -103,8 +111,9 @@ export function ScatterChart({
     x: number
     y: number
   } | null>(null)
-  const [hoveredSeries, setHoveredSeries] = React.useState<string | null>(null)
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  // Legend highlight: click a series to emphasize it (others fade but stay
+  // drawn), hover to preview — Plotly-style. `focused` = hover ?? selection.
+  const highlight = useSeriesHighlight()
   const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
     null
   )
@@ -198,11 +207,6 @@ export function ScatterChart({
     onReset: () => setZoomDomain(null),
   })
 
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
-
   // Legend items
   const legendItems: LegendItem[] = data.map((series, index) => ({
     name: series.name,
@@ -212,161 +216,164 @@ export function ScatterChart({
   return (
     <ChartContainer
       config={config}
-      className={cn("relative !aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto", className)}
     >
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
-        className="w-full overflow-visible select-none"
-        onMouseDown={zoom.handlers.onMouseDown}
-        onMouseMove={zoom.handlers.onMouseMove}
-        onMouseUp={zoom.handlers.onMouseUp}
-        onMouseLeave={zoom.handlers.onMouseLeave}
-        onDoubleClick={zoom.handlers.onDoubleClick}
-      >
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Invisible background for mouse events */}
-          <rect
-            width={innerWidth}
-            height={innerHeight}
-            fill="transparent"
-            className="cursor-crosshair"
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click
+          a series to highlight it (others fade), click again to restore */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend && data.length > 1}
+        legend={
+          <ChartLegend
+            items={legendItems}
+            position={legendPosition}
+            onItemHover={highlight.setHovered}
+            onItemClick={highlight.toggle}
+            isItemActive={highlight.isActive}
           />
-
-          {/* Drag-to-zoom selection rectangle */}
-          <ChartZoomSelectionRect range={zoom.dragRange} height={innerHeight} />
-
-          {/* Grid */}
-          {showGrid && (
-            <ChartGrid
-              xScale={xScale}
-              yScale={yScale}
+        }
+      >
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${width} ${height}`}
+          className="w-full overflow-visible select-none"
+          onMouseDown={zoom.handlers.onMouseDown}
+          onMouseMove={zoom.handlers.onMouseMove}
+          onMouseUp={zoom.handlers.onMouseUp}
+          onMouseLeave={zoom.handlers.onMouseLeave}
+          onDoubleClick={zoom.handlers.onDoubleClick}
+        >
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {/* Invisible background for mouse events */}
+            <rect
               width={innerWidth}
               height={innerHeight}
+              fill="transparent"
+              className="cursor-crosshair"
             />
-          )}
 
-          {/* Trend line */}
-          {trendLine && (
-            <line
-              x1={xScale(trendLine.x1)}
-              y1={yScale(trendLine.y1)}
-              x2={xScale(trendLine.x2)}
-              y2={yScale(trendLine.y2)}
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeDasharray="6,4"
-              className="text-muted-foreground/50"
+            {/* Drag-to-zoom selection rectangle */}
+            <ChartZoomSelectionRect
+              range={zoom.dragRange}
+              height={innerHeight}
             />
-          )}
 
-          {/* Points */}
-          {data.map((series, seriesIndex) => {
-            if (!isSeriesVisible(series.name)) return null
+            {/* Grid */}
+            {showGrid && (
+              <ChartGrid
+                xScale={xScale}
+                yScale={yScale}
+                width={innerWidth}
+                height={innerHeight}
+              />
+            )}
 
-            const seriesColor =
-              series.color ??
-              DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
-            const seriesSymbol = series.symbol ?? symbol
-            const isSeriesHovered =
-              hoveredSeries === null || hoveredSeries === series.name
-            const plotSeries = plotData[seriesIndex]
+            {/* Trend line */}
+            {trendLine && (
+              <line
+                x1={xScale(trendLine.x1)}
+                y1={yScale(trendLine.y1)}
+                x2={xScale(trendLine.x2)}
+                y2={yScale(trendLine.y2)}
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeDasharray="6,4"
+                className="text-muted-foreground/50"
+              />
+            )}
 
-            return plotSeries.data.map((point, pointIndex) => {
-              const pointSize =
-                point.size !== undefined
-                  ? sizeScale(point.size)
-                  : (series.size ?? size)
-              const isHovered =
-                hoveredPoint?.seriesIndex === seriesIndex &&
-                hoveredPoint?.pointIndex === pointIndex
+            {/* Points */}
+            {data.map((series, seriesIndex) => {
+              const seriesColor =
+                series.color ??
+                DEFAULT_COLORS[seriesIndex % DEFAULT_COLORS.length]
+              const seriesSymbol = series.symbol ?? symbol
+              const isActive = highlight.isActive(series.name)
+              const plotSeries = plotData[seriesIndex]
 
-              return (
-                <g
-                  key={`${seriesIndex}-${pointIndex}`}
-                  transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
-                  className={cn(
-                    "cursor-pointer transition-all duration-200",
-                    !isSeriesHovered && "opacity-30"
-                  )}
-                  onMouseEnter={() =>
-                    setHoveredPoint({
-                      seriesIndex,
-                      pointIndex,
-                      point,
-                      x: xScale(point.x),
-                      y: yScale(point.y),
-                    })
-                  }
-                  onMouseLeave={() => setHoveredPoint(null)}
-                >
-                  <path
-                    d={symbolPaths[seriesSymbol](
-                      isHovered ? pointSize * 1.3 : pointSize
+              return plotSeries.data.map((point, pointIndex) => {
+                const pointSize =
+                  point.size !== undefined
+                    ? sizeScale(point.size)
+                    : (series.size ?? size)
+                const isHovered =
+                  hoveredPoint?.seriesIndex === seriesIndex &&
+                  hoveredPoint?.pointIndex === pointIndex
+
+                return (
+                  <g
+                    key={`${seriesIndex}-${pointIndex}`}
+                    transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
+                    className={cn(
+                      "cursor-pointer transition-all duration-200",
+                      !isActive && "opacity-30"
                     )}
-                    fill={seriesColor}
-                    stroke="white"
-                    strokeWidth={1}
-                  />
-                </g>
-              )
-            })
-          })}
+                    onMouseEnter={() =>
+                      setHoveredPoint({
+                        seriesIndex,
+                        pointIndex,
+                        point,
+                        x: xScale(point.x),
+                        y: yScale(point.y),
+                      })
+                    }
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  >
+                    <path
+                      d={symbolPaths[seriesSymbol](
+                        isHovered ? pointSize * 1.3 : pointSize
+                      )}
+                      fill={seriesColor}
+                      stroke="white"
+                      strokeWidth={1}
+                    />
+                  </g>
+                )
+              })
+            })}
 
-          {/* X Axis */}
-          <ChartAxis
-            scale={xScale}
-            orientation="bottom"
-            transform={`translate(0, ${innerHeight})`}
-            label={xAxisLabel}
-          />
+            {/* X Axis */}
+            <ChartAxis
+              scale={xScale}
+              orientation="bottom"
+              transform={`translate(0, ${innerHeight})`}
+              label={xAxisLabel}
+            />
 
-          {/* Y Axis */}
-          <ChartAxis scale={yScale} orientation="left" label={yAxisLabel} />
-        </g>
-      </svg>
+            {/* Y Axis */}
+            <ChartAxis scale={yScale} orientation="left" label={yAxisLabel} />
+          </g>
+        </svg>
 
-      {/* Tooltip */}
-      {showTooltip && hoveredPoint && (
-        <div
-          className="pointer-events-none absolute z-50"
-          style={{
-            left: margin.left + hoveredPoint.x + 15,
-            top: margin.top + hoveredPoint.y - 10,
-          }}
-        >
-          <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
-            <div className="mb-1 font-medium">
-              {hoveredPoint.point.label ??
-                data[hoveredPoint.seriesIndex].name}
-            </div>
-            <div className="text-muted-foreground">
-              x: {hoveredPoint.point.x.toLocaleString()}
-            </div>
-            <div className="text-muted-foreground">
-              y: {hoveredPoint.point.y.toLocaleString()}
-            </div>
+        {/* Tooltip */}
+        {showTooltip && hoveredPoint && (
+          <div
+            className="pointer-events-none absolute z-50"
+            style={{
+              left: margin.left + hoveredPoint.x + 15,
+              top: margin.top + hoveredPoint.y - 10,
+            }}
+          >
+            <ChartTooltipSurface>
+              <div className="mb-1 font-medium">
+                {hoveredPoint.point.label ??
+                  data[hoveredPoint.seriesIndex].name}
+              </div>
+              <div className="text-muted-foreground">
+                x: {hoveredPoint.point.x.toLocaleString()}
+              </div>
+              <div className="text-muted-foreground">
+                y: {hoveredPoint.point.y.toLocaleString()}
+              </div>
+            </ChartTooltipSurface>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Legend — click an item to isolate that series, click again to
-          restore all */}
-      {showLegend && data.length > 1 && (
-        <ChartLegend
-          items={legendItems}
-          onItemHover={setHoveredSeries}
-          onItemClick={(name) =>
-            setActiveSeries((prev) => (prev === name ? null : name))
-          }
-          isItemActive={isSeriesVisible}
+        <ChartZoomResetButton
+          visible={isZoomed}
+          onReset={() => setZoomDomain(null)}
         />
-      )}
-
-      <ChartZoomResetButton
-        visible={isZoomed}
-        onReset={() => setZoomDomain(null)}
-      />
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

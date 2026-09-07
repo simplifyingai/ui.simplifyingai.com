@@ -1632,4 +1632,74 @@ export const examples: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "bar-chart-emphasis-demo",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
+    files: [
+      {
+        path: "examples/bar-chart-emphasis-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "area-chart-reference-demo",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
+    files: [
+      {
+        path: "examples/area-chart-reference-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "radial-progress-chart-demo",
+    type: "registry:example",
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/radial-progress-chart.json",
+    ],
+    files: [
+      {
+        path: "examples/radial-progress-chart-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "gauge-chart-ticks-demo",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
+    files: [
+      {
+        path: "examples/gauge-chart-ticks-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "proportion-bar-demo",
+    type: "registry:example",
+    registryDependencies: [
+      "https://ui.simplifyingai.com/r/proportion-bar.json",
+    ],
+    files: [
+      {
+        path: "examples/proportion-bar-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
+  {
+    name: "bar-chart-scroll-demo",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
+    files: [
+      {
+        path: "examples/bar-chart-scroll-demo.tsx",
+        type: "registry:example",
+      },
+    ],
+  },
 ]

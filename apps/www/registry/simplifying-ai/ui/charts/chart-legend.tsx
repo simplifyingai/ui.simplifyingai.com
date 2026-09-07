@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils"
 import type { ChartConfig } from "./chart-config"
 import { useChart } from "./chart-container"
 
+export type LegendPosition = "top" | "bottom" | "left" | "right"
+
 export interface LegendItem {
   name: string
   color: string
@@ -16,12 +18,12 @@ export interface LegendItem {
 export interface ChartLegendProps {
   items?: LegendItem[]
   className?: string
-  position?: "top" | "bottom" | "left" | "right"
+  position?: LegendPosition
   hideIcon?: boolean
   onItemClick?: (name: string) => void
   onItemHover?: (name: string | null) => void
   /** When provided, items for which this returns `false` render dimmed —
-   * used to show which series is isolated after a legend click. */
+   * used to show which series is highlighted after a legend click/hover. */
   isItemActive?: (name: string) => boolean
 }
 
@@ -54,7 +56,7 @@ export function ChartLegend({
     <div
       className={cn(
         "flex items-center justify-center gap-6",
-        isVertical && "flex-col gap-3",
+        isVertical && "max-h-full flex-col items-start gap-3 overflow-y-auto",
         position === "top" && "pb-4",
         position === "bottom" && "pt-4",
         position === "left" && "pr-4",
@@ -141,6 +143,101 @@ export function ChartLegendInline({
         </g>
       ))}
     </g>
+  )
+}
+
+// ============================================================================
+// Series highlight — Plotly-style legend emphasis
+// ============================================================================
+
+/**
+ * Shared selection/hover state for multi-series charts. Clicking a legend
+ * item "selects" a series (persists until clicked again); hovering a legend
+ * item previews it. The focused series (hover takes precedence over the
+ * click selection) is emphasized while every other series renders dimmed —
+ * faded, never removed — mirroring Plotly's legend highlight behavior.
+ *
+ *   const hl = useSeriesHighlight()
+ *   <path className={cn(hl.isDimmed(name) && "opacity-30")} />
+ *   <ChartLegend onItemClick={hl.toggle} onItemHover={hl.setHovered}
+ *     isItemActive={hl.isActive} />
+ */
+export function useSeriesHighlight() {
+  const [selected, setSelected] = React.useState<string | null>(null)
+  const [hovered, setHovered] = React.useState<string | null>(null)
+  const focused = hovered ?? selected
+
+  const isDimmed = React.useCallback(
+    (name: string) => focused !== null && focused !== name,
+    [focused]
+  )
+  const isActive = React.useCallback(
+    (name: string) => focused === null || focused === name,
+    [focused]
+  )
+  const toggle = React.useCallback(
+    (name: string) => setSelected((prev) => (prev === name ? null : name)),
+    []
+  )
+
+  return {
+    /** Series pinned by a legend click (null when none). */
+    selected,
+    /** Series currently hovered in the legend (null when none). */
+    hovered,
+    /** Effective emphasized series: hover wins over the click selection. */
+    focused,
+    setSelected,
+    setHovered,
+    /** Click handler for a legend item — pin/unpin the series. */
+    toggle,
+    /** True when a different series is focused (this one should fade). */
+    isDimmed,
+    /** True when this series is focused or nothing is focused. */
+    isActive,
+  }
+}
+
+// ============================================================================
+// Legend layout — arranges the plot and a persistent legend on any side
+// ============================================================================
+
+/**
+ * Positions a persistent `ChartLegend` on any side of the plot without
+ * disturbing the plot's own coordinate system. The plot (svg + any
+ * absolutely-positioned tooltips/overlays) is wrapped in a `relative`
+ * flex-1 box so its overlays stay anchored to the plot area regardless of
+ * which side the legend occupies. Render this as the sole flex child of a
+ * `ChartContainer`.
+ */
+export function ChartLegendLayout({
+  position = "right",
+  show = true,
+  legend,
+  children,
+  className,
+}: {
+  position?: LegendPosition
+  show?: boolean
+  legend: React.ReactNode
+  children: React.ReactNode
+  className?: string
+}) {
+  const isRow = position === "left" || position === "right"
+  const legendFirst = position === "top" || position === "left"
+
+  return (
+    <div
+      className={cn(
+        "flex min-h-0 min-w-0 flex-1",
+        isRow ? "flex-row" : "flex-col",
+        className
+      )}
+    >
+      {show && legendFirst && legend}
+      <div className="relative flex min-h-0 min-w-0 flex-1">{children}</div>
+      {show && !legendFirst && legend}
+    </div>
   )
 }
 

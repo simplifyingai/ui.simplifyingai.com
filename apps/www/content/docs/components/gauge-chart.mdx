@@ -14,6 +14,17 @@ component: true
 
 The Gauge Chart displays a single value within a defined range using animated arc indicators. It supports 8 different variants for various use cases from dashboards to speedometers.
 
+## Ticks variant
+
+`variant="ticks"` draws discrete rounded capsules around the arc, filled up
+to the value. It reads at a glance from across a room in a way a thin arc
+does not, and `children` fills the centre with anything non-SVG.
+
+<ComponentPreview
+  name="gauge-chart-ticks-demo"
+  description="A segmented budget meter filled to the current value."
+/>
+
 ## Installation
 
 <CodeTabs>

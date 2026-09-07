@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   ComposedChart,
   Line,
-  ReferenceArea,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -15,57 +14,35 @@ import {
 } from "recharts"
 
 import { cn } from "@/lib/utils"
-import { ChartZoomResetButton } from "../chart-zoom"
 
-/** Shared drag-to-zoom state machine for Recharts category-axis charts:
- * drag across categories to zoom into that range, "Reset zoom" to return. */
-function useCategoryZoom<T extends { label: string }>(data: T[]) {
-  const [refAreaLeft, setRefAreaLeft] = React.useState<string | null>(null)
-  const [refAreaRight, setRefAreaRight] = React.useState<string | null>(null)
-  const [zoomedData, setZoomedData] = React.useState<T[] | null>(null)
+import { ChartTooltipSurface } from "../chart-tooltip"
 
-  React.useEffect(() => {
-    setZoomedData(null)
-  }, [data])
-
-  const displayData = zoomedData ?? data
-
-  const onMouseDown = (state: { activeLabel?: string } | null) => {
-    if (state?.activeLabel) setRefAreaLeft(state.activeLabel)
-  }
-
-  const onMouseMove = (state: { activeLabel?: string } | null) => {
-    if (refAreaLeft && state?.activeLabel) setRefAreaRight(state.activeLabel)
-  }
-
-  const onMouseUp = () => {
-    if (!refAreaLeft || !refAreaRight || refAreaLeft === refAreaRight) {
-      setRefAreaLeft(null)
-      setRefAreaRight(null)
-      return
-    }
-    let leftIdx = displayData.findIndex((d) => d.label === refAreaLeft)
-    let rightIdx = displayData.findIndex((d) => d.label === refAreaRight)
-    if (leftIdx === -1 || rightIdx === -1) {
-      setRefAreaLeft(null)
-      setRefAreaRight(null)
-      return
-    }
-    if (leftIdx > rightIdx) [leftIdx, rightIdx] = [rightIdx, leftIdx]
-    setZoomedData(displayData.slice(leftIdx, rightIdx + 1))
-    setRefAreaLeft(null)
-    setRefAreaRight(null)
-  }
-
-  return {
-    displayData,
-    isZoomed: zoomedData !== null,
-    refAreaLeft,
-    refAreaRight,
-    reset: () => setZoomedData(null),
-    handlers: { onMouseDown, onMouseMove, onMouseUp },
-  }
-}
+import {
+  chartActiveTick,
+  chartTagLabel,
+  resolveReferenceValue,
+  type ChartLabelRenderer,
+} from "../chart-annotations"
+import { ChartLegendLayout, useSeriesHighlight } from "../chart-legend"
+import {
+  autoTickInterval,
+  ChartPlotArea,
+  resolveResponsive,
+  useCategoryLayout,
+  useChartSize,
+  type CategoryChartLayoutProps,
+  type Responsive,
+} from "../chart-responsive"
+import {
+  useChartTheme,
+  type ChartTagVariant,
+  type ChartTickVariant,
+} from "../chart-theme"
+import {
+  ChartWindowSelectionOverlay,
+  ChartZoomControls,
+  useChartWindow,
+} from "../chart-zoom"
 
 export interface AreaChartDataPoint {
   label: string
@@ -73,7 +50,7 @@ export interface AreaChartDataPoint {
   [key: string]: unknown
 }
 
-export interface AreaChartProps {
+export interface AreaChartProps extends CategoryChartLayoutProps {
   data: AreaChartDataPoint[]
   className?: string
   color?: string
@@ -92,8 +69,37 @@ export interface AreaChartProps {
   strokeWidth?: number
   dotRadius?: number
   xAxisAngle?: number
-  aspectRatio?: number
   curveType?: "linear" | "monotone" | "step"
+  yAxisWidth?: Responsive<number>
+
+  xAxisLabel?: string
+  yAxisLabel?: string
+  /**
+   * Recharts tick interval for the category axis. The default draws every
+   * label, which is unreadable past ~15 points — pass a number to draw
+   * every Nth, or "preserveStartEnd" for just the ends.
+   */
+  xAxisInterval?: number | "preserveStart" | "preserveEnd" | "preserveStartEnd"
+  showXAxis?: boolean
+  showYAxis?: boolean
+  /** Category to mark out on the axis. */
+  activeLabel?: string | null
+  /** How that tick is marked. Defaults to the chart theme. */
+  activeTickVariant?: ChartTickVariant
+  /** Horizontal marker: a literal value, or a statistic over the data. */
+  referenceLine?: AreaChartReferenceLine | number | "avg" | "min" | "max" | null
+}
+
+/** Horizontal marker across the plot — a target, a budget, an average. */
+export interface AreaChartReferenceLine {
+  value: number | "avg" | "min" | "max"
+  /** Text for the label, or your own renderer. Omit for a bare line. */
+  label?: string | ChartLabelRenderer
+  /** Shape of that label. Defaults to the chart theme. */
+  labelVariant?: ChartTagVariant
+  color?: string
+  strokeDasharray?: string
+  labelSide?: "left" | "right"
 }
 
 export function AreaChart({
@@ -116,17 +122,57 @@ export function AreaChart({
   dotRadius = 4,
   xAxisAngle = 0,
   aspectRatio = 2,
+  minHeight = 180,
+  overflow = "compress",
+  minCategorySize = 24,
+  zoomable = true,
+  wheelZoom = false,
+  showZoomControls = true,
+  yAxisWidth,
   curveType = "linear",
+  xAxisLabel,
+  yAxisLabel,
+  showXAxis = true,
+  showYAxis = true,
+  xAxisInterval = 0,
+  activeLabel = null,
+  activeTickVariant,
+  referenceLine = null,
 }: AreaChartProps) {
+  const theme = useChartTheme({ activeTickVariant })
   const gradientId = React.useId().replace(/:/g, "")
   const patternId = React.useId().replace(/:/g, "")
-  const zoom = useCategoryZoom(data)
+
+  const { ref: sizeRef, width: containerWidth } = useChartSize<HTMLDivElement>()
+  const layoutBox = useCategoryLayout({
+    count: data.length,
+    containerWidth,
+    aspectRatio,
+    minHeight,
+    overflow,
+    minCategorySize,
+  })
+  const resolvedYAxisWidth = resolveResponsive(
+    yAxisWidth,
+    containerWidth,
+    containerWidth && containerWidth < 420 ? 38 : 50
+  )
+  const zoom = useChartWindow({
+    length: data.length,
+    // Scrolling already owns the pointer; two ways to move the same axis
+    // just fight each other.
+    disabled: !zoomable || layoutBox.scrolls,
+    wheelZoom,
+    insetStart: resolvedYAxisWidth + 10,
+    insetEnd: 30,
+  })
+  const displayData = zoom.slice(data)
 
   // Calculate domain from the currently-visible (possibly zoomed) data if
   // not provided, so zooming auto-fits the Y-axis to the selected range.
   const calculatedDomain = React.useMemo(() => {
     if (yAxisDomain) return yAxisDomain
-    const values = zoom.displayData.map((d) => d.value)
+    const values = displayData.map((d) => d.value)
     const min = Math.min(...values)
     const max = Math.max(...values)
     const padding = (max - min) * 0.1
@@ -134,7 +180,7 @@ export function AreaChart({
       Math.max(0, Math.floor((min - padding) / 10) * 10),
       Math.ceil((max + padding) / 10) * 10,
     ] as [number, number]
-  }, [zoom.displayData, yAxisDomain])
+  }, [displayData, yAxisDomain])
 
   // Calculate ticks if not provided
   const calculatedTicks = React.useMemo(() => {
@@ -144,208 +190,292 @@ export function AreaChart({
     return Array.from({ length: 5 }, (_, i) => Math.round(min + step * i))
   }, [calculatedDomain, yAxisTicks])
 
+  const reference = React.useMemo(() => {
+    if (referenceLine == null) return null
+    const spec: AreaChartReferenceLine =
+      typeof referenceLine === "object"
+        ? referenceLine
+        : { value: referenceLine }
+    const resolved = resolveReferenceValue(
+      spec.value,
+      displayData.map((d) => Number(d.value))
+    )
+    return resolved == null ? null : { ...spec, resolved }
+  }, [referenceLine, displayData])
+
+  const marksActiveTick = activeLabel != null
+  const resolvedInterval =
+    xAxisInterval ||
+    autoTickInterval(
+      displayData.length,
+      layoutBox.plotWidth - resolvedYAxisWidth
+    )
+
   return (
-    <div className={cn("relative w-full", className)}>
-      <ResponsiveContainer width="100%" aspect={aspectRatio}>
-        <ComposedChart
-          data={zoom.displayData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 10,
-            bottom: xAxisAngle === 0 ? 20 : 60,
-          }}
-          onMouseDown={zoom.handlers.onMouseDown}
-          onMouseMove={zoom.handlers.onMouseMove}
-          onMouseUp={zoom.handlers.onMouseUp}
-        >
-          <defs>
-            {/* Gradient fill - stronger fade */}
-            <linearGradient
-              id={`gradient-${gradientId}`}
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
-              <stop
-                offset="0%"
-                stopColor={gradientFrom}
-                stopOpacity={gradientOpacity[0]}
-              />
-              <stop
-                offset="100%"
-                stopColor={gradientTo}
-                stopOpacity={gradientOpacity[1]}
-              />
-            </linearGradient>
-
-            {/* Dotted pattern overlay */}
-            <pattern
-              id={`pattern-${patternId}`}
-              x="0"
-              y="0"
-              width="6"
-              height="6"
-              patternUnits="userSpaceOnUse"
-            >
-              <circle cx="1.5" cy="1.5" r="0.75" fill="rgba(255,255,255,0.3)" />
-            </pattern>
-          </defs>
-
-          {/* Grid */}
-          {showGrid && (
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={true}
-              horizontal={true}
-              stroke="hsl(var(--border))"
-              strokeOpacity={0.5}
-            />
-          )}
-
-          {/* Y-Axis */}
-          <YAxis
-            domain={calculatedDomain}
-            ticks={calculatedTicks}
-            tickFormatter={valueFormatter}
-            axisLine={false}
-            tickLine={false}
-            tick={({ x, y, payload }) => (
-              <text
-                x={x}
-                y={y}
-                dy={4}
-                textAnchor="end"
-                className="fill-muted-foreground text-xs"
-              >
-                {valueFormatter(payload.value)}
-              </text>
-            )}
-            width={50}
-          />
-
-          {/* X-Axis */}
-          <XAxis
-            dataKey="label"
-            axisLine={false}
-            tickLine={false}
-            tick={({ x, y, payload }) => (
-              <text
-                x={x}
-                y={y}
-                dy={16}
-                textAnchor="middle"
-                className="fill-muted-foreground text-xs"
-              >
-                {labelFormatter(payload.value)}
-              </text>
-            )}
-            height={xAxisAngle === 0 ? 30 : 60}
-            interval={0}
-          />
-
-          {/* Tooltip with cursor line */}
-          {showTooltip && (
-            <Tooltip
-              cursor={
-                showCursor
-                  ? {
-                      stroke: "hsl(var(--muted-foreground))",
-                      strokeWidth: 1,
-                      strokeDasharray: "4 4",
-                    }
-                  : false
-              }
-              content={({ active, payload, label }) => {
-                if (!active || !payload?.length) return null
-                return (
-                  <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
-                    <p className="text-foreground text-sm font-medium">
-                      {labelFormatter(label)}
-                    </p>
-                    {payload.map((entry, index) => (
-                      <p
-                        key={index}
-                        className="text-sm"
-                        style={{ color: entry.color }}
-                      >
-                        {entry.name}: {valueFormatter(entry.value as number)}
-                      </p>
-                    ))}
-                  </div>
-                )
+    <div ref={sizeRef} className={cn("group/chart relative w-full", className)}>
+      <div className="relative" {...zoom.bind}>
+        <ChartPlotArea layout={layoutBox}>
+          <ResponsiveContainer width="100%" height={layoutBox.plotHeight}>
+            <ComposedChart
+              data={displayData}
+              margin={{
+                top: 20,
+                right: 30,
+                left: yAxisLabel ? 20 : 10,
+                bottom: (xAxisAngle === 0 ? 20 : 60) + (xAxisLabel ? 24 : 0),
               }}
-            />
-          )}
+            >
+              <defs>
+                {/* Gradient fill - stronger fade */}
+                <linearGradient
+                  id={`gradient-${gradientId}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor={gradientFrom}
+                    stopOpacity={gradientOpacity[0]}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={gradientTo}
+                    stopOpacity={gradientOpacity[1]}
+                  />
+                </linearGradient>
 
-          {/* Area fill with gradient */}
-          <Area
-            type={curveType}
-            dataKey="value"
-            stroke="none"
-            fill={`url(#gradient-${gradientId})`}
-            fillOpacity={1}
-            isAnimationActive={animate}
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease-out"
-          />
+                {/* Dotted pattern overlay */}
+                <pattern
+                  id={`pattern-${patternId}`}
+                  x="0"
+                  y="0"
+                  width="6"
+                  height="6"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <circle
+                    cx="1.5"
+                    cy="1.5"
+                    r="0.75"
+                    fill="rgba(255,255,255,0.3)"
+                  />
+                </pattern>
+              </defs>
 
-          {/* Dotted pattern overlay */}
-          <Area
-            type={curveType}
-            dataKey="value"
-            stroke="none"
-            fill={`url(#pattern-${patternId})`}
-            fillOpacity={1}
-            isAnimationActive={animate}
-            animationBegin={0}
-            animationDuration={1500}
-            animationEasing="ease-out"
-          />
+              {/* Grid */}
+              {showGrid && (
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={true}
+                  horizontal={true}
+                  stroke="var(--border)"
+                  strokeOpacity={0.5}
+                />
+              )}
 
-          {/* Line on top with dots */}
-          <Line
-            type={curveType}
-            dataKey="value"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            dot={
-              showDots
-                ? {
-                    r: dotRadius,
-                    fill: "hsl(var(--background))",
-                    stroke: color,
-                    strokeWidth: 2,
+              {/* Y-Axis */}
+              <YAxis
+                domain={calculatedDomain}
+                ticks={calculatedTicks}
+                tickFormatter={valueFormatter}
+                hide={!showYAxis}
+                label={
+                  yAxisLabel
+                    ? {
+                        value: yAxisLabel,
+                        angle: -90,
+                        position: "insideLeft",
+                        fill: "var(--muted-foreground)",
+                        fontSize: 12,
+                      }
+                    : undefined
+                }
+                axisLine={false}
+                tickLine={false}
+                tick={({ x, y, payload }) => (
+                  <text
+                    x={x}
+                    y={y}
+                    dy={4}
+                    textAnchor="end"
+                    className="fill-muted-foreground text-xs"
+                  >
+                    {valueFormatter(payload.value)}
+                  </text>
+                )}
+                width={resolvedYAxisWidth}
+              />
+
+              {/* X-Axis */}
+              <XAxis
+                dataKey="label"
+                hide={!showXAxis}
+                axisLine={false}
+                tickLine={false}
+                label={
+                  xAxisLabel
+                    ? {
+                        value: xAxisLabel,
+                        position: "insideBottom",
+                        offset: -12,
+                        fill: "var(--muted-foreground)",
+                        fontSize: 12,
+                      }
+                    : undefined
+                }
+                tick={
+                  marksActiveTick
+                    ? chartActiveTick(activeLabel, {
+                        variant: theme.activeTickVariant,
+                        background: theme.activeTickBackground,
+                        foreground: theme.activeTickForeground,
+                        formatter: labelFormatter,
+                      })
+                    : ({ x, y, payload }) => (
+                        <text
+                          x={x}
+                          y={y}
+                          dy={16}
+                          textAnchor="middle"
+                          className="fill-muted-foreground text-xs"
+                        >
+                          {labelFormatter(payload.value)}
+                        </text>
+                      )
+                }
+                height={xAxisAngle === 0 ? 30 : 60}
+                interval={resolvedInterval}
+              />
+
+              {reference && (
+                <ReferenceLine
+                  y={reference.resolved}
+                  stroke={reference.color ?? "var(--muted-foreground)"}
+                  strokeDasharray={reference.strokeDasharray ?? "2 6"}
+                  ifOverflow="extendDomain"
+                  label={
+                    typeof reference.label === "function"
+                      ? reference.label
+                      : reference.label
+                        ? chartTagLabel(reference.label, {
+                            variant: reference.labelVariant ?? theme.tagVariant,
+                            side: reference.labelSide ?? "left",
+                            background: theme.tagBackground,
+                            foreground: theme.tagForeground,
+                          })
+                        : undefined
                   }
-                : false
-            }
-            activeDot={{
-              r: 4,
-              fill: color,
-              stroke: "hsl(var(--background))",
-              strokeWidth: 2,
-            }}
-            isAnimationActive={animate}
-            animationBegin={200}
-            animationDuration={1800}
-            animationEasing="ease-out"
-          />
+                />
+              )}
 
-          {/* Selection rectangle while dragging to zoom */}
-          {zoom.refAreaLeft && zoom.refAreaRight && (
-            <ReferenceArea
-              x1={zoom.refAreaLeft}
-              x2={zoom.refAreaRight}
-              strokeOpacity={0.3}
-              fill="var(--foreground)"
-              fillOpacity={0.08}
-            />
-          )}
-        </ComposedChart>
-      </ResponsiveContainer>
-      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
+              {/* Tooltip with cursor line */}
+              {showTooltip && (
+                <Tooltip
+                  cursor={
+                    showCursor
+                      ? {
+                          stroke: "var(--muted-foreground)",
+                          strokeWidth: 1,
+                          strokeDasharray: "4 4",
+                        }
+                      : false
+                  }
+                  content={({ active, payload, label }) => {
+                    if (!active || !payload?.length) return null
+                    return (
+                      <ChartTooltipSurface>
+                        <p className="text-foreground font-medium">
+                          {labelFormatter(label)}
+                        </p>
+                        {payload.map((entry, index) => (
+                          <p
+                            key={index}
+                            style={{ color: entry.color }}
+                          >
+                            {entry.name}:{" "}
+                            {valueFormatter(entry.value as number)}
+                          </p>
+                        ))}
+                      </ChartTooltipSurface>
+                    )
+                  }}
+                />
+              )}
+
+              {/* Area fill with gradient */}
+              <Area
+                type={curveType}
+                dataKey="value"
+                stroke="none"
+                fill={`url(#gradient-${gradientId})`}
+                fillOpacity={1}
+                isAnimationActive={animate}
+                animationBegin={0}
+                animationDuration={1500}
+                animationEasing="ease-out"
+              />
+
+              {/* Dotted pattern overlay */}
+              <Area
+                type={curveType}
+                dataKey="value"
+                stroke="none"
+                fill={`url(#pattern-${patternId})`}
+                fillOpacity={1}
+                isAnimationActive={animate}
+                animationBegin={0}
+                animationDuration={1500}
+                animationEasing="ease-out"
+              />
+
+              {/* Line on top with dots */}
+              <Line
+                type={curveType}
+                dataKey="value"
+                stroke={color}
+                strokeWidth={strokeWidth}
+                dot={
+                  showDots
+                    ? {
+                        r: dotRadius,
+                        fill: "var(--background)",
+                        stroke: color,
+                        strokeWidth: 2,
+                      }
+                    : false
+                }
+                activeDot={{
+                  r: 4,
+                  fill: color,
+                  stroke: "var(--background)",
+                  strokeWidth: 2,
+                }}
+                isAnimationActive={animate}
+                animationBegin={200}
+                animationDuration={1800}
+                animationEasing="ease-out"
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ChartPlotArea>
+
+        <ChartWindowSelectionOverlay
+          selection={zoom.selection}
+          insetStart={resolvedYAxisWidth + 10}
+          insetEnd={30}
+        />
+      </div>
+
+      {showZoomControls && !layoutBox.scrolls && zoomable && (
+        <ChartZoomControls
+          onZoomIn={zoom.zoomIn}
+          onZoomOut={zoom.zoomOut}
+          onReset={zoom.reset}
+          isZoomed={zoom.isZoomed}
+        />
+      )}
     </div>
   )
 }
@@ -378,7 +508,7 @@ export interface MultiAreaChartDataPoint {
   [key: string]: string | number
 }
 
-export interface MultiAreaChartProps {
+export interface MultiAreaChartProps extends CategoryChartLayoutProps {
   data: MultiAreaChartDataPoint[]
   series: MultiAreaChartSeries[]
   className?: string
@@ -386,6 +516,9 @@ export interface MultiAreaChartProps {
   showTooltip?: boolean
   showCursor?: boolean
   showLegend?: boolean
+  /** Side the legend sits on. A side legend eats width a narrow container
+   *  doesn't have, so it falls to the bottom below `md` by default. */
+  legendPosition?: Responsive<"top" | "bottom" | "left" | "right">
   valueFormatter?: (value: number) => string
   labelFormatter?: (label: string) => string
   yAxisDomain?: [number, number]
@@ -393,7 +526,7 @@ export interface MultiAreaChartProps {
   animate?: boolean
   strokeWidth?: number
   xAxisAngle?: number
-  aspectRatio?: number
+  yAxisWidth?: Responsive<number>
   curveType?: "linear" | "monotone" | "step"
   stacked?: boolean
   gradientOpacity?: [number, number]
@@ -407,6 +540,7 @@ export function MultiAreaChart({
   showTooltip = true,
   showCursor = true,
   showLegend = true,
+  legendPosition = { base: "bottom", md: "right" },
   valueFormatter = (value) => `${value}`,
   labelFormatter = (label) => label,
   yAxisDomain,
@@ -415,23 +549,57 @@ export function MultiAreaChart({
   strokeWidth = 2,
   xAxisAngle = 0,
   aspectRatio = 2,
+  minHeight = 180,
+  overflow = "compress",
+  minCategorySize = 24,
+  zoomable = true,
+  wheelZoom = false,
+  showZoomControls = true,
+  yAxisWidth,
   curveType = "monotone",
   stacked = false,
   gradientOpacity = [0.6, 0.1],
 }: MultiAreaChartProps) {
   const baseId = React.useId().replace(/:/g, "")
-  const zoom = useCategoryZoom(data)
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
-  const isSeriesVisible = (name: string) =>
-    activeSeries === null || activeSeries === name
-  const visibleSeries = series.filter((s) => isSeriesVisible(s.name))
 
-  // Calculate domain from the currently-visible (possibly zoomed,
-  // possibly isolated-to-one-series) data, so zoom/isolate auto-fit Y.
+  const { ref: sizeRef, width: containerWidth } = useChartSize<HTMLDivElement>()
+  const layoutBox = useCategoryLayout({
+    count: data.length,
+    containerWidth,
+    aspectRatio,
+    minHeight,
+    overflow,
+    minCategorySize,
+  })
+  const resolvedLegendPosition = resolveResponsive(
+    legendPosition,
+    containerWidth,
+    "right"
+  )
+  const resolvedYAxisWidth = resolveResponsive(
+    yAxisWidth,
+    containerWidth,
+    containerWidth && containerWidth < 420 ? 38 : 50
+  )
+  const zoom = useChartWindow({
+    length: data.length,
+    disabled: !zoomable || layoutBox.scrolls,
+    wheelZoom,
+    insetStart: resolvedYAxisWidth + 10,
+    insetEnd: 30,
+  })
+  const displayData = zoom.slice(data)
+  // Legend highlight: click a series to emphasize it (others fade but stay
+  // drawn so the stack layout never shifts), hover to preview — Plotly-style.
+  const highlight = useSeriesHighlight()
+
+  // Calculate domain from the currently-visible (possibly zoomed) data
+  // across ALL series — highlighting only fades series, it never removes
+  // them, so the Y-axis stays put as you emphasize different series.
   const calculatedDomain = React.useMemo(() => {
     if (yAxisDomain) return yAxisDomain
-    const allValues = zoom.displayData.flatMap((d) =>
-      visibleSeries.map((s) => (d[s.dataKey] as number) || 0)
+    const allValues = displayData.flatMap((d) =>
+      series.map((s) => (d[s.dataKey] as number) || 0)
     )
     const min = Math.min(...allValues)
     const max = Math.max(...allValues)
@@ -440,7 +608,7 @@ export function MultiAreaChart({
       Math.max(0, Math.floor((min - padding) / 10) * 10),
       Math.ceil((max + padding) / 10) * 10,
     ] as [number, number]
-  }, [zoom.displayData, visibleSeries, yAxisDomain])
+  }, [displayData, series, yAxisDomain])
 
   const calculatedTicks = React.useMemo(() => {
     if (yAxisTicks) return yAxisTicks
@@ -450,234 +618,264 @@ export function MultiAreaChart({
   }, [calculatedDomain, yAxisTicks])
 
   return (
-    <div className={cn("relative w-full", className)}>
-      <ResponsiveContainer width="100%" aspect={aspectRatio}>
-        <ComposedChart
-          data={zoom.displayData}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 10,
-            bottom: xAxisAngle === 0 ? 20 : 60,
-          }}
-          onMouseDown={zoom.handlers.onMouseDown}
-          onMouseMove={zoom.handlers.onMouseMove}
-          onMouseUp={zoom.handlers.onMouseUp}
-        >
-          <defs>
-            {series.map((s, i) => (
-              <linearGradient
+    <div ref={sizeRef} className={cn("group/chart relative w-full", className)}>
+      <ChartLegendLayout
+        position={resolvedLegendPosition}
+        show={showLegend && series.length > 1}
+        legend={
+          <div
+            className={cn(
+              "flex gap-3",
+              legendPosition === "left" || legendPosition === "right"
+                ? "flex-col items-start"
+                : "flex-wrap items-center justify-center",
+              legendPosition === "top" && "pb-4",
+              legendPosition === "bottom" && "pt-4",
+              legendPosition === "left" && "pr-4",
+              legendPosition === "right" && "pl-4"
+            )}
+          >
+            {series.map((s) => (
+              <button
                 key={s.dataKey}
-                id={`gradient-${baseId}-${i}`}
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
+                type="button"
+                onClick={() => highlight.toggle(s.name)}
+                onMouseEnter={() => highlight.setHovered(s.name)}
+                onMouseLeave={() => highlight.setHovered(null)}
+                className={cn(
+                  "flex items-center gap-2 text-sm transition-opacity hover:opacity-80",
+                  !highlight.isActive(s.name) && "opacity-40"
+                )}
               >
-                <stop
-                  offset="0%"
-                  stopColor={s.gradientFrom || s.color}
-                  stopOpacity={gradientOpacity[0]}
+                <div
+                  className="size-3 rounded-sm"
+                  style={{ backgroundColor: s.color }}
                 />
-                <stop
-                  offset="100%"
-                  stopColor={s.gradientTo || s.color}
-                  stopOpacity={gradientOpacity[1]}
-                />
-              </linearGradient>
+                <span className="text-muted-foreground">{s.name}</span>
+              </button>
             ))}
-            {/* Dot pattern overlay */}
-            <pattern
-              id={`pattern-${baseId}`}
-              x="0"
-              y="0"
-              width="6"
-              height="6"
-              patternUnits="userSpaceOnUse"
-            >
-              <circle
-                cx="1.5"
-                cy="1.5"
-                r="0.75"
-                fill="rgba(255,255,255,0.25)"
-              />
-            </pattern>
-          </defs>
-
-          {showGrid && (
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={true}
-              horizontal={true}
-              stroke="hsl(var(--border))"
-              strokeOpacity={0.5}
-            />
-          )}
-
-          <YAxis
-            domain={calculatedDomain}
-            ticks={calculatedTicks}
-            tickFormatter={valueFormatter}
-            axisLine={false}
-            tickLine={false}
-            tick={({ x, y, payload }) => (
-              <text
-                x={x}
-                y={y}
-                dy={4}
-                textAnchor="end"
-                className="fill-muted-foreground text-xs"
+          </div>
+        }
+      >
+        <div className="relative w-full flex-1" {...zoom.bind}>
+          <ChartPlotArea layout={layoutBox}>
+            <ResponsiveContainer width="100%" height={layoutBox.plotHeight}>
+              <ComposedChart
+                data={displayData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 10,
+                  bottom: xAxisAngle === 0 ? 20 : 60,
+                }}
               >
-                {valueFormatter(payload.value)}
-              </text>
-            )}
-            width={50}
-          />
+                <defs>
+                  {series.map((s, i) => (
+                    <linearGradient
+                      key={s.dataKey}
+                      id={`gradient-${baseId}-${i}`}
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor={s.gradientFrom || s.color}
+                        stopOpacity={gradientOpacity[0]}
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor={s.gradientTo || s.color}
+                        stopOpacity={gradientOpacity[1]}
+                      />
+                    </linearGradient>
+                  ))}
+                  {/* Dot pattern overlay */}
+                  <pattern
+                    id={`pattern-${baseId}`}
+                    x="0"
+                    y="0"
+                    width="6"
+                    height="6"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle
+                      cx="1.5"
+                      cy="1.5"
+                      r="0.75"
+                      fill="rgba(255,255,255,0.25)"
+                    />
+                  </pattern>
+                </defs>
 
-          <XAxis
-            dataKey="label"
-            axisLine={false}
-            tickLine={false}
-            tick={({ x, y, payload }) => (
-              <text
-                x={x}
-                y={y}
-                dy={16}
-                textAnchor="middle"
-                className="fill-muted-foreground text-xs"
-              >
-                {labelFormatter(payload.value)}
-              </text>
-            )}
-            height={xAxisAngle === 0 ? 30 : 60}
-            interval={0}
-          />
+                {showGrid && (
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    vertical={true}
+                    horizontal={true}
+                    stroke="var(--border)"
+                    strokeOpacity={0.5}
+                  />
+                )}
 
-          {showTooltip && (
-            <Tooltip
-              cursor={
-                showCursor
-                  ? {
-                      stroke: "hsl(var(--muted-foreground))",
-                      strokeWidth: 1,
-                      strokeDasharray: "4 4",
+                <YAxis
+                  domain={calculatedDomain}
+                  ticks={calculatedTicks}
+                  tickFormatter={valueFormatter}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={({ x, y, payload }) => (
+                    <text
+                      x={x}
+                      y={y}
+                      dy={4}
+                      textAnchor="end"
+                      className="fill-muted-foreground text-xs"
+                    >
+                      {valueFormatter(payload.value)}
+                    </text>
+                  )}
+                  width={50}
+                />
+
+                <XAxis
+                  dataKey="label"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={({ x, y, payload }) => (
+                    <text
+                      x={x}
+                      y={y}
+                      dy={16}
+                      textAnchor="middle"
+                      className="fill-muted-foreground text-xs"
+                    >
+                      {labelFormatter(payload.value)}
+                    </text>
+                  )}
+                  height={xAxisAngle === 0 ? 30 : 60}
+                  interval={0}
+                />
+
+                {showTooltip && (
+                  <Tooltip
+                    cursor={
+                      showCursor
+                        ? {
+                            stroke: "var(--muted-foreground)",
+                            strokeWidth: 1,
+                            strokeDasharray: "4 4",
+                          }
+                        : false
                     }
-                  : false
-              }
-              content={({ active, payload, label }) => {
-                if (!active || !payload?.length) return null
-                return (
-                  <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
-                    <p className="text-foreground mb-1 text-sm font-medium">
-                      {labelFormatter(label)}
-                    </p>
-                    {payload.map((entry, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-2 text-sm"
-                      >
-                        <div
-                          className="size-2 rounded-full"
-                          style={{ backgroundColor: entry.color }}
-                        />
-                        <span className="text-muted-foreground">
-                          {entry.name}:
-                        </span>
-                        <span style={{ color: entry.color }}>
-                          {valueFormatter(entry.value as number)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )
-              }}
+                    content={({ active, payload, label }) => {
+                      if (!active || !payload?.length) return null
+                      return (
+                        <ChartTooltipSurface>
+                          <p className="text-foreground mb-1 font-medium">
+                            {labelFormatter(label)}
+                          </p>
+                          {payload.map((entry, index) => (
+                            <div
+                              key={index}
+                              className={cn(
+                                "flex items-center gap-2 transition-opacity",
+                                highlight.isDimmed(entry.name as string) &&
+                                  "opacity-40"
+                              )}
+                            >
+                              <div
+                                className="size-2 rounded-full"
+                                style={{ backgroundColor: entry.color }}
+                              />
+                              <span className="text-muted-foreground">
+                                {entry.name}:
+                              </span>
+                              <span style={{ color: entry.color }}>
+                                {valueFormatter(entry.value as number)}
+                              </span>
+                            </div>
+                          ))}
+                        </ChartTooltipSurface>
+                      )
+                    }}
+                  />
+                )}
+
+                {/* Render areas in reverse order so first series is on top.
+              All series always render — the focused one stays vivid while
+              the rest fade (never removed, so the layout never shifts). */}
+                {[...series].reverse().map((s, i) => (
+                  <Area
+                    key={`${s.dataKey}-fill`}
+                    type={curveType}
+                    dataKey={s.dataKey}
+                    name={s.name}
+                    stroke={s.color}
+                    strokeWidth={strokeWidth}
+                    fill={`url(#gradient-${baseId}-${series.indexOf(s)})`}
+                    fillOpacity={1}
+                    stackId={stacked ? "stack" : undefined}
+                    isAnimationActive={animate}
+                    animationBegin={i * 100}
+                    animationDuration={1500}
+                    animationEasing="ease-out"
+                    className={cn(
+                      "transition-opacity duration-200",
+                      highlight.isDimmed(s.name) && "opacity-30"
+                    )}
+                    activeDot={{
+                      r: 4,
+                      fill: s.color,
+                      stroke: "var(--background)",
+                      strokeWidth: 2,
+                    }}
+                  />
+                ))}
+
+                {/* Dot pattern overlay for each series */}
+                {[...series].reverse().map((s, i) => (
+                  <Area
+                    key={`${s.dataKey}-pattern`}
+                    type={curveType}
+                    dataKey={s.dataKey}
+                    stroke="none"
+                    fill={`url(#pattern-${baseId})`}
+                    fillOpacity={1}
+                    stackId={stacked ? "stack-pattern" : undefined}
+                    isAnimationActive={animate}
+                    animationBegin={i * 100}
+                    animationDuration={1500}
+                    animationEasing="ease-out"
+                    legendType="none"
+                    tooltipType="none"
+                    className={cn(
+                      "transition-opacity duration-200",
+                      highlight.isDimmed(s.name) && "opacity-30"
+                    )}
+                  />
+                ))}
+              </ComposedChart>
+            </ResponsiveContainer>
+          </ChartPlotArea>
+
+          <ChartWindowSelectionOverlay
+            selection={zoom.selection}
+            insetStart={resolvedYAxisWidth + 10}
+            insetEnd={30}
+          />
+
+          {showZoomControls && !layoutBox.scrolls && zoomable && (
+            <ChartZoomControls
+              onZoomIn={zoom.zoomIn}
+              onZoomOut={zoom.zoomOut}
+              onReset={zoom.reset}
+              isZoomed={zoom.isZoomed}
             />
           )}
-
-          {/* Selection rectangle while dragging to zoom */}
-          {zoom.refAreaLeft && zoom.refAreaRight && (
-            <ReferenceArea
-              x1={zoom.refAreaLeft}
-              x2={zoom.refAreaRight}
-              strokeOpacity={0.3}
-              fill="var(--foreground)"
-              fillOpacity={0.08}
-            />
-          )}
-
-          {/* Render areas in reverse order so first series is on top */}
-          {[...visibleSeries].reverse().map((s, i) => (
-            <Area
-              key={`${s.dataKey}-fill`}
-              type={curveType}
-              dataKey={s.dataKey}
-              name={s.name}
-              stroke={s.color}
-              strokeWidth={strokeWidth}
-              fill={`url(#gradient-${baseId}-${series.indexOf(s)})`}
-              fillOpacity={1}
-              stackId={stacked ? "stack" : undefined}
-              isAnimationActive={animate}
-              animationBegin={i * 100}
-              animationDuration={1500}
-              animationEasing="ease-out"
-              activeDot={{
-                r: 4,
-                fill: s.color,
-                stroke: "hsl(var(--background))",
-                strokeWidth: 2,
-              }}
-            />
-          ))}
-
-          {/* Dot pattern overlay for each series */}
-          {[...visibleSeries].reverse().map((s, i) => (
-            <Area
-              key={`${s.dataKey}-pattern`}
-              type={curveType}
-              dataKey={s.dataKey}
-              stroke="none"
-              fill={`url(#pattern-${baseId})`}
-              fillOpacity={1}
-              stackId={stacked ? "stack-pattern" : undefined}
-              isAnimationActive={animate}
-              animationBegin={i * 100}
-              animationDuration={1500}
-              animationEasing="ease-out"
-              legendType="none"
-              tooltipType="none"
-            />
-          ))}
-        </ComposedChart>
-      </ResponsiveContainer>
-
-      <ChartZoomResetButton visible={zoom.isZoomed} onReset={zoom.reset} />
-
-      {/* Legend — click an entry to isolate that series, click again to
-          restore all */}
-      {showLegend && (
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
-          {series.map((s) => (
-            <button
-              key={s.dataKey}
-              type="button"
-              onClick={() =>
-                setActiveSeries((prev) => (prev === s.name ? null : s.name))
-              }
-              className={cn(
-                "flex items-center gap-2 text-sm transition-opacity hover:opacity-80",
-                !isSeriesVisible(s.name) && "opacity-40"
-              )}
-            >
-              <div
-                className="size-3 rounded-sm"
-                style={{ backgroundColor: s.color }}
-              />
-              <span className="text-muted-foreground">{s.name}</span>
-            </button>
-          ))}
         </div>
-      )}
+      </ChartLegendLayout>
     </div>
   )
 }

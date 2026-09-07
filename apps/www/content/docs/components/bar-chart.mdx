@@ -20,6 +20,68 @@ The Bar Chart component is built on top of [Recharts](https://recharts.org/) and
 - **Custom tooltips** with theme-aware styling
 - **Responsive design** that adapts to container width
 
+## Emphasis and annotation
+
+`activeLabel` (or `activeIndex`) keeps one bar vivid and drops the rest to
+`mutedColor`; `pattern` / `mutedPattern` give either group a texture. A
+`referenceLine` takes a literal value or a statistic (`"avg"`, `"min"`,
+`"max"`).
+
+Nothing about the annotation look is fixed. `labelVariant` picks between
+`plain` (text only — the default, since a filled chip floating over a plot
+reads as a stuck tooltip), `pill` and `flag`; `activeTickVariant` picks
+`plain`, `pill` or `underline`. Set them per chart, set them once on a
+`ChartThemeProvider`, or pass your own renderer to `label` and skip the
+built-ins entirely.
+
+```tsx
+<BarChart
+  data={data}
+  activeLabel="May"
+  referenceLine={{ value: "avg", label: "Average", labelVariant: "flag" }}
+  activeTickVariant="pill"
+/>
+```
+
+<ComponentPreview
+  name="bar-chart-emphasis-demo"
+  description="One emphasised bar against hatched neighbours, with an average reference line."
+/>
+
+## Mobile, zoom and overflow
+
+Every category chart measures **its own box**, not the viewport, so a chart
+in a narrow card behaves like a chart on a phone. `aspectRatio` and
+`legendPosition` take a value per container-width breakpoint, `minHeight`
+stops a phone-width plot collapsing to a strip, and the category ticks thin
+themselves out until the labels stop colliding.
+
+When the categories outnumber the pixels there are only two honest options,
+and `overflow` picks between them: `compress` squeezes them in, `scroll`
+gives each one `minCategorySize` and lets the plot overflow — sideways for
+vertical bars, downwards for horizontal ones.
+
+Zoom works from every input: drag to box-select, ⌘/ctrl + wheel (or
+`wheelZoom` for a bare wheel), two-finger pinch, one-finger pan once zoomed,
+double-tap to reset, plus the +/−/reset buttons. It turns itself off while
+the plot is scrolling, since scroll already owns that axis.
+
+<ComponentPreview
+  name="bar-chart-scroll-demo"
+  description="Forty-eight categories: scrolling sideways above, zoomable below."
+/>
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aspectRatio` | `number \| { base?, sm?, md?, lg?, xl? }` | `2` | Width ÷ height, per container width. |
+| `minHeight` | `number` | `180` | Floor on plot height, px. |
+| `overflow` | `"compress" \| "scroll"` | `"compress"` | What to do when categories outnumber pixels. |
+| `minCategorySize` | `number` | `32` | Room one category needs before `scroll` overflows. |
+| `zoomable` | `boolean` | `true` | Drag / pinch / wheel zoom. |
+| `wheelZoom` | `boolean` | `false` | Let a bare wheel zoom, not just ⌘/ctrl + wheel. |
+| `showZoomControls` | `boolean` | `true` | The +/−/reset buttons. |
+| `xAxisInterval` | `number \| "preserveStartEnd"` | auto | Ticks skipped between labels. |
+
 ## Installation
 
 <CodeTabs>

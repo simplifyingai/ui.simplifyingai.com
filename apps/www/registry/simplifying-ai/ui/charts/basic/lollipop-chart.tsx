@@ -5,6 +5,8 @@ import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import { categoryAxisWidth } from "../chart-responsive"
+
 export interface LollipopDataPoint {
   category: string
   value: number
@@ -58,8 +60,19 @@ export function LollipopChart({
   const width = isHorizontal ? 500 : calculatedWidth
   const height = isHorizontal ? Math.max(400, data.length * 30) : 320
 
+  // Horizontal lollipops hang the CATEGORY names off the left edge, where a
+  // constant gutter clips anything longer than it. Size it to the labels.
   const margin = isHorizontal
-    ? { top: 20, right: 30, bottom: 30, left: 130 }
+    ? {
+        top: 20,
+        right: 30,
+        bottom: 30,
+        left: categoryAxisWidth(
+          data.map((d) => d.category),
+          width,
+          { min: 130 }
+        ),
+      }
     : { top: 20, right: 30, bottom: 40, left: 45 }
 
   const innerWidth = width - margin.left - margin.right

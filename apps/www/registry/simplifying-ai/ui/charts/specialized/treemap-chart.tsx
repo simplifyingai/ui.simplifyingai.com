@@ -12,6 +12,8 @@ import {
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 
@@ -176,7 +178,7 @@ export function TreemapChart({
               transform: "translate(-50%, -50%)",
             }}
           >
-            <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-sm shadow-xl">
+            <ChartTooltipSurface>
               <div className="font-medium">{hoveredNode.name}</div>
               <div className="text-muted-foreground">
                 Value: {(hoveredNode.value ?? 0).toLocaleString()}
@@ -185,7 +187,7 @@ export function TreemapChart({
                 {(((hoveredNode.value ?? 0) / totalValue) * 100).toFixed(1)}% of
                 total
               </div>
-            </div>
+            </ChartTooltipSurface>
           </div>
         )}
       </div>

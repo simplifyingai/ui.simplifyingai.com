@@ -30,6 +30,7 @@ export interface GaugeChartProps extends BaseChartProps {
     | "gradient"
     | "meter"
     | "dashboard"
+    | "ticks"
   /** Arc thickness (as percentage of radius, 0-1) */
   thickness?: number
   /** Primary color or color for filled arc */
@@ -42,8 +43,12 @@ export interface GaugeChartProps extends BaseChartProps {
   segments?: Array<{ value: number; color: string; label?: string }>
   /** Show tick marks */
   showTicks?: boolean
-  /** Number of tick marks */
+  /** Number of tick marks. Defaults to 14 for `variant="ticks"`, else 5. */
   tickCount?: number
+  /** Degrees the `ticks` arc spans, centred on twelve o'clock. */
+  tickArc?: number
+  /** Centre overlay — a badge, a caption, anything non-SVG. */
+  children?: React.ReactNode
   /** Animate on mount */
   animate?: boolean
   /** Animation duration in ms */
@@ -84,7 +89,9 @@ export function GaugeChart({
   bgColor = COLORS.muted,
   segments,
   showTicks = false,
-  tickCount = 5,
+  tickCount,
+  tickArc = 200,
+  children,
   animate = true,
   animationDuration = 1000,
   valueFormatter,
@@ -104,6 +111,9 @@ export function GaugeChart({
     Math.min(innerWidth / 2, isRadial ? innerHeight / 2 : innerHeight * 0.7) *
     0.85
   const strokeWidth = radius * thickness
+  // The dotted-arc variant needs many more segments than a needle gauge's
+  // scale marks, so its default differs.
+  const resolvedTickCount = tickCount ?? (variant === "ticks" ? 14 : 5)
 
   // Clamp value and calculate percentage
   const clampedValue = Math.max(min, Math.min(max, value))
@@ -166,10 +176,10 @@ export function GaugeChart({
     const startAngle = -225 // Start from bottom-left
     const totalAngle = 270 // Semi-circle arc
 
-    for (let i = 0; i < tickCount; i++) {
-      const angle = startAngle + (totalAngle / (tickCount - 1)) * i
+    for (let i = 0; i < resolvedTickCount; i++) {
+      const angle = startAngle + (totalAngle / (resolvedTickCount - 1)) * i
       const rad = (angle * Math.PI) / 180
-      const tickValue = min + ((max - min) / (tickCount - 1)) * i
+      const tickValue = min + ((max - min) / (resolvedTickCount - 1)) * i
 
       // Outer tick position
       const outerX = centerX + (radius + 10) * Math.cos(rad)
@@ -667,7 +677,7 @@ export function GaugeChart({
             x2={tick.outerX + (tick.labelX - tick.outerX) * 0.4}
             y2={tick.outerY + (tick.labelY - tick.outerY) * 0.4}
             stroke="currentColor"
-            strokeWidth={i === 0 || i === tickCount - 1 ? 2.5 : 1.5}
+            strokeWidth={i === 0 || i === resolvedTickCount - 1 ? 2.5 : 1.5}
             className="text-muted-foreground"
           />
           <text
@@ -777,6 +787,67 @@ export function GaugeChart({
     )
   }
 
+  /** Discrete rounded capsules radiating around an arc, filled up to the
+   *  value — the "how far through the budget am I" meter. Reads at a glance
+   *  from across a room in a way a thin arc does not. */
+  const renderTicks = () => {
+    const n = Math.max(2, resolvedTickCount)
+    // -90deg is twelve o'clock in this file's angle convention.
+    const start = -90 - tickArc / 2
+    const step = tickArc / n
+    const inner = radius - strokeWidth * 0.85
+    const outer = radius + strokeWidth * 0.85
+    const filled = Math.round(n * animatedPercentage)
+
+    return (
+      <>
+        {Array.from({ length: n }, (_, i) => {
+          const rad = ((start + step * (i + 0.5)) * Math.PI) / 180
+          const on = i < filled
+          return (
+            <line
+              key={i}
+              x1={centerX + inner * Math.cos(rad)}
+              y1={centerY + inner * Math.sin(rad)}
+              x2={centerX + outer * Math.cos(rad)}
+              y2={centerY + outer * Math.sin(rad)}
+              stroke={on ? color : bgColor}
+              strokeWidth={strokeWidth * 1.15}
+              strokeLinecap="round"
+              style={{ transition: "stroke 0.3s ease" }}
+            />
+          )
+        })}
+        {showValue && (
+          <text
+            x={centerX}
+            y={centerY}
+            textAnchor="middle"
+            dominantBaseline="central"
+            className="fill-foreground font-semibold"
+            style={{ fontSize: radius * 0.34 }}
+          >
+            {formatValue(showPercentage ? animatedPercentage * max : value)}
+            {units && (
+              <tspan style={{ fontSize: radius * 0.18 }}> {units}</tspan>
+            )}
+          </text>
+        )}
+        {label && (
+          <text
+            x={centerX}
+            y={centerY + radius * 0.3}
+            textAnchor="middle"
+            className="fill-muted-foreground"
+            style={{ fontSize: radius * 0.14 }}
+          >
+            {label}
+          </text>
+        )}
+      </>
+    )
+  }
+
   const renderContent = () => {
     switch (variant) {
       case "speedometer":
@@ -793,6 +864,8 @@ export function GaugeChart({
         return renderMeter()
       case "dashboard":
         return renderDashboard()
+      case "ticks":
+        return renderTicks()
       default:
         return renderModern()
     }
@@ -803,7 +876,14 @@ export function GaugeChart({
       config={config}
       className={cn("!aspect-auto flex-col", className)}
     >
-      <div className="relative mx-auto aspect-square w-full max-w-[280px]">
+      <div
+        className={cn(
+          "relative mx-auto w-full max-w-[280px]",
+          // The ticks arc fills a landscape box; a square one strands half
+          // the card in empty space below the meter.
+          variant === "ticks" ? "aspect-[7/5]" : "aspect-square"
+        )}
+      >
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="h-full w-full overflow-visible"
@@ -812,6 +892,11 @@ export function GaugeChart({
             {renderContent()}
           </g>
         </svg>
+        {children && (
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+            {children}
+          </div>
+        )}
       </div>
     </ChartContainer>
   )

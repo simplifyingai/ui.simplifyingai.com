@@ -8,6 +8,12 @@ import { cn } from "@/lib/utils"
 
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
+import {
+  ChartLegend,
+  ChartLegendLayout,
+  useSeriesHighlight,
+  type LegendItem,
+} from "../chart-legend"
 
 export interface FunnelSeries {
   name: string
@@ -120,6 +126,8 @@ export function FunnelChart({
   height = 320,
   margin = { top: 45, right: 40, bottom: 45, left: 40 },
   showTooltip = true,
+  showLegend = true,
+  legendPosition = "right",
   colorScheme = "orange",
   showStageMarkers = true,
   showValuePills = true,
@@ -134,18 +142,17 @@ export function FunnelChart({
   const [animationProgress, setAnimationProgress] = React.useState(
     animate ? 0 : 1
   )
-  const [hoveredSeries, setHoveredSeries] = React.useState<number | null>(null)
   const [tooltipData, setTooltipData] = React.useState<{
     x: number
     y: number
     seriesIndex: number
     stageIndex: number
   } | null>(null)
-  // Slice click-to-isolate: null shows every flow, a name shows only that one
-  // (others heavily dimmed). Click the isolated flow again to restore all.
-  // There's no legend in this chart, so isolate is driven by clicking a flow
-  // band directly.
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  // Legend/flow click-to-highlight: nothing focused shows every flow, a
+  // focused series emphasizes only that one (others fade but stay drawn).
+  // Hovering a flow band or legend item previews it; clicking pins the
+  // selection (click again to restore all).
+  const highlight = useSeriesHighlight()
   const containerRef = React.useRef<HTMLDivElement>(null)
   const gradientId = React.useId().replace(/:/g, "")
 
@@ -199,14 +206,12 @@ export function FunnelChart({
     return scheme[Math.min(colorIndex, scheme.length - 1)]
   }
 
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
-
-  const handleIsolateClick = (name: string) => {
-    setActiveSeries((prev) => (prev === name ? null : name))
-  }
+  // Legend items — one entry per named funnel series, colored to match its
+  // flow band. Clicking / hovering drives the shared highlight state.
+  const legendItems: LegendItem[] = series.map((s, i) => ({
+    name: s.name,
+    color: getColor(i),
+  }))
 
   // Calculate max total at any stage for scaling
   const maxStageTotal = React.useMemo(() => {
@@ -411,237 +416,258 @@ export function FunnelChart({
   return (
     <ChartContainer
       config={config}
-      className={cn("!aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto", className)}
     >
-      <div className="relative w-full">
-        <div
-          ref={containerRef}
-          className="relative w-full"
-          style={{ aspectRatio: `${width}/${height}` }}
-        >
-          <svg
-            viewBox={`0 0 ${width} ${height}`}
-            className="h-full w-full overflow-visible"
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click a
+          flow band or legend item to highlight that series (others fade) */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend && legendItems.length > 0}
+        legend={
+          <ChartLegend
+            items={legendItems}
+            position={legendPosition}
+            onItemHover={highlight.setHovered}
+            onItemClick={highlight.toggle}
+            isItemActive={highlight.isActive}
+          />
+        }
+      >
+        <div className="relative w-full">
+          <div
+            ref={containerRef}
+            className="relative w-full"
+            style={{ aspectRatio: `${width}/${height}` }}
           >
-            {/* Gradient definitions for each series */}
-            <defs>
-              {series.map((_, i) => {
-                const color = getColor(i)
-                return (
-                  <linearGradient
-                    key={i}
-                    id={`flow-gradient-${gradientId}-${i}`}
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stopColor={color} stopOpacity={1} />
-                    <stop offset="50%" stopColor={color} stopOpacity={1} />
-                    <stop offset="100%" stopColor={color} stopOpacity={1} />
-                  </linearGradient>
-                )
-              })}
-              {/* Drop shadow filter */}
-              <filter
-                id={`pill-shadow-${gradientId}`}
-                x="-20%"
-                y="-20%"
-                width="140%"
-                height="140%"
-              >
-                <feDropShadow
-                  dx="0"
-                  dy="1"
-                  stdDeviation="2"
-                  floodOpacity="0.15"
-                />
-              </filter>
-            </defs>
-
-            <g transform={`translate(${margin.left}, ${margin.top})`}>
-              {/* Background fade for depth effect */}
-              <rect
-                x={0}
-                y={0}
-                width={innerWidth}
-                height={innerHeight}
-                fill="transparent"
-              />
-
-              {/* Flowing area paths - rendered from outermost to innermost */}
-              {areaPaths.map(({ topPath, color, seriesIndex }, i) => (
-                <path
-                  key={i}
-                  d={topPath}
-                  fill={`url(#flow-gradient-${gradientId}-${seriesIndex})`}
-                  className={cn(
-                    "cursor-pointer transition-opacity duration-200",
-                    hoveredSeries !== null &&
-                      hoveredSeries !== seriesIndex &&
-                      "opacity-30",
-                    !isSeriesVisible(series[seriesIndex].name) && "opacity-10"
-                  )}
-                  onMouseEnter={() => setHoveredSeries(seriesIndex)}
-                  onMouseMove={(e) => handleMouseMove(e, seriesIndex)}
-                  onMouseLeave={() => {
-                    setHoveredSeries(null)
-                    setTooltipData(null)
-                  }}
-                  onClick={() => {
-                    if (tooltipData) {
-                      onSeriesClick?.(
-                        series[seriesIndex],
-                        tooltipData.stageIndex
-                      )
-                    }
-                    handleIsolateClick(series[seriesIndex].name)
-                  }}
-                />
-              ))}
-
-              {/* Stage markers (vertical lines) - only between stages, not at edges */}
-              {showStageMarkers &&
-                stagePositions
-                  .slice(1, -1)
-                  .map((x, i) => (
-                    <line
-                      key={i}
-                      x1={x}
-                      y1={0}
-                      x2={x}
-                      y2={innerHeight}
-                      stroke="white"
-                      strokeWidth={3}
-                      strokeOpacity={0.9}
-                      className="pointer-events-none"
-                    />
-                  ))}
-
-              {/* Value pills */}
-              {showValuePills &&
-                animationProgress > 0.6 &&
-                pillData.map(({ x, topValue, bottomValue, totalValue }, i) => (
-                  <g
-                    key={i}
-                    style={{
-                      opacity: Math.min(1, (animationProgress - 0.6) * 2.5),
-                    }}
-                  >
-                    {/* Top pill */}
-                    {(pillPosition === "top" || pillPosition === "both") &&
-                      topValue > 0 && (
-                        <g transform={`translate(${x}, -25)`}>
-                          <rect
-                            x={-40}
-                            y={-14}
-                            width={80}
-                            height={28}
-                            rx={14}
-                            fill="white"
-                            filter={`url(#pill-shadow-${gradientId})`}
-                          />
-                          <text
-                            textAnchor="middle"
-                            dominantBaseline="middle"
-                            className="fill-foreground text-sm font-semibold"
-                          >
-                            {valueFormatter(topValue)}
-                          </text>
-                        </g>
-                      )}
-
-                    {/* Bottom pill */}
-                    {(pillPosition === "bottom" || pillPosition === "both") &&
-                      bottomValue > 0 && (
-                        <g transform={`translate(${x}, ${innerHeight + 25})`}>
-                          <rect
-                            x={-40}
-                            y={-14}
-                            width={80}
-                            height={28}
-                            rx={14}
-                            fill="white"
-                            filter={`url(#pill-shadow-${gradientId})`}
-                          />
-                          <text
-                            textAnchor="middle"
-                            dominantBaseline="middle"
-                            className="fill-foreground text-sm font-semibold"
-                          >
-                            {valueFormatter(bottomValue)}
-                          </text>
-                        </g>
-                      )}
-
-                    {/* Center pill - shows total */}
-                    {pillPosition === "center" && (
-                      <g transform={`translate(${x}, ${centerY})`}>
-                        <rect
-                          x={-40}
-                          y={-14}
-                          width={80}
-                          height={28}
-                          rx={14}
-                          fill="white"
-                          filter={`url(#pill-shadow-${gradientId})`}
-                        />
-                        <text
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          className="fill-foreground text-sm font-semibold"
-                        >
-                          {valueFormatter(totalValue)}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                ))}
-            </g>
-          </svg>
-
-          {/* Tooltip */}
-          {showTooltip && tooltipData && (
-            <div
-              className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full"
-              style={{
-                left: tooltipData.x,
-                top: tooltipData.y - 10,
-              }}
+            <svg
+              viewBox={`0 0 ${width} ${height}`}
+              className="h-full w-full overflow-visible"
             >
-              <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 shadow-lg">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="h-3 w-3 rounded-sm"
-                    style={{
-                      backgroundColor: getColor(tooltipData.seriesIndex),
+              {/* Gradient definitions for each series */}
+              <defs>
+                {series.map((_, i) => {
+                  const color = getColor(i)
+                  return (
+                    <linearGradient
+                      key={i}
+                      id={`flow-gradient-${gradientId}-${i}`}
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop offset="0%" stopColor={color} stopOpacity={1} />
+                      <stop offset="50%" stopColor={color} stopOpacity={1} />
+                      <stop offset="100%" stopColor={color} stopOpacity={1} />
+                    </linearGradient>
+                  )
+                })}
+                {/* Drop shadow filter */}
+                <filter
+                  id={`pill-shadow-${gradientId}`}
+                  x="-20%"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feDropShadow
+                    dx="0"
+                    dy="1"
+                    stdDeviation="2"
+                    floodOpacity="0.15"
+                  />
+                </filter>
+              </defs>
+
+              <g transform={`translate(${margin.left}, ${margin.top})`}>
+                {/* Background fade for depth effect */}
+                <rect
+                  x={0}
+                  y={0}
+                  width={innerWidth}
+                  height={innerHeight}
+                  fill="transparent"
+                />
+
+                {/* Flowing area paths - rendered from outermost to innermost */}
+                {areaPaths.map(({ topPath, color, seriesIndex }, i) => (
+                  <path
+                    key={i}
+                    d={topPath}
+                    fill={`url(#flow-gradient-${gradientId}-${seriesIndex})`}
+                    className={cn(
+                      "cursor-pointer transition-opacity duration-200",
+                      highlight.isDimmed(series[seriesIndex].name) &&
+                        "opacity-30"
+                    )}
+                    onMouseEnter={() =>
+                      highlight.setHovered(series[seriesIndex].name)
+                    }
+                    onMouseMove={(e) => handleMouseMove(e, seriesIndex)}
+                    onMouseLeave={() => {
+                      highlight.setHovered(null)
+                      setTooltipData(null)
+                    }}
+                    onClick={() => {
+                      if (tooltipData) {
+                        onSeriesClick?.(
+                          series[seriesIndex],
+                          tooltipData.stageIndex
+                        )
+                      }
+                      highlight.toggle(series[seriesIndex].name)
                     }}
                   />
-                  <span className="font-medium">
-                    {series[tooltipData.seriesIndex]?.name}
-                  </span>
-                </div>
-                <div className="mt-1 text-sm">
-                  <span className="text-muted-foreground">Stage: </span>
-                  <span className="font-medium">
-                    {stages[tooltipData.stageIndex]}
-                  </span>
-                </div>
-                <div className="text-sm">
-                  <span className="text-muted-foreground">Value: </span>
-                  <span className="font-semibold">
-                    {valueFormatter(
-                      series[tooltipData.seriesIndex]?.values[
-                        tooltipData.stageIndex
-                      ] || 0
-                    )}
-                  </span>
+                ))}
+
+                {/* Stage markers (vertical lines) - only between stages, not at edges */}
+                {showStageMarkers &&
+                  stagePositions
+                    .slice(1, -1)
+                    .map((x, i) => (
+                      <line
+                        key={i}
+                        x1={x}
+                        y1={0}
+                        x2={x}
+                        y2={innerHeight}
+                        stroke="white"
+                        strokeWidth={3}
+                        strokeOpacity={0.9}
+                        className="pointer-events-none"
+                      />
+                    ))}
+
+                {/* Value pills */}
+                {showValuePills &&
+                  animationProgress > 0.6 &&
+                  pillData.map(
+                    ({ x, topValue, bottomValue, totalValue }, i) => (
+                      <g
+                        key={i}
+                        style={{
+                          opacity: Math.min(1, (animationProgress - 0.6) * 2.5),
+                        }}
+                      >
+                        {/* Top pill */}
+                        {(pillPosition === "top" || pillPosition === "both") &&
+                          topValue > 0 && (
+                            <g transform={`translate(${x}, -25)`}>
+                              <rect
+                                x={-40}
+                                y={-14}
+                                width={80}
+                                height={28}
+                                rx={14}
+                                fill="white"
+                                filter={`url(#pill-shadow-${gradientId})`}
+                              />
+                              <text
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                className="fill-foreground text-sm font-semibold"
+                              >
+                                {valueFormatter(topValue)}
+                              </text>
+                            </g>
+                          )}
+
+                        {/* Bottom pill */}
+                        {(pillPosition === "bottom" ||
+                          pillPosition === "both") &&
+                          bottomValue > 0 && (
+                            <g
+                              transform={`translate(${x}, ${innerHeight + 25})`}
+                            >
+                              <rect
+                                x={-40}
+                                y={-14}
+                                width={80}
+                                height={28}
+                                rx={14}
+                                fill="white"
+                                filter={`url(#pill-shadow-${gradientId})`}
+                              />
+                              <text
+                                textAnchor="middle"
+                                dominantBaseline="middle"
+                                className="fill-foreground text-sm font-semibold"
+                              >
+                                {valueFormatter(bottomValue)}
+                              </text>
+                            </g>
+                          )}
+
+                        {/* Center pill - shows total */}
+                        {pillPosition === "center" && (
+                          <g transform={`translate(${x}, ${centerY})`}>
+                            <rect
+                              x={-40}
+                              y={-14}
+                              width={80}
+                              height={28}
+                              rx={14}
+                              fill="white"
+                              filter={`url(#pill-shadow-${gradientId})`}
+                            />
+                            <text
+                              textAnchor="middle"
+                              dominantBaseline="middle"
+                              className="fill-foreground text-sm font-semibold"
+                            >
+                              {valueFormatter(totalValue)}
+                            </text>
+                          </g>
+                        )}
+                      </g>
+                    )
+                  )}
+              </g>
+            </svg>
+
+            {/* Tooltip */}
+            {showTooltip && tooltipData && (
+              <div
+                className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full"
+                style={{
+                  left: tooltipData.x,
+                  top: tooltipData.y - 10,
+                }}
+              >
+                <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="h-3 w-3 rounded-sm"
+                      style={{
+                        backgroundColor: getColor(tooltipData.seriesIndex),
+                      }}
+                    />
+                    <span className="font-medium">
+                      {series[tooltipData.seriesIndex]?.name}
+                    </span>
+                  </div>
+                  <div className="mt-1 text-sm">
+                    <span className="text-muted-foreground">Stage: </span>
+                    <span className="font-medium">
+                      {stages[tooltipData.stageIndex]}
+                    </span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Value: </span>
+                    <span className="font-semibold">
+                      {valueFormatter(
+                        series[tooltipData.seriesIndex]?.values[
+                          tooltipData.stageIndex
+                        ] || 0
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

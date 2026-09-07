@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart-reference-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/area-chart.json"
+  ],
+  "files": [
+    {
+      "path": "examples/area-chart-reference-demo.tsx",
+      "content": "\"use client\"\n\nimport { AreaChart } from \"@/components/ui/charts\"\n\nconst months = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\"]\n\n// Deterministic, so the demo renders identically on server and client.\nconst chartData = Array.from({ length: 42 }, (_, i) => ({\n  label: months[Math.floor(i / 6)],\n  value:\n    8200 +\n    Math.round(\n      1400 * Math.sin(i / 1.7) + 900 * Math.cos(i / 3.1) + 420 * Math.sin(i)\n    ),\n}))\n\nexport default function AreaChartReferenceDemo() {\n  return (\n    <AreaChart\n      data={chartData}\n      showGrid={false}\n      aspectRatio={2.6}\n      xAxisInterval={5}\n      valueFormatter={(v) => `$${v.toLocaleString()}`}\n      referenceLine={{ value: \"avg\", label: \"Average\" }}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

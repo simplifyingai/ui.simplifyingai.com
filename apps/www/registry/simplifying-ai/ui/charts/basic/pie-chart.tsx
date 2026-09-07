@@ -5,9 +5,16 @@ import { arc, pie, type PieArcDatum } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
-import { ChartLegend, type LegendItem } from "../chart-legend"
+import {
+  ChartLegend,
+  ChartLegendLayout,
+  useSeriesHighlight,
+  type LegendItem,
+} from "../chart-legend"
 
 // ============================================================================
 // Types & Interfaces
@@ -94,6 +101,7 @@ export function PieChart({
   margin: marginProp,
   showTooltip = true,
   showLegend: showLegendProp,
+  legendPosition = "right",
   innerRadius: innerRadiusProp,
   outerRadius: outerRadiusProp,
   padAngle: padAngleProp,
@@ -119,10 +127,13 @@ export function PieChart({
   const [internalSelectedKey, setInternalSelectedKey] = React.useState(
     selectedKey ?? selectionOptions?.[0]?.key ?? ""
   )
-  // Legend/slice click-to-isolate: null shows all segments, a label shows
-  // only that one (others dimmed). Independent of the "interactive" variant's
-  // selectedKey mechanism, which is always-one-active with no "show all" state.
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  // Legend/slice click-to-highlight: nothing selected shows all segments, a
+  // pinned label emphasizes only that one (others fade but stay drawn).
+  // Independent of the "interactive" variant's selectedKey mechanism, which is
+  // always-one-active with no "show all" state. Hover-driven slice expansion /
+  // center-text still runs off `hoveredIndex` below, so this hook is used for
+  // the selection (isolate) state only — `highlight.hovered` stays unused.
+  const highlight = useSeriesHighlight()
 
   // Variant-specific defaults
   const getVariantDefaults = () => {
@@ -220,21 +231,16 @@ export function PieChart({
       ? (activeIndexProp ?? internalActiveIndex)
       : hoveredIndex
 
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
-
   // Index of the isolated segment, used as a fallback for center-text
   // display when nothing is actively hovered. Doesn't apply to
   // "donut-active"/"interactive" variants, which manage their own
   // always-one-active index.
   const isolatedIndex = React.useMemo(() => {
     if (variant === "donut-active" || variant === "interactive") return null
-    if (activeSeries === null) return null
-    const idx = data.findIndex((d) => d.label === activeSeries)
+    if (highlight.selected === null) return null
+    const idx = data.findIndex((d) => d.label === highlight.selected)
     return idx >= 0 ? idx : null
-  }, [variant, activeSeries, data])
+  }, [variant, highlight.selected, data])
 
   // Create pie generator
   const pieGenerator = React.useMemo(() => {
@@ -352,8 +358,8 @@ export function PieChart({
   // Isolate a segment by label. The "interactive" variant already has its
   // own always-one-active selection mechanism (selectionOptions/selectedKey)
   // driven by a dropdown — reuse that state instead of introducing a second,
-  // parallel isolate mechanism. Every other variant uses the standard
-  // toggle-to-isolate/click-again-to-restore activeSeries pattern.
+  // parallel isolate mechanism. Every other variant uses the shared
+  // useSeriesHighlight() toggle (pin/unpin) via highlight.toggle.
   const applyIsolate = (label: string) => {
     if (variant === "interactive" && selectionOptions) {
       const option = selectionOptions.find(
@@ -364,7 +370,7 @@ export function PieChart({
       }
       return
     }
-    setActiveSeries((prev) => (prev === label ? null : label))
+    highlight.toggle(label)
   }
 
   const handleSegmentClick = (d: PieChartDataPoint, index: number) => {
@@ -385,13 +391,13 @@ export function PieChart({
       )
       return option ? option.key === effectiveSelectedKey : true
     }
-    return isSeriesVisible(name)
+    return highlight.isActive(name)
   }
 
   return (
     <ChartContainer
       config={config}
-      className={cn("relative !aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto", className)}
     >
       {/* Interactive selector dropdown */}
       {variant === "interactive" && selectionOptions && (
@@ -410,193 +416,206 @@ export function PieChart({
         </div>
       )}
 
-      <div className="relative mx-auto aspect-square w-full max-w-[280px]">
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          className="h-full w-full overflow-visible"
-        >
-          <g
-            transform={`translate(${margin.left + innerWidth / 2}, ${margin.top + innerHeight / 2})`}
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click a
+          slice to highlight it (others fade), click again to restore */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend}
+        legend={
+          <ChartLegend
+            items={legendItems}
+            position={legendPosition}
+            onItemHover={(name) => {
+              const index = data.findIndex((d) => d.label === name)
+              if (index >= 0) {
+                handleSegmentEnter(index)
+              } else {
+                handleSegmentLeave()
+              }
+            }}
+            onItemClick={handleLegendClick}
+            isItemActive={isLegendItemActive}
+          />
+        }
+      >
+        <div className="relative mx-auto aspect-square w-full max-w-[280px]">
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="h-full w-full overflow-visible"
           >
-            {arcs.map((arcData, index) => {
-              const isActive = activeIndex === index
-              const isHovered = hoveredIndex === index
-              const color = getColor(data[index], index)
-              // The "interactive" variant renders every segment regardless
-              // of isolate state (it has its own always-one-active spotlight
-              // look); other variants heavily dim segments isolated out via
-              // the legend/slice click-to-isolate feature.
-              const isVisible =
-                variant === "interactive" ||
-                isSeriesVisible(data[index].label)
-              const shouldExpand =
-                isVisible &&
-                ((variant === "donut-active" && isActive) ||
-                  (variant === "interactive" && isActive) ||
-                  (variant !== "donut-active" &&
-                    variant !== "interactive" &&
-                    isHovered))
+            <g
+              transform={`translate(${margin.left + innerWidth / 2}, ${margin.top + innerHeight / 2})`}
+            >
+              {arcs.map((arcData, index) => {
+                const isActive = activeIndex === index
+                const isHovered = hoveredIndex === index
+                const color = getColor(data[index], index)
+                // The "interactive" variant renders every segment regardless
+                // of isolate state (it has its own always-one-active spotlight
+                // look); other variants heavily dim segments isolated out via
+                // the legend/slice click-to-isolate feature.
+                const isVisible =
+                  variant === "interactive" ||
+                  highlight.isActive(data[index].label)
+                const shouldExpand =
+                  isVisible &&
+                  ((variant === "donut-active" && isActive) ||
+                    (variant === "interactive" && isActive) ||
+                    (variant !== "donut-active" &&
+                      variant !== "interactive" &&
+                      isHovered))
 
-              return (
-                <g key={index}>
-                  {/* Pie segment */}
-                  <path
-                    d={
-                      (shouldExpand ? activeArcGenerator : arcGenerator)(
-                        arcData
-                      ) ?? ""
-                    }
-                    fill={color}
-                    stroke="hsl(var(--background))"
-                    strokeWidth={variant === "label" ? 0 : 2}
-                    className={cn(
-                      "cursor-pointer transition-all duration-200",
-                      (activeIndex !== null || hoveredIndex !== null) &&
-                        !isActive &&
-                        !isHovered &&
-                        "opacity-50",
-                      !isVisible && "opacity-15"
-                    )}
-                    onMouseEnter={() => handleSegmentEnter(index)}
-                    onMouseLeave={handleSegmentLeave}
-                    onClick={() => handleSegmentClick(data[index], index)}
-                  />
-
-                  {/* Interactive outer ring for active segment */}
-                  {variant === "interactive" && isActive && (
+                return (
+                  <g key={index}>
+                    {/* Pie segment */}
                     <path
-                      d={interactiveOuterArcGenerator(arcData) ?? ""}
+                      d={
+                        (shouldExpand ? activeArcGenerator : arcGenerator)(
+                          arcData
+                        ) ?? ""
+                      }
                       fill={color}
-                      className="pointer-events-none"
+                      stroke="var(--background)"
+                      strokeWidth={variant === "label" ? 0 : 2}
+                      className={cn(
+                        "cursor-pointer transition-all duration-200",
+                        (activeIndex !== null || hoveredIndex !== null) &&
+                          !isActive &&
+                          !isHovered &&
+                          "opacity-50",
+                        !isVisible && "opacity-30"
+                      )}
+                      onMouseEnter={() => handleSegmentEnter(index)}
+                      onMouseLeave={handleSegmentLeave}
+                      onClick={() => handleSegmentClick(data[index], index)}
                     />
-                  )}
 
-                  {/* Internal labels (for label variant) */}
-                  {showLabels && variant === "label" && isVisible && (
+                    {/* Interactive outer ring for active segment */}
+                    {variant === "interactive" && isActive && (
+                      <path
+                        d={interactiveOuterArcGenerator(arcData) ?? ""}
+                        fill={color}
+                        className="pointer-events-none"
+                      />
+                    )}
+
+                    {/* Internal labels (for label variant) */}
+                    {showLabels && variant === "label" && isVisible && (
+                      <text
+                        transform={`translate(${labelArcGenerator.centroid(arcData)})`}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        className="fill-foreground pointer-events-none text-[11px] font-medium"
+                      >
+                        {data[index].value}
+                      </text>
+                    )}
+
+                    {/* External labels with lines (for label variant) */}
+                    {variant === "label" && isVisible && (
+                      <g className="pointer-events-none">
+                        {/* Label line */}
+                        <polyline
+                          points={(() => {
+                            const posA = arcGenerator.centroid(arcData)
+                            const posB =
+                              externalLabelArcGenerator.centroid(arcData)
+                            const midAngle =
+                              (arcData.startAngle + arcData.endAngle) / 2
+                            const posC = [
+                              posB[0] + (midAngle < Math.PI ? 8 : -8),
+                              posB[1],
+                            ]
+                            return `${posA[0]},${posA[1]} ${posB[0]},${posB[1]} ${posC[0]},${posC[1]}`
+                          })()}
+                          fill="none"
+                          stroke="var(--muted-foreground)"
+                          strokeWidth={1}
+                          strokeOpacity={0.5}
+                        />
+                        {/* External label text */}
+                        <text
+                          transform={`translate(${externalLabelArcGenerator.centroid(arcData)})`}
+                          textAnchor={
+                            (arcData.startAngle + arcData.endAngle) / 2 <
+                            Math.PI
+                              ? "start"
+                              : "end"
+                          }
+                          dx={
+                            (arcData.startAngle + arcData.endAngle) / 2 <
+                            Math.PI
+                              ? 12
+                              : -12
+                          }
+                          dominantBaseline="middle"
+                          className="fill-muted-foreground text-[10px]"
+                        >
+                          {data[index].label}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                )
+              })}
+
+              {/* Center text for donut-text and interactive variants */}
+              {(variant === "donut-text" || variant === "interactive") && (
+                <g className="pointer-events-none">
+                  {displayedCenterValue && (
                     <text
-                      transform={`translate(${labelArcGenerator.centroid(arcData)})`}
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      className="fill-foreground pointer-events-none text-[11px] font-medium"
+                      y={displayedCenterLabel ? -8 : 0}
+                      className="fill-foreground text-3xl font-bold"
                     >
-                      {data[index].value}
+                      {displayedCenterValue}
                     </text>
                   )}
-
-                  {/* External labels with lines (for label variant) */}
-                  {variant === "label" && isVisible && (
-                    <g className="pointer-events-none">
-                      {/* Label line */}
-                      <polyline
-                        points={(() => {
-                          const posA = arcGenerator.centroid(arcData)
-                          const posB =
-                            externalLabelArcGenerator.centroid(arcData)
-                          const midAngle =
-                            (arcData.startAngle + arcData.endAngle) / 2
-                          const posC = [
-                            posB[0] + (midAngle < Math.PI ? 8 : -8),
-                            posB[1],
-                          ]
-                          return `${posA[0]},${posA[1]} ${posB[0]},${posB[1]} ${posC[0]},${posC[1]}`
-                        })()}
-                        fill="none"
-                        stroke="hsl(var(--muted-foreground))"
-                        strokeWidth={1}
-                        strokeOpacity={0.5}
-                      />
-                      {/* External label text */}
-                      <text
-                        transform={`translate(${externalLabelArcGenerator.centroid(arcData)})`}
-                        textAnchor={
-                          (arcData.startAngle + arcData.endAngle) / 2 < Math.PI
-                            ? "start"
-                            : "end"
-                        }
-                        dx={
-                          (arcData.startAngle + arcData.endAngle) / 2 < Math.PI
-                            ? 12
-                            : -12
-                        }
-                        dominantBaseline="middle"
-                        className="fill-muted-foreground text-[10px]"
-                      >
-                        {data[index].label}
-                      </text>
-                    </g>
+                  {displayedCenterLabel && (
+                    <text
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      y={displayedCenterValue ? 20 : 0}
+                      className="fill-muted-foreground text-sm"
+                    >
+                      {displayedCenterLabel}
+                    </text>
                   )}
                 </g>
-              )
-            })}
+              )}
+            </g>
+          </svg>
 
-            {/* Center text for donut-text and interactive variants */}
-            {(variant === "donut-text" || variant === "interactive") && (
-              <g className="pointer-events-none">
-                {displayedCenterValue && (
-                  <text
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    y={displayedCenterLabel ? -8 : 0}
-                    className="fill-foreground text-3xl font-bold"
-                  >
-                    {displayedCenterValue}
-                  </text>
-                )}
-                {displayedCenterLabel && (
-                  <text
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    y={displayedCenterValue ? 20 : 0}
-                    className="fill-muted-foreground text-sm"
-                  >
-                    {displayedCenterLabel}
-                  </text>
-                )}
-              </g>
+          {/* Tooltip */}
+          {showTooltip &&
+            hoveredIndex !== null &&
+            variant !== "interactive" && (
+              <div className="pointer-events-none absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2">
+                <ChartTooltipSurface>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="h-3 w-3 rounded-sm"
+                      style={{
+                        backgroundColor: getColor(
+                          data[hoveredIndex],
+                          hoveredIndex
+                        ),
+                      }}
+                    />
+                    <span className="font-medium">
+                      {data[hoveredIndex].label}
+                    </span>
+                  </div>
+                  <div className="text-muted-foreground mt-1">
+                    {data[hoveredIndex].value.toLocaleString()} (
+                    {valueFormatter(data[hoveredIndex].value, total)})
+                  </div>
+                </ChartTooltipSurface>
+              </div>
             )}
-          </g>
-        </svg>
-
-        {/* Tooltip */}
-        {showTooltip && hoveredIndex !== null && variant !== "interactive" && (
-          <div className="pointer-events-none absolute top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2">
-            <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-sm shadow-xl">
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-3 w-3 rounded-sm"
-                  style={{
-                    backgroundColor: getColor(data[hoveredIndex], hoveredIndex),
-                  }}
-                />
-                <span className="font-medium">{data[hoveredIndex].label}</span>
-              </div>
-              <div className="text-muted-foreground mt-1">
-                {data[hoveredIndex].value.toLocaleString()} (
-                {valueFormatter(data[hoveredIndex].value, total)})
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Legend — click an item to isolate that segment, click again to
-          restore all (or, for the "interactive" variant, drives its own
-          selectedKey picker) */}
-      {showLegend && (
-        <ChartLegend
-          items={legendItems}
-          onItemHover={(name) => {
-            const index = data.findIndex((d) => d.label === name)
-            if (index >= 0) {
-              handleSegmentEnter(index)
-            } else {
-              handleSegmentLeave()
-            }
-          }}
-          onItemClick={handleLegendClick}
-          isItemActive={isLegendItemActive}
-        />
-      )}
+        </div>
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

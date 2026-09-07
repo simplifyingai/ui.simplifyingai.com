@@ -242,7 +242,8 @@ export function ParcatsChart({
           {firstDimCategories.map((cat) => {
             const isActive =
               !pinnedCategory ||
-              (pinnedCategory.dim === dimensions[0] && pinnedCategory.cat === cat)
+              (pinnedCategory.dim === dimensions[0] &&
+                pinnedCategory.cat === cat)
             return (
               <button
                 key={cat}
@@ -348,9 +349,7 @@ export function ParcatsChart({
                         fill={boxColor}
                         fillOpacity={isActive ? 1 : 0.85}
                         stroke={
-                          isActive
-                            ? "var(--muted-foreground)"
-                            : "var(--border)"
+                          isActive ? "var(--muted-foreground)" : "var(--border)"
                         }
                         strokeWidth={isActive ? 2 : 1}
                         rx={4}

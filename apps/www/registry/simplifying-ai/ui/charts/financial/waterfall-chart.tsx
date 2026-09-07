@@ -258,9 +258,7 @@ export function WaterfallChart({
           }}
         >
           <div className="border-border/50 bg-background -translate-x-1/2 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
-            <div className="font-medium">
-              {plotData[hoveredIndex].label}
-            </div>
+            <div className="font-medium">{plotData[hoveredIndex].label}</div>
             <div className="text-muted-foreground">
               Change: {plotData[hoveredIndex].value >= 0 ? "+" : ""}
               {plotData[hoveredIndex].value.toLocaleString()}

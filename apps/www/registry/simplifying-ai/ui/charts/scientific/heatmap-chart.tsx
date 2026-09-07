@@ -6,6 +6,8 @@ import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps } from "../chart-config"
 import { ChartContainer } from "../chart-container"
@@ -638,14 +640,14 @@ export function HeatmapChart({
               top: hoveredCell.y - 10,
             }}
           >
-            <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+            <ChartTooltipSurface>
               <div className="font-medium">
                 {String(hoveredCell.data.x)} × {String(hoveredCell.data.y)}
               </div>
               <div className="text-muted-foreground">
                 Value: {valueFormat(hoveredCell.data.value)}
               </div>
-            </div>
+            </ChartTooltipSurface>
           </div>
         )}
 
@@ -987,7 +989,7 @@ function CalendarHeatmap({
               top: hoveredCell.y - 10,
             }}
           >
-            <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+            <ChartTooltipSurface>
               <div className="font-medium">
                 {parseDate(hoveredCell.data.date!).toLocaleDateString("en-US", {
                   weekday: "short",
@@ -1001,7 +1003,7 @@ function CalendarHeatmap({
                   ? `${valueFormat(hoveredCell.data.value)} contributions`
                   : "No contributions"}
               </div>
-            </div>
+            </ChartTooltipSurface>
           </div>
         )}
     </ChartContainer>
@@ -1368,7 +1370,7 @@ function RadialHeatmap({
               top: hoveredCell.y - 10,
             }}
           >
-            <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+            <ChartTooltipSurface>
               <div className="font-medium">
                 {WEEKDAYS_FULL[parseDayIndex(hoveredCell.data.day)]},{" "}
                 {HOURS_12[parseHourIndex(hoveredCell.data.hour)]}
@@ -1376,7 +1378,7 @@ function RadialHeatmap({
               <div className="text-muted-foreground">
                 Value: {valueFormat(hoveredCell.data.value)}
               </div>
-            </div>
+            </ChartTooltipSurface>
           </div>
         )}
     </ChartContainer>

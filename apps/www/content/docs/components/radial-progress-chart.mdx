@@ -1,0 +1,86 @@
+---
+title: Radial Progress Chart
+description: Concentric progress rings — one arc per series, each against its own track.
+component: true
+---
+
+<ComponentPreview
+  name="radial-progress-chart-demo"
+  description="Three independent ratios as concentric rings with dashed tracks."
+/>
+
+## About
+
+A donut divides one whole into parts. A Radial Progress Chart compares
+several **independent** ratios that do not sum to anything — spend against
+each budget, uptime per service, quota used per plan. Reaching for a donut
+there is the usual reason a dashboard's "progress" card reads wrong.
+
+Each series gets its own ring and its own denominator, and the centre is a
+slot: put a headline number, a badge, or nothing in it.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://ui.simplifyingai.com/r/radial-progress-chart.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="radial-progress-chart" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { RadialProgressChart } from "@/components/ui/charts"
+```
+
+```tsx
+<RadialProgressChart
+  data={[
+    { name: "Figma", value: 96.07, max: 120 },
+    { name: "Netflix", value: 23.01, max: 120 },
+  ]}
+  showLegend
+>
+  <span className="text-3xl font-semibold">+17%</span>
+</RadialProgressChart>
+```
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data` | `RadialProgressSeries[]` | — | `{ name, value, max?, color? }`, outermost ring first. |
+| `max` | `number` | `100` | Denominator for rings without their own. |
+| `size` | `number` | `240` | viewBox edge. The chart still scales to its container. |
+| `thickness` | `number` | `12` | Ring stroke width in px. |
+| `gap` | `number` | `8` | Space between rings in px. |
+| `startAngle` / `endAngle` | `number` | `0` / `360` | Degrees; 0 is twelve o'clock, growing clockwise. |
+| `rounded` | `boolean` | `true` | Round arc caps. |
+| `track` | `"dashed" \| "solid" \| "none"` | `"dashed"` | Style of the unfilled ring behind each arc. |
+| `showLegend` | `boolean` | `false` | Render name/value rows beside the rings. |
+| `legendPosition` | `"right" \| "bottom"` | `"right"` | Where those rows sit. |
+| `children` | `ReactNode` | — | Centre overlay. |

@@ -10,6 +10,27 @@ component: true
   description="A filled area chart with gradient support and smooth animations."
 />
 
+## Reference lines
+
+`referenceLine` accepts a literal value or a statistic (`"avg"`, `"min"`,
+`"max"`). `labelVariant` chooses how the label is drawn — `plain`, `pill` or
+`flag` — or pass a render function as `label` to draw it yourself.
+`xAxisInterval` thins the category ticks, which a dense daily series needs
+before its labels collide.
+
+<ComponentPreview
+  name="area-chart-reference-demo"
+  description="A gradient area with an average reference line and thinned month ticks."
+/>
+
+## Mobile, zoom and overflow
+
+Area charts take the same container-measured layout and gesture props as
+[Bar Chart](/docs/components/bar-chart) — responsive `aspectRatio` and
+`legendPosition`, `minHeight`, `overflow="scroll"` with `minCategorySize`,
+and drag / pinch / wheel zoom with `zoomable`, `wheelZoom` and
+`showZoomControls`.
+
 ## Installation
 
 <CodeTabs>
