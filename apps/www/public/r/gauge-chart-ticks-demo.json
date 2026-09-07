@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gauge-chart-ticks-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/gauge-chart.json"
+  ],
+  "files": [
+    {
+      "path": "examples/gauge-chart-ticks-demo.tsx",
+      "content": "\"use client\"\n\nimport { GaugeChart } from \"@/components/ui/charts\"\n\nexport default function GaugeChartTicksDemo() {\n  return (\n    <GaugeChart\n      variant=\"ticks\"\n      value={19500}\n      max={26000}\n      units=\"spent\"\n      valueFormatter={(v) => `$${(v / 1000).toFixed(1)}k`}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

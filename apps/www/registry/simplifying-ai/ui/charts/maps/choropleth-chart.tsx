@@ -15,6 +15,8 @@ import type { GeometryCollection, Topology } from "topojson-specification"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 export interface GeoFeature {
   type: "Feature"
   properties: {
@@ -90,7 +92,7 @@ export function ChoroplethChart({
   aspectRatio = 2,
   legendTitle = "Value",
   valueFormatter = (v) => v.toLocaleString(),
-  noDataColor = "hsl(var(--muted))",
+  noDataColor = "var(--muted)",
   geoUrl,
   topojsonObject,
   idProperty,
@@ -407,7 +409,7 @@ export function ChoroplethChart({
                   key={feature.id || index}
                   d={pathD}
                   fill={color}
-                  stroke="hsl(var(--background))"
+                  stroke="var(--background)"
                   strokeWidth={isHovered ? 1.5 : 0.5}
                   className={cn(
                     "cursor-pointer transition-all duration-150",
@@ -519,8 +521,8 @@ export function ChoroplethChart({
                 transform: `translate(${showOnLeft ? "-100%" : "0"}, ${showBelow ? "0" : "-100%"})`,
               }}
             >
-              <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
-                <p className="text-foreground text-sm font-medium">
+              <ChartTooltipSurface>
+                <p className="text-foreground font-medium">
                   {String(
                     hoveredFeature.properties.name ||
                       hoveredFeature.properties.NAME ||
@@ -539,7 +541,7 @@ export function ChoroplethChart({
                     "No data"
                   )}
                 </p>
-              </div>
+              </ChartTooltipSurface>
             </div>
           )
         })()}

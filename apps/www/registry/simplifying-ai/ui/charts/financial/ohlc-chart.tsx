@@ -4,6 +4,9 @@ import * as React from "react"
 import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
+
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import {
   ChartZoomResetButton,
   ChartZoomSelectionRect,
@@ -161,7 +164,7 @@ export function OHLCChart({
                   x2={innerWidth}
                   y1={yScale(tick)}
                   y2={yScale(tick)}
-                  stroke="hsl(var(--border))"
+                  stroke="var(--border)"
                   strokeDasharray="3 3"
                   strokeOpacity={0.5}
                 />
@@ -173,7 +176,7 @@ export function OHLCChart({
                   x2={label.x}
                   y1={0}
                   y2={innerHeight}
-                  stroke="hsl(var(--border))"
+                  stroke="var(--border)"
                   strokeDasharray="3 3"
                   strokeOpacity={0.5}
                 />
@@ -295,13 +298,16 @@ export function OHLCChart({
             transform: "translateY(-100%)",
           }}
         >
-          <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
-            <p className="text-foreground mb-1 text-sm font-medium">
-              {new Date(plotData[hoveredIndex].date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
+          <ChartTooltipSurface>
+            <p className="text-foreground mb-1 font-medium">
+              {new Date(plotData[hoveredIndex].date).toLocaleDateString(
+                "en-US",
+                {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                }
+              )}
             </p>
             <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-sm">
               <span className="text-muted-foreground">Open</span>
@@ -353,7 +359,7 @@ export function OHLCChart({
                 {valueFormatter(plotData[hoveredIndex].close)}
               </span>
             </div>
-          </div>
+          </ChartTooltipSurface>
         </div>
       )}
 

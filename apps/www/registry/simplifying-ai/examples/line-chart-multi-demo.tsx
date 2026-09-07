@@ -4,19 +4,10 @@ import * as React from "react"
 
 import { LineChart } from "@/registry/simplifying-ai/ui/charts"
 
-// Generate deterministic multi-series data
+// Generate deterministic multi-series data. Colors are intentionally omitted —
+// the LineChart's `multi` variant assigns a validated, theme-aware categorical
+// palette (--chart-series-*) in fixed hue order.
 function generateMultiSeriesData() {
-  const colors = [
-    "#2563eb", // blue
-    "#06b6d4", // cyan
-    "#f97316", // orange
-    "#8b5cf6", // violet
-    "#eab308", // yellow
-    "#ec4899", // pink
-    "#22c55e", // green
-    "#64748b", // slate
-  ]
-
   const names = [
     "Product A",
     "Product B",
@@ -59,7 +50,6 @@ function generateMultiSeriesData() {
     result.push({
       name: names[s],
       data,
-      color: colors[s],
     })
   }
 

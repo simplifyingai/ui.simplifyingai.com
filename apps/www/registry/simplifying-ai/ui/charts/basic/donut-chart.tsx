@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
+import { ChartLegendLayout, useSeriesHighlight } from "../chart-legend"
 
 export interface DonutChartDataPoint {
   label: string
@@ -74,6 +75,7 @@ export function DonutChart({
   margin = { top: 40, right: 40, bottom: 40, left: 40 },
   showTooltip = true,
   showLegend = true,
+  legendPosition = "right",
   innerRadius: innerRadiusRatio = 0.6,
   padAngle = 0.02,
   cornerRadius = 4,
@@ -103,9 +105,12 @@ export function DonutChart({
     data: DonutChartDataPoint
     index: number
   } | null>(null)
-  // Legend/slice click-to-isolate: null shows all segments, a label shows
-  // only that one (others heavily dimmed). Click again to restore all.
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
+  // Legend/slice click-to-highlight: nothing selected shows all segments, a
+  // pinned label emphasizes only that one (others fade but stay drawn). Click
+  // the highlighted item again to restore all. Hover-driven segment expansion
+  // and center-text still run off `hoveredIndex`, so this hook tracks the
+  // selection (isolate) state only — `highlight.hovered` stays unused.
+  const highlight = useSeriesHighlight()
 
   const containerRef = React.useRef<HTMLDivElement>(null)
   const gradientId = React.useId().replace(/:/g, "")
@@ -139,15 +144,6 @@ export function DonutChart({
 
   // Active index (controlled or hovered)
   const activeIndex = controlledActiveIndex ?? hoveredIndex
-
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
-
-  const handleIsolateClick = (label: string) => {
-    setActiveSeries((prev) => (prev === label ? null : label))
-  }
 
   // Create pie generator
   const pieGenerator = React.useMemo(() => {
@@ -233,249 +229,39 @@ export function DonutChart({
   return (
     <ChartContainer
       config={config}
-      className={cn("relative !aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto", className)}
     >
-      <div
-        ref={containerRef}
-        className="relative mx-auto aspect-square w-full max-w-[280px]"
-      >
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          className="h-full w-full overflow-visible"
-        >
-          {/* Gradient definitions */}
-          {variant === "gradient" && (
-            <defs>
-              {data.map((d, i) => {
-                const color = getColor(d, i)
-                return (
-                  <linearGradient
-                    key={i}
-                    id={`gradient-${gradientId}-${i}`}
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" stopColor={color} stopOpacity={1} />
-                    <stop offset="100%" stopColor={color} stopOpacity={0.6} />
-                  </linearGradient>
-                )
-              })}
-            </defs>
-          )}
-
-          <g
-            transform={`translate(${margin.left + innerWidth / 2}, ${margin.top + innerHeight / 2})`}
-          >
-            {/* Background ring */}
-            <circle
-              r={(outerRadius + innerRadius) / 2}
-              fill="none"
-              stroke="hsl(var(--muted))"
-              strokeWidth={outerRadius - innerRadius}
-              strokeOpacity={0.15}
-            />
-
-            {/* Donut segments */}
-            {arcs.map((arcData, index) => {
-              const isActive = activeIndex === index
-              const d = data[index]
-              const color = getColor(d, index)
-              const fill =
-                variant === "gradient"
-                  ? `url(#gradient-${gradientId}-${index})`
-                  : color
-              const isVisible = isSeriesVisible(d.label)
-
-              return (
-                <g key={index}>
-                  {/* Shadow for active segment */}
-                  {isActive && (
-                    <path
-                      d={hoverArcGenerator(arcData) ?? ""}
-                      fill="black"
-                      fillOpacity={0.1}
-                      filter="blur(8px)"
-                      className="pointer-events-none"
-                    />
-                  )}
-
-                  {/* Main segment */}
-                  <path
-                    d={
-                      (isActive ? hoverArcGenerator : arcGenerator)(arcData) ??
-                      ""
-                    }
-                    fill={fill}
-                    stroke={
-                      variant === "separated"
-                        ? "hsl(var(--background))"
-                        : "none"
-                    }
-                    strokeWidth={variant === "separated" ? 3 : 0}
-                    className={cn(
-                      "cursor-pointer transition-all duration-200",
-                      activeIndex !== null && !isActive && "opacity-50",
-                      !isVisible && "opacity-15"
-                    )}
-                    style={{
-                      filter: isActive ? "brightness(1.1)" : undefined,
-                    }}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseMove={(e) => handleMouseMove(e, d, index)}
-                    onMouseLeave={() => {
-                      setHoveredIndex(null)
-                      setTooltipData(null)
-                    }}
-                    onClick={() => {
-                      onSegmentClick?.(d, index)
-                      handleIsolateClick(d.label)
-                    }}
-                  />
-
-                  {/* Inline labels for large segments */}
-                  {isVisible &&
-                    showLabels &&
-                    arcData.endAngle - arcData.startAngle >= minLabelAngle && (
-                      <text
-                        transform={`translate(${arcGenerator.centroid(arcData)})`}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        className="pointer-events-none text-[11px] font-semibold"
-                        fill="white"
-                        style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
-                      >
-                        {valueFormatter(d.value, total)}
-                      </text>
-                    )}
-
-                  {/* Outside labels with lines for small segments */}
-                  {isVisible && shouldShowOutsideLabel(arcData) && (
-                    <g className="pointer-events-none">
-                      <polyline
-                        points={(() => {
-                          const posA = arcGenerator.centroid(arcData)
-                          const posB = labelArcGenerator.centroid(arcData)
-                          const midAngle =
-                            (arcData.startAngle + arcData.endAngle) / 2
-                          const posC = [
-                            posB[0] + (midAngle < Math.PI ? 10 : -10),
-                            posB[1],
-                          ]
-                          return `${posA[0]},${posA[1]} ${posB[0]},${posB[1]} ${posC[0]},${posC[1]}`
-                        })()}
-                        fill="none"
-                        stroke="hsl(var(--muted-foreground))"
-                        strokeWidth={1}
-                        strokeOpacity={0.5}
-                      />
-                      <text
-                        transform={`translate(${labelArcGenerator.centroid(arcData)})`}
-                        textAnchor={
-                          (arcData.startAngle + arcData.endAngle) / 2 < Math.PI
-                            ? "start"
-                            : "end"
-                        }
-                        dx={
-                          (arcData.startAngle + arcData.endAngle) / 2 < Math.PI
-                            ? 15
-                            : -15
-                        }
-                        dominantBaseline="middle"
-                        className="fill-muted-foreground text-[10px]"
-                      >
-                        {d.label}
-                      </text>
-                    </g>
-                  )}
-                </g>
-              )
-            })}
-
-            {/* Center content */}
-            <g className="pointer-events-none">
-              {displayedCenterValue && (
-                <text
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  y={displayedCenterLabel ? -6 : 0}
-                  className="fill-foreground text-2xl font-bold"
-                  style={{ fontSize: innerRadius * 0.35 }}
-                >
-                  {displayedCenterValue}
-                </text>
-              )}
-              {displayedCenterLabel && (
-                <text
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  y={displayedCenterValue ? innerRadius * 0.2 : 0}
-                  className="fill-muted-foreground text-sm"
-                  style={{ fontSize: innerRadius * 0.15 }}
-                >
-                  {displayedCenterLabel}
-                </text>
-              )}
-            </g>
-          </g>
-        </svg>
-
-        {/* Tooltip */}
-        {showTooltip && tooltipData && (
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click a
+          segment or legend item to highlight it (others fade), click again to
+          restore */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend}
+        legend={
           <div
-            className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full"
-            style={{
-              left: tooltipData.x,
-              top: tooltipData.y - 10,
-            }}
+            className={cn(
+              "flex gap-4",
+              legendPosition === "left" || legendPosition === "right"
+                ? "flex-col items-start self-center"
+                : "mt-4 flex-wrap justify-center"
+            )}
           >
-            <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 shadow-lg">
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-3 w-3 rounded-full"
-                  style={{
-                    backgroundColor: getColor(
-                      tooltipData.data,
-                      tooltipData.index
-                    ),
-                  }}
-                />
-                <span className="font-medium">{tooltipData.data.label}</span>
-              </div>
-              <div className="mt-1 text-sm">
-                <span className="text-muted-foreground">Value: </span>
-                <span className="font-semibold">
-                  {tooltipData.data.value.toLocaleString()}
-                </span>
-                <span className="text-muted-foreground ml-2">
-                  ({valueFormatter(tooltipData.data.value, total)})
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Legend — click an item to isolate that segment, click again to
-            restore all */}
-        {showLegend && (
-          <div className="mt-4 flex flex-wrap justify-center gap-4">
             {data.map((d, i) => (
               <button
                 key={i}
                 type="button"
-                aria-pressed={!isSeriesVisible(d.label)}
+                aria-pressed={!highlight.isActive(d.label)}
                 className={cn(
                   "flex items-center gap-2 rounded-md px-2 py-1 text-sm transition-all",
                   "hover:bg-muted/50",
                   activeIndex === i && "bg-muted",
-                  !isSeriesVisible(d.label) && "opacity-40"
+                  !highlight.isActive(d.label) && "opacity-40"
                 )}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => {
                   onSegmentClick?.(d, i)
-                  handleIsolateClick(d.label)
+                  highlight.toggle(d.label)
                 }}
               >
                 <div
@@ -489,8 +275,234 @@ export function DonutChart({
               </button>
             ))}
           </div>
-        )}
-      </div>
+        }
+      >
+        <div
+          ref={containerRef}
+          className="relative mx-auto aspect-square w-full max-w-[280px]"
+        >
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="h-full w-full overflow-visible"
+          >
+            {/* Gradient definitions */}
+            {variant === "gradient" && (
+              <defs>
+                {data.map((d, i) => {
+                  const color = getColor(d, i)
+                  return (
+                    <linearGradient
+                      key={i}
+                      id={`gradient-${gradientId}-${i}`}
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" stopColor={color} stopOpacity={1} />
+                      <stop offset="100%" stopColor={color} stopOpacity={0.6} />
+                    </linearGradient>
+                  )
+                })}
+              </defs>
+            )}
+
+            <g
+              transform={`translate(${margin.left + innerWidth / 2}, ${margin.top + innerHeight / 2})`}
+            >
+              {/* Background ring */}
+              <circle
+                r={(outerRadius + innerRadius) / 2}
+                fill="none"
+                stroke="var(--muted)"
+                strokeWidth={outerRadius - innerRadius}
+                strokeOpacity={0.15}
+              />
+
+              {/* Donut segments */}
+              {arcs.map((arcData, index) => {
+                const isActive = activeIndex === index
+                const d = data[index]
+                const color = getColor(d, index)
+                const fill =
+                  variant === "gradient"
+                    ? `url(#gradient-${gradientId}-${index})`
+                    : color
+                const isVisible = highlight.isActive(d.label)
+
+                return (
+                  <g key={index}>
+                    {/* Shadow for active segment */}
+                    {isActive && (
+                      <path
+                        d={hoverArcGenerator(arcData) ?? ""}
+                        fill="black"
+                        fillOpacity={0.1}
+                        filter="blur(8px)"
+                        className="pointer-events-none"
+                      />
+                    )}
+
+                    {/* Main segment */}
+                    <path
+                      d={
+                        (isActive ? hoverArcGenerator : arcGenerator)(
+                          arcData
+                        ) ?? ""
+                      }
+                      fill={fill}
+                      stroke={
+                        variant === "separated"
+                          ? "var(--background)"
+                          : "none"
+                      }
+                      strokeWidth={variant === "separated" ? 3 : 0}
+                      className={cn(
+                        "cursor-pointer transition-all duration-200",
+                        activeIndex !== null && !isActive && "opacity-50",
+                        !isVisible && "opacity-30"
+                      )}
+                      style={{
+                        filter: isActive ? "brightness(1.1)" : undefined,
+                      }}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseMove={(e) => handleMouseMove(e, d, index)}
+                      onMouseLeave={() => {
+                        setHoveredIndex(null)
+                        setTooltipData(null)
+                      }}
+                      onClick={() => {
+                        onSegmentClick?.(d, index)
+                        highlight.toggle(d.label)
+                      }}
+                    />
+
+                    {/* Inline labels for large segments */}
+                    {isVisible &&
+                      showLabels &&
+                      arcData.endAngle - arcData.startAngle >=
+                        minLabelAngle && (
+                        <text
+                          transform={`translate(${arcGenerator.centroid(arcData)})`}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          className="pointer-events-none text-[11px] font-semibold"
+                          fill="white"
+                          style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}
+                        >
+                          {valueFormatter(d.value, total)}
+                        </text>
+                      )}
+
+                    {/* Outside labels with lines for small segments */}
+                    {isVisible && shouldShowOutsideLabel(arcData) && (
+                      <g className="pointer-events-none">
+                        <polyline
+                          points={(() => {
+                            const posA = arcGenerator.centroid(arcData)
+                            const posB = labelArcGenerator.centroid(arcData)
+                            const midAngle =
+                              (arcData.startAngle + arcData.endAngle) / 2
+                            const posC = [
+                              posB[0] + (midAngle < Math.PI ? 10 : -10),
+                              posB[1],
+                            ]
+                            return `${posA[0]},${posA[1]} ${posB[0]},${posB[1]} ${posC[0]},${posC[1]}`
+                          })()}
+                          fill="none"
+                          stroke="var(--muted-foreground)"
+                          strokeWidth={1}
+                          strokeOpacity={0.5}
+                        />
+                        <text
+                          transform={`translate(${labelArcGenerator.centroid(arcData)})`}
+                          textAnchor={
+                            (arcData.startAngle + arcData.endAngle) / 2 <
+                            Math.PI
+                              ? "start"
+                              : "end"
+                          }
+                          dx={
+                            (arcData.startAngle + arcData.endAngle) / 2 <
+                            Math.PI
+                              ? 15
+                              : -15
+                          }
+                          dominantBaseline="middle"
+                          className="fill-muted-foreground text-[10px]"
+                        >
+                          {d.label}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                )
+              })}
+
+              {/* Center content */}
+              <g className="pointer-events-none">
+                {displayedCenterValue && (
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    y={displayedCenterLabel ? -6 : 0}
+                    className="fill-foreground text-2xl font-bold"
+                    style={{ fontSize: innerRadius * 0.35 }}
+                  >
+                    {displayedCenterValue}
+                  </text>
+                )}
+                {displayedCenterLabel && (
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    y={displayedCenterValue ? innerRadius * 0.2 : 0}
+                    className="fill-muted-foreground text-sm"
+                    style={{ fontSize: innerRadius * 0.15 }}
+                  >
+                    {displayedCenterLabel}
+                  </text>
+                )}
+              </g>
+            </g>
+          </svg>
+
+          {/* Tooltip */}
+          {showTooltip && tooltipData && (
+            <div
+              className="pointer-events-none absolute z-50 -translate-x-1/2 -translate-y-full"
+              style={{
+                left: tooltipData.x,
+                top: tooltipData.y - 10,
+              }}
+            >
+              <div className="bg-popover text-popover-foreground rounded-lg border px-3 py-2 shadow-lg">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="h-3 w-3 rounded-full"
+                    style={{
+                      backgroundColor: getColor(
+                        tooltipData.data,
+                        tooltipData.index
+                      ),
+                    }}
+                  />
+                  <span className="font-medium">{tooltipData.data.label}</span>
+                </div>
+                <div className="mt-1 text-sm">
+                  <span className="text-muted-foreground">Value: </span>
+                  <span className="font-semibold">
+                    {tooltipData.data.value.toLocaleString()}
+                  </span>
+                  <span className="text-muted-foreground ml-2">
+                    ({valueFormatter(tooltipData.data.value, total)})
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

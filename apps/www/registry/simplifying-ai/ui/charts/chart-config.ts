@@ -104,5 +104,7 @@ export interface BaseChartProps {
   showGrid?: boolean
   showTooltip?: boolean
   showLegend?: boolean
+  /** Which side of the plot the persistent legend sits on. */
+  legendPosition?: "top" | "bottom" | "left" | "right"
   animate?: boolean
 }

@@ -1,0 +1,86 @@
+---
+title: Proportion Bar
+description: Share-of-total bar with rounded segments, textures and a legend carrying each share.
+component: true
+---
+
+<ComponentPreview
+  name="proportion-bar-demo"
+  description="Three shares of income over a 100% track, with the remainder left visible."
+/>
+
+## About
+
+A Proportion Bar shows how one total divides into parts, along a single
+track. Reach for it over a pie or donut whenever the parts are few and the
+reader needs to compare shares rather than admire angles — and pass a
+`total` larger than the sum when the headroom left over is the point
+(budget remaining, quota unused).
+
+It renders as CSS rather than SVG: the whole mark is rectangles, so there is
+nothing an `<svg>` would buy.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://ui.simplifyingai.com/r/proportion-bar.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="proportion-bar" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ProportionBar } from "@/components/ui/charts"
+```
+
+```tsx
+<ProportionBar
+  data={[
+    { label: "Needs", value: 45 },
+    { label: "Transportation", value: 20 },
+    { label: "Entertainment", value: 10 },
+  ]}
+  total={100}
+/>
+```
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data` | `ProportionSegment[]` | — | `{ label, value, color?, pattern? }` per segment. |
+| `total` | `number` | sum of `value` | Denominator. Larger than the sum leaves a visible remainder. |
+| `height` | `number` | `28` | Track height in px. |
+| `gap` | `number` | `6` | Space between segments in px. |
+| `radius` | `number` | `height / 2` | Corner radius. Defaults to a full pill. |
+| `showTrack` | `boolean` | `true` | Paint the unfilled remainder. |
+| `trackColor` | `string` | `var(--muted)` | Colour of that remainder. |
+| `pattern` | `ChartPatternKind` | theme | Texture over every segment. |
+| `showLegend` | `boolean` | `true` | Render the label/share rows. |
+| `legendValue` | `"percent" \| "value" \| "none"` | `"percent"` | What the legend prints on the right. |
+| `valueFormatter` | `(value: number) => string` | `toLocaleString` | Formats raw values. |

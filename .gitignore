@@ -52,3 +52,4 @@ cdk.out
 
 # npm lock (using pnpm)
 package-lock.json
+.gstack/

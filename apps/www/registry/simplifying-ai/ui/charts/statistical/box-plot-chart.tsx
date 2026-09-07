@@ -6,6 +6,8 @@ import { scaleBand, scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import {
   ChartZoomResetButton,
   ChartZoomSelectionRect,
@@ -218,7 +220,7 @@ export function BoxPlotChart({
                   x2={innerWidth}
                   y1={isVertical ? valueScale(tick) : 0}
                   y2={isVertical ? valueScale(tick) : innerHeight}
-                  stroke="hsl(var(--border))"
+                  stroke="var(--border)"
                   strokeOpacity={0.5}
                   strokeDasharray="3 3"
                 />
@@ -234,7 +236,7 @@ export function BoxPlotChart({
                     x2={x}
                     y1={0}
                     y2={innerHeight}
-                    stroke="hsl(var(--border))"
+                    stroke="var(--border)"
                     strokeOpacity={0.5}
                     strokeDasharray="3 3"
                   />
@@ -498,43 +500,53 @@ export function BoxPlotChart({
             transform: "translateY(-100%)",
           }}
         >
-          <div className="bg-background rounded-lg border px-3 py-2 shadow-lg">
-            <p className="text-foreground mb-1 text-sm font-medium">
+          <ChartTooltipSurface>
+            <p className="text-foreground mb-1 font-medium">
               {plotStatsData[hoveredIndex].label}
             </p>
             <div className="space-y-0.5 text-sm">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Max</span>
-                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                <span
+                  style={{ color: plotStatsData[hoveredIndex].color ?? color }}
+                >
                   {valueFormatter(plotStatsData[hoveredIndex].max)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Q3</span>
-                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                <span
+                  style={{ color: plotStatsData[hoveredIndex].color ?? color }}
+                >
                   {valueFormatter(plotStatsData[hoveredIndex].q3)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Median</span>
-                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                <span
+                  style={{ color: plotStatsData[hoveredIndex].color ?? color }}
+                >
                   {valueFormatter(plotStatsData[hoveredIndex].median)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Q1</span>
-                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                <span
+                  style={{ color: plotStatsData[hoveredIndex].color ?? color }}
+                >
                   {valueFormatter(plotStatsData[hoveredIndex].q1)}
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className="text-muted-foreground">Min</span>
-                <span style={{ color: plotStatsData[hoveredIndex].color ?? color }}>
+                <span
+                  style={{ color: plotStatsData[hoveredIndex].color ?? color }}
+                >
                   {valueFormatter(plotStatsData[hoveredIndex].min)}
                 </span>
               </div>
             </div>
-          </div>
+          </ChartTooltipSurface>
         </div>
       )}
 

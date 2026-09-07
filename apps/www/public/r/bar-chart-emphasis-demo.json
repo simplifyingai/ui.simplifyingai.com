@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-emphasis-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/bar-chart.json"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-emphasis-demo.tsx",
+      "content": "\"use client\"\n\nimport { BarChart, ChartThemeProvider } from \"@/components/ui/charts\"\n\nconst chartData = [\n  { label: \"Jan\", value: 5120 },\n  { label: \"Feb\", value: 6840 },\n  { label: \"Mar\", value: 5960 },\n  { label: \"Apr\", value: 9980 },\n  { label: \"May\", value: 9467 },\n  { label: \"Jun\", value: 8210 },\n  { label: \"Jul\", value: 7340 },\n]\n\nconst currency = (value: number) => `$${value.toLocaleString(\"en-US\")}`\n\nexport default function BarChartEmphasisDemo() {\n  return (\n    <ChartThemeProvider preset=\"dashboard\">\n      <BarChart\n        className=\"max-w-md\"\n        data={chartData}\n        activeLabel=\"May\"\n        showActiveValue\n        showGrid={false}\n        showYAxis={false}\n        aspectRatio={1.6}\n        valueFormatter={currency}\n        referenceLine={{ value: \"avg\", label: \"Average\" }}\n      />\n    </ChartThemeProvider>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

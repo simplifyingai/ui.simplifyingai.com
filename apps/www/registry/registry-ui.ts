@@ -22,6 +22,11 @@ export const ui: Registry["items"] = [
       { path: "ui/charts/chart-grid.tsx", type: "registry:ui" },
       { path: "ui/charts/chart-tooltip.tsx", type: "registry:ui" },
       { path: "ui/charts/chart-legend.tsx", type: "registry:ui" },
+      { path: "ui/charts/chart-zoom.tsx", type: "registry:ui" },
+      { path: "ui/charts/chart-responsive.tsx", type: "registry:ui" },
+      { path: "ui/charts/chart-theme.tsx", type: "registry:ui" },
+      { path: "ui/charts/chart-patterns.tsx", type: "registry:ui" },
+      { path: "ui/charts/chart-annotations.tsx", type: "registry:ui" },
       { path: "ui/charts/chart-utils.ts", type: "registry:ui" },
       { path: "ui/charts/index.ts", type: "registry:ui" },
     ],
@@ -39,6 +44,14 @@ export const ui: Registry["items"] = [
     type: "registry:ui",
     registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [{ path: "ui/charts/basic/bar-chart.tsx", type: "registry:ui" }],
+  },
+  {
+    name: "proportion-bar",
+    type: "registry:ui",
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
+    files: [
+      { path: "ui/charts/basic/proportion-bar.tsx", type: "registry:ui" },
+    ],
   },
   {
     name: "area-chart",
@@ -180,6 +193,17 @@ export const ui: Registry["items"] = [
     registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
     files: [
       { path: "ui/charts/specialized/gauge-chart.tsx", type: "registry:ui" },
+    ],
+  },
+  {
+    name: "radial-progress-chart",
+    type: "registry:ui",
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
+    files: [
+      {
+        path: "ui/charts/specialized/radial-progress-chart.tsx",
+        type: "registry:ui",
+      },
     ],
   },
   {

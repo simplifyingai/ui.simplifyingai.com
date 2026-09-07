@@ -6,6 +6,8 @@ import { scaleLinear } from "d3-scale"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps } from "../chart-config"
 import { ChartContainer } from "../chart-container"
@@ -554,7 +556,7 @@ export function HistogramChart({
             transform: "translateX(-50%)",
           }}
         >
-          <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+          <ChartTooltipSurface>
             {datasets.length > 1 && (
               <div
                 className="mb-1 font-medium"
@@ -583,7 +585,7 @@ export function HistogramChart({
               ].percent.toFixed(1)}
               %
             </div>
-          </div>
+          </ChartTooltipSurface>
         </div>
       )}
 

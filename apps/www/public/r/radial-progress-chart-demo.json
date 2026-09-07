@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radial-progress-chart-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/radial-progress-chart.json"
+  ],
+  "files": [
+    {
+      "path": "examples/radial-progress-chart-demo.tsx",
+      "content": "\"use client\"\n\nimport { RadialProgressChart } from \"@/components/ui/charts\"\n\nconst subscriptions = [\n  { name: \"Figma\", value: 96.07, max: 120, color: \"var(--chart-4)\" },\n  { name: \"Netflix\", value: 23.01, max: 120, color: \"var(--chart-2)\" },\n  { name: \"ChatGPT\", value: 20.0, max: 120, color: \"var(--chart-1)\" },\n]\n\nexport default function RadialProgressChartDemo() {\n  return (\n    <RadialProgressChart\n      className=\"max-w-lg\"\n      data={subscriptions}\n      thickness={14}\n      gap={10}\n      showLegend\n      valueFormatter={(v) => `$${v.toFixed(2)}`}\n    >\n      <span className=\"text-3xl font-semibold tracking-tight\">80%</span>\n      <span className=\"text-muted-foreground text-xs\">of budget</span>\n    </RadialProgressChart>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

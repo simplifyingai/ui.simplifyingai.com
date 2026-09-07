@@ -56,6 +56,26 @@ export const Index: Record<string, any> = {
       type: "registry:ui",
       target: ""
     },{
+      path: "registry/simplifying-ai/ui/charts/chart-zoom.tsx",
+      type: "registry:ui",
+      target: ""
+    },{
+      path: "registry/simplifying-ai/ui/charts/chart-responsive.tsx",
+      type: "registry:ui",
+      target: ""
+    },{
+      path: "registry/simplifying-ai/ui/charts/chart-theme.tsx",
+      type: "registry:ui",
+      target: ""
+    },{
+      path: "registry/simplifying-ai/ui/charts/chart-patterns.tsx",
+      type: "registry:ui",
+      target: ""
+    },{
+      path: "registry/simplifying-ai/ui/charts/chart-annotations.tsx",
+      type: "registry:ui",
+      target: ""
+    },{
       path: "registry/simplifying-ai/ui/charts/chart-utils.ts",
       type: "registry:ui",
       target: ""
@@ -102,6 +122,24 @@ export const Index: Record<string, any> = {
     }],
     component: React.lazy(async () => {
       const mod = await import("@/registry/simplifying-ai/ui/charts/basic/bar-chart.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "proportion-bar": {
+    name: "proportion-bar",
+    description: "",
+    type: "registry:ui",
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/ui/charts/basic/proportion-bar.tsx",
+      type: "registry:ui",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/ui/charts/basic/proportion-bar.tsx")
       const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
       return { default: mod.default || mod[exportName] }
     }),
@@ -408,6 +446,24 @@ export const Index: Record<string, any> = {
     }],
     component: React.lazy(async () => {
       const mod = await import("@/registry/simplifying-ai/ui/charts/specialized/gauge-chart.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "radial-progress-chart": {
+    name: "radial-progress-chart",
+    description: "",
+    type: "registry:ui",
+    registryDependencies: ["https://ui.simplifyingai.com/r/chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/ui/charts/specialized/radial-progress-chart.tsx",
+      type: "registry:ui",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/ui/charts/specialized/radial-progress-chart.tsx")
       const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
       return { default: mod.default || mod[exportName] }
     }),
@@ -3270,6 +3326,114 @@ export const Index: Record<string, any> = {
     }],
     component: React.lazy(async () => {
       const mod = await import("@/registry/simplifying-ai/examples/charts/range-chart-horizontal.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "bar-chart-emphasis-demo": {
+    name: "bar-chart-emphasis-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/bar-chart-emphasis-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/bar-chart-emphasis-demo.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "area-chart-reference-demo": {
+    name: "area-chart-reference-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/area-chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/area-chart-reference-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/area-chart-reference-demo.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "radial-progress-chart-demo": {
+    name: "radial-progress-chart-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/radial-progress-chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/radial-progress-chart-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/radial-progress-chart-demo.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "gauge-chart-ticks-demo": {
+    name: "gauge-chart-ticks-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/gauge-chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/gauge-chart-ticks-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/gauge-chart-ticks-demo.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "proportion-bar-demo": {
+    name: "proportion-bar-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/proportion-bar.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/proportion-bar-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/proportion-bar-demo.tsx")
+      const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
+      return { default: mod.default || mod[exportName] }
+    }),
+    categories: undefined,
+    meta: undefined,
+  },
+  "bar-chart-scroll-demo": {
+    name: "bar-chart-scroll-demo",
+    description: "",
+    type: "registry:example",
+    registryDependencies: ["https://ui.simplifyingai.com/r/bar-chart.json"],
+    files: [{
+      path: "registry/simplifying-ai/examples/bar-chart-scroll-demo.tsx",
+      type: "registry:example",
+      target: ""
+    }],
+    component: React.lazy(async () => {
+      const mod = await import("@/registry/simplifying-ai/examples/bar-chart-scroll-demo.tsx")
       const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || item.name
       return { default: mod.default || mod[exportName] }
     }),

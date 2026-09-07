@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "proportion-bar-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/proportion-bar.json"
+  ],
+  "files": [
+    {
+      "path": "examples/proportion-bar-demo.tsx",
+      "content": "\"use client\"\n\nimport { ProportionBar } from \"@/components/ui/charts\"\n\n// Shares of income, so the track is a full 100 and the gap is what is left.\nconst breakdown = [\n  { label: \"Needs\", value: 45, color: \"var(--chart-series-1)\" },\n  { label: \"Transportation\", value: 20, color: \"var(--chart-series-5)\" },\n  { label: \"Entertainment\", value: 10, color: \"var(--chart-series-2)\" },\n]\n\nexport default function ProportionBarDemo() {\n  return (\n    <ProportionBar\n      className=\"max-w-sm\"\n      data={breakdown}\n      total={100}\n      height={32}\n    />\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

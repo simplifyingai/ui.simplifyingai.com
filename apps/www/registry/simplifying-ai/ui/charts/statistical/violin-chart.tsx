@@ -128,7 +128,9 @@ export function ViolinChart({
 
   // Narrow the view to the zoomed index window — categories are
   // independent of one another, so filtering the raw data is safe.
-  const plotData = zoomDomain ? data.slice(zoomDomain[0], zoomDomain[1] + 1) : data
+  const plotData = zoomDomain
+    ? data.slice(zoomDomain[0], zoomDomain[1] + 1)
+    : data
 
   // Dynamic sizing based on the full (unzoomed) data set — keeps the
   // chart's overall footprint stable while zoomed in, letting the

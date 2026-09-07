@@ -87,7 +87,7 @@ export function PolarChart({
                 <circle
                   r={radiusScale(tick)}
                   fill="none"
-                  stroke="hsl(var(--border))"
+                  stroke="var(--border)"
                   strokeDasharray="3 3"
                   strokeOpacity={0.5}
                 />
@@ -117,7 +117,7 @@ export function PolarChart({
                   y1={0}
                   x2={x2}
                   y2={y2}
-                  stroke="hsl(var(--border))"
+                  stroke="var(--border)"
                   strokeOpacity={0.3}
                 />
               )

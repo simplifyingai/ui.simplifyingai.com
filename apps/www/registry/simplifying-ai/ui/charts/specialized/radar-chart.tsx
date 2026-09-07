@@ -6,9 +6,16 @@ import { curveLinearClosed, lineRadial } from "d3-shape"
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
-import { ChartLegend, type LegendItem } from "../chart-legend"
+import {
+  ChartLegend,
+  ChartLegendLayout,
+  useSeriesHighlight,
+  type LegendItem,
+} from "../chart-legend"
 
 // ============================================================================
 // Types & Interfaces
@@ -194,6 +201,7 @@ export function RadarChart({
   margin: marginProp,
   showTooltip = true,
   showLegend: showLegendProp,
+  legendPosition = "right",
   showGrid: showGridProp,
   maxValue: maxValueProp,
   levels: levelsProp,
@@ -225,7 +233,10 @@ export function RadarChart({
 
   const margin = marginProp ?? { top: 50, right: 50, bottom: 50, left: 50 }
 
-  const [hoveredSeries, setHoveredSeries] = React.useState<string | null>(null)
+  // Legend highlight: click a series to emphasize it (others fade but stay
+  // drawn), hover to preview — Plotly-style. `focused` = hover ?? selection.
+  // Area/dot hover also drives it so hovering the shape previews too.
+  const highlight = useSeriesHighlight()
   const [hoveredPoint, setHoveredPoint] = React.useState<{
     series: string
     axis: string
@@ -237,12 +248,6 @@ export function RadarChart({
     x: number
     y: number
   } | null>(null)
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
-
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
@@ -323,11 +328,11 @@ export function RadarChart({
 
   // Handle area hover
   const handleAreaEnter = (series: RadarChartSeries) => {
-    setHoveredSeries(series.name)
+    highlight.setHovered(series.name)
   }
 
   const handleAreaLeave = () => {
-    setHoveredSeries(null)
+    highlight.setHovered(null)
     setTooltipPosition(null)
   }
 
@@ -342,334 +347,342 @@ export function RadarChart({
       const x = e.clientX - svgRect.left
       const y = e.clientY - svgRect.top
       setTooltipPosition({ x, y })
-      setHoveredSeries(series.name)
+      highlight.setHovered(series.name)
     }
   }
 
   return (
     <ChartContainer
       config={config}
-      className={cn("relative !aspect-auto flex-col", className)}
+      className={cn("relative !aspect-auto", className)}
     >
-      <div className="relative mx-auto aspect-square w-full max-w-[320px]">
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          className="h-full w-full overflow-visible"
-        >
-          <g transform={`translate(${margin.left}, ${margin.top})`}>
-            {/* Filled grid background for 'filled' variant */}
-            {variant === "filled" && showGrid && (
-              <path
-                d={generatePolygonPath(radius)}
-                fill="currentColor"
-                className="text-primary/10"
-              />
-            )}
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click
+          a series to highlight it (others fade), click again to restore */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend && data.length > 1}
+        legend={
+          <ChartLegend
+            items={legendItems}
+            position={legendPosition}
+            onItemHover={highlight.setHovered}
+            onItemClick={highlight.toggle}
+            isItemActive={highlight.isActive}
+          />
+        }
+      >
+        <div className="relative mx-auto aspect-square w-full max-w-[320px]">
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="h-full w-full overflow-visible"
+          >
+            <g transform={`translate(${margin.left}, ${margin.top})`}>
+              {/* Filled grid background for 'filled' variant */}
+              {variant === "filled" && showGrid && (
+                <path
+                  d={generatePolygonPath(radius)}
+                  fill="currentColor"
+                  className="text-primary/10"
+                />
+              )}
 
-            {/* Grid levels */}
-            {showGrid &&
-              levels > 0 &&
-              Array.from({ length: levels }, (_, i) => {
-                const levelRadius = (radius / levels) * (i + 1)
+              {/* Grid levels */}
+              {showGrid &&
+                levels > 0 &&
+                Array.from({ length: levels }, (_, i) => {
+                  const levelRadius = (radius / levels) * (i + 1)
 
-                if (gridType === "circle") {
+                  if (gridType === "circle") {
+                    return (
+                      <circle
+                        key={i}
+                        cx={centerX}
+                        cy={centerY}
+                        r={levelRadius}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={i === levels - 1 ? 1 : 0.5}
+                        strokeOpacity={i === levels - 1 ? 0.5 : 0.3}
+                        className="text-border"
+                      />
+                    )
+                  }
+
                   return (
-                    <circle
+                    <path
                       key={i}
-                      cx={centerX}
-                      cy={centerY}
-                      r={levelRadius}
+                      d={generatePolygonPath(levelRadius)}
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth={i === levels - 1 ? 1 : 0.5}
-                      strokeOpacity={i === levels - 1 ? 0.5 : 0.3}
+                      strokeWidth={0.5}
+                      strokeOpacity={0.3}
                       className="text-border"
                     />
                   )
-                }
+                })}
 
-                return (
-                  <path
-                    key={i}
-                    d={generatePolygonPath(levelRadius)}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={0.5}
-                    strokeOpacity={0.3}
-                    className="text-border"
-                  />
-                )
-              })}
+              {/* Radial lines (axis lines from center) */}
+              {showRadialLines &&
+                axes.map((axis, i) => {
+                  const angle = angleSlice * i - Math.PI / 2
+                  const x2 = centerX + radius * Math.cos(angle)
+                  const y2 = centerY + radius * Math.sin(angle)
+                  return (
+                    <line
+                      key={axis}
+                      x1={centerX}
+                      y1={centerY}
+                      x2={x2}
+                      y2={y2}
+                      stroke="currentColor"
+                      strokeWidth={0.5}
+                      strokeOpacity={0.3}
+                      className="text-border"
+                    />
+                  )
+                })}
 
-            {/* Radial lines (axis lines from center) */}
-            {showRadialLines &&
-              axes.map((axis, i) => {
-                const angle = angleSlice * i - Math.PI / 2
-                const x2 = centerX + radius * Math.cos(angle)
-                const y2 = centerY + radius * Math.sin(angle)
-                return (
-                  <line
-                    key={axis}
-                    x1={centerX}
-                    y1={centerY}
-                    x2={x2}
-                    y2={y2}
-                    stroke="currentColor"
-                    strokeWidth={0.5}
-                    strokeOpacity={0.3}
-                    className="text-border"
-                  />
-                )
-              })}
+              {/* Axis labels */}
+              {showLabels &&
+                axes.map((axis, i) => {
+                  const angle = angleSlice * i - Math.PI / 2
+                  const x = centerX + (radius + labelOffset) * Math.cos(angle)
+                  const y = centerY + (radius + labelOffset) * Math.sin(angle)
 
-            {/* Axis labels */}
-            {showLabels &&
-              axes.map((axis, i) => {
-                const angle = angleSlice * i - Math.PI / 2
-                const x = centerX + (radius + labelOffset) * Math.cos(angle)
-                const y = centerY + (radius + labelOffset) * Math.sin(angle)
+                  // For 'labels' variant, show values alongside axis names
+                  if (variant === "labels") {
+                    const values = data.map((series) => {
+                      const point = series.data.find((d) => d.axis === axis)
+                      return point?.value ?? 0
+                    })
 
-                // For 'labels' variant, show values alongside axis names
-                if (variant === "labels") {
-                  const values = data.map((series) => {
-                    const point = series.data.find((d) => d.axis === axis)
-                    return point?.value ?? 0
-                  })
+                    return (
+                      <g key={axis}>
+                        <text
+                          x={x}
+                          y={y - (i === 0 ? 8 : 0)}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          className="fill-foreground text-[13px] font-medium"
+                        >
+                          {values.length > 1 ? (
+                            <>
+                              <tspan>{values[0]}</tspan>
+                              <tspan className="fill-muted-foreground">/</tspan>
+                              <tspan>{values[1]}</tspan>
+                            </>
+                          ) : (
+                            values[0]
+                          )}
+                        </text>
+                        <text
+                          x={x}
+                          y={y + (i === 0 ? 8 : 14)}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          className="fill-muted-foreground text-[11px]"
+                        >
+                          {axis}
+                        </text>
+                      </g>
+                    )
+                  }
 
                   return (
-                    <g key={axis}>
-                      <text
-                        x={x}
-                        y={y - (i === 0 ? 8 : 0)}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        className="fill-foreground text-[13px] font-medium"
-                      >
-                        {values.length > 1 ? (
-                          <>
-                            <tspan>{values[0]}</tspan>
-                            <tspan className="fill-muted-foreground">/</tspan>
-                            <tspan>{values[1]}</tspan>
-                          </>
-                        ) : (
-                          values[0]
-                        )}
-                      </text>
-                      <text
-                        x={x}
-                        y={y + (i === 0 ? 8 : 14)}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        className="fill-muted-foreground text-[11px]"
-                      >
-                        {axis}
-                      </text>
-                    </g>
+                    <text
+                      key={axis}
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      className="fill-muted-foreground text-[11px]"
+                    >
+                      {axis}
+                    </text>
                   )
-                }
+                })}
+
+              {/* Level labels */}
+              {showLevelLabels &&
+                levels > 0 &&
+                Array.from({ length: levels }, (_, i) => {
+                  const levelValue = (maxValue / levels) * (i + 1)
+                  const levelRadius = (radius / levels) * (i + 1)
+                  return (
+                    <text
+                      key={i}
+                      x={centerX + 4}
+                      y={centerY - levelRadius}
+                      className="fill-muted-foreground text-[9px]"
+                      dominantBaseline="middle"
+                    >
+                      {levelValue.toFixed(0)}
+                    </text>
+                  )
+                })}
+
+              {/* Radar areas — every series stays drawn; the focused one
+                (legend/area hover or click-to-pin) keeps full opacity while
+                the others fade, Plotly-style */}
+              {data.map((series, seriesIndex) => {
+                const color = getSeriesColor(series, seriesIndex)
+                const isActive = highlight.isActive(series.name)
+                const sortedData = getSortedData(series)
+                const seriesFillOpacity = series.fillOpacity ?? fillOpacity
 
                 return (
-                  <text
-                    key={axis}
-                    x={x}
-                    y={y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="fill-muted-foreground text-[11px]"
-                  >
-                    {axis}
-                  </text>
+                  <g key={series.name}>
+                    {/* Invisible hit area for better mouse interaction */}
+                    <path
+                      d={radarLine(sortedData) ?? ""}
+                      transform={`translate(${centerX}, ${centerY})`}
+                      fill="transparent"
+                      stroke="transparent"
+                      strokeWidth={20}
+                      className="cursor-pointer"
+                      style={{ pointerEvents: "stroke" }}
+                      onMouseEnter={() => handleAreaEnter(series)}
+                      onMouseMove={(e) =>
+                        handleAreaMove(e, series, seriesIndex)
+                      }
+                      onMouseLeave={handleAreaLeave}
+                    />
+
+                    {/* Visible Area */}
+                    <path
+                      d={radarLine(sortedData) ?? ""}
+                      transform={`translate(${centerX}, ${centerY})`}
+                      fill={color}
+                      fillOpacity={seriesFillOpacity}
+                      stroke={color}
+                      strokeWidth={strokeWidth}
+                      className={cn(
+                        "cursor-pointer transition-opacity duration-200",
+                        !isActive && "opacity-30"
+                      )}
+                      style={{ pointerEvents: "visiblePainted" }}
+                      onMouseEnter={() => handleAreaEnter(series)}
+                      onMouseMove={(e) =>
+                        handleAreaMove(e, series, seriesIndex)
+                      }
+                      onMouseLeave={handleAreaLeave}
+                    />
+
+                    {/* Dots */}
+                    {showDots &&
+                      sortedData.map((d) => {
+                        const point = getPoint(d.axis, d.value)
+                        const isPointHovered =
+                          hoveredPoint?.series === series.name &&
+                          hoveredPoint?.axis === d.axis
+
+                        return (
+                          <circle
+                            key={d.axis}
+                            cx={point.x}
+                            cy={point.y}
+                            r={isPointHovered ? dotSize * 1.5 : dotSize}
+                            fill={color}
+                            stroke="var(--background)"
+                            strokeWidth={2}
+                            className={cn(
+                              "cursor-pointer transition-all duration-200",
+                              !isActive && "opacity-30"
+                            )}
+                            onMouseEnter={() =>
+                              setHoveredPoint({
+                                series: series.name,
+                                axis: d.axis,
+                                value: d.value,
+                                x: point.x,
+                                y: point.y,
+                              })
+                            }
+                            onMouseLeave={() => setHoveredPoint(null)}
+                          />
+                        )
+                      })}
+                  </g>
                 )
               })}
+            </g>
+          </svg>
 
-            {/* Level labels */}
-            {showLevelLabels &&
-              levels > 0 &&
-              Array.from({ length: levels }, (_, i) => {
-                const levelValue = (maxValue / levels) * (i + 1)
-                const levelRadius = (radius / levels) * (i + 1)
-                return (
-                  <text
-                    key={i}
-                    x={centerX + 4}
-                    y={centerY - levelRadius}
-                    className="fill-muted-foreground text-[9px]"
-                    dominantBaseline="middle"
-                  >
-                    {levelValue.toFixed(0)}
-                  </text>
-                )
-              })}
-
-            {/* Radar areas — a series hidden via legend isolate is fully
-                skipped (not just dimmed) so the isolated shape is
-                unobstructed */}
-            {data.map((series, seriesIndex) => {
-              if (!isSeriesVisible(series.name)) return null
-              const color = getSeriesColor(series, seriesIndex)
-              const isHovered =
-                hoveredSeries === null || hoveredSeries === series.name
-              const sortedData = getSortedData(series)
-              const seriesFillOpacity = series.fillOpacity ?? fillOpacity
-
-              return (
-                <g key={series.name}>
-                  {/* Invisible hit area for better mouse interaction */}
-                  <path
-                    d={radarLine(sortedData) ?? ""}
-                    transform={`translate(${centerX}, ${centerY})`}
-                    fill="transparent"
-                    stroke="transparent"
-                    strokeWidth={20}
-                    className="cursor-pointer"
-                    style={{ pointerEvents: "stroke" }}
-                    onMouseEnter={() => handleAreaEnter(series)}
-                    onMouseMove={(e) => handleAreaMove(e, series, seriesIndex)}
-                    onMouseLeave={handleAreaLeave}
-                  />
-
-                  {/* Visible Area */}
-                  <path
-                    d={radarLine(sortedData) ?? ""}
-                    transform={`translate(${centerX}, ${centerY})`}
-                    fill={color}
-                    fillOpacity={seriesFillOpacity}
-                    stroke={color}
-                    strokeWidth={strokeWidth}
-                    className={cn(
-                      "cursor-pointer transition-opacity duration-200",
-                      !isHovered && "opacity-30"
-                    )}
-                    style={{ pointerEvents: "visiblePainted" }}
-                    onMouseEnter={() => handleAreaEnter(series)}
-                    onMouseMove={(e) => handleAreaMove(e, series, seriesIndex)}
-                    onMouseLeave={handleAreaLeave}
-                  />
-
-                  {/* Dots */}
-                  {showDots &&
-                    sortedData.map((d) => {
-                      const point = getPoint(d.axis, d.value)
-                      const isPointHovered =
-                        hoveredPoint?.series === series.name &&
-                        hoveredPoint?.axis === d.axis
-
-                      return (
-                        <circle
-                          key={d.axis}
-                          cx={point.x}
-                          cy={point.y}
-                          r={isPointHovered ? dotSize * 1.5 : dotSize}
-                          fill={color}
-                          stroke="hsl(var(--background))"
-                          strokeWidth={2}
-                          className={cn(
-                            "cursor-pointer transition-all duration-200",
-                            !isHovered && "opacity-30"
-                          )}
-                          onMouseEnter={() =>
-                            setHoveredPoint({
-                              series: series.name,
-                              axis: d.axis,
-                              value: d.value,
-                              x: point.x,
-                              y: point.y,
-                            })
-                          }
-                          onMouseLeave={() => setHoveredPoint(null)}
-                        />
-                      )
-                    })}
-                </g>
-              )
-            })}
-          </g>
-        </svg>
-
-        {/* Tooltip for dot hover */}
-        {showTooltip && hoveredPoint && (
-          <div
-            className="pointer-events-none absolute z-50"
-            style={{
-              left: margin.left + hoveredPoint.x,
-              top: margin.top + hoveredPoint.y - 10,
-            }}
-          >
-            <div className="border-border/50 bg-background -translate-x-1/2 -translate-y-full rounded-lg border px-3 py-2 text-xs shadow-xl">
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-2.5 w-2.5 rounded-full"
-                  style={{
-                    backgroundColor: getSeriesColor(
-                      data.find((s) => s.name === hoveredPoint.series)!,
-                      data.findIndex((s) => s.name === hoveredPoint.series)
-                    ),
-                  }}
-                />
-                <span className="font-medium">{hoveredPoint.series}</span>
-              </div>
-              <div className="text-muted-foreground mt-1">
-                {hoveredPoint.axis}: {hoveredPoint.value.toLocaleString()}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Tooltip for area hover (when no dot is hovered) */}
-        {showTooltip &&
-          !hoveredPoint &&
-          hoveredSeries &&
-          tooltipPosition &&
-          data.length > 0 && (
+          {/* Tooltip for dot hover */}
+          {showTooltip && hoveredPoint && (
             <div
               className="pointer-events-none absolute z-50"
               style={{
-                left: tooltipPosition.x + 15,
-                top: tooltipPosition.y - 10,
+                left: margin.left + hoveredPoint.x,
+                top: margin.top + hoveredPoint.y - 10,
               }}
             >
-              <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-xs shadow-xl">
-                <div className="flex items-center gap-2 font-medium">
+              <div className="border-border/50 bg-background -translate-x-1/2 -translate-y-full rounded-lg border px-3 py-2 text-xs shadow-xl">
+                <div className="flex items-center gap-2">
                   <div
                     className="h-2.5 w-2.5 rounded-full"
                     style={{
                       backgroundColor: getSeriesColor(
-                        data.find((s) => s.name === hoveredSeries)!,
-                        data.findIndex((s) => s.name === hoveredSeries)
+                        data.find((s) => s.name === hoveredPoint.series)!,
+                        data.findIndex((s) => s.name === hoveredPoint.series)
                       ),
                     }}
                   />
-                  {hoveredSeries}
+                  <span className="font-medium">{hoveredPoint.series}</span>
                 </div>
-                <div className="text-muted-foreground mt-1.5 space-y-0.5">
-                  {data
-                    .find((s) => s.name === hoveredSeries)
-                    ?.data.map((d) => (
-                      <div key={d.axis} className="flex justify-between gap-3">
-                        <span>{d.axis}:</span>
-                        <span className="text-foreground font-medium">
-                          {d.value.toLocaleString()}
-                        </span>
-                      </div>
-                    ))}
+                <div className="text-muted-foreground mt-1">
+                  {hoveredPoint.axis}: {hoveredPoint.value.toLocaleString()}
                 </div>
               </div>
             </div>
           )}
-      </div>
 
-      {/* Legend — click an item to isolate that series, click again to
-          restore all */}
-      {showLegend && data.length > 1 && (
-        <ChartLegend
-          items={legendItems}
-          onItemHover={setHoveredSeries}
-          onItemClick={(name) =>
-            setActiveSeries((prev) => (prev === name ? null : name))
-          }
-          isItemActive={isSeriesVisible}
-        />
-      )}
+          {/* Tooltip for area hover (when no dot is hovered) */}
+          {showTooltip &&
+            !hoveredPoint &&
+            highlight.hovered &&
+            tooltipPosition &&
+            data.length > 0 && (
+              <div
+                className="pointer-events-none absolute z-50"
+                style={{
+                  left: tooltipPosition.x + 15,
+                  top: tooltipPosition.y - 10,
+                }}
+              >
+                <ChartTooltipSurface>
+                  <div className="flex items-center gap-2 font-medium">
+                    <div
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{
+                        backgroundColor: getSeriesColor(
+                          data.find((s) => s.name === highlight.hovered)!,
+                          data.findIndex((s) => s.name === highlight.hovered)
+                        ),
+                      }}
+                    />
+                    {highlight.hovered}
+                  </div>
+                  <div className="text-muted-foreground mt-1.5 space-y-0.5">
+                    {data
+                      .find((s) => s.name === highlight.hovered)
+                      ?.data.map((d) => (
+                        <div
+                          key={d.axis}
+                          className="flex justify-between gap-3"
+                        >
+                          <span>{d.axis}:</span>
+                          <span className="text-foreground font-medium">
+                            {d.value.toLocaleString()}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                </ChartTooltipSurface>
+              </div>
+            )}
+        </div>
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

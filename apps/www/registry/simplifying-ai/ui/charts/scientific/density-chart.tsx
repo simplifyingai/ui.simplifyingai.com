@@ -163,7 +163,7 @@ export function DensityChart({
               x2={xScale(tick)}
               y1={0}
               y2={innerHeight}
-              stroke="hsl(var(--border))"
+              stroke="var(--border)"
               strokeDasharray="3 3"
               strokeOpacity={0.5}
             />
@@ -175,7 +175,7 @@ export function DensityChart({
               x2={innerWidth}
               y1={yScale(tick)}
               y2={yScale(tick)}
-              stroke="hsl(var(--border))"
+              stroke="var(--border)"
               strokeDasharray="3 3"
               strokeOpacity={0.5}
             />
@@ -221,10 +221,10 @@ export function DensityChart({
 
           {/* X Axis */}
           <g transform={`translate(0, ${innerHeight})`}>
-            <line x1={0} x2={innerWidth} stroke="hsl(var(--border))" />
+            <line x1={0} x2={innerWidth} stroke="var(--border)" />
             {xTicks.map((tick) => (
               <g key={tick} transform={`translate(${xScale(tick)}, 0)`}>
-                <line y2={5} stroke="hsl(var(--border))" />
+                <line y2={5} stroke="var(--border)" />
                 <text
                   y={18}
                   textAnchor="middle"
@@ -248,10 +248,10 @@ export function DensityChart({
 
           {/* Y Axis */}
           <g>
-            <line y1={0} y2={innerHeight} stroke="hsl(var(--border))" />
+            <line y1={0} y2={innerHeight} stroke="var(--border)" />
             {yTicks.map((tick) => (
               <g key={tick} transform={`translate(0, ${yScale(tick)})`}>
-                <line x2={-5} stroke="hsl(var(--border))" />
+                <line x2={-5} stroke="var(--border)" />
                 <text
                   x={-10}
                   textAnchor="end"

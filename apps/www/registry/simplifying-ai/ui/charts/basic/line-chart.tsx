@@ -15,11 +15,18 @@ import {
 
 import { cn } from "@/lib/utils"
 
+import { ChartTooltipSurface } from "../chart-tooltip"
+
 import { ChartAxis } from "../chart-axis"
 import type { BaseChartProps, ChartConfig } from "../chart-config"
 import { ChartContainer } from "../chart-container"
 import { ChartHorizontalGrid, ChartVerticalGrid } from "../chart-grid"
-import { ChartLegend, type LegendItem } from "../chart-legend"
+import {
+  ChartLegend,
+  ChartLegendLayout,
+  useSeriesHighlight,
+  type LegendItem,
+} from "../chart-legend"
 import {
   ChartZoomResetButton,
   ChartZoomSelectionRect,
@@ -101,16 +108,18 @@ const curveMap = {
   basis: curveBasis,
 }
 
-// Default colors for multi-line variant (CSS variables for theme support)
+// Default colors for multi-line variant — a validated categorical palette
+// (fixed hue order, never cycled) exposed as theme-aware CSS variables so
+// light/dark each get surface-tuned steps. See --chart-series-* in globals.css.
 const MULTI_LINE_COLORS = [
-  "var(--chart-3)",
-  "var(--chart-1)",
-  "var(--chart-5)",
-  "var(--chart-2)",
-  "var(--chart-4)",
-  "var(--chart-3)",
-  "var(--chart-1)",
-  "var(--chart-5)",
+  "var(--chart-series-1)",
+  "var(--chart-series-2)",
+  "var(--chart-series-3)",
+  "var(--chart-series-4)",
+  "var(--chart-series-5)",
+  "var(--chart-series-6)",
+  "var(--chart-series-7)",
+  "var(--chart-series-8)",
 ]
 
 // ============================================================================
@@ -155,6 +164,7 @@ export function LineChart({
   showGrid: showGridProp,
   showTooltip = true,
   showLegend: showLegendProp,
+  legendPosition = "right",
   xAxisLabel,
   yAxisLabel,
   curve: curveProp,
@@ -182,9 +192,10 @@ export function LineChart({
     x: number
     y: number
   } | null>(null)
-  const [hoveredSeries, setHoveredSeries] = React.useState<string | null>(null)
+  // Legend highlight: click a series to emphasize it (others fade but stay
+  // drawn), hover to preview — Plotly-style. `focused` = hover ?? selection.
+  const highlight = useSeriesHighlight()
   const [crosshairX, setCrosshairX] = React.useState<number | null>(null)
-  const [activeSeries, setActiveSeries] = React.useState<string | null>(null)
   const [zoomDomain, setZoomDomain] = React.useState<[number, number] | null>(
     null
   )
@@ -212,7 +223,7 @@ export function LineChart({
           showDots: false,
           strokeWidth: 2,
           showArea: false,
-          showLegend: false,
+          showLegend: true,
           showGrid: true,
           showCrosshair: true,
           showDataLabels: false,
@@ -414,11 +425,6 @@ export function LineChart({
     onReset: () => setZoomDomain(null),
   })
 
-  const isSeriesVisible = React.useCallback(
-    (name: string) => activeSeries === null || activeSeries === name,
-    [activeSeries]
-  )
-
   // Generate line path
   const lineFn = line<LineChartDataPoint>()
     .x((d) => getX(d))
@@ -487,19 +493,16 @@ export function LineChart({
   }
 
   // Find closest point to crosshair (skips series that are empty in the
-  // current zoom window or hidden via legend isolate; keeps the array
-  // index-aligned with `data`/`plotData` so callers can index by
-  // seriesIndex directly)
+  // current zoom window; keeps the array index-aligned with
+  // `data`/`plotData` so callers can index by seriesIndex directly.
+  // Highlighted-but-dimmed series stay in the tooltip — they're faded, not
+  // hidden)
   const getClosestPoints = React.useCallback(() => {
     if (crosshairX === null) return null
 
     return data.map((series, seriesIndex) => {
       const plotSeries = plotData[seriesIndex]
-      if (
-        !plotSeries ||
-        plotSeries.data.length === 0 ||
-        !isSeriesVisible(series.name)
-      ) {
+      if (!plotSeries || plotSeries.data.length === 0) {
         return null
       }
 
@@ -518,18 +521,15 @@ export function LineChart({
 
       return { point: closestPoint, index: closestIdx, seriesIndex }
     })
-  }, [crosshairX, data, plotData, getX, isSeriesVisible])
+  }, [crosshairX, data, plotData, getX])
 
   const closestPoints = getClosestPoints()
 
   return (
-    <ChartContainer
-      config={config}
-      className={cn("relative flex-col", className)}
-    >
+    <ChartContainer config={config} className={cn("relative", className)}>
       {/* Title for stock variant */}
       {variant === "stock" && title && (
-        <div className="absolute top-0 left-0 px-4 pt-2 pb-4">
+        <div className="absolute top-0 left-0 z-10 px-4 pt-2 pb-4">
           <div className="text-foreground text-sm font-semibold">{title}</div>
           {subtitle && (
             <div className="text-muted-foreground mt-0.5 text-xs">
@@ -539,340 +539,347 @@ export function LineChart({
         </div>
       )}
 
-      <svg
-        ref={svgRef}
-        viewBox={`0 0 ${width} ${height}`}
-        className="h-full w-full flex-1 select-none"
-        onMouseMove={handleSvgMouseMove}
-        onMouseLeave={handleSvgMouseLeave}
-        onMouseDown={zoom.handlers.onMouseDown}
-        onMouseUp={zoom.handlers.onMouseUp}
-        onDoubleClick={zoom.handlers.onDoubleClick}
+      {/* Plot + legend layout — legend sits on `legendPosition` side, click
+          a series to highlight it (others fade), click again to restore */}
+      <ChartLegendLayout
+        position={legendPosition}
+        show={showLegend && data.length > 1}
+        legend={
+          <ChartLegend
+            items={legendItems}
+            position={legendPosition}
+            onItemHover={highlight.setHovered}
+            onItemClick={highlight.toggle}
+            isItemActive={highlight.isActive}
+          />
+        }
       >
-        {/* Gradient definitions for area fill */}
-        <defs>
-          {data.map((series, idx) => {
-            const seriesColor = getSeriesColor(series, idx)
-            return (
-              <linearGradient
-                key={`gradient-${idx}`}
-                id={`area-gradient-${idx}`}
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="0%"
-                  stopColor={seriesColor}
-                  stopOpacity={areaOpacity * 2}
-                />
-                <stop offset="100%" stopColor={seriesColor} stopOpacity={0} />
-              </linearGradient>
-            )
-          })}
-        </defs>
+        <svg
+          ref={svgRef}
+          viewBox={`0 0 ${width} ${height}`}
+          className="h-full w-full flex-1 select-none"
+          onMouseMove={handleSvgMouseMove}
+          onMouseLeave={handleSvgMouseLeave}
+          onMouseDown={zoom.handlers.onMouseDown}
+          onMouseUp={zoom.handlers.onMouseUp}
+          onDoubleClick={zoom.handlers.onDoubleClick}
+        >
+          {/* Gradient definitions for area fill */}
+          <defs>
+            {data.map((series, idx) => {
+              const seriesColor = getSeriesColor(series, idx)
+              return (
+                <linearGradient
+                  key={`gradient-${idx}`}
+                  id={`area-gradient-${idx}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor={seriesColor}
+                    stopOpacity={areaOpacity * 2}
+                  />
+                  <stop offset="100%" stopColor={seriesColor} stopOpacity={0} />
+                </linearGradient>
+              )
+            })}
+          </defs>
 
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
-          {/* Invisible background for mouse events */}
-          <rect
-            width={innerWidth}
-            height={innerHeight}
-            fill="transparent"
-            className="cursor-crosshair"
-          />
-
-          {/* Drag-to-zoom selection rectangle */}
-          <ChartZoomSelectionRect
-            range={zoom.dragRange}
-            height={innerHeight}
-          />
-
-          {/* Grid */}
-          {showGrid && (
-            <>
-              <ChartHorizontalGrid scale={yScale} width={innerWidth} />
-              {variant === "stock" && xType === "time" && (
-                <ChartVerticalGrid
-                  scale={
-                    xScale as unknown as {
-                      ticks: (count?: number) => unknown[];
-                      (value: unknown): number
-                    }
-                  }
-                  height={innerHeight}
-                />
-              )}
-            </>
-          )}
-
-          {/* Crosshair */}
-          {showCrosshair && crosshairX !== null && (
-            <line
-              x1={crosshairX}
-              y1={0}
-              x2={crosshairX}
-              y2={innerHeight}
-              stroke="var(--border)"
-              strokeWidth={1}
-              strokeDasharray="4,4"
+          <g transform={`translate(${margin.left}, ${margin.top})`}>
+            {/* Invisible background for mouse events */}
+            <rect
+              width={innerWidth}
+              height={innerHeight}
+              fill="transparent"
+              className="cursor-crosshair"
             />
-          )}
 
-          {/* Areas */}
-          {showArea &&
-            data.map((series, seriesIndex) => {
-              if (!isSeriesVisible(series.name)) return null
+            {/* Drag-to-zoom selection rectangle */}
+            <ChartZoomSelectionRect
+              range={zoom.dragRange}
+              height={innerHeight}
+            />
+
+            {/* Grid */}
+            {showGrid && (
+              <>
+                <ChartHorizontalGrid scale={yScale} width={innerWidth} />
+                {variant === "stock" && xType === "time" && (
+                  <ChartVerticalGrid
+                    scale={
+                      xScale as unknown as {
+                        ticks: (count?: number) => unknown[];
+                        (value: unknown): number
+                      }
+                    }
+                    height={innerHeight}
+                  />
+                )}
+              </>
+            )}
+
+            {/* Crosshair */}
+            {showCrosshair && crosshairX !== null && (
+              <line
+                x1={crosshairX}
+                y1={0}
+                x2={crosshairX}
+                y2={innerHeight}
+                stroke="var(--border)"
+                strokeWidth={1}
+                strokeDasharray="4,4"
+              />
+            )}
+
+            {/* Areas */}
+            {showArea &&
+              data.map((series, seriesIndex) => {
+                const plotSeries = plotData[seriesIndex]
+                const isHovered = highlight.isActive(series.name)
+
+                return (
+                  <path
+                    key={`area-${series.name}`}
+                    d={areaFn(plotSeries.data) ?? ""}
+                    fill={`url(#area-gradient-${seriesIndex})`}
+                    className={cn(
+                      "transition-opacity duration-200",
+                      !isHovered && "opacity-30"
+                    )}
+                  />
+                )
+              })}
+
+            {/* Lines */}
+            {data.map((series, seriesIndex) => {
               const plotSeries = plotData[seriesIndex]
-              const isHovered =
-                hoveredSeries === null || hoveredSeries === series.name
+              const seriesColor = getSeriesColor(series, seriesIndex)
+              const isHovered = highlight.isActive(series.name)
 
               return (
-                <path
-                  key={`area-${series.name}`}
-                  d={areaFn(plotSeries.data) ?? ""}
-                  fill={`url(#area-gradient-${seriesIndex})`}
-                  className={cn(
-                    "transition-opacity duration-200",
-                    !isHovered && "opacity-30"
+                <g key={series.name}>
+                  {/* Invisible hit area for better mouse interaction */}
+                  <path
+                    d={lineFn(plotSeries.data) ?? ""}
+                    fill="none"
+                    stroke="transparent"
+                    strokeWidth={20}
+                    className="cursor-pointer"
+                    style={{ pointerEvents: "stroke" }}
+                  />
+                  {/* Visible Line */}
+                  <path
+                    d={lineFn(plotSeries.data) ?? ""}
+                    fill="none"
+                    stroke={seriesColor}
+                    strokeWidth={series.strokeWidth ?? strokeWidth}
+                    strokeDasharray={series.strokeDasharray}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ pointerEvents: "none" }}
+                    className={cn(
+                      "transition-opacity duration-200",
+                      !isHovered && "opacity-30",
+                      animate && "animate-draw"
+                    )}
+                  />
+
+                  {/* Dots */}
+                  {(series.showDots ?? showDots) &&
+                    plotSeries.data.map((point, pointIndex) => (
+                      <circle
+                        key={pointIndex}
+                        cx={getX(point)}
+                        cy={yScale(point.y)}
+                        r={
+                          hoveredPoint?.seriesIndex === seriesIndex &&
+                          hoveredPoint?.pointIndex === pointIndex
+                            ? (series.dotSize ?? dotSize) * 1.5
+                            : (series.dotSize ?? dotSize)
+                        }
+                        fill={seriesColor}
+                        className={cn(
+                          "cursor-pointer transition-all duration-200",
+                          !isHovered && "opacity-30"
+                        )}
+                        onMouseEnter={() =>
+                          setHoveredPoint({
+                            seriesIndex,
+                            pointIndex,
+                            point,
+                            x: getX(point),
+                            y: yScale(point.y),
+                          })
+                        }
+                        onMouseLeave={() => setHoveredPoint(null)}
+                      />
+                    ))}
+
+                  {/* Data Labels */}
+                  {showDataLabels &&
+                    plotSeries.data.map((point, pointIndex) => {
+                      const x = getX(point)
+                      const y = yScale(point.y)
+                      // Position label above or below based on surrounding points
+                      const prevY =
+                        pointIndex > 0
+                          ? yScale(plotSeries.data[pointIndex - 1].y)
+                          : y
+                      const nextY =
+                        pointIndex < plotSeries.data.length - 1
+                          ? yScale(plotSeries.data[pointIndex + 1].y)
+                          : y
+                      const isLocalMin = y > prevY && y > nextY
+                      const labelY = isLocalMin ? y + 20 : y - 12
+
+                      return (
+                        <text
+                          key={`label-${pointIndex}`}
+                          x={x}
+                          y={labelY}
+                          textAnchor="middle"
+                          className="fill-muted-foreground text-xs font-medium"
+                          style={{ pointerEvents: "none" }}
+                        >
+                          {Math.round(point.y)}
+                        </text>
+                      )
+                    })}
+
+                  {/* Crosshair dots */}
+                  {showCrosshair && closestPoints?.[seriesIndex] && (
+                    <circle
+                      cx={getX(closestPoints[seriesIndex]!.point)}
+                      cy={yScale(closestPoints[seriesIndex]!.point.y)}
+                      r={5}
+                      fill="var(--background)"
+                      stroke={seriesColor}
+                      strokeWidth={2}
+                      className={cn(!isHovered && "opacity-30")}
+                    />
                   )}
-                />
+                </g>
               )
             })}
 
-          {/* Lines */}
-          {data.map((series, seriesIndex) => {
-            if (!isSeriesVisible(series.name)) return null
-            const plotSeries = plotData[seriesIndex]
-            const seriesColor = getSeriesColor(series, seriesIndex)
-            const isHovered =
-              hoveredSeries === null || hoveredSeries === series.name
+            {/* X Axis */}
+            {variant !== "sparkline" && (
+              <ChartAxis
+                scale={xScale}
+                orientation="bottom"
+                transform={`translate(0, ${innerHeight})`}
+                label={xAxisLabel}
+                tickFormat={
+                  xType === "time"
+                    ? (d) => formatDateAxis(d as Date)
+                    : undefined
+                }
+              />
+            )}
 
-            return (
-              <g key={series.name}>
-                {/* Invisible hit area for better mouse interaction */}
-                <path
-                  d={lineFn(plotSeries.data) ?? ""}
-                  fill="none"
-                  stroke="transparent"
-                  strokeWidth={20}
-                  className="cursor-pointer"
-                  style={{ pointerEvents: "stroke" }}
-                />
-                {/* Visible Line */}
-                <path
-                  d={lineFn(plotSeries.data) ?? ""}
-                  fill="none"
-                  stroke={seriesColor}
-                  strokeWidth={series.strokeWidth ?? strokeWidth}
-                  strokeDasharray={series.strokeDasharray}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ pointerEvents: "none" }}
-                  className={cn(
-                    "transition-opacity duration-200",
-                    !isHovered && "opacity-30",
-                    animate && "animate-draw"
-                  )}
-                />
+            {/* Y Axis */}
+            {variant !== "sparkline" && showYAxis && (
+              <ChartAxis
+                scale={yScale}
+                orientation="left"
+                label={yAxisLabel}
+                tickFormat={(d) => formatYValue(d as number)}
+              />
+            )}
+          </g>
+        </svg>
 
-                {/* Dots */}
-                {(series.showDots ?? showDots) &&
-                  plotSeries.data.map((point, pointIndex) => (
-                    <circle
-                      key={pointIndex}
-                      cx={getX(point)}
-                      cy={yScale(point.y)}
-                      r={
-                        hoveredPoint?.seriesIndex === seriesIndex &&
-                        hoveredPoint?.pointIndex === pointIndex
-                          ? (series.dotSize ?? dotSize) * 1.5
-                          : (series.dotSize ?? dotSize)
-                      }
-                      fill={seriesColor}
-                      className={cn(
-                        "cursor-pointer transition-all duration-200",
-                        !isHovered && "opacity-30"
-                      )}
-                      onMouseEnter={() =>
-                        setHoveredPoint({
-                          seriesIndex,
-                          pointIndex,
-                          point,
-                          x: getX(point),
-                          y: yScale(point.y),
-                        })
-                      }
-                      onMouseLeave={() => setHoveredPoint(null)}
-                    />
-                  ))}
-
-                {/* Data Labels */}
-                {showDataLabels &&
-                  plotSeries.data.map((point, pointIndex) => {
-                    const x = getX(point)
-                    const y = yScale(point.y)
-                    // Position label above or below based on surrounding points
-                    const prevY =
-                      pointIndex > 0
-                        ? yScale(plotSeries.data[pointIndex - 1].y)
-                        : y
-                    const nextY =
-                      pointIndex < plotSeries.data.length - 1
-                        ? yScale(plotSeries.data[pointIndex + 1].y)
-                        : y
-                    const isLocalMin = y > prevY && y > nextY
-                    const labelY = isLocalMin ? y + 20 : y - 12
-
-                    return (
-                      <text
-                        key={`label-${pointIndex}`}
-                        x={x}
-                        y={labelY}
-                        textAnchor="middle"
-                        className="fill-muted-foreground text-xs font-medium"
-                        style={{ pointerEvents: "none" }}
-                      >
-                        {Math.round(point.y)}
-                      </text>
-                    )
-                  })}
-
-                {/* Crosshair dots */}
-                {showCrosshair && closestPoints?.[seriesIndex] && (
-                  <circle
-                    cx={getX(closestPoints[seriesIndex]!.point)}
-                    cy={yScale(closestPoints[seriesIndex]!.point.y)}
-                    r={5}
-                    fill="var(--background)"
-                    stroke={seriesColor}
-                    strokeWidth={2}
-                    className={cn(!isHovered && "opacity-30")}
-                  />
-                )}
-              </g>
-            )
-          })}
-
-          {/* X Axis */}
-          {variant !== "sparkline" && (
-            <ChartAxis
-              scale={xScale}
-              orientation="bottom"
-              transform={`translate(0, ${innerHeight})`}
-              label={xAxisLabel}
-              tickFormat={
-                xType === "time" ? (d) => formatDateAxis(d as Date) : undefined
-              }
-            />
-          )}
-
-          {/* Y Axis */}
-          {variant !== "sparkline" && showYAxis && (
-            <ChartAxis
-              scale={yScale}
-              orientation="left"
-              label={yAxisLabel}
-              tickFormat={(d) => formatYValue(d as number)}
-            />
-          )}
-        </g>
-      </svg>
-
-      {/* Crosshair Tooltip */}
-      {showCrosshair && crosshairX !== null && closestPoints && (
-        <div
-          className="pointer-events-none absolute z-50"
-          style={{
-            left: margin.left + crosshairX + 15,
-            top: margin.top + 10,
-          }}
-        >
-          <div className="border-border/50 bg-background rounded-lg border px-3 py-2 text-xs shadow-xl">
-            {(() => {
-              const headPoint = closestPoints.find((cp) => cp !== null)?.point
-              if (!headPoint) return null
-              return (
-                <div className="text-muted-foreground mb-1.5 font-medium">
-                  {xType === "time"
-                    ? formatDateAxis(new Date(headPoint.x as string | Date))
-                    : String(headPoint.x)}
-                </div>
-              )
-            })()}
-            {closestPoints.map(
-              (cp, idx) =>
-                cp && (
-                  <div key={idx} className="flex items-center gap-2">
-                    <div
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{
-                        backgroundColor: getSeriesColor(data[idx], idx),
-                      }}
-                    />
-                    <span className="text-muted-foreground">
-                      {data[idx].name}:
-                    </span>
-                    <span className="font-medium">
-                      {formatYValue(cp.point.y)}
-                    </span>
+        {/* Crosshair Tooltip */}
+        {showCrosshair && crosshairX !== null && closestPoints && (
+          <div
+            className="pointer-events-none absolute z-50"
+            style={{
+              left: margin.left + crosshairX + 15,
+              top: margin.top + 10,
+            }}
+          >
+            <ChartTooltipSurface>
+              {(() => {
+                const headPoint = closestPoints.find((cp) => cp !== null)?.point
+                if (!headPoint) return null
+                return (
+                  <div className="text-muted-foreground mb-1.5 font-medium">
+                    {xType === "time"
+                      ? formatDateAxis(new Date(headPoint.x as string | Date))
+                      : String(headPoint.x)}
                   </div>
                 )
-            )}
+              })()}
+              {closestPoints.map(
+                (cp, idx) =>
+                  cp && (
+                    <div
+                      key={idx}
+                      className={cn(
+                        "flex items-center gap-2 transition-opacity",
+                        highlight.isDimmed(data[idx].name) && "opacity-40"
+                      )}
+                    >
+                      <div
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{
+                          backgroundColor: getSeriesColor(data[idx], idx),
+                        }}
+                      />
+                      <span className="text-muted-foreground">
+                        {data[idx].name}:
+                      </span>
+                      <span className="font-medium">
+                        {formatYValue(cp.point.y)}
+                      </span>
+                    </div>
+                  )
+              )}
+            </ChartTooltipSurface>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Standard Tooltip */}
-      {showTooltip && !showCrosshair && hoveredPoint && (
-        <div
-          className="pointer-events-none absolute z-50"
-          style={{
-            left: margin.left + hoveredPoint.x + 10,
-            top: margin.top + hoveredPoint.y - 10,
-          }}
-        >
-          <div className="border-border/50 bg-background rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
-            {data.length > 1 && (
-              <div
-                className="mb-1 font-medium"
-                style={{
-                  color: getSeriesColor(
-                    data[hoveredPoint.seriesIndex],
-                    hoveredPoint.seriesIndex
-                  ),
-                }}
-              >
-                {data[hoveredPoint.seriesIndex].name}
+        {/* Standard Tooltip */}
+        {showTooltip && !showCrosshair && hoveredPoint && (
+          <div
+            className="pointer-events-none absolute z-50"
+            style={{
+              left: margin.left + hoveredPoint.x + 10,
+              top: margin.top + hoveredPoint.y - 10,
+            }}
+          >
+            <ChartTooltipSurface>
+              {data.length > 1 && (
+                <div
+                  className="mb-1 font-medium"
+                  style={{
+                    color: getSeriesColor(
+                      data[hoveredPoint.seriesIndex],
+                      hoveredPoint.seriesIndex
+                    ),
+                  }}
+                >
+                  {data[hoveredPoint.seriesIndex].name}
+                </div>
+              )}
+              <div className="text-muted-foreground">
+                {String(hoveredPoint.point.x)}
               </div>
-            )}
-            <div className="text-muted-foreground">
-              {String(hoveredPoint.point.x)}
-            </div>
-            <div className="font-medium">
-              {formatYValue(hoveredPoint.point.y)}
-            </div>
+              <div className="font-medium">
+                {formatYValue(hoveredPoint.point.y)}
+              </div>
+            </ChartTooltipSurface>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Legend — click an item to isolate that series, click again to
-          restore all */}
-      {showLegend && data.length > 1 && (
-        <ChartLegend
-          items={legendItems}
-          onItemHover={setHoveredSeries}
-          onItemClick={(name) =>
-            setActiveSeries((prev) => (prev === name ? null : name))
-          }
-          isItemActive={isSeriesVisible}
+        <ChartZoomResetButton
+          visible={isZoomed}
+          onReset={() => setZoomDomain(null)}
         />
-      )}
-
-      <ChartZoomResetButton
-        visible={isZoomed}
-        onReset={() => setZoomDomain(null)}
-      />
+      </ChartLegendLayout>
     </ChartContainer>
   )
 }

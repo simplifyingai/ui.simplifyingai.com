@@ -23,6 +23,57 @@ export {
 export { ChartAxis } from "./chart-axis"
 
 export {
+  ChartThemeProvider,
+  useChartTheme,
+  chartThemePresets,
+  defaultChartTheme,
+  dashboardChartTheme,
+  minimalChartTheme,
+  type ChartTheme,
+  type ChartThemePreset,
+  type ChartPatternKind,
+  type ChartTagVariant,
+  type ChartTickVariant,
+} from "./chart-theme"
+
+export {
+  ChartPattern,
+  chartPatternDefs,
+  patternFill,
+  useChartPatternIds,
+  type ChartPatternSpec,
+} from "./chart-patterns"
+
+export {
+  chartTagLabel,
+  chartActiveTick,
+  chartPillTick,
+  chartActiveValueLabel,
+  resolveReferenceValue,
+  type ChartTagLabelOptions,
+  type ChartPillTickOptions,
+  type ChartLabelRenderer,
+  type ChartValueLabelOptions,
+} from "./chart-annotations"
+
+export {
+  CHART_BREAKPOINTS,
+  ChartPlotArea,
+  ChartScrollArea,
+  autoTickInterval,
+  categoryAxisWidth,
+  resolveResponsive,
+  useCategoryLayout,
+  useChartSize,
+  type CategoryChartLayoutProps,
+  type CategoryLayout,
+  type ChartBreakpoint,
+  type ChartOverflow,
+  type ChartScrollAreaProps,
+  type Responsive,
+} from "./chart-responsive"
+
+export {
   useChartZoom,
   getBandScaleIndexRange,
   ChartZoomSelectionRect,
@@ -30,6 +81,12 @@ export {
   type ChartDragRange,
   type UseChartZoomOptions,
   type UseChartZoomResult,
+  useChartWindow,
+  ChartWindowSelectionOverlay,
+  ChartZoomControls,
+  type ChartWindowSelection,
+  type UseChartWindowOptions,
+  type UseChartWindowResult,
 } from "./chart-zoom"
 
 export { ChartGrid, ChartHorizontalGrid, ChartVerticalGrid } from "./chart-grid"
@@ -45,7 +102,10 @@ export {
   ChartLegend,
   ChartLegendInline,
   ChartLegendContent,
+  ChartLegendLayout,
+  useSeriesHighlight,
   type LegendItem,
+  type LegendPosition,
 } from "./chart-legend"
 
 export * from "./chart-utils"
@@ -57,6 +117,7 @@ export {
   MultiBarChart,
   type BarChartProps,
   type BarChartDataPoint,
+  type BarChartReferenceLine,
   type MultiBarChartProps,
   type MultiBarChartSeries,
   type MultiBarChartDataPoint,
@@ -67,6 +128,7 @@ export {
   generateAreaChartData,
   type AreaChartProps,
   type AreaChartDataPoint,
+  type AreaChartReferenceLine,
   type MultiAreaChartProps,
   type MultiAreaChartSeries,
   type MultiAreaChartDataPoint,
@@ -82,6 +144,11 @@ export {
 export { LollipopChart, type LollipopChartProps } from "./basic/lollipop-chart"
 export { DumbbellChart, type DumbbellChartProps } from "./basic/dumbbell-chart"
 export { SlopeChart, type SlopeChartProps } from "./basic/slope-chart"
+export {
+  ProportionBar,
+  type ProportionBarProps,
+  type ProportionSegment,
+} from "./basic/proportion-bar"
 export {
   RangeChart,
   type RangeChartProps,
@@ -178,6 +245,11 @@ export {
 } from "./specialized/sunburst-chart"
 export { SankeyChart, type SankeyChartProps } from "./specialized/sankey-chart"
 export { GaugeChart, type GaugeChartProps } from "./specialized/gauge-chart"
+export {
+  RadialProgressChart,
+  type RadialProgressChartProps,
+  type RadialProgressSeries,
+} from "./specialized/radial-progress-chart"
 export { BulletChart, type BulletChartProps } from "./specialized/bullet-chart"
 export { IcicleChart, type IcicleChartProps } from "./specialized/icicle-chart"
 export {

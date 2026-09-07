@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bar-chart-scroll-demo",
+  "registryDependencies": [
+    "https://ui.simplifyingai.com/r/bar-chart.json"
+  ],
+  "files": [
+    {
+      "path": "examples/bar-chart-scroll-demo.tsx",
+      "content": "\"use client\"\n\nimport { BarChart } from \"@/components/ui/charts\"\n\n// 48 days is more categories than a phone has pixels — compressing them\n// would leave bars thinner than the gaps between them.\nconst chartData = Array.from({ length: 48 }, (_, i) => ({\n  label: `D${i + 1}`,\n  value: 220 + Math.round(90 * Math.sin(i / 2.3) + 60 * Math.cos(i / 5)),\n}))\n\nexport default function BarChartScrollDemo() {\n  return (\n    <div className=\"w-full space-y-8\">\n      <div className=\"space-y-2\">\n        <p className=\"text-muted-foreground text-sm\">\n          <span className=\"text-foreground font-medium\">Scroll</span> — each bar\n          keeps a floor width and the plot overflows sideways.\n        </p>\n        <BarChart\n          data={chartData}\n          overflow=\"scroll\"\n          minCategorySize={34}\n          aspectRatio={{ base: 1.3, md: 2.6 }}\n        />\n      </div>\n\n      <div className=\"space-y-2\">\n        <p className=\"text-muted-foreground text-sm\">\n          <span className=\"text-foreground font-medium\">Zoom</span> — drag to\n          select, pinch or ⌘-scroll to scale, double-click to reset.\n        </p>\n        <BarChart\n          data={chartData}\n          aspectRatio={{ base: 1.3, md: 2.6 }}\n          wheelZoom\n        />\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:example"
+    }
+  ],
+  "type": "registry:example"
+}

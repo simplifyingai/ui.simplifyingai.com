@@ -85,6 +85,16 @@
   --chart-3: var(--color-blue-600);
   --chart-4: var(--color-blue-700);
   --chart-5: var(--color-blue-800);
+  /* Categorical series palette (light) — validated for CVD + contrast on a
+     light surface. Fixed hue order; never cycled. See styles: dark below. */
+  --chart-series-1: #2f74c9; /* blue   */
+  --chart-series-2: #9a6a12; /* amber  */
+  --chart-series-3: #c33f78; /* rose   */
+  --chart-series-4: #c8562a; /* orange */
+  --chart-series-5: #1f83a6; /* cyan   */
+  --chart-series-6: #2f7a34; /* green  */
+  --chart-series-7: #5a4bc4; /* violet */
+  --chart-series-8: #0f8a6d; /* teal   */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -127,6 +137,16 @@
   --chart-3: var(--color-blue-600);
   --chart-4: var(--color-blue-700);
   --chart-5: var(--color-blue-800);
+  /* Categorical series palette (dark) — the same eight hues stepped for the
+     dark surface, validated for CVD + contrast. Fixed hue order; never cycled. */
+  --chart-series-1: #3e8ee6; /* blue   */
+  --chart-series-2: #be842c; /* amber  */
+  --chart-series-3: #d95e92; /* rose   */
+  --chart-series-4: #db6a3b; /* orange */
+  --chart-series-5: #2f9fc2; /* cyan   */
+  --chart-series-6: #4f9e52; /* green  */
+  --chart-series-7: #8b7fe0; /* violet */
+  --chart-series-8: #1ca383; /* teal   */
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
