@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025-present Simplifying AI Inc.
+Copyright (c) 2026-present Simplifying AI Private Limited
 
 Simplify Charts - 800+ beautiful chart components for React.
 
